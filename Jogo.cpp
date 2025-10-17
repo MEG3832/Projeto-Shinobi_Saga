@@ -1,14 +1,13 @@
 #include "Jogo.h"
 
 Jogo::Jogo() :
-	GG(new Gerenciador_Grafico())
+	GG(new Gerenciador_Grafico()), Figura()
 {
+	Ente::setGG(GG);
 	executar();
 }
 
-Jogo::~Jogo() {
-
-}
+Jogo::~Jogo() {}
 
 void Jogo::executar() {
 	sf::CircleShape shape(100.f);
@@ -26,7 +25,7 @@ void Jogo::executar() {
 			}
 		}
 		GG->limpaJanela();
-		GG->desenharEnte(shape);
-		GG->mostrarEnte();
+		Figura.desenhar();
+		GG->mostrarEntes();
 	}
 }

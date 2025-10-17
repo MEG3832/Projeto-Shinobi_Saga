@@ -16,7 +16,7 @@ void Gerenciador_Grafico::desenharEnte(sf::CircleShape corpo) {
 	window->draw(corpo);
 }
 
-void Gerenciador_Grafico::mostrarEnte() {
+void Gerenciador_Grafico::mostrarEntes() {
 	window->display();
 }
 

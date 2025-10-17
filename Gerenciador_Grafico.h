@@ -9,7 +9,7 @@ class Gerenciador_Grafico
 		Gerenciador_Grafico();
 		~Gerenciador_Grafico();
 		void desenharEnte(sf::CircleShape corpo);
-		void mostrarEnte();
+		void mostrarEntes();
 		sf::RenderWindow* getWindow();
 		const bool verificaJanelaAberta();
 		void limpaJanela();
