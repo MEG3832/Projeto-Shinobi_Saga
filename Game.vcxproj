@@ -129,16 +129,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Camada.h" />
+    <ClInclude Include="Coord.h" />
     <ClInclude Include="Ente.h" />
+    <ClInclude Include="Fundo.h" />
     <ClInclude Include="Gerenciador_Grafico.h" />
     <ClInclude Include="Jogo.h" />
     <ClInclude Include="Header.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camada.cpp" />
     <ClCompile Include="Ente.cpp" />
+    <ClCompile Include="Fundo.cpp" />
     <ClCompile Include="Gerenciador_Grafico.cpp" />
     <ClCompile Include="Jogo.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Plataforma.png" />
+    <Image Include="Camada1.png" />
+    <Image Include="Chao.png" />
+    <Image Include="Camada3.png" />
+    <Image Include="Camada2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

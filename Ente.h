@@ -10,7 +10,7 @@ class Ente
 	public:
 		Ente();
 		virtual ~Ente();
-		void desenhar();
+		virtual void desenhar();	// Não sei se podia fazer isso, mas deixei desenhar() como virtual para o Fundo
 
 		static void setGG(Gerenciador_Grafico* pG);
 };
