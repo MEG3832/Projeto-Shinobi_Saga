@@ -10,8 +10,6 @@ Jogo::Jogo() :
 Jogo::~Jogo() {}
 
 void Jogo::executar() {
-	sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
 	while (GG->verificaJanelaAberta()) {
 		sf::Event evento;
 		if (GG->getWindow()->pollEvent(evento)) {
