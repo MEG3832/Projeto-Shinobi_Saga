@@ -16,11 +16,9 @@ Gerenciador_Grafico::~Gerenciador_Grafico()
 
 Gerenciador_Grafico* Gerenciador_Grafico::getGerenciadorGrafico() {
 	if (!pGrafico) {
-		return new Gerenciador_Grafico();
+		pGrafico = new Gerenciador_Grafico();
 	}
-	else {
-		return pGrafico;
-	}
+	return pGrafico;
 }
 
 void Gerenciador_Grafico::desenharEnte(sf::CircleShape corpo) {
