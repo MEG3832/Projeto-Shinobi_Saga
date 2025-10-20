@@ -9,7 +9,7 @@ class Entidade:public Ente
 protected:
 
 	//ostream buffer; ->implementar
-	sf::Vector2f coords;
+	sf::Vector2f veloc;
 
 protected:
 

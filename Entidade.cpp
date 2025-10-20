@@ -1,9 +1,7 @@
 #include "Entidade.h"
 
-Entidade::Entidade()
+Entidade::Entidade(): veloc(0.0,0.0)
 {
-	
-
 }
 
 Entidade::~Entidade() { }

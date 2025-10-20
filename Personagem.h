@@ -9,7 +9,7 @@ class Personagem:public Entidade
 protected:
 
 	int num_vidas;
-	sf::Vector2f veloc;
+	//sf::Vector2f veloc;
 	//...
 
 public:
