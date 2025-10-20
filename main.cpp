@@ -1,6 +1,6 @@
 #include "Jogo.h"
 
 int main() {
-	Jogo();
+	Jogo jogo;
 	return 0;
 }
