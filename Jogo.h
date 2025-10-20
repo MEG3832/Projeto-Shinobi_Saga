@@ -1,11 +1,11 @@
 #pragma once
 #include "Header.h"
-#include "Ente.h"
+#include "Fundo.h"
 
 class Jogo {
 	private:
 		Gerenciador_Grafico* GG;
-		Ente Figura;
+		Fundo fundo;
 
 	public:
 		Jogo();

@@ -13,7 +13,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Dark Forest">
+    <Filter Include="DarkForest">
       <UniqueIdentifier>{909c255a-e4e4-4e11-8d65-f73e1fd6f1f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -62,19 +62,19 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Plataforma.png">
-      <Filter>Dark Forest</Filter>
+      <Filter>DarkForest</Filter>
     </Image>
     <Image Include="Camada1.png">
-      <Filter>Dark Forest</Filter>
+      <Filter>DarkForest</Filter>
     </Image>
     <Image Include="Chao.png">
-      <Filter>Dark Forest</Filter>
+      <Filter>DarkForest</Filter>
     </Image>
     <Image Include="Camada3.png">
-      <Filter>Dark Forest</Filter>
+      <Filter>DarkForest</Filter>
     </Image>
     <Image Include="Camada2.png">
-      <Filter>Dark Forest</Filter>
+      <Filter>DarkForest</Filter>
     </Image>
   </ItemGroup>
 </Project>
