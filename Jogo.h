@@ -5,7 +5,7 @@
 class Jogo {
 	private:
 		Gerenciador_Grafico* GG;
-		Fundo fundo;
+		Fundo* fundo;
 
 	public:
 		Jogo();

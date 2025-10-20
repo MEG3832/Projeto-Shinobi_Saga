@@ -1,14 +1,20 @@
 #include "Jogo.h"
 
 Jogo::Jogo() :
-	GG(new Gerenciador_Grafico()), fundo()
+	GG(nullptr), fundo(nullptr)
 {
-	std::cout << "entrei" << std::endl;
+	GG = new Gerenciador_Grafico();
 	Ente::setGG(GG);
+	fundo = new Fundo();
 	executar();
 }
 
-Jogo::~Jogo() {}
+Jogo::~Jogo() {
+	if(GG) delete GG;
+	if (fundo) delete fundo;
+	GG = nullptr;
+	fundo = nullptr;
+}
 
 void Jogo::executar() {
 	if (GG) {
@@ -25,7 +31,7 @@ void Jogo::executar() {
 				}
 			}
 			GG->limpaJanela();
-			fundo.executar();
+			fundo->executar();
 			GG->mostrarEntes();
 		}
 	}

@@ -30,8 +30,13 @@ void Camada::trocarTextura() {
 
 void Camada::desenharCamada(sf::RenderWindow* window) {
 	window->draw(fundo);
-	if (vel) {
-		window->draw(fundoAuxiliar);
+	if (window) {
+		if (vel) {
+			window->draw(fundoAuxiliar);
+		}
+	}
+	else {
+		std::cerr << "Window eh NULL" << std::endl;
 	}
 }
 
