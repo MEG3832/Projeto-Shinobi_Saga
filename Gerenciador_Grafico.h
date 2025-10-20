@@ -10,8 +10,11 @@ class Gerenciador_Grafico
 		sf::RenderWindow* window;
 		sf::View camera;
 
-	public:
+		// Padrão de Projeto singleton
+		static Gerenciador_Grafico* pGrafico;
 		Gerenciador_Grafico();
+
+	public:
 		~Gerenciador_Grafico();
 		void desenharEnte(sf::CircleShape corpo);
 		void mostrarEntes();
