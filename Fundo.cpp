@@ -5,9 +5,9 @@ Fundo::Fundo() :
 	posAnteriorCamera(pGG->getCamera().getCenter())
 {	// cada fase tem seu próprio fundo, então isso aqui vai mudar
 	addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Camada1.png", 0.0f);
-	addCamada("../../DarkForest/Camada2.png", 0.05f);
-	addCamada("../../DarkForest/Camada3.png", 0.1f);
-	addCamada("../../DarkForest/Chao.png", 0.1f);
+	//addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Camada2.png", 0.05f);
+	//addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Camada3.png", 0.1f);
+	//addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Chao.png", 0.1f);
 }
 
 Fundo::~Fundo() {
@@ -27,21 +27,25 @@ void Fundo::executar() {
 		sf::Vector2f posCamera = pGG->getCamera().getCenter();
 		sf::Vector2f ds = posCamera - posAnteriorCamera;
 		posAnteriorCamera = posCamera;
-		for (int i = 0; i < (int)camadas.size(); i++)
+		for (int i = 0; i < (int)camadas.size(); i++) {
 			if (camadas[i]) {
 				camadas[i]->atualizar(ds, posCamera);
 			}
+		}
 		desenhar();
 	}
 }
 
 void Fundo::desenhar() {	// Dá pra adicionar iterator aqui (padrão de projeto)
 	for(int i = 0; i < (int)camadas.size(); i++) {
-		if(camadas[i])
-			if(pGG) 
+		if(camadas[i]) {
+			if(pGG) {
 				camadas[i]->desenharCamada(pGG->getWindow());
-			else 
+			}
+			else {
 				std::cerr << "Gerenciador Grafico eh NULL" << std::endl;
+			}
+		}
 		else std::cerr << "Camadada " << i << " eh NULL" << std::endl;
 	}
 }

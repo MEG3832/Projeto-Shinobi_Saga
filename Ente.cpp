@@ -9,11 +9,7 @@ void Ente::setGG(Gerenciador_Grafico* pG) {
 Ente::Ente()
 {}
 
-Ente::~Ente() {
-	if(pGG)
-		delete pGG;
-		pGG = nullptr;
-}
+Ente::~Ente() {}
 
 void Ente::desenhar() {
 	return;

@@ -1,38 +1,50 @@
 #include "Jogo.h"
 
 Jogo::Jogo() :
-	GG(nullptr), fundo(nullptr)
+	GG(GG->getGerenciadorGrafico()), fundo(nullptr)
 {
-	GG = new Gerenciador_Grafico();
 	Ente::setGG(GG);
 	fundo = new Fundo();
 	executar();
 }
 
 Jogo::~Jogo() {
-	if(GG) delete GG;
+
+    if(GG) delete GG;
+    GG = nullptr;
 	if (fundo) delete fundo;
-	GG = nullptr;
 	fundo = nullptr;
 }
 
 void Jogo::executar() {
-	if (GG) {
-		while (GG->verificaJanelaAberta()) {
-			sf::Event evento;
-			if (GG->getWindow()->pollEvent(evento)) {
-				if (evento.type == sf::Event::Closed()) {
-					GG->fecharJanela();
-				}
-				else if (evento.type == sf::Event::KeyPressed) {
-					if (evento.key.code == sf::Keyboard::Escape) {
-						GG->fecharJanela();
-					}
-				}
-			}
-			GG->limpaJanela();
-			fundo->executar();
-			GG->mostrarEntes();
-		}
-	}
+    int frame = 0;
+    sf::Vector2f pos = GG->getCamera().getCenter();
+    if (GG) {
+        while (GG->verificaJanelaAberta()) {
+            frame++;
+            // Processar eventos
+            sf::Event evento;
+            while (GG->getWindow()->pollEvent(evento)) {
+                if (evento.type == sf::Event::Closed) {
+                    GG->fecharJanela();
+                }
+            }
+
+            GG->limpaJanela();
+
+            if (fundo) {
+                fundo->executar();
+            }
+            else {
+                std::cerr << "Fundo eh NULL" << std::endl;
+            }
+
+            GG->mostrarEntes();
+
+            GG->atualizaCamera(pos);
+            pos.x += 0.005;
+            pos.y += 0.005;
+            //if (frame > 10) break;
+        }
+    }
 }

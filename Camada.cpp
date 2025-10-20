@@ -1,6 +1,6 @@
 #include "Camada.h"
 
-Camada::Camada(sf::Vector2f tamJanela, sf::Texture testura, const float vel) :
+Camada::Camada(sf::Vector2f tamJanela, sf::Texture textura, const float vel) :
 	tamJanela(tamJanela), textura(textura), dimensao(0,0,0,0), vel(vel)
 {
 	// Delimita o tamanho da textura
@@ -23,14 +23,14 @@ Camada::~Camada()
 
 // A textura principal vira a auxiliar e vice-versa
 void Camada::trocarTextura() {
-	sf::RectangleShape t = fundoAuxiliar;		
-	fundoAuxiliar = fundo;
-	fundo = t;
+	sf::RectangleShape trocar = fundo;
+	fundo = fundoAuxiliar;
+	fundoAuxiliar = trocar;
 }
 
 void Camada::desenharCamada(sf::RenderWindow* window) {
-	window->draw(fundo);
 	if (window) {
+		window->draw(fundo);
 		if (vel) {
 			window->draw(fundoAuxiliar);
 		}
@@ -43,9 +43,11 @@ void Camada::desenharCamada(sf::RenderWindow* window) {
 // Atualiza a posição dos fundo de acordo com o movimento realizado
 void Camada::atualizar(const sf::Vector2f ds, const sf::Vector2f posCameraAtual) {
 	const float posDireita = posCameraAtual.x + tamJanela.x / 2.0f;
+	//std::cout << posDireita << std::endl;
 	const float posEsquerda = posCameraAtual.x - tamJanela.x / 2.0f;
+	//std::cout << posEsquerda << std::endl;
 	
-	if (vel){	// Se está se movendo
+	if (vel) {	// Se está se movendo
 		// Movimenta os fundos em um dx
 		fundo.move(ds.x * -vel, 0.0f);
 		fundoAuxiliar.move(ds.x * -vel, 0.0f);
@@ -66,7 +68,8 @@ void Camada::atualizar(const sf::Vector2f ds, const sf::Vector2f posCameraAtual)
 			}
 		}
 	}
-	else {	// Se está parado
+	// Se está parado
+	else {
 		fundo.setPosition(posEsquerda, 0.0f);
 	}
 }
