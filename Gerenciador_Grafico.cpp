@@ -1,5 +1,7 @@
 #include "Gerenciador_Grafico.h"
 
+Gerenciador_Grafico* Gerenciador_Grafico::pGrafico = nullptr;
+
 Gerenciador_Grafico::Gerenciador_Grafico() :
 	window(new sf::RenderWindow(sf::VideoMode(800.0f,600.0f), "Nome do Jogo"))
 {}
@@ -9,6 +11,15 @@ Gerenciador_Grafico::~Gerenciador_Grafico()
 	if (window) {
 		delete(window);
 		window = nullptr;
+	}
+}
+
+Gerenciador_Grafico* Gerenciador_Grafico::getGerenciadorGrafico() {
+	if (!pGrafico) {
+		return new Gerenciador_Grafico();
+	}
+	else {
+		return pGrafico;
 	}
 }
 

@@ -1,7 +1,7 @@
 #include "Jogo.h"
 
 Jogo::Jogo() :
-	GG(new Gerenciador_Grafico()), Figura()
+	GG(GG->getGerenciadorGrafico()), Figura()
 {
 	Ente::setGG(GG);
 	executar();
