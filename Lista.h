@@ -2,7 +2,7 @@
 
 #include "Header.h"
 
-//#include "Elemento.h"
+#include "Elemento.h"
 
 template <class TL>
 class Lista
@@ -20,7 +20,7 @@ public:
 
 	~Lista()
 	{
-		limpar();
+		limpar(); //limpa a lista por inteiro
 	}
 
 	void incluir(TL* pt)
@@ -34,7 +34,7 @@ public:
 			if (pElemAux != NULL)
 			{
 				pElemAux->setInfo(pt);
-				pElemAux->setProx(NULL);
+				pElemAux->setProximo(NULL);
 
 				pPrimeiro = pElemAux;
 				pUltimo = pElemAux;
@@ -49,9 +49,9 @@ public:
 			if (pElemAux != NULL)
 			{
 				pElemAux->setInfo(pt);
-				pElemAux->setProx(NULL);
+				pElemAux->setProximo(NULL);
 
-				pUltimo->setProx(pElemAux);
+				pUltimo->setProximo(pElemAux);
 				pUltimo = pElemAux;
 
 			}
@@ -64,15 +64,36 @@ public:
 
 	void limpar()
 	{
-		// TODO
+		if (pPrimeiro != NULL)
+		{
+			Elemento<TL>* pAux1;
+			Elemento<TL>* pAux2;
+
+			pAux1 = pPrimeiro;
+			pAux2 = pAux1;
+
+			while (pAux1 != NULL)
+			{
+				pAux2 = pAux1->getProximo();
+				delete (pAux1);
+				pAux1 = pAux2;
+			}
+
+		}
+
+		pPrimeiro = NULL;
+		pUltimo = NULL;
+		tamanho = 0;
 	}
 
-	int getTam()
+	int getTam() const
 	{
 		return tamanho;
 	}
 
 	//...
+
+	//fazer uma função que deleta apenas um elemento!! (será útil para inimigos e etc...)
 
 
 
