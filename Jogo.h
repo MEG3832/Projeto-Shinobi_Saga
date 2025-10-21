@@ -1,5 +1,8 @@
 #pragma once
 #include "Fundo.h"
+#include "Header.h"
+#include "Ente.h"
+#include "Jogador.h"
 
 class Jogo {
 	private:

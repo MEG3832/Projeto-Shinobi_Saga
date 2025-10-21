@@ -15,6 +15,8 @@ class Gerenciador_Grafico
 		static Gerenciador_Grafico* pGrafico;
 		Gerenciador_Grafico();
 
+		static Gerenciador_Grafico* pGrafico;
+		Gerenciador_Grafico();
 	public:
 		~Gerenciador_Grafico();
 		Gerenciador_Grafico* getGerenciadorGrafico();

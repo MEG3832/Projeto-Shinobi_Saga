@@ -9,7 +9,7 @@ Gerenciador_Grafico::Gerenciador_Grafico() :
 
 Gerenciador_Grafico::~Gerenciador_Grafico()
 {
-	if(window) {	// Como a janela foi criada aqui, ela também é deletada de aqui
+	if(window) {	// Como a janela foi criada aqui, ela tamb�m � deletada de aqui
 		delete(window);
 	}
 		window = nullptr;
@@ -24,7 +24,7 @@ Gerenciador_Grafico* Gerenciador_Grafico::getGerenciadorGrafico() {
 	return pGrafico;
 }
 
-void Gerenciador_Grafico::desenharEnte(sf::CircleShape corpo) {	// Não faz nada por enquanto
+void Gerenciador_Grafico::desenharEnte(sf::CircleShape corpo) {	// N�o faz nada por enquanto
 	if(window) {
 		window->draw(corpo);
 	}
@@ -78,10 +78,10 @@ sf::View Gerenciador_Grafico::getCamera() {
 	return camera;
 }
 
-void Gerenciador_Grafico::atualizaCamera(sf::Vector2f pos) {	// Move a câmera com o parâmetro (a posição do jogador)
+void Gerenciador_Grafico::atualizaCamera(sf::Vector2f pos) {	// Move a c�mera com o par�metro (a posi��o do jogador)
 	if(window) {
 		sf::Vector2f center = camera.getCenter();
-		center.x = pos.x;        // centro da câmera = posição X do jogador
+		center.x = pos.x;        // centro da c�mera = posi��o X do jogador
 		camera.setCenter(center);
 		window->setView(camera);
 	}
