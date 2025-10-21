@@ -1,10 +1,9 @@
 #include "Jogo.h"
 
 Jogo::Jogo() :
-	GG(GG->getGerenciadorGrafico()), fundo(nullptr)
+	GG(GG->getGerenciadorGrafico()), 
+    fundo()    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
 {
-	Ente::setGG(GG);
-	fundo = new Fundo();
 	executar();
 }
 
@@ -12,17 +11,14 @@ Jogo::~Jogo() {
 
     if(GG) delete GG;
     GG = nullptr;
-	if (fundo) delete fundo;
-	fundo = nullptr;
 }
 
 void Jogo::executar() {
-    int frame = 0;
-    sf::Vector2f pos = GG->getCamera().getCenter();
+    sf::Vector2f pos = GG->getCamera().getCenter(); // Teste
+
     if (GG) {
         while (GG->verificaJanelaAberta()) {
-            frame++;
-            // Processar eventos
+            // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
             sf::Event evento;
             while (GG->getWindow()->pollEvent(evento)) {
                 if (evento.type == sf::Event::Closed) {
@@ -31,17 +27,19 @@ void Jogo::executar() {
             }
 
             GG->limpaJanela();
-            GG->atualizaCamera(pos);
-            if (fundo) {
-                fundo->executar();
-            }
-            else {
-                std::cerr << "Fundo eh NULL" << std::endl;
-            }
 
-            GG->mostrarEntes();
+            // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
+            GG->atualizaCamera(pos);
+
+            // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
+            fundo.executar();
+
+            GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
+
             pos.x += 0.005;
-            //if (frame > 10) break;
         }
+    }
+    else {
+        std::cerr << "Gerenciador Grafico eh NULL" << std::endl;
     }
 }

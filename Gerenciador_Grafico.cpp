@@ -9,59 +9,90 @@ Gerenciador_Grafico::Gerenciador_Grafico() :
 
 Gerenciador_Grafico::~Gerenciador_Grafico()
 {
-	if (window) {
+	if(window) {	// Como a janela foi criada aqui, ela também é deletada de aqui
 		delete(window);
-		window = nullptr;
 	}
+		window = nullptr;
 }
 
-Gerenciador_Grafico* Gerenciador_Grafico::getGerenciadorGrafico() {
-	if (pGrafico == nullptr) {
+// Usar isso para usar o gerenciador Gráfico já existente ou criar um novo já não tiver
+Gerenciador_Grafico* Gerenciador_Grafico::getGerenciadorGrafico() {	
+	if(pGrafico == nullptr) {
 		pGrafico = new Gerenciador_Grafico();
 	}
+
 	return pGrafico;
 }
 
-void Gerenciador_Grafico::desenharEnte(sf::CircleShape corpo) {
-	window->draw(corpo);
+void Gerenciador_Grafico::desenharEnte(sf::CircleShape corpo) {	// Não faz nada por enquanto
+	if(window) {
+		window->draw(corpo);
+	}
+	else {
+		std::cerr << "ERRO: window eh NULL" << std::endl;
+	}
 }
 
 void Gerenciador_Grafico::mostrarEntes() {
-	window->display();
+	if(window) {
+		window->display();
+	}
+	else {
+		std::cerr << "ERRO: window eh NULL" << std::endl;
+	}
 }
 
 sf::RenderWindow* Gerenciador_Grafico::getWindow() {
-	if (!window) {
-		std::cout << "ALERTA: window é nullptr em getWindow()!" << std::endl;
-	}
 	return window;
 }
 
 const bool Gerenciador_Grafico::verificaJanelaAberta() {
-	return window->isOpen();
+	if(window) {
+		return window->isOpen();
+	}
+	else {
+		std::cerr << "ERRO: window eh NULL" << std::endl;
+		return false;
+	}
 }
 
 void Gerenciador_Grafico::limpaJanela() {
-	window->clear();
+	if(window) {
+		window->clear();
+	}
+	else {
+		std::cerr << "ERRO: window eh NULL" << std::endl;
+	}
 }
 
 void Gerenciador_Grafico::fecharJanela() {
-	window->close();
+	if(window) {
+		window->close();
+	}
+	else {
+		std::cerr << "ERRO: window eh NULL" << std::endl;
+	}
 }
 
 sf::View Gerenciador_Grafico::getCamera() {
 	return camera;
 }
 
-void Gerenciador_Grafico::atualizaCamera(sf::Vector2f pos) {	// O parâmetro é a posição do jogador
-	sf::Vector2f center = camera.getCenter();
-	center.x = pos.x;        // centro da câmera = posição X do jogador
-	camera.setCenter(center);
-	window->setView(camera);
+void Gerenciador_Grafico::atualizaCamera(sf::Vector2f pos) {	// Move a câmera com o parâmetro (a posição do jogador)
+	if(window) {
+		sf::Vector2f center = camera.getCenter();
+		center.x = pos.x;        // centro da câmera = posição X do jogador
+		camera.setCenter(center);
+		window->setView(camera);
+	}
+	else {
+		std::cerr << "ERRO: window eh NULL" << std::endl;
+	}
 }
 
 sf::Texture Gerenciador_Grafico::carregarTextura(const char* caminhoTextura) {
 	sf::Texture textura;
+
 	if (!textura.loadFromFile(caminhoTextura)) {
 		std::cerr << "ERRO: nao foi possivel encontrar o caminho da textura - " << caminhoTextura << std::endl;
 		exit(1);

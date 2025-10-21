@@ -11,7 +11,7 @@ class Fundo : public Ente
 	public:
 		Fundo();
 		~Fundo();
-		void executar();
+		void executar();	// Atualiza a posição de cada uma das camadas se houver velocidade e desenha elas
 		void desenhar();
 		void addCamada(const char* caminhoTextura, const float vel);
 };
