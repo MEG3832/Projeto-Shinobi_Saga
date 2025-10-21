@@ -5,9 +5,9 @@ Fundo::Fundo() :
 	posAnteriorCamera(pGG->getCamera().getCenter())
 {	// cada fase tem seu próprio fundo, então isso aqui vai mudar
 	addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Camada1.png", 0.0f);
-	//addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Camada2.png", 0.05f);
-	//addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Camada3.png", 0.1f);
-	//addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Chao.png", 0.1f);
+	addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Camada2.png", 0.05f);
+	addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Camada3.png", 0.4f);
+	addCamada("C:/Users/adils/Documents/Duda/Tec Prog/Game/Game/DarkForest/Chao.png", 0.4f);
 }
 
 Fundo::~Fundo() {

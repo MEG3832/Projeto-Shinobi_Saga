@@ -57,6 +57,7 @@ void Gerenciador_Grafico::atualizaCamera(sf::Vector2f pos) {	// O parâmetro é 
 	sf::Vector2f center = camera.getCenter();
 	center.x = pos.x;        // centro da câmera = posição X do jogador
 	camera.setCenter(center);
+	window->setView(camera);
 }
 
 sf::Texture Gerenciador_Grafico::carregarTextura(const char* caminhoTextura) {

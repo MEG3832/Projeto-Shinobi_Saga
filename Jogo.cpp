@@ -31,7 +31,7 @@ void Jogo::executar() {
             }
 
             GG->limpaJanela();
-
+            GG->atualizaCamera(pos);
             if (fundo) {
                 fundo->executar();
             }
@@ -40,10 +40,7 @@ void Jogo::executar() {
             }
 
             GG->mostrarEntes();
-
-            GG->atualizaCamera(pos);
             pos.x += 0.005;
-            pos.y += 0.005;
             //if (frame > 10) break;
         }
     }
