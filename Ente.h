@@ -3,6 +3,7 @@
 class Ente
 {
 	protected:
+		sf::CircleShape* pFig;
 		static Gerenciador_Grafico* pGG;
 
 	public:

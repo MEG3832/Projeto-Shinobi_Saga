@@ -8,6 +8,7 @@ class Jogo {
 	private:
 		Gerenciador_Grafico* GG;
 		Fundo fundo;
+		Ente Figura;
 
 	public:
 		Jogo();
