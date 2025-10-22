@@ -6,8 +6,8 @@
 
 class Jogo {
 	private:
-		Gerenciador_Grafico* GG;
-		Fundo fundo;
+		Gerenciadores::Gerenciador_Grafico* GG;
+		Parallax::Fundo fundo;
 		Ente Figura;
 
 	public:

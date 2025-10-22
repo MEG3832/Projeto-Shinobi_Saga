@@ -1,8 +1,8 @@
 #include "Ente.h"
 
-Gerenciador_Grafico* Ente::pGG = pGG->getGerenciadorGrafico();
+Gerenciadores::Gerenciador_Grafico* Ente::pGG = pGG->getGerenciadorGrafico();
 
-void Ente::setGG(Gerenciador_Grafico* pG) {	// Não utilizamos
+void Ente::setGG(Gerenciadores::Gerenciador_Grafico* pG) {	// Não utilizamos
 	pGG = pG;
 }
 

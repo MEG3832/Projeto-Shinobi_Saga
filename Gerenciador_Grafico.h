@@ -1,9 +1,11 @@
 #pragma once
 #include "Header.h"
 
-class Gerenciador_Grafico
-{
-	// Mudar para 1920.0f e 1080.0f para tela cheia
+namespace Gerenciadores {
+
+	class Gerenciador_Grafico
+	{
+		// Mudar para 1920.0f e 1080.0f para tela cheia
 	#define COMPRIMENTO_TELA 800.0f
 	#define ALTURA_TELA 600.0f
 
@@ -28,5 +30,6 @@ class Gerenciador_Grafico
 		void atualizaCamera(sf::Vector2f pos);	// Faz a câmera se mover junto com sua referência (o jogador)
 		sf::Texture carregarTextura(const char* caminhoTextura);
 
-};
+	};
 
+}
