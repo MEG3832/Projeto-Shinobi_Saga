@@ -1,0 +1,24 @@
+#pragma once
+
+#include "Header.h"
+#include "Imagem.h"
+#include <map>
+
+class Animacao
+{
+private:
+
+	sf::RectangleShape* corpo;
+	std::map<std::string, Imagem*> mapImagens; //mapa de texturas... relaciona estado (idle, walk, run...) com Imagem
+	sf::Clock clock;
+	std::string estadoAtual; //guarda qual estado o personagem está: parado, andando, correndo, etc...
+
+public:
+
+	Animacao(sf::RectangleShape* body);
+	~Animacao();
+	void atualizar(const bool indoParaEsq, std::string estadoImg);
+	void addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale);
+
+};
+
