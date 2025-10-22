@@ -137,6 +137,8 @@
     <ClInclude Include="Jogador.h" />
     <ClInclude Include="Jogo.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="Lista.h" />
+    <ClInclude Include="ListaEntidades.h" />
     <ClInclude Include="Personagem.h" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +148,7 @@
     <ClCompile Include="Gerenciador_Grafico.cpp" />
     <ClCompile Include="Jogador.cpp" />
     <ClCompile Include="Jogo.cpp" />
+    <ClCompile Include="ListaEntidades.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Personagem.cpp" />
   </ItemGroup>

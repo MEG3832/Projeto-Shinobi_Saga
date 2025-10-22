@@ -1,8 +1,9 @@
 #include "Personagem.h"
 
-Personagem::Personagem()
+Personagem::Personagem() :
+	Entidade(),
+	num_vidas(0)
 {
-	num_vidas = 0;
 }
 
 Personagem::~Personagem()
@@ -16,8 +17,10 @@ void Personagem::executar()
 
 void Personagem::salvar()
 {
+	return;
 }
 
 void Personagem::mover()
 {
+	return;
 }

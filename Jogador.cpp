@@ -24,12 +24,12 @@ Jogador::~Jogador()
 
 void Jogador::executar()
 {
-
+	
 }
 
 void Jogador::salvar()
 {
-
+	
 }
 
 void Jogador::mover()
