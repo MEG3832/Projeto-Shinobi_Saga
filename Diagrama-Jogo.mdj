@@ -6041,7 +6041,7 @@
 											"top": 702,
 											"width": 246.6669921875,
 											"height": 13,
-											"text": "+pProx: *Elemento",
+											"text": "-pProx: *Elemento",
 											"horizontalAlignment": 0
 										},
 										{
@@ -6060,7 +6060,7 @@
 											"top": 717,
 											"width": 246.6669921875,
 											"height": 13,
-											"text": "+pInfo: *TL",
+											"text": "-pInfo: *TL",
 											"horizontalAlignment": 0
 										}
 									],
@@ -10044,6 +10044,7 @@
 								"$ref": "AAAAAAGaDXl4aL2TwqM="
 							},
 							"name": "pProx",
+							"visibility": "private",
 							"type": "*Elemento"
 						},
 						{
@@ -10053,6 +10054,7 @@
 								"$ref": "AAAAAAGaDXl4aL2TwqM="
 							},
 							"name": "pInfo",
+							"visibility": "private",
 							"type": "*TL"
 						}
 					],
