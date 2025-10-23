@@ -9,6 +9,8 @@ class Jogo {
 		Gerenciador_Grafico* GG;
 		Fundo fundo;
 		Ente Figura;
+		Jogador* pJ1;
+
 
 	public:
 		Jogo();

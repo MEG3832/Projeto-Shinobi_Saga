@@ -7,7 +7,7 @@ void Ente::setGG(Gerenciador_Grafico* pG) {	// Não utilizamos
 }
 
 Ente::Ente() :
-	pFig(new sf::CircleShape(100.f))	// Exemplo
+	pFig(new sf::RectangleShape(sf::Vector2f(10.0, 10.0)))	// Exemplo
 {}
 
 Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos deletá-lo em Ente

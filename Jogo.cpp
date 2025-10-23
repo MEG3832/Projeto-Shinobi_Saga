@@ -5,6 +5,7 @@ Jogo::Jogo() :
     fundo(),    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
     Figura()
 {
+    pJ1 = new Jogador();
 	executar();
 }
 
@@ -31,9 +32,11 @@ void Jogo::executar() {
             // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
 
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
-            fundo.executar();
-            Figura.desenhar();
-
+            //fundo.executar();
+            
+            pJ1->atualizaAnimacao();
+            pJ1->desenhar();
+            //Figura.desenhar();
             GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
         }
     }

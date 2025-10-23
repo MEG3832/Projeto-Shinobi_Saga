@@ -6,7 +6,7 @@
 class Imagem
 {
 
-	Gerenciadores::Gerenciador_Grafico* pGraf;
+	Gerenciador_Grafico* pGraf;
 	sf::Texture textura;
 	sf::IntRect retangulo; //a "forma" retangular que vamos colocar a nossa sprite (uma das imagens da spritesheet).
 	const sf::Vector2f escala;
@@ -24,7 +24,7 @@ public:
 	void atualizar(const bool indoParaEsq, const float dt);
 	void resetar();
 	const sf::IntRect getRetang();
-	const sf::Texture getTextura();
+	const sf::Texture* getTextura();
 	const sf::Vector2f getEscala();
 
 };

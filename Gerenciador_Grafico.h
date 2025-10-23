@@ -18,7 +18,7 @@ class Gerenciador_Grafico
 	public:
 		~Gerenciador_Grafico();
 		Gerenciador_Grafico* getGerenciadorGrafico();
-		void desenharEnte(sf::CircleShape corpo);	// Tem que arrumar. Por enquanto foi usado só no teste inicial
+		void desenharEnte(sf::RectangleShape corpo);	// Tem que arrumar. Por enquanto foi usado só no teste inicial
 		void mostrarEntes();	//Imprime na tela o que foi desenhado
 		sf::RenderWindow* getWindow();
 		const bool verificaJanelaAberta();

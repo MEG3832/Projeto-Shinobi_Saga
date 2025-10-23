@@ -10,8 +10,8 @@ Imagem::Imagem(const char* caminhoTextura, const int qtd_Img, const float frame_
 	duracao_Frame(frame_duration),
 	tempo_Total(0.0)
 {
-	retangulo.height = (float) textura.getSize().y; // "altura" da nossa textura
-	retangulo.width = (float) (textura.getSize().x) / qnt_Imagens; // largura de cada imagem do spritesheet
+	retangulo.height = textura.getSize().y; // "altura" da nossa textura
+	retangulo.width = (textura.getSize().x) / qnt_Imagens; // largura de cada imagem do spritesheet
 }
 
 Imagem::~Imagem() { }
@@ -53,7 +53,7 @@ void Imagem::resetar()
 
 const sf::IntRect Imagem::getRetang() { return retangulo; }
 
-const sf::Texture Imagem::getTextura() { return textura; }
+const sf::Texture* Imagem::getTextura() { return &textura; }
 
 const sf::Vector2f Imagem::getEscala() { return escala; }
 

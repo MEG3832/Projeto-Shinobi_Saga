@@ -24,7 +24,7 @@ Gerenciador_Grafico* Gerenciador_Grafico::getGerenciadorGrafico() {
 	return pGrafico;
 }
 
-void Gerenciador_Grafico::desenharEnte(sf::CircleShape corpo) {	// N�o faz nada por enquanto
+void Gerenciador_Grafico::desenharEnte(sf::RectangleShape corpo) {	// N�o faz nada por enquanto
 	if(window) {
 		window->draw(corpo);
 	}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Header.h"
+#include "Animacao.h"
 #include "Entidade.h"
 
 class Personagem:public Entidade
@@ -9,6 +10,7 @@ class Personagem:public Entidade
 protected:
 
 	int num_vidas;
+	Animacao* animador;
 	//sf::Vector2f veloc;
 	//...
 
