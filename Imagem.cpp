@@ -53,7 +53,7 @@ void Imagem::resetar()
 
 const sf::IntRect Imagem::getRetang() { return retangulo; }
 
-const sf::Texture Imagem::getTextura() { return textura; } // nota, aqui era pra ser um ponteiro
+const sf::Texture Imagem::getTextura() { return textura; }
 
 const sf::Vector2f Imagem::getEscala() { return escala; }
 
