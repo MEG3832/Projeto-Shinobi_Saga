@@ -9,8 +9,7 @@ class Entidade:public Ente
 protected:
 
 	//ostream buffer; ->implementar
-	sf::Vector2f veloc;
-	sf::RectangleShape body;
+	sf::Vector2f pos;
 
 protected:
 
@@ -20,7 +19,6 @@ public:
 
 	Entidade();
 	virtual ~Entidade();
-	sf::RectangleShape getBody();
 	virtual void executar() = 0;
 	virtual void salvar() = 0;
 	//...

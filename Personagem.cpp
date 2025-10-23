@@ -10,17 +10,3 @@ Personagem::~Personagem()
 {
 	num_vidas = -1;
 }
-
-void Personagem::executar()
-{
-}
-
-void Personagem::salvar()
-{
-	return;
-}
-
-void Personagem::mover()
-{
-	return;
-}

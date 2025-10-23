@@ -7,12 +7,17 @@ void Ente::setGG(Gerenciadores::Gerenciador_Grafico* pG) {	// Não utilizamos
 }
 
 Ente::Ente() :
-	pFig(new sf::CircleShape(100.f))	// Exemplo
+	corpo(nullptr)
 {}
 
 Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos deletá-lo em Ente
-{}
+{
+	if (corpo) {
+		delete corpo;
+	}
+	corpo = nullptr;
+}
 
 void Ente::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
-	pGG->desenharEnte(*pFig);
+	pGG->desenharEnte(*corpo);
 }

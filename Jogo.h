@@ -3,13 +3,13 @@
 #include "Header.h"
 //#include "Jogador.h"
 #include "ListaEntidades.h"
-#include "Personagem.h"
+#include "Jogador.h"
 
 class Jogo {
 	private:
 		Gerenciadores::Gerenciador_Grafico* GG;
 		Parallax::Fundo fundo;
-		Ente Figura;
+		Jogador jogador;
 		//Listas::ListaEntidades lista_ents;
 
 	public:

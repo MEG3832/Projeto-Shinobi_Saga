@@ -17,9 +17,9 @@ public:
 	Personagem();
 	~Personagem();
 	//void salvarDataBuffer();
-	virtual void executar();
-	virtual void salvar();
-	virtual void mover();
+	virtual void executar() = 0;
+	virtual void salvar() = 0;
+	virtual void mover() = 0;
 
 
 };

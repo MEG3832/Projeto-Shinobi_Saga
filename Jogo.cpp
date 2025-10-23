@@ -3,7 +3,7 @@
 Jogo::Jogo() :
     GG(GG->getGerenciadorGrafico()),
     fundo(),    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
-    Figura()
+    jogador()
     //lista_ents()
 {
 
@@ -29,11 +29,14 @@ void Jogo::executar() {
 
             GG->limpaJanela();
 
+            jogador.mover();
+
             // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
 
+            jogador.desenhar();
+
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
-            fundo.executar();
-            Figura.desenhar();
+            //fundo.executar();
 
             GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
         }

@@ -1,25 +1,34 @@
 #include "Jogador.h"
 
-Jogador::Jogador(int ident)
+Jogador::Jogador(const sf::Vector2f pos, const sf::Vector2f tam, int ident) :
+	Personagem(),
+	veloc(0.05, 0.05),
+	pontos(0),
+	id(ident)
 {
-	pontos = 0;
-	id = ident;
-	veloc.x = 0.1;
-	veloc.y = 0.1;
+	corpo = new sf::RectangleShape(tam);
 }
 
-Jogador::Jogador()
+Jogador::Jogador() :
+	Personagem(),
+	veloc(0.05, 0.05),
+	pontos(0),
+	id(1)
 {
-	pontos = 0;
-	id = 1;
-	veloc.x = 0.1;
-	veloc.y = 0.1;
+	corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f));
 }
 
 
 Jogador::~Jogador()
 {
+	veloc.x = 0;
+	veloc.y = 0;
+	pontos = -1;
+	id = 0;
+}
 
+const sf::RectangleShape* Jogador::getCorpo() {
+	return corpo;
 }
 
 void Jogador::executar()
@@ -38,22 +47,22 @@ void Jogador::mover()
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			pFig->move(veloc.x, 0.0);
+			corpo->move(veloc.x, 0.0);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			pFig->move(0.0, -veloc.y);
+			corpo->move(0.0, -veloc.y);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
-			pFig->move(0.0, veloc.y);
+			corpo->move(0.0, veloc.y);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			pFig->move(-veloc.x, 0.0);
+			corpo->move(-veloc.x, 0.0);
 		}
 
 	}
@@ -62,22 +71,22 @@ void Jogador::mover()
 	{
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			pFig->move(veloc.x, 0.0);
+			corpo->move(veloc.x, 0.0);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			pFig->move(0.0, -veloc.y);
+			corpo->move(0.0, -veloc.y);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
-			pFig->move(0.0, veloc.y);
+			corpo->move(0.0, veloc.y);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			pFig->move(-veloc.x, 0.0);
+			corpo->move(-veloc.x, 0.0);
 		}
 
 	}
