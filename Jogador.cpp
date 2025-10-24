@@ -1,17 +1,5 @@
 #include "Jogador.h"
 
-Jogador::Jogador(int ident):
-	Personagem()
-{
-	//pontos = 0;
-	//id = ident;
-	//veloc.x = 0.1;
-	//veloc.y = 0.1;
-
-	inicializaAnimacoes();
-
-}
-
 Jogador::Jogador():
 	Personagem()
 {
@@ -20,6 +8,7 @@ Jogador::Jogador():
 	//veloc.x = 0.1;
 	//veloc.y = 0.1;
 
+	inicializaAtributos();
 	inicializaAnimacoes();
 
 }
@@ -30,15 +19,15 @@ Jogador::~Jogador()
 
 }
 
-void Jogador::executar()
+/*void Jogador::executar()
 {
 
-}
+}*/
 
-void Jogador::salvar()
+/*void Jogador::salvar()
 {
 
-}
+}*/
 
 void Jogador::mover()
 {
@@ -92,9 +81,17 @@ void Jogador::mover()
 }
 
 
+void Jogador::inicializaAtributos()
+{
+	id = 0;
+	num_vidas = 3;
+	//dano= ?
+}
+
+
 void Jogador::inicializaAnimacoes()
 {
-	//Animações de pulo
+	//Animações em loop
 
 	animador->addAnimacao("Imagens/Samurai/Idle.png", "Parado", 6, 0.20, sf::Vector2f(6.0, 2.0));
 	animador->addAnimacao("Imagens/Samurai/Walk.png", "Andando", 9, 0.12, sf::Vector2f(6.0, 2.0));
@@ -118,14 +115,16 @@ void Jogador::inicializaAnimacoes()
 void Jogador::atualizaAnimacao()
 {
 
-	bool paraEsq = false;
-	bool subindo = false;
-	bool caindo = false;
 	bool rodaUmaVez = true;
-	
-	//talvez usar algum tipo de booleano pra animações q devem rodar uma vez só?
 
 
+	//terminar: fazer uma animação de cada estado de acordo com o valor de caindo, subindo, velocidade, se está no chão ou não...
+	//vamos fazer as partes dos botões dentro de Jogador mesmo?
+
+	//botão -> move o corpo e muda a animação 
+
+
+	//teste:
 	animador->atualizar(caindo, subindo, paraEsq, rodaUmaVez, "Ferido"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 }
 

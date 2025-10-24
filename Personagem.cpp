@@ -1,8 +1,8 @@
 #include "Personagem.h"
 
 Personagem::Personagem():
-	Entidade(), //recebe medidas do rectangle shape
-	num_vidas(0)
+	Entidade(),
+	id(-1)
 {
 	animador = new Animacao(&body);
 
@@ -15,14 +15,28 @@ Personagem::~Personagem()
 	animador = nullptr;
 }
 
-void Personagem::executar()
+/*void Personagem::executar()
 {
-}
+}*/
 
-void Personagem::salvar()
+/*void Personagem::salvar()
 {
-}
+}*/
 
 void Personagem::mover()
 {
+}
+
+int Personagem::getNumVidas()
+{
+
+}
+float Personagem::getDano()
+{
+
+}
+
+void Personagem::inicializaAtributos()
+{
+
 }
