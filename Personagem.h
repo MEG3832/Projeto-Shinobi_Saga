@@ -9,8 +9,17 @@ class Personagem:public Entidade
 
 protected:
 
+	int id;
 	int num_vidas;
+
 	Animacao* animador;
+
+	bool paraEsq;
+	bool subindo;
+	bool caindo;
+
+	float dano;
+
 	//sf::Vector2f veloc;
 	//...
 

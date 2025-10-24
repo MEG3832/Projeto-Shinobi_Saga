@@ -14,7 +14,7 @@ Animacao::Animacao(sf::RectangleShape* body):
 Animacao::~Animacao() { }
 
 
-void Animacao::atualizar(const bool subindo, const bool indoParaEsq, std::string estadoImg)
+void Animacao::atualizar(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg)
 {
 	if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
 	{
@@ -30,7 +30,7 @@ void Animacao::atualizar(const bool subindo, const bool indoParaEsq, std::string
 	sf::Vector2f tamCorpo = corpo->getSize();
 	sf::Vector2f escala = img->getEscala();
 
-	img->atualizar(subindo, indoParaEsq, dt);
+	img->atualizar(caindo, subindo, indoParaEsq, rodaUmaVez, dt);
 
 	
 	corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 

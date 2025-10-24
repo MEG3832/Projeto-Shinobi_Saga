@@ -17,7 +17,7 @@ public:
 
 	Animacao(sf::RectangleShape* body);
 	~Animacao();
-	void atualizar(const bool noAr, const bool indoParaEsq, std::string estadoImg);
+	void atualizar(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
 	void addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale);
 
 };

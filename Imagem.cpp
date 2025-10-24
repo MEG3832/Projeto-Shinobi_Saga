@@ -12,11 +12,12 @@ Imagem::Imagem(const char* caminhoTextura, const int qtd_Img, const float frame_
 {
 	retangulo.height = textura.getSize().y; // "altura" da nossa textura
 	retangulo.width = (textura.getSize().x) / qnt_Imagens; // largura de cada imagem do spritesheet
+
 }
 
 Imagem::~Imagem() { }
 
-void Imagem::atualizar(const bool subindo, const bool indoParaEsq, const float dt)
+void Imagem::atualizar(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, const float dt)
 {
 	tempo_Total += dt; //guardamos o tempo total para saber se já deu o tempo que queremos que a sprite rode
 
@@ -27,7 +28,22 @@ void Imagem::atualizar(const bool subindo, const bool indoParaEsq, const float d
 		imag_Atual++;
 
 		if (imag_Atual >= 5)
-			imag_Atual = 5; //reinicia o spritesheet
+			imag_Atual = 4; //trava a imagem
+	}
+
+	else if (caindo && tempo_Total >= duracao_Frame)
+	{
+		tempo_Total = 0.0; //reinicia a contagem de tempo...
+		imag_Atual = 5;
+	}
+
+	else if (rodaUmaVez && tempo_Total >= duracao_Frame)
+	{
+		tempo_Total = 0.0; //reinicia a contagem de tempo...
+		imag_Atual++;
+
+		if (imag_Atual >= qnt_Imagens)
+			imag_Atual = qnt_Imagens-1; //para a animação!
 	}
 
 	else if (tempo_Total >= duracao_Frame)
