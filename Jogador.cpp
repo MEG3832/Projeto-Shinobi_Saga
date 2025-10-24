@@ -95,11 +95,15 @@ void Jogador::mover()
 void Jogador::inicializaAnimacoes()
 {
 
-	animador->addAnimacao("Imagens/Idle.png", "parado", 6, 0.20, sf::Vector2f(6.0, 2.0));
-	animador->addAnimacao("Imagens/Walk.png", "andando", 9, 0.12, sf::Vector2f(6.0, 2.0));
-	animador->addAnimacao("Imagens/Samurai/Run.png", "correndo", 8, 0.1, sf::Vector2f(6.0, 2.0));
+	animador->addAnimacao("Imagens/Samurai/Idle.png", "Parado", 6, 0.20, sf::Vector2f(6.0, 2.0));
+	animador->addAnimacao("Imagens/Samurai/Walk.png", "Andando", 9, 0.12, sf::Vector2f(6.0, 2.0));
+	animador->addAnimacao("Imagens/Samurai/Run.png", "Correndo", 8, 0.1, sf::Vector2f(6.0, 2.0));
+	animador->addAnimacao("Imagens/Samurai/Jump.png", "Subindo", 9, 0.2, sf::Vector2f(6.0, 2.0));
+	animador->addAnimacao("Imagens/Samurai/Jump.png", "Descendo", 9, 0.2, sf::Vector2f(6.0, 2.0));
 	animador->addAnimacao("Imagens/Samurai/Attack_1.png", "Ataque1", 4, 0.16, sf::Vector2f(6.0, 2.0));
 	animador->addAnimacao("Imagens/Samurai/Attack_2.png", "Ataque2", 5, 0.12, sf::Vector2f(6.0, 2.0));
+	animador->addAnimacao("Imagens/Samurai/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(6.0, 2.0));
+	animador->addAnimacao("Imagens/Samurai/Dead.png", "Derrotado", 6, 0.45, sf::Vector2f(6.0, 2.0));
 	animador->addAnimacao("Imagens/Samurai/Hurt.png", "Ferido", 3, 0.17, sf::Vector2f(6.0, 2.0));
 }
 
@@ -107,8 +111,9 @@ void Jogador::atualizaAnimacao()
 {
 
 	bool paraEsq = false;
+	bool subindo = true;
 
-	animador->atualizar(paraEsq, "andando");
+	animador->atualizar(subindo, paraEsq, "Subindo");
 }
 
 

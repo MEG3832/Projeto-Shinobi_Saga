@@ -23,7 +23,7 @@ public:
 	sf::RectangleShape getBody();
 	virtual void executar() = 0;
 	virtual void salvar() = 0;
-	virtual void desenhar() override;
+	virtual void desenhar();
 	//...
 
 };

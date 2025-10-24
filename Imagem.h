@@ -21,7 +21,7 @@ public:
 	~Imagem();
 
 
-	void atualizar(const bool indoParaEsq, const float dt);
+	void atualizar(const bool noAr, const bool indoParaEsq, const float dt);
 	void resetar();
 	const sf::IntRect getRetang();
 	const sf::Texture* getTextura();

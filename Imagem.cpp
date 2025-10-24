@@ -16,11 +16,21 @@ Imagem::Imagem(const char* caminhoTextura, const int qtd_Img, const float frame_
 
 Imagem::~Imagem() { }
 
-void Imagem::atualizar(const bool indoParaEsq, const float dt)
+void Imagem::atualizar(const bool subindo, const bool indoParaEsq, const float dt)
 {
 	tempo_Total += dt; //guardamos o tempo total para saber se já deu o tempo que queremos que a sprite rode
 
-	if (tempo_Total >= duracao_Frame)
+
+	if (subindo && tempo_Total >= duracao_Frame)
+	{
+		tempo_Total = 0.0; //reinicia a contagem de tempo...
+		imag_Atual++;
+
+		if (imag_Atual >= 5)
+			imag_Atual = 5; //reinicia o spritesheet
+	}
+
+	else if (tempo_Total >= duracao_Frame)
 	{
 		tempo_Total = 0.0; //reinicia a contagem de tempo...
 		imag_Atual++;
@@ -32,7 +42,7 @@ void Imagem::atualizar(const bool indoParaEsq, const float dt)
 
 	if (indoParaEsq) //invertemos a imagem se estiver indo para a esquerda
 	{
-		retangulo.left = (imag_Atual + 1) * retangulo.width; // a "leitura" da imagem será feita da direita para a esquerda
+		retangulo.left = (imag_Atual + 1) * abs(retangulo.width); // a "leitura" da imagem será feita da direita para a esquerda
 		retangulo.width = -abs(retangulo.width);
 
 	}
@@ -42,6 +52,9 @@ void Imagem::atualizar(const bool indoParaEsq, const float dt)
 		retangulo.left = imag_Atual * retangulo.width;
 		retangulo.width = abs(retangulo.width);
 	}
+
+	
+
 
 }
 
