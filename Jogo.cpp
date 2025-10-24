@@ -3,10 +3,11 @@
 Jogo::Jogo() :
     GG(GG->getGerenciadorGrafico()),
     fundo(),    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
-    jogador()
+    jogador(), 
+    GE(GE->getGerenciadorEventos())
     //lista_ents()
 {
-
+    GE->setJogador(&jogador);
 	executar();
 }
 
@@ -20,16 +21,9 @@ void Jogo::executar() {
     if (GG) {
         while (GG->verificaJanelaAberta()) {
             // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
-            sf::Event evento;
-            while (GG->getWindow()->pollEvent(evento)) {
-                if (evento.type == sf::Event::Closed) {
-                    GG->fecharJanela();
-                }
-            }
+            GE->executar();
 
             GG->limpaJanela();
-
-            jogador.mover();
 
             // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
 

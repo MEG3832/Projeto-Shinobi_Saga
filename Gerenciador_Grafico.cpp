@@ -7,8 +7,7 @@ namespace Gerenciadores {
 	Gerenciador_Grafico::Gerenciador_Grafico() :
 		window(new sf::RenderWindow(sf::VideoMode(COMPRIMENTO_TELA, ALTURA_TELA), "Nome do Jogo")),
 		camera(sf::Vector2f(COMPRIMENTO_TELA / 2, ALTURA_TELA / 2), sf::Vector2f(COMPRIMENTO_TELA, ALTURA_TELA))
-	{
-	}
+	{}
 
 	Gerenciador_Grafico::~Gerenciador_Grafico()
 	{
@@ -20,7 +19,7 @@ namespace Gerenciadores {
 
 	// Usar isso para usar o gerenciador Gráfico já existente ou criar um novo já não tiver
 	Gerenciador_Grafico* Gerenciador_Grafico::getGerenciadorGrafico() {
-		if (pGrafico == nullptr) {
+		if (!pGrafico) {
 			pGrafico = new Gerenciador_Grafico();
 		}
 

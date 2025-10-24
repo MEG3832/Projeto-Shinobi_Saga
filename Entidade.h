@@ -3,25 +3,27 @@
 #include "Header.h"
 #include "Ente.h"
 
+namespace Entidades {
 
-class Entidade:public Ente
-{
-protected:
+	class Entidade :public Ente
+	{
+	protected:
 
-	//ostream buffer; ->implementar
-	sf::Vector2f pos;
+		//ostream buffer; ->implementar
+		sf::Vector2f pos;
 
-protected:
+	protected:
 
-	//void salvarDataBuffer(); ->implementar
-	
-public:
+		//void salvarDataBuffer(); ->implementar
 
-	Entidade();
-	virtual ~Entidade();
-	virtual void executar() = 0;
-	virtual void salvar() = 0;
-	//...
+	public:
 
-};
+		Entidade();
+		virtual ~Entidade();
+		virtual void executar() = 0;
+		virtual void salvar() = 0;
+		//...
 
+	};
+
+}

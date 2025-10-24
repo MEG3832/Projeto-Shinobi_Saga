@@ -3,24 +3,29 @@
 #include "Header.h"
 #include "Entidade.h"
 
-class Personagem:public Entidade
-{
+namespace Entidades {
 
-protected:
+	namespace Personagens {
 
-	int num_vidas;
-	//sf::Vector2f veloc;
-	//...
+		class Personagem :public Entidade
+		{
 
-public:
+		protected:
 
-	Personagem();
-	~Personagem();
-	//void salvarDataBuffer();
-	virtual void executar() = 0;
-	virtual void salvar() = 0;
-	virtual void mover() = 0;
+			int num_vidas;
+			//sf::Vector2f veloc;
+			//...
 
+		public:
 
-};
+			Personagem();
+			~Personagem();
+			//void salvarDataBuffer();
+			virtual void executar() = 0;
+			virtual void salvar() = 0;
+			virtual void mover() = 0;
+		};
 
+	}
+
+}

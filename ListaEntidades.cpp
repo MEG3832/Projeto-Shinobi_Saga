@@ -9,7 +9,7 @@ namespace Listas {
 	ListaEntidades::~ListaEntidades() 
 	{}
 
-	void ListaEntidades::incluir(Entidade* PE) {
+	void ListaEntidades::incluir(Entidades::Entidade* PE) {
 		if (PE) {
 			LEs.incluir(PE);
 		}
@@ -18,7 +18,7 @@ namespace Listas {
 		}
 	}
 
-	void ListaEntidades::remover(Entidade* PE) {
+	void ListaEntidades::remover(Entidades::Entidade* PE) {
 		if (PE) {
 			LEs.remover(PE);
 		}
