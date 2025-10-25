@@ -8,5 +8,7 @@
 #include <ostream>
 #include <fstream>
 #include <vector>
+#include <list>
+#include <set>
 #include <math.h>
 #include <string>

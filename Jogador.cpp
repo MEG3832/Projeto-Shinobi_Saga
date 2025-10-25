@@ -37,6 +37,10 @@ namespace Entidades {
 			return corpo;
 		}
 
+		void colidir() {
+			return;
+		}
+
 		void Jogador::executar()
 		{
 			return;

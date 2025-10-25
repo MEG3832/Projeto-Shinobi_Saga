@@ -24,6 +24,7 @@ namespace Entidades {
 			~Jogador();
 			//void colidir(Inimigo* pIn);
 			const sf::RectangleShape* getCorpo();
+			void colidir();
 			void executar();
 			void salvar();
 			void mover();
