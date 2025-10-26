@@ -1,87 +1,87 @@
 #include "Jogador.h"
 
-Jogador::Jogador(int ident)
-{
-	pontos = 0;
-	id = ident;
-	veloc.x = 0.1;
-	veloc.y = 0.1;
-}
+namespace Entidades {
 
-Jogador::Jogador()
-{
-	pontos = 0;
-	id = 1;
-	veloc.x = 0.1;
-	veloc.y = 0.1;
-}
+	namespace Personagens {
 
-
-Jogador::~Jogador()
-{
-
-}
-
-void Jogador::executar()
-{
-	
-}
-
-void Jogador::salvar()
-{
-	
-}
-
-void Jogador::mover()
-{
-	if (id == 1) //jogador 1
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		Jogador::Jogador(const sf::Vector2f pos, const sf::Vector2f tam, int ident) :
+			Personagem(),
+			veloc(0.05f, 0.05f),
+			pontos(0),
+			id(ident),
+			direcao()
 		{
-			pFig->move(veloc.x, 0.0);
+			corpo = new sf::RectangleShape(tam);
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		Jogador::Jogador() :
+			Personagem(),
+			veloc(0.05f, 0.05f),
+			pontos(0),
+			id(1),
+			direcao()
 		{
-			pFig->move(0.0, -veloc.y);
+			corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f));
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+
+		Jogador::~Jogador()
 		{
-			pFig->move(0.0, veloc.y);
+			veloc.x = 0;
+			veloc.y = 0;
+			pontos = -1;
+			id = 0;
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		const sf::RectangleShape* Jogador::getCorpo() {
+			return corpo;
+		}
+
+		void colidir() {
+			return;
+		}
+
+		void Jogador::executar()
 		{
-			pFig->move(-veloc.x, 0.0);
+			return;
+		}
+
+		void Jogador::salvar()
+		{
+			return;
+		}
+
+		void Jogador::mover() {
+			if (corpo) {
+				if ('D' == direcao)
+				{
+					corpo->move(veloc.x, 0.0);
+				}
+
+				if ('C' == direcao)
+				{
+					corpo->move(0.0, -veloc.y);
+				}
+
+				if ('B' == direcao)
+				{
+					corpo->move(0.0, veloc.y);
+				}
+
+				if ('E' == direcao)
+				{
+					corpo->move(-veloc.x, 0.0);
+				}
+			}
+			else {
+				std::cerr << "ERRO: Nao foi possivel encontrar o corpo pois ele eh NULL" << std::endl;
+			}
+		}
+
+		void Jogador::setDirecao(const char direcao) {
+			this->direcao = direcao;
 		}
 
 	}
 
-	else //jogador 2
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		{
-			pFig->move(veloc.x, 0.0);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		{
-			pFig->move(0.0, -veloc.y);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		{
-			pFig->move(0.0, veloc.y);
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		{
-			pFig->move(-veloc.x, 0.0);
-		}
-
-	}
 }
-
-// atributos estáticos:
-
