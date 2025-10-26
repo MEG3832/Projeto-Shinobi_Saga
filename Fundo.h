@@ -23,7 +23,7 @@ namespace Parallax {
 				public:
 					Camada(sf::Vector2f tamJanela, sf::Texture textura, const float vel);
 					~Camada();
-					void desenharCamada(sf::RenderWindow* window);
+					void desenharCamada(sf::RenderWindow* window);	// GG desenha!
 					void atualizar(const sf::Vector2f ds, const sf::Vector2f posCameraAtual);
 			};
 
