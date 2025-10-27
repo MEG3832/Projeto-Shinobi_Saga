@@ -1,12 +1,21 @@
 #include "Entidade.h"
 
-Entidade::Entidade(): Ente(), veloc(0.0,0.0), body(sf::Vector2f(10.0,10.0))
-{
-}
+namespace Entidades {
+	//Criar o corpo aqui já, na construtora de Entidade
+	Entidade::Entidade() : Ente(), pos(0.0, 0.0)
+	{}
 
-Entidade::~Entidade() { }
+	Entidade::~Entidade() {}
 
-sf::RectangleShape Entidade::getBody()
-{
-	return body;
+	sf::Vector2f Entidade::getPos() {	// Não é mais fácil retornar o position direto?
+		if(corpo) {
+			sf::Vector2f position(corpo->getPosition());
+			pos.x = position.x;
+			pos.y = position.y;
+			return pos;
+		}
+		else {
+			std::cerr << "ERRO: Nao eh possivel retornar a posicao do corpo pois ele eh NULL" << std::endl;
+		}
+	}
 }

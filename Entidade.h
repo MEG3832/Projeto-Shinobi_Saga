@@ -1,29 +1,29 @@
 #pragma once
 
-#include "Header.h"
 #include "Ente.h"
 
+namespace Entidades {
 
-class Entidade:public Ente
-{
-protected:
+	class Entidade :public Ente
+	{
+	protected:
 
-	//ostream buffer; ->implementar
-	sf::Vector2f veloc;
-	sf::RectangleShape body;
+		//ostream buffer; ->implementar
+		sf::Vector2f pos;	// Qual o sentido de ter pos?
 
-protected:
+	protected:
 
-	//void salvarDataBuffer(); ->implementar
-	
-public:
+		//void salvarDataBuffer(); ->implementar
 
-	Entidade();
-	virtual ~Entidade();
-	sf::RectangleShape getBody();
-	virtual void executar() = 0;
-	virtual void salvar() = 0;
-	//...
+	public:
 
-};
+		Entidade();
+		virtual ~Entidade();
+		virtual void executar() = 0;
+		virtual void salvar() = 0;
+		sf::Vector2f getPos();
+		//...
 
+	};
+
+}

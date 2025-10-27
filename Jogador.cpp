@@ -4,19 +4,19 @@ namespace Entidades {
 
 	namespace Personagens {
 
-		Jogador::Jogador(const sf::Vector2f pos, const sf::Vector2f tam, int ident) :
+		Jogador::Jogador(const sf::Vector2f pos, int ident) :
 			Personagem(),
-			veloc(0.05f, 0.05f),
+			veloc(0.04f, 0.04f),
 			pontos(0),
 			id(ident),
 			direcao()
 		{
-			corpo = new sf::RectangleShape(tam);
+			corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f));
 		}
 
 		Jogador::Jogador() :
 			Personagem(),
-			veloc(0.05f, 0.05f),
+			veloc(0.04f, 0.04f),
 			pontos(0),
 			id(1),
 			direcao()
@@ -37,8 +37,8 @@ namespace Entidades {
 			return corpo;
 		}
 
-		void colidir() {
-			return;
+		void Jogador::colidir(Entidade* pe) {
+			std::cout << "Colidiu" << std::endl;
 		}
 
 		void Jogador::executar()

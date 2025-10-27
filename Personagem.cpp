@@ -1,26 +1,20 @@
 #include "Personagem.h"
 
-Personagem::Personagem() :
-	Entidade(),
-	num_vidas(0)
-{
-}
+namespace Entidades {
 
-Personagem::~Personagem()
-{
-	num_vidas = -1;
-}
+	namespace Personagens {
 
-void Personagem::executar()
-{
-}
+		Personagem::Personagem() :
+			Entidade(),
+			num_vidas(0)
+		{
+		}
 
-void Personagem::salvar()
-{
-	return;
-}
+		Personagem::~Personagem()
+		{
+			num_vidas = -1;
+		}
 
-void Personagem::mover()
-{
-	return;
+	}
+
 }

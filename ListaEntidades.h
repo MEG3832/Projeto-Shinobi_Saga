@@ -7,14 +7,16 @@ namespace Listas {
 	class ListaEntidades
 	{
 		private:
-			Lista<Entidade> LEs;
+			Lista<Entidades::Entidade> LEs;
 
 		public:
 			ListaEntidades();
 			~ListaEntidades();
-			void incluir(Entidade* PE);
-			void remover(Entidade* PE);
+			void incluir(Entidades::Entidade* PE);
+			void remover(Entidades::Entidade* PE);
 			void percorrer();
+			void desenharEntidades();
+			const int getTam() const;
 	};
 
 }

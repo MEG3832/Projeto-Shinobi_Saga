@@ -7,12 +7,26 @@ void Ente::setGG(Gerenciadores::Gerenciador_Grafico* pG) {	// Não utilizamos
 }
 
 Ente::Ente() :
-	pFig(new sf::CircleShape(100.f))	// Exemplo
+	corpo(nullptr)
 {}
 
 Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos deletá-lo em Ente
-{}
+{
+	if(corpo) {
+		delete corpo;
+	}
+	corpo = nullptr;
+}
 
 void Ente::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
-	pGG->desenharEnte(*pFig);
+	pGG->desenharEnte(*corpo);
+}
+
+sf::Vector2f Ente::getTam() {
+	if(corpo) {
+		return corpo->getSize();
+	}
+	else {
+		std::cerr << "ERRO: Nao eh possivel retornar o tamanho do corpo pois ele eh NULL" << std::endl;
+	}
 }
