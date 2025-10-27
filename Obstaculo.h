@@ -17,6 +17,7 @@ namespace Entidades {
 				virtual void executar();
 				virtual void salvar();
 				virtual void obstaculizar(Personagens::Jogador* pJ);
+				virtual void inicializaAnimacoes();
 		};
 
 	}

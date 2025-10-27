@@ -37,6 +37,10 @@ namespace Entidades {
 			return;
 		}
 
+		void Inimigo::inicializaAnimacoes() {
+			return;
+		}
+
 	}
 
 }

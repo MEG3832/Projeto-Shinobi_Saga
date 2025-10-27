@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Header.h"
 #include "Animacao.h"
 #include "Entidade.h"
 
@@ -31,10 +30,8 @@ namespace Entidades {
 			virtual void executar() = 0;
 			virtual void salvar() = 0;
 			virtual void mover() = 0;
-
-			void inicializaAtributos();
-			void inicializaAnimacoes();
-
+			virtual void inicializaAnimacoes() = 0;
+			void setAnimador(sf::RectangleShape* body);
 
 			//virtual int getNumVidas();
 			//virtual float getDano();

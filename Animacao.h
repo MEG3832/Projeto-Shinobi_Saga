@@ -1,8 +1,6 @@
 #pragma once
-
 #include "Header.h"
 #include "Imagem.h"
-#include <map>
 
 namespace Animadores {
 

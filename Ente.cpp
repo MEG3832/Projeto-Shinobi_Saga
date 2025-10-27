@@ -7,7 +7,7 @@ void Ente::setGG(Gerenciadores::Gerenciador_Grafico* pG) {	// Não utilizamos
 }
 
 Ente::Ente() :
-	corpo(new sf::RectangleShape(sf::Vector2f(120.0, 260.0)))	// Exemplo
+	corpo(nullptr)
 {}
 
 Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos deletá-lo em Ente
@@ -29,4 +29,8 @@ sf::Vector2f Ente::getTam() {
 	else {
 		std::cerr << "ERRO: Nao eh possivel retornar o tamanho do corpo pois ele eh NULL" << std::endl;
 	}
+}
+
+const sf::RectangleShape* Ente::getCorpo() {
+	return corpo;
 }
