@@ -15,6 +15,8 @@ namespace Listas {
 			void incluir(Entidades::Entidade* PE);
 			void remover(Entidades::Entidade* PE);
 			void percorrer();
+			void desenharEntidades();
+			const int getTam() const;
 	};
 
 }

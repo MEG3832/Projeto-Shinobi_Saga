@@ -4,43 +4,72 @@ namespace Gerenciadores {
 
 	Gerenciador_Colisoes* Gerenciador_Colisoes::pColisoes = nullptr;
 
-	Gerenciador_Colisoes::Gerenciador_Colisoes(Entidades::Personagens::Jogador* pJog,
-											   Listas::Lista<Entidades::Personagens::Inimigo*>* Inimigos,
-											   Listas::Lista<Entidades::Obstaculo*>* Obstaculos,
-											   Listas::Lista<Entidades::Projetil*>* Projeteis) :
-		LIs(Inimigos),
-		LOs(Obstaculos),
-		LPs(Projeteis),
+	Gerenciador_Colisoes::Gerenciador_Colisoes(Entidades::Personagens::Jogador* pJog) :
+		LIs(),
+		LOs(),
+		LPs(),
 		pJog1(pJog)
 	{}
 
 	const bool Gerenciador_Colisoes::verificaColisao(Entidades::Entidade* pe1, Entidades::Entidade* pe2) const {
-
+		return false;
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesJogsInimgs() {
-		for (int i = 0; i < LIs->getTamanho(); i++ {
-
+		if (pJog1) {
+			for (int i = 0; i < LIs.getTam(); i++) {
+				if (LIs.operator[](i)) {
+					verificaColisao(pJog1, static_cast<Entidades::Entidade*>(
+									static_cast<Entidades::Personagens::Personagem*>(LIs.operator[](i))));
+				}
+				else {
+					std::cerr << "ERRO: nao eh possivel calcular a colisao pois o inimigo eh NULL" << std::endl;
+				}
+			}
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o jogador eh NULL" << std::endl;
 		}
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesJogsObstacs() {
-
+		if (pJog1) {
+			for (int i = 0; i < LOs.getTam(); i++) {
+				if (LOs.operator[](i)) {
+					verificaColisao(pJog1, static_cast<Entidades::Entidade*>(LOs.operator[](i)));
+				}
+				else {
+					std::cerr << "ERRO: nao eh possivel calcular a colisao pois o objeto eh NULL" << std::endl;
+				}
+			}
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o jogador eh NULL" << std::endl;
+		}
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesJogsProjeteis() {
-
+		if (pJog1) {
+			for (int i = 0; i < LPs.getTam(); i++) {
+				if (LPs.operator[](i)) {
+						verificaColisao(pJog1, static_cast<Entidades::Entidade*>(LPs.operator[](i)));
+				}
+				else {
+					std::cerr << "ERRO: nao eh possivel calcular a colisao pois o projetil eh NULL" << std::endl;
+				}
+			}
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o jogador eh NULL" << std::endl;
+		}
 	}
 
 	Gerenciador_Colisoes::~Gerenciador_Colisoes() {
-		LIs = nullptr;
-		LOs = nullptr;
-		LPs = nullptr;
 		pJog1 = nullptr;
 	}
 
 	// Padrão de Projeto Singleton
-	Gerenciador_Colisoes* Gerenciador_Colisoes::getGerenciadorColisoes(Entidades::Personagens::Jogador pJog) {
+	Gerenciador_Colisoes* Gerenciador_Colisoes::getGerenciadorColisoes(Entidades::Personagens::Jogador* pJog) {
 		if (!pColisoes) {
 			pColisoes = new Gerenciador_Colisoes();
 		}
@@ -56,16 +85,31 @@ namespace Gerenciadores {
 		tratarColisoesJogsProjeteis();
 	}
 
-	void Gerenciador_Colisoes::setListaInimigos(Listas::Lista<Entidades::Personagens::Inimigo*>* Inimigos) {
-		LIs = Inimigos;
+	void Gerenciador_Colisoes::incluirInimigo(Entidades::Personagens::Inimigo* pi) {
+		if (pi) {
+			LIs.incluir(static_cast<Entidades::Entidade*>(
+						static_cast<Entidades::Personagens::Personagem*>(pi)));
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel incluir o inimigo pois ele eh NULL" << std::endl;
+		}
 	}
 
-	void Gerenciador_Colisoes::setListaObstaculos(Listas::Lista<Entidades::Obstaculo*>* Obstaculos) {
-		LOs = Obstaculos;
+	void Gerenciador_Colisoes::incluirObstaculo(Entidades::Obstaculos::Obstaculo* po) {
+		if (po) {
+			LOs.incluir(static_cast<Entidades::Entidade*>(po));
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel incluir o obstaculo pois ele eh NULL" << std::endl;
+		}
 	}
-
-	void Gerenciador_Colisoes::setListaProjeteis(Listas::Lista<Entidades::Projetil*>* Projeteis) {
-		LPs = Projeteis;
+	void Gerenciador_Colisoes::incluirProjetil(Entidades::Projetil* pj) {
+		if (pj) {
+			LPs.incluir(static_cast<Entidades::Entidade*>(pj));
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel incluir o projetil pois ele eh NULL" << std::endl;
+		}
 	}
 
 

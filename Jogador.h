@@ -19,7 +19,7 @@ namespace Entidades {
 
 		public:
 
-			Jogador(const sf::Vector2f pos, const sf::Vector2f tam, const int ident = 1); //com parâmetro
+			Jogador(const sf::Vector2f pos, const int ident = 1); //com parâmetro
 			Jogador(); // sem parâmetro
 			~Jogador();
 			//void colidir(Inimigo* pIn);

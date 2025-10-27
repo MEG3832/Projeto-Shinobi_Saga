@@ -33,4 +33,14 @@ namespace Listas {
 		}
 	}
 
+	void ListaEntidades::desenharEntidades() {
+		for (int i = 0; i < LEs.getTam(); i++) {
+			LEs[i]->desenhar();
+		}
+	}
+
+	const int ListaEntidades::getTam() const{
+		return LEs.getTam();
+	}
+
 }
