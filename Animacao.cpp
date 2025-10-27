@@ -23,12 +23,7 @@ namespace Animadores {
 		if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
 		{
 			estadoAtual = estadoImg;
-
-			if (mapImagens[estadoAtual] == NULL)
-				std::cout << "ponteiro nulo";
-
-			else
-				mapImagens[estadoAtual]->resetar();
+			mapImagens[estadoAtual]->resetar();
 		}
 
 		float dt = clock.getElapsedTime().asSeconds();

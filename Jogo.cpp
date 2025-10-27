@@ -73,9 +73,9 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             GG->limpaJanela();
 
             // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
-            GG->atualizaCamera(jogador.getPos());
+            //GG->atualizaCamera(jogador.getPos());
 
-            GC1->executar();
+            //GC1->executar();
 
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
             
@@ -85,7 +85,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             jogador.atualizaAnimacao();
             jogador.desenhar();
 
-            lista_ents.desenharEntidades();
+            //lista_ents.desenharEntidades();
 
             GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
         }
