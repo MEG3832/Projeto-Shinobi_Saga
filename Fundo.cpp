@@ -35,14 +35,14 @@ namespace Parallax {
 	}
 
 	void Fundo::Camada::desenharCamada(sf::RenderWindow* window) {
-		if (window) {
-			window->draw(fundo);
+		if(pGG) {
+			pGG->desenharEnte(fundo);
 			if (vel) {
-				window->draw(fundoAuxiliar);
+				pGG->desenharEnte(fundoAuxiliar);
 			}
 		}
 		else {
-			std::cerr << "ERRO: window eh NULL" << std::endl;
+			std::cerr << "ERRO: nao eh possivel desenhar as camadas pois o Gerenciador Grafico eh NULL" << std::endl;
 		}
 	}
 

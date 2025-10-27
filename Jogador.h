@@ -22,9 +22,8 @@ namespace Entidades {
 			Jogador(const sf::Vector2f pos, const int ident = 1); //com parâmetro
 			Jogador(); // sem parâmetro
 			~Jogador();
-			//void colidir(Inimigo* pIn);
 			const sf::RectangleShape* getCorpo();
-			void colidir();
+			void colidir(Entidade* pe);
 			void executar();
 			void salvar();
 			void mover();

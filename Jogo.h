@@ -1,4 +1,5 @@
 #pragma once
+// No momento, o jogo desenha 4 retangulos moveis e o fundo
 #include "Fundo.h"
 #include "ListaEntidades.h"
 #include "Gerenciador_de_Eventos.h"
@@ -6,24 +7,28 @@
 
 class Jogo {
 	private:
-		Gerenciadores::Gerenciador_Grafico* GG;
+		Gerenciadores::Gerenciador_Grafico* GG;	// Singelton
 		Parallax::Fundo fundo;
 		Entidades::Personagens::Jogador jogador;
-		Gerenciadores::Gerenciador_de_Eventos* GE;
+		Gerenciadores::Gerenciador_de_Eventos* GE;	// Singleton
 		Entidades::Personagens::Inimigo inimigo;
 		Entidades::Obstaculos::Obstaculo obstaculo;
 		Entidades::Projetil projetil;
-		Gerenciadores::Gerenciador_Colisoes* GC;
+		Gerenciadores::Gerenciador_Colisoes* GC1;	// Um para jogador, que tal?
 		Listas::ListaEntidades lista_ents;
 
 	public:
 		Jogo();
 		~Jogo();
+
+		// Inicializacoes
 		void inicializar();
+		void inicializarGC();
 		void inicializaListaEntidades();
 		void inicializarListaInimigos();
 		void inicializarListaObtaculos();
 		void inicializarListaProjeteis();
+
 		void executar();
 };
 

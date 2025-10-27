@@ -7,12 +7,13 @@ Jogo::Jogo() :
     GE(GE->getGerenciadorEventos()),
     inimigo(),
     obstaculo(),
-    GC(GC->getGerenciadorColisoes(&jogador))
+    GC1(new Gerenciadores::Gerenciador_Colisoes())
     //lista_ents()
 {
     GE->setJogador(&jogador);
 
     inicializar();
+
 	executar();
 }
 
@@ -22,17 +23,23 @@ Jogo::~Jogo() {
     GG = nullptr;
     if (GG) delete GE;
     GE = nullptr;
-    if (GC) delete GC;
-    GC = nullptr;
+    if (GC1) delete GC1;
+    GC1 = nullptr;
 }
 
 void Jogo::inicializar() {
+    inicializarGC();
+
     inicializaListaEntidades();
+}
+
+void Jogo::inicializarGC() {
+    GC1->setJogador(&jogador);
 
     inicializarListaInimigos();
 
     inicializarListaObtaculos();
-    
+
     inicializarListaProjeteis();
 }
 
@@ -46,18 +53,18 @@ void Jogo::inicializaListaEntidades() {
 }
 
 void Jogo::inicializarListaInimigos() {
-    GC->incluirInimigo(&inimigo);
+    GC1->incluirInimigo(&inimigo);
 }
 
 void Jogo::inicializarListaObtaculos() {
-    GC->incluirObstaculo(&obstaculo);
+    GC1->incluirObstaculo(&obstaculo);
 }
 
 void Jogo::inicializarListaProjeteis() {
-    GC->incluirProjetil(&projetil);
+    GC1->incluirProjetil(&projetil);
 }
 
-void Jogo::executar() {
+void Jogo::executar() { // Desenha 4 retangulos e o fundo
     if (GG) {
         while (GG->verificaJanelaAberta()) {
             // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
@@ -66,11 +73,14 @@ void Jogo::executar() {
             GG->limpaJanela();
 
             // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
+            GG->atualizaCamera(jogador.getPos());
 
-            lista_ents.desenharEntidades();
+            GC1->executar();
 
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
-            //fundo.executar();
+            fundo.executar();
+
+            lista_ents.desenharEntidades();
 
             GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
         }
