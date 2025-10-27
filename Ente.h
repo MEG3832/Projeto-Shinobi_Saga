@@ -3,13 +3,8 @@
 class Ente
 {
 	protected:
-<<<<<<< HEAD
 		static Gerenciadores::Gerenciador_Grafico* pGG;
 		sf::RectangleShape* corpo;
-=======
-		sf::RectangleShape* pFig;
-		static Gerenciador_Grafico* pGG;
->>>>>>> animation
 
 	public:
 		Ente();

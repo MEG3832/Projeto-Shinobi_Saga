@@ -7,7 +7,7 @@ void Ente::setGG(Gerenciadores::Gerenciador_Grafico* pG) {	// Não utilizamos
 }
 
 Ente::Ente() :
-	corpo(nullptr)
+	corpo(new sf::RectangleShape(sf::Vector2f(120.0, 260.0)))	// Exemplo
 {}
 
 Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos deletá-lo em Ente

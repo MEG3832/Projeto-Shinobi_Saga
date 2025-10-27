@@ -8,46 +8,22 @@ namespace Entidades {
 
 	namespace Personagens {
 
-<<<<<<< HEAD
 		class Personagem :public Entidade
 		{
-=======
-	int id;
-	int num_vidas;
-
-	Animadores::Animacao* animador;
-
-	float dano;
-
-	//sf::Vector2f veloc;
-	//...
->>>>>>> animation
 
 		protected:
 
-<<<<<<< HEAD
+			int id;
 			int num_vidas;
+
+			Animadores::Animacao* animador;
+
+			float dano;
+
 			//sf::Vector2f veloc;
 			//...
 
 		public:
-=======
-	Personagem();
-	~Personagem();
-	//void salvarDataBuffer();
-	//virtual void executar() = 0;
-	//virtual void salvar() = 0;
-	virtual void mover() = 0;
-
-	void inicializaAtributos();
-	void inicializaAnimacoes();
-
-	
-	//virtual int getNumVidas();
-	//virtual float getDano();
-
-
->>>>>>> animation
 
 			Personagem();
 			~Personagem();
@@ -55,8 +31,17 @@ namespace Entidades {
 			virtual void executar() = 0;
 			virtual void salvar() = 0;
 			virtual void mover() = 0;
+
+			void inicializaAtributos();
+			void inicializaAnimacoes();
+
+
+			//virtual int getNumVidas();
+			//virtual float getDano();
+
+
+
 		};
 
 	}
-
 }

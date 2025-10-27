@@ -5,43 +5,22 @@
 
 namespace Entidades {
 
-<<<<<<< HEAD
 	namespace Personagens {
-=======
-	int pontos;
-
-	//!!!!!!!!talvez rastrear esse tipo de coisa apenas para o jogador...
-	bool paraEsq;
-	bool subindo;
-	bool caindo;
-		
-	//...
->>>>>>> animation
 
 		class Jogador :public Personagem
 		{
 		protected:
 
-<<<<<<< HEAD
-			sf::Vector2f veloc;
 			int pontos;
+
+			//!!!!!!!!talvez rastrear esse tipo de coisa apenas para o jogador...
+			bool paraEsq;
+			bool subindo;
+			bool caindo;
+		
+			sf::Vector2f veloc;
 			int id; // 1 ou 2
 			char direcao;
-			//...
-=======
-	Jogador(); //com parâmetro
-	~Jogador();
-	//void colidir(Inimigo* pIn);
-	//void executar();
-	//void salvar();
-	void mover();
-	void inicializaAtributos();
-	void inicializaAnimacoes();
-	void atualizaAnimacao();
-	float getDano();
-	//...
-};
->>>>>>> animation
 
 		public:
 
@@ -54,6 +33,8 @@ namespace Entidades {
 			void salvar();
 			void mover();
 			void setDirecao(const char direcao);
+			void inicializaAnimacoes();
+			void atualizaAnimacao();
 		};
 
 	}

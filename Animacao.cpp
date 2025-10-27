@@ -23,7 +23,12 @@ namespace Animadores {
 		if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
 		{
 			estadoAtual = estadoImg;
-			mapImagens[estadoAtual]->resetar();
+
+			if (mapImagens[estadoAtual] == NULL)
+				std::cout << "ponteiro nulo";
+
+			else
+				mapImagens[estadoAtual]->resetar();
 		}
 
 		float dt = clock.getElapsedTime().asSeconds();
@@ -43,7 +48,7 @@ namespace Animadores {
 
 	}
 
-	void Animacao::atualizarAnimInim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg)
+	/*void Animacao::atualizarAnimInim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg)
 	{
 		if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
 		{
@@ -84,7 +89,7 @@ namespace Animadores {
 		corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
 		corpo->setTexture(img->getTextura());
 		corpo->setScale(escala.x, escala.y);
-	}
+	}*/
 
 	void Animacao::addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale)
 	{

@@ -14,7 +14,7 @@ namespace Animadores {
 	{
 	private:
 
-		Gerenciador_Grafico* pGraf;
+		Gerenciadores::Gerenciador_Grafico* pGraf;
 		sf::Texture textura;
 		sf::IntRect retangulo; //a "forma" retangular que vamos colocar a nossa sprite (uma das imagens da spritesheet).
 		const sf::Vector2f escala;

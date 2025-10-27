@@ -7,7 +7,6 @@
 
 class Jogo {
 	private:
-<<<<<<< HEAD
 		Gerenciadores::Gerenciador_Grafico* GG;	// Singelton
 		Parallax::Fundo fundo;
 		Entidades::Personagens::Jogador jogador;
@@ -17,13 +16,6 @@ class Jogo {
 		Entidades::Projetil projetil;
 		Gerenciadores::Gerenciador_Colisoes* GC1;	// Um para jogador, que tal?
 		Listas::ListaEntidades lista_ents;
-=======
-		Gerenciador_Grafico* GG;
-		Fundo fundo;
-		Ente Figura;
-		Jogador* pJ1;
-
->>>>>>> animation
 
 	public:
 		Jogo();
