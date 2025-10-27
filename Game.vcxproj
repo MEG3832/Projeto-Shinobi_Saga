@@ -129,6 +129,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="Animacao.h" />
+    <ClInclude Include="Camada.h" />
+>>>>>>> animation
     <ClInclude Include="Coord.h" />
     <ClInclude Include="Ente.h" />
     <ClInclude Include="Fundo.h" />
@@ -136,7 +141,11 @@
     <ClInclude Include="Gerenciador_Colisoes.h" />
     <ClInclude Include="Gerenciador_de_Eventos.h" />
     <ClInclude Include="Gerenciador_Grafico.h" />
+<<<<<<< HEAD
     <ClInclude Include="Inimigo.h" />
+=======
+    <ClInclude Include="Imagem.h" />
+>>>>>>> animation
     <ClInclude Include="Jogador.h" />
     <ClInclude Include="Jogo.h" />
     <ClInclude Include="Header.h" />
@@ -147,13 +156,22 @@
     <ClInclude Include="Projetil.h" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="Animacao.cpp" />
+    <ClCompile Include="Camada.cpp" />
+>>>>>>> animation
     <ClCompile Include="Ente.cpp" />
     <ClCompile Include="Fundo.cpp" />
     <ClCompile Include="Entidade.cpp" />
     <ClCompile Include="Gerenciador_Colisoes.cpp" />
     <ClCompile Include="Gerenciador_de_Eventos.cpp" />
     <ClCompile Include="Gerenciador_Grafico.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Inimigo.cpp" />
+=======
+    <ClCompile Include="Imagem.cpp" />
+>>>>>>> animation
     <ClCompile Include="Jogador.cpp" />
     <ClCompile Include="Jogo.cpp" />
     <ClCompile Include="ListaEntidades.cpp" />

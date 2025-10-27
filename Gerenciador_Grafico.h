@@ -20,7 +20,11 @@ namespace Gerenciadores {
 	public:
 		~Gerenciador_Grafico();
 		Gerenciador_Grafico* getGerenciadorGrafico();
+<<<<<<< HEAD
 		void desenharEnte(sf::RectangleShape corpo);
+=======
+		void desenharEnte(sf::RectangleShape corpo);	// Tem que arrumar. Por enquanto foi usado só no teste inicial
+>>>>>>> animation
 		void mostrarEntes();	//Imprime na tela o que foi desenhado
 		sf::RenderWindow* getWindow();
 		const bool verificaJanelaAberta();

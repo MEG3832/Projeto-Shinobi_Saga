@@ -15,7 +15,17 @@ namespace Entidades {
 
 		//void salvarDataBuffer(); ->implementar
 
+<<<<<<< HEAD
 	public:
+=======
+	Entidade();
+	virtual ~Entidade();
+	sf::RectangleShape getBody();
+	//virtual void executar() = 0;
+	//virtual void salvar() = 0;
+	virtual void desenhar();
+	//...
+>>>>>>> animation
 
 		Entidade();
 		virtual ~Entidade();

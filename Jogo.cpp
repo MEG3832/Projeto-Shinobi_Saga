@@ -10,10 +10,14 @@ Jogo::Jogo() :
     GC1(new Gerenciadores::Gerenciador_Colisoes())
     //lista_ents()
 {
+<<<<<<< HEAD
     GE->setJogador(&jogador);
 
     inicializar();
 
+=======
+    pJ1 = new Jogador();
+>>>>>>> animation
 	executar();
 }
 
@@ -78,10 +82,18 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             GC1->executar();
 
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
+<<<<<<< HEAD
             fundo.executar();
 
             lista_ents.desenharEntidades();
 
+=======
+            //fundo.executar();
+            
+            pJ1->atualizaAnimacao();
+            pJ1->desenhar();
+            //Figura.desenhar();
+>>>>>>> animation
             GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
         }
     }

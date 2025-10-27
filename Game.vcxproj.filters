@@ -48,6 +48,7 @@
     <ClInclude Include="Jogador.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Lista.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
@@ -58,6 +59,12 @@
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="Gerenciador_Colisoes.h">
+=======
+    <ClInclude Include="Animacao.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Imagem.h">
+>>>>>>> animation
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,6 +93,7 @@
     <ClCompile Include="Jogador.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="ListaEntidades.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
@@ -93,6 +101,12 @@
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="Gerenciador_Colisoes.cpp">
+=======
+    <ClCompile Include="Animacao.cpp">
+      <Filter>Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Imagem.cpp">
+>>>>>>> animation
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
