@@ -8,6 +8,10 @@ Jogador::Jogador():
 	//veloc.x = 0.1;
 	//veloc.y = 0.1;
 
+	caindo = false;
+	subindo = false;
+	paraEsq = false;
+
 	inicializaAtributos();
 	inicializaAnimacoes();
 
@@ -110,12 +114,13 @@ void Jogador::inicializaAnimacoes()
 	animador->addAnimacao("Imagens/Samurai/Dead.png", "Derrotado", 6, 0.45, sf::Vector2f(6.0, 2.0));
 	animador->addAnimacao("Imagens/Samurai/Hurt.png", "Ferido", 3, 0.17, sf::Vector2f(6.0, 2.0));
 	animador->addAnimacao("Imagens/Samurai/Protection.png", "Protegendo", 2, 0.17, sf::Vector2f(6.0, 2.0));
+
 }
 
 void Jogador::atualizaAnimacao()
 {
 
-	bool rodaUmaVez = true;
+	bool rodaUmaVez = false;
 
 
 	//terminar: fazer uma animação de cada estado de acordo com o valor de caindo, subindo, velocidade, se está no chão ou não...
@@ -125,7 +130,7 @@ void Jogador::atualizaAnimacao()
 
 
 	//teste:
-	animador->atualizar(caindo, subindo, paraEsq, rodaUmaVez, "Ferido"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+	animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 }
 
 

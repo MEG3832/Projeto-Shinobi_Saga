@@ -12,7 +12,7 @@ protected:
 	int id;
 	int num_vidas;
 
-	Animacao* animador;
+	Animadores::Animacao* animador;
 
 	float dano;
 
@@ -28,12 +28,12 @@ public:
 	//virtual void salvar() = 0;
 	virtual void mover() = 0;
 
-	virtual void inicializaAtributos();
-	virtual void inicializaAnimacoes();
+	void inicializaAtributos();
+	void inicializaAnimacoes();
 
 	
-	virtual int getNumVidas();
-	virtual float getDano();
+	//virtual int getNumVidas();
+	//virtual float getDano();
 
 
 

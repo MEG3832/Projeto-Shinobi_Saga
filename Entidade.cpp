@@ -11,15 +11,15 @@ sf::RectangleShape Entidade::getBody()
 	return body;
 }
 
-void Entidade::executar()
-{
-}
+//void Entidade::executar()
+//{
+//}
 
-void Entidade::salvar()
-{
-}
+//void Entidade::salvar()
+//{
+//}
 
 void Entidade::desenhar()
 {
-	pGG->desenharEnte(body);
+	pGG->desenharEnte(*pFig);
 }

@@ -2,9 +2,11 @@
 
 Personagem::Personagem():
 	Entidade(),
-	id(-1)
+	id(-1),
+	dano(0.0),
+	num_vidas(0)
 {
-	animador = new Animacao(&body);
+	animador = new Animadores::Animacao(pFig);
 
 }
 
@@ -27,14 +29,14 @@ void Personagem::mover()
 {
 }
 
-int Personagem::getNumVidas()
-{
+//int Personagem::getNumVidas()
+//{
 
-}
-float Personagem::getDano()
-{
+//}
+//float Personagem::getDano()
+//{
 
-}
+//}
 
 void Personagem::inicializaAtributos()
 {
