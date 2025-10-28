@@ -6,7 +6,7 @@ namespace Entidades {
 
 		Jogador::Jogador(const sf::Vector2f pos, int ident) :
 			Personagem(),
-			veloc(0.02f, 0.02f),	// Isso eh uma boa velocidade?
+			veloc(0.05f, 0.05f),	// Isso eh uma boa velocidade?
 			pontos(0),
 			id(ident),
 			direcao(),
@@ -15,38 +15,31 @@ namespace Entidades {
 			paraEsq(false),
 			num(0)
 		{
-<<<<<<< HEAD
-			//corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
-			corpo->setSize(sf::Vector2f(50.0f, 100.0f));
-=======
-			corpo = new sf::RectangleShape(sf::Vector2f(60.0, 130.0));
+			corpo = new sf::RectangleShape(sf::Vector2f(60.0f, 100.0f));
+			//corpo->setSize(sf::Vector2f(50.0f, 100.0f));
 			setAnimador(corpo);
->>>>>>> 321ae5db7776da84c94dc260a1f63082c0f252c2
 			inicializaAnimacoes();
 		}
 
 		Jogador::Jogador() :
 			Personagem(),
-			veloc(0.02f, 0.02f),
+			veloc(0.05f, 0.05f),
 			pontos(0),
 			id(1),
 			direcao(),
 			caindo(false),
 			subindo(false),
-<<<<<<< HEAD
-			paraEsq(false)
-		{
-			//corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
-			corpo->setSize(sf::Vector2f(50.0f, 100.0f));
-=======
 			paraEsq(false),
 			num(0)
 		{
-			corpo = new sf::RectangleShape(sf::Vector2f(60.0, 130.0));
+
+			corpo = new sf::RectangleShape(sf::Vector2f(90.0f, 140.0f));
+			corpo->setPosition(0.0, 100.0);
+			//corpo->setSize(sf::Vector2f(100.0f, 180.0f));
 			setAnimador(corpo);
->>>>>>> 321ae5db7776da84c94dc260a1f63082c0f252c2
 			inicializaAnimacoes();
 			teste = *corpo;
+
 		}
 
 		Jogador::~Jogador()
@@ -114,7 +107,7 @@ namespace Entidades {
 		{
 			//Animações em loop
 
-			animador->addAnimacao("Imagens/Samurai/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Samurai/Idle_2.png", "Parado", 6, 0.20, sf::Vector2f(2.5, 1.0));
 			animador->addAnimacao("Imagens/Samurai/Walk.png", "Andando", 9, 0.12, sf::Vector2f(6.0, 2.0));
 			animador->addAnimacao("Imagens/Samurai/Run.png", "Correndo", 8, 0.1, sf::Vector2f(6.0, 2.0));
 

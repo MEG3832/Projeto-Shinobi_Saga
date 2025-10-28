@@ -23,6 +23,7 @@ namespace Entidades {
 			animador = new Animadores::Animacao(body);
 		}
 
+
 		//int Personagem::getNumVidas()
 		//{
 
