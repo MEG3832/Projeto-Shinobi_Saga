@@ -80,8 +80,6 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
             fundo.executar();
             
-            //fundo.executar();
-            
             jogador.atualizaAnimacao();
 
             lista_ents.desenharEntidades();

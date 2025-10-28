@@ -12,11 +12,9 @@ namespace Entidades {
 			direcao(),
 			caindo(false),
 			subindo(false),
-			paraEsq(false),
-			num(0)
+			paraEsq(false)
 		{
 			corpo = new sf::RectangleShape(sf::Vector2f(60.0f, 100.0f));
-			//corpo->setSize(sf::Vector2f(50.0f, 100.0f));
 			setAnimador(corpo);
 			inicializaAnimacoes();
 		}
@@ -29,16 +27,13 @@ namespace Entidades {
 			direcao(),
 			caindo(false),
 			subindo(false),
-			paraEsq(false),
-			num(0)
+			paraEsq(false)
 		{
 
 			corpo = new sf::RectangleShape(sf::Vector2f(90.0f, 140.0f));
 			corpo->setPosition(0.0, 100.0);
-			//corpo->setSize(sf::Vector2f(100.0f, 180.0f));
 			setAnimador(corpo);
 			inicializaAnimacoes();
-			teste = *corpo;
 
 		}
 
@@ -55,7 +50,7 @@ namespace Entidades {
 		}
 
 		void Jogador::colidir(Entidade* pe) {
-			std::cout << num++ << std::endl;
+			std::cout << "Colidiu" << std::endl;
 		}
 
 		void Jogador::executar()
@@ -72,25 +67,22 @@ namespace Entidades {
 			if (corpo) {
 				if ('D' == direcao)
 				{
-					teste.move(veloc.x, 0.0);
 					corpo->move(veloc.x, 0.0);
 				}
 
 				if ('C' == direcao)
 				{
-					teste.move(0.0, -veloc.y);
 					corpo->move(0.0, -veloc.y);
 				}
 
 				if ('B' == direcao)
 				{
-					teste.move(0.0, veloc.y);
 					corpo->move(0.0, veloc.y);
 				}
 
 				if ('E' == direcao)
 				{
-					teste.move(-veloc.x, 0.0);
+
 					corpo->move(-veloc.x, 0.0);
 				}
 			}
@@ -129,7 +121,6 @@ namespace Entidades {
 
 		void Jogador::atualizaAnimacao()
 		{
-			pGG->desenharEnte(teste);
 			bool rodaUmaVez = false;
 
 
