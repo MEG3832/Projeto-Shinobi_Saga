@@ -23,4 +23,8 @@ namespace Entidades {
 		return;
 	}
 
+	void Projetil::inicializaAnimacoes() {
+		return;
+	}
+
 }

@@ -8,8 +8,6 @@ namespace Animadores {
 		clock(),
 		estadoAtual("")
 	{
-
-
 	}
 
 	Animacao::~Animacao() {}
@@ -20,70 +18,84 @@ namespace Animadores {
 
 	void Animacao::atualizarAnimJog(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg)
 	{
-		if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
-		{
-			estadoAtual = estadoImg;
-			mapImagens[estadoAtual]->resetar();
+		if (corpo) {
+			if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
+			{
+				estadoAtual = estadoImg;
+				mapImagens[estadoAtual]->resetar();
+			}
+
+			float dt = clock.getElapsedTime().asSeconds();
+			clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
+
+			Imagem* img = mapImagens[estadoAtual];
+
+			sf::Vector2f tamCorpo = corpo->getSize();
+			sf::Vector2f escala = img->getEscala();
+
+			img->atualizarFrameJog(caindo, subindo, indoParaEsq, rodaUmaVez, dt);
+
+
+			corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
+			corpo->setTexture(img->getTextura());
+			corpo->setScale(escala.x, escala.y);
 		}
-
-		float dt = clock.getElapsedTime().asSeconds();
-		clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
-
-		Imagem* img = mapImagens[estadoAtual];
-
-		sf::Vector2f tamCorpo = corpo->getSize();
-		sf::Vector2f escala = img->getEscala();
-
-		img->atualizarFrameJog(caindo, subindo, indoParaEsq, rodaUmaVez, dt);
-
-
-		corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
-		corpo->setTexture(img->getTextura());
-		corpo->setScale(escala.x, escala.y);
-
+		else {
+			std::cout << "ERRO: nao eh possivel atualizar a animacao do jogador pois o corpo eh NULL" << std::endl;
+		}
 	}
 
 	/*void Animacao::atualizarAnimInim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg)
 	{
-		if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
-		{
-			estadoAtual = estadoImg;
-			mapImagens[estadoAtual]->resetar();
+		if(corpo) {
+			if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
+			{
+				estadoAtual = estadoImg;
+				mapImagens[estadoAtual]->resetar();
+			}
+
+			float dt = clock.getElapsedTime().asSeconds();
+			clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
+
+			Imagem* img = mapImagens[estadoAtual];
+
+			sf::Vector2f tamCorpo = corpo->getSize();
+			sf::Vector2f escala = img->getEscala();
+
+			img->atualizarFrameInim(indoParaEsq, rodaUmaVez, dt);
+
+
+			corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
+			corpo->setTexture(img->getTextura());
+			corpo->setScale(escala.x, escala.y);
 		}
-
-		float dt = clock.getElapsedTime().asSeconds();
-		clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
-
-		Imagem* img = mapImagens[estadoAtual];
-
-		sf::Vector2f tamCorpo = corpo->getSize();
-		sf::Vector2f escala = img->getEscala();
-
-		img->atualizarFrameInim(indoParaEsq, rodaUmaVez, dt);
-
-
-		corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
-		corpo->setTexture(img->getTextura());
-		corpo->setScale(escala.x, escala.y);
+		else {
+			std::cout << "ERRO: nao eh possivel atualizar a animacao do inimigo pois o corpo eh NULL" << std::endl;
+		}
 
 	}
 
 	void Animacao::atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico)
 	{
-		float dt = clock.getElapsedTime().asSeconds();
-		clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
+		if(corpo) {
+			float dt = clock.getElapsedTime().asSeconds();
+			clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
 
-		Imagem* img = mapImagens[estadoUnico];
+			Imagem* img = mapImagens[estadoUnico];
 
-		sf::Vector2f tamCorpo = corpo->getSize();
-		sf::Vector2f escala = img->getEscala();
+			sf::Vector2f tamCorpo = corpo->getSize();
+			sf::Vector2f escala = img->getEscala();
 
-		img->atualizarFrameProjetil(indoParaEsq, dt);
+			img->atualizarFrameProjetil(indoParaEsq, dt);
 
 
-		corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
-		corpo->setTexture(img->getTextura());
-		corpo->setScale(escala.x, escala.y);
+			corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
+			corpo->setTexture(img->getTextura());
+			corpo->setScale(escala.x, escala.y);
+		}
+		else {
+			std::cout << "ERRO: nao eh possivel atualizar a animacao do projetil pois o corpo eh NULL" << std::endl;
+		}
 	}*/
 
 	void Animacao::addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale)

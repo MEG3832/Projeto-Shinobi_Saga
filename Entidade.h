@@ -22,6 +22,7 @@ namespace Entidades {
 		virtual void executar() = 0;
 		virtual void salvar() = 0;
 		sf::Vector2f getPos();
+		virtual void inicializaAnimacoes() = 0;
 		//...
 
 	};

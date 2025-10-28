@@ -6,37 +6,48 @@ namespace Entidades {
 
 		Jogador::Jogador(const sf::Vector2f pos, int ident) :
 			Personagem(),
-			veloc(0.04f, 0.04f),
+			veloc(0.02f, 0.02f),	// Isso eh uma boa velocidade?
 			pontos(0),
 			id(ident),
 			direcao(),
 			caindo(false),
 			subindo(false),
-			paraEsq(false)
+			paraEsq(false),
+			num(0)
 		{
+<<<<<<< HEAD
 			//corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
 			corpo->setSize(sf::Vector2f(50.0f, 100.0f));
+=======
+			corpo = new sf::RectangleShape(sf::Vector2f(60.0, 130.0));
+			setAnimador(corpo);
+>>>>>>> 321ae5db7776da84c94dc260a1f63082c0f252c2
 			inicializaAnimacoes();
 		}
 
-
-
-
 		Jogador::Jogador() :
 			Personagem(),
-			veloc(0.04f, 0.04f),
+			veloc(0.02f, 0.02f),
 			pontos(0),
 			id(1),
 			direcao(),
 			caindo(false),
 			subindo(false),
+<<<<<<< HEAD
 			paraEsq(false)
 		{
 			//corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
 			corpo->setSize(sf::Vector2f(50.0f, 100.0f));
+=======
+			paraEsq(false),
+			num(0)
+		{
+			corpo = new sf::RectangleShape(sf::Vector2f(60.0, 130.0));
+			setAnimador(corpo);
+>>>>>>> 321ae5db7776da84c94dc260a1f63082c0f252c2
 			inicializaAnimacoes();
+			teste = *corpo;
 		}
-
 
 		Jogador::~Jogador()
 		{
@@ -44,14 +55,14 @@ namespace Entidades {
 			veloc.y = 0;
 			pontos = -1;
 			id = 0;
-		}
-
-		const sf::RectangleShape* Jogador::getCorpo() {
-			return corpo;
+			direcao = 0;
+			paraEsq = false;
+			subindo = false;
+			caindo = false;
 		}
 
 		void Jogador::colidir(Entidade* pe) {
-			std::cout << "Colidiu" << std::endl;
+			std::cout << num++ << std::endl;
 		}
 
 		void Jogador::executar()
@@ -68,21 +79,25 @@ namespace Entidades {
 			if (corpo) {
 				if ('D' == direcao)
 				{
+					teste.move(veloc.x, 0.0);
 					corpo->move(veloc.x, 0.0);
 				}
 
 				if ('C' == direcao)
 				{
+					teste.move(0.0, -veloc.y);
 					corpo->move(0.0, -veloc.y);
 				}
 
 				if ('B' == direcao)
 				{
+					teste.move(0.0, veloc.y);
 					corpo->move(0.0, veloc.y);
 				}
 
 				if ('E' == direcao)
 				{
+					teste.move(-veloc.x, 0.0);
 					corpo->move(-veloc.x, 0.0);
 				}
 			}
@@ -121,7 +136,7 @@ namespace Entidades {
 
 		void Jogador::atualizaAnimacao()
 		{
-
+			pGG->desenharEnte(teste);
 			bool rodaUmaVez = false;
 
 

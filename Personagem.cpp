@@ -6,10 +6,11 @@ namespace Entidades {
 
 		Personagem::Personagem() :
 			Entidade(),
-			num_vidas(0)
-		{
-			animador = new Animadores::Animacao(corpo); //mudar para corpo!!
-		}
+			num_vidas(0),
+			id(-1),
+			animador(nullptr),
+			dano(-1)
+		{}
 
 		Personagem::~Personagem()
 		{
@@ -18,31 +19,19 @@ namespace Entidades {
 			animador = nullptr;
 		}
 
-		/*void Personagem::executar()
-		{
-		}*/
-
-		/*void Personagem::salvar()
-		{
-		}*/
-
-		void Personagem::mover()
-		{
+		void Personagem::setAnimador(sf::RectangleShape* body) {
+			animador = new Animadores::Animacao(body);
 		}
 
 		//int Personagem::getNumVidas()
 		//{
 
 		//}
+
 		//float Personagem::getDano()
 		//{
 
 		//}
-
-		void Personagem::inicializaAtributos()
-		{
-
-		}
 
 	}
 

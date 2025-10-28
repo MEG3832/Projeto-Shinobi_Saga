@@ -33,6 +33,10 @@ namespace Entidades {
 			return;
 		}
 
+		void Obstaculo::inicializaAnimacoes() {
+			return;
+		}
+
 	}
 
 }
