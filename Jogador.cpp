@@ -14,7 +14,8 @@ namespace Entidades {
 			subindo(false),
 			paraEsq(false)
 		{
-			corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f));
+			//corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
+			corpo->setSize(sf::Vector2f(50.0f, 100.0f));
 			inicializaAnimacoes();
 		}
 
@@ -26,9 +27,13 @@ namespace Entidades {
 			veloc(0.04f, 0.04f),
 			pontos(0),
 			id(1),
-			direcao()
+			direcao(),
+			caindo(false),
+			subindo(false),
+			paraEsq(false)
 		{
-			corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 50.0f));
+			//corpo = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
+			corpo->setSize(sf::Vector2f(50.0f, 100.0f));
 			inicializaAnimacoes();
 		}
 
@@ -94,7 +99,7 @@ namespace Entidades {
 		{
 			//Animações em loop
 
-			animador->addAnimacao("Imagens/Samurai/Idle.png", "Parado", 6, 0.20, sf::Vector2f(6.0, 2.0));
+			animador->addAnimacao("Imagens/Samurai/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
 			animador->addAnimacao("Imagens/Samurai/Walk.png", "Andando", 9, 0.12, sf::Vector2f(6.0, 2.0));
 			animador->addAnimacao("Imagens/Samurai/Run.png", "Correndo", 8, 0.1, sf::Vector2f(6.0, 2.0));
 
