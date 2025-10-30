@@ -2,8 +2,8 @@
 
 namespace Parallax {
 
-	Fundo::Camada::Camada(sf::Vector2f tamJanela, sf::Texture textura, const float vel) :
-		tamJanela(tamJanela),
+	Fundo::Camada::Camada(sf::Vector2f tam, sf::Texture textura, const float vel) :
+		tam(tam),
 		textura(textura),
 		dimensao(0, 0, 0, 0),
 		vel(vel)
@@ -14,18 +14,30 @@ namespace Parallax {
 		dimensao.left = static_cast<float>(textura.getSize().x);
 
 		// Dá o tamanho do fundo, sua posição inicial e seta a sua textura
-		fundo.setSize(tamJanela);
+		fundo.setSize(tam);
 		fundo.setTexture(&this->textura);
 		fundo.setPosition(5.0f, 0.0f);
 
-		fundoAuxiliar.setSize(tamJanela);
+		fundoAuxiliar.setSize(tam);
 		fundoAuxiliar.setTexture(&this->textura);
-		fundoAuxiliar.setPosition(tamJanela.x, 0.0f);
+		fundoAuxiliar.setPosition(tam.x, 0.0f);
+	}
+
+	Fundo::Camada::Camada(sf::Vector2f tam, float vel) :
+		tam(tam),
+		dimensao(0, 0, 0, 0),
+		vel(vel)
+	{
+		// Dá o tamanho do fundo, sua posição inicial e seta a sua textura
+		fundo.setSize(tam);
+		fundo.setPosition(5.0f, pGG->getWindow()->getSize().y - 50);
+
+		fundoAuxiliar.setSize(tam);
+		fundoAuxiliar.setPosition(tam.x, pGG->getWindow()->getSize().y - 50);
 	}
 
 	Fundo::Camada::~Camada()
-	{
-	}
+	{}
 
 	// A textura principal vira a auxiliar e vice-versa
 	void Fundo::Camada::trocarTextura() {
@@ -51,8 +63,8 @@ namespace Parallax {
 		sf::Vector2f posFundo = fundo.getPosition();
 		sf::Vector2f posFundoAux = fundoAuxiliar.getPosition();
 		const float dx = ds.x * 0.5f;	// Suaviliza o movimento em x
-		const float posDireita = posCameraAtual.x + tamJanela.x / 2.0f;
-		const float posEsquerda = posCameraAtual.x - tamJanela.x / 2.0f;
+		const float posDireita = posCameraAtual.x + tam.x / 2.0f;
+		const float posEsquerda = posCameraAtual.x - tam.x / 2.0f;
 
 		if (vel) {	// Se está se movendo
 			// Movimenta os fundos em um dx
@@ -61,24 +73,28 @@ namespace Parallax {
 
 
 			if (ds.x > 0.0f) {	// Câmera está se movendo para a direita
-				if (posFundo.x + tamJanela.x < posEsquerda) {	// Se o fundo principal foi para trás da borda esquerda, troca com o fundo auxiliar
+				if (posFundo.x + tam.x < posEsquerda) {	// Se o fundo principal foi para trás da borda esquerda, troca com o fundo auxiliar
 					trocarTextura();
-					fundo.setPosition(posEsquerda, 0.0f);
-					fundoAuxiliar.setPosition(posDireita, 0.0f);
+					fundo.setPosition(posEsquerda, posFundo.y);
+					fundoAuxiliar.setPosition(posDireita, posFundoAux.y);
 				}
 			}
 			// trocar depois para uma comparação com a borda direita
 			else {
 				if (posFundo.x > posEsquerda) {	// O fundo começou a ultrapassar a borda direita
 					trocarTextura();
-					fundo.setPosition(posEsquerda - tamJanela.x, 0.0f);
-					fundoAuxiliar.setPosition(posEsquerda, 0.0f);
+					fundo.setPosition(posEsquerda - tam.x, posFundo.y);
+					fundoAuxiliar.setPosition(posEsquerda, posFundoAux.y);
 				}
 			}
 		}
 		else {	// Se está parado
-			fundo.setPosition(posEsquerda, 0.0f);
+			fundo.setPosition(posEsquerda, posFundo.y);
 		}
+	}
+
+	sf::RectangleShape* Fundo::Camada::getChao() {
+		return &fundo;
 	}
 
 	Fundo::Fundo() :
@@ -95,10 +111,11 @@ namespace Parallax {
 		camadas.clear();
 
 		// cada fase tem seu próprio fundo, então isso aqui vai mudar
-		addCamada("Imagens/DarkForest/Camada1.png", 0.05f);
-		addCamada("Imagens/DarkForest/Camada2.png", 0.05f);
-		addCamada("Imagens/DarkForest/Camada3.png", 0.4f);
-		addCamada("Imagens/DarkForest/Chao.png", 0.4f);
+		addCamada(0.05f, "Imagens/DarkForest/Camada1.png");
+		addCamada(0.05f, "Imagens/DarkForest/Camada2.png");
+		addCamada(0.4f, "Imagens/DarkForest/Camada3.png");
+		addCamada(0.4f, "Imagens/DarkForest/Chao.png");
+		addCamada();
 	}
 
 	Fundo::~Fundo() {	// Dá´pra adicionar um iterador aqui (padrão de projeto)
@@ -140,7 +157,7 @@ namespace Parallax {
 	}
 
 	void Fundo::desenhar() {	// Dá pra adicionar iterator aqui (padrão de projeto)
-		for (int i = 0; i < (int)camadas.size(); i++) {
+		for (int i = 0; i < (int)camadas.size() - 1; i++) {	// -1 Pois o ultimo eh o hitbox do chao, que nao deve ser desenhado
 			if (camadas[i]) {
 				if (pGG) {
 					camadas[i]->desenharCamada(pGG->getWindow());
@@ -153,14 +170,24 @@ namespace Parallax {
 		}
 	}
 
-	void Fundo::addCamada(const char* caminhoTextura, const float vel) {
-		Camada* camada = new Camada((sf::Vector2f)pGG->getWindow()->getSize(), pGG->carregarTextura(caminhoTextura), vel);
+	void Fundo::addCamada(const float vel, const char* caminhoTextura) {
+		Camada* camada = nullptr;
+		if(caminhoTextura) {
+			camada = new Camada((sf::Vector2f)pGG->getWindow()->getSize(), pGG->carregarTextura(caminhoTextura), vel);
+		}
+		else {
+			camada = new Camada(sf::Vector2f(pGG->getWindow()->getSize().x, 50.0f), vel);
+		}
 		if (camada) {
 			camadas.push_back(camada);
 		}
 		else {
 			std::cerr << "ERRO: nao foi possivel adicionar a camada " << std::endl;
 		}
+	}
+
+	sf::RectangleShape* Fundo::getChao() {
+		return camadas.back()->getChao();
 	}
 
 }

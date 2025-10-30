@@ -1,5 +1,5 @@
 #pragma once
-// Adicionei o RectangleShape teste, mas tira depois que o samurai for desenhado no lugar certo
+// A forma como eu estou setando a posicao inicial do personagem estah muito feia
 #include "Personagem.h"
 #include "Header.h"
 
@@ -34,6 +34,7 @@ namespace Entidades {
 			void salvar();
 			void mover();
 			void setDirecao(const char direcao);
+			char getDirecao();
 			void inicializaAnimacoes();
 			void atualizaAnimacao();
 		};

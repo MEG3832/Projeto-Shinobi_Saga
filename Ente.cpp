@@ -31,6 +31,6 @@ sf::Vector2f Ente::getTam() {
 	}
 }
 
-const sf::RectangleShape* Ente::getCorpo() {
+sf::RectangleShape* Ente::getCorpo() {
 	return corpo;
 }

@@ -7,8 +7,8 @@ Jogo::Jogo() :
     GE(GE->getGerenciadorEventos()),
     inimigo(),
     obstaculo(),
-    GC1(new Gerenciadores::Gerenciador_Colisoes())
-    //lista_ents()
+    GC1(new Gerenciadores::Gerenciador_Colisoes(fundo.getChao())),
+    lista_ents()
 {
     GE->setJogador(&jogador);
 

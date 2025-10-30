@@ -1,4 +1,8 @@
 #pragma once
+
+#define COMPRIMENTO_TELA 800.0f
+#define ALTURA_TELA 600.0f
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>

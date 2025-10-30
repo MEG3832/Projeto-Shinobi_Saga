@@ -6,8 +6,6 @@ namespace Gerenciadores {
 	class Gerenciador_Grafico
 	{
 		// Mudar para 1920.0f e 1080.0f para tela cheia
-	#define COMPRIMENTO_TELA 800.0f
-	#define ALTURA_TELA 600.0f
 
 	private:
 		sf::RenderWindow* window;	// Tamanho da janela

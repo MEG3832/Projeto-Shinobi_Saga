@@ -14,7 +14,7 @@ namespace Entidades {
 			subindo(false),
 			paraEsq(false)
 		{
-			corpo = new sf::RectangleShape(sf::Vector2f(60.0f, 100.0f));
+			corpo = new sf::RectangleShape(sf::Vector2f(90.0f, 140.0f));
 			setAnimador(corpo);
 			inicializaAnimacoes();
 		}
@@ -30,8 +30,8 @@ namespace Entidades {
 			paraEsq(false)
 		{
 
-			corpo = new sf::RectangleShape(sf::Vector2f(90.0f, 140.0f));
-			corpo->setPosition(0.0, 100.0);
+			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
+			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
 			setAnimador(corpo);
 			inicializaAnimacoes();
 
@@ -50,7 +50,7 @@ namespace Entidades {
 		}
 
 		void Jogador::colidir(Entidade* pe) {
-			std::cout << "Colidiu" << std::endl;
+			return;
 		}
 
 		void Jogador::executar()
@@ -93,6 +93,10 @@ namespace Entidades {
 
 		void Jogador::setDirecao(const char direcao) {
 			this->direcao = direcao;
+		}
+
+		char Jogador::getDirecao() {
+			return direcao;
 		}
 
 		void Jogador::inicializaAnimacoes()
