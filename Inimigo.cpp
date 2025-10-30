@@ -1,4 +1,5 @@
 #include "Inimigo.h"
+#include "Jogador.h"
 
 namespace Entidades {
 
@@ -6,7 +7,7 @@ namespace Entidades {
 
 		Inimigo::Inimigo() :
 			Personagem(),
-			nivel_maldade(0)
+			nivel_maldade(1)
 		{
 			corpo = new sf::RectangleShape(sf::Vector2f(30.0f, 30.0f));
 			corpo->setPosition(sf::Vector2f(400, 300));	// Posição qualquer para teste
@@ -25,8 +26,10 @@ namespace Entidades {
 			return;
 		}
 
-		void Inimigo::danificar(Jogador* pJ) {
-			return;
+		void Inimigo::danificar(Jogador* pJ) { //quando criar inimigos fácil, médio e chefao, será virtual
+			
+			pJ->diminuiVida(nivel_maldade);
+
 		}
 
 		void Inimigo::salvar() {

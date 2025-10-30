@@ -3,9 +3,12 @@
 #include "Personagem.h"
 #include "Header.h"
 
+
 namespace Entidades {
 
 	namespace Personagens {
+
+		class Inimigo;
 
 		class Jogador : public Personagem
 		{
@@ -29,10 +32,13 @@ namespace Entidades {
 			Jogador(const sf::Vector2f pos, const int ident = 1); //com parâmetro
 			Jogador(); // sem parâmetro
 			~Jogador();
-			void colidir(Entidade* pe);
+			void colidir(Inimigo* pIn);
+			//void atacar();
 			void executar();
 			void salvar();
 			void mover();
+			void diminuiVida(int nv_maldade);
+			int getVida();
 			void setDirecao(const char direcao);
 			char getDirecao();
 			void inicializaAnimacoes();

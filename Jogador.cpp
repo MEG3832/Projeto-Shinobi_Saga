@@ -1,4 +1,5 @@
 #include "Jogador.h"
+#include "Inimigo.h"
 
 namespace Entidades {
 
@@ -29,7 +30,6 @@ namespace Entidades {
 			subindo(false),
 			paraEsq(false)
 		{
-
 			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
 			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
 			setAnimador(corpo);
@@ -49,8 +49,8 @@ namespace Entidades {
 			caindo = false;
 		}
 
-		void Jogador::colidir(Entidade* pe) {
-			return;
+		void Jogador::colidir(Inimigo* pIn) {
+			pIn->danificar(this);
 		}
 
 		void Jogador::executar()
@@ -89,6 +89,19 @@ namespace Entidades {
 			else {
 				std::cerr << "ERRO: Nao foi possivel encontrar o corpo pois ele eh NULL" << std::endl;
 			}
+		}
+
+		void Jogador::diminuiVida(int nv_maldade)
+		{
+			int dano = nv_maldade;
+
+			num_vidas -= dano;
+
+		}
+
+		int Jogador::getVida()
+		{
+			return num_vidas;
 		}
 
 		void Jogador::setDirecao(const char direcao) {

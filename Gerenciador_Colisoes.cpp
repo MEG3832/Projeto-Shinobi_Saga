@@ -114,11 +114,11 @@ namespace Gerenciadores {
 		if (pJog1) {
 			for (int i = 0; i < (int)LIs.size(); i++) {
 				if (LIs[i]) {
-					Entidades::Entidade* pI = static_cast<Entidades::Entidade*>(
-											  static_cast<Entidades::Personagens::Personagem*>(LIs[i]));
-					if (verificaColisao(pJog1, pI)) {
-						pJog1->colidir(pI);
-						reposicionar(pJog1->getCorpo(), pI->getCorpo());
+					//Entidades::Entidade* pI = static_cast<Entidades::Entidade*>(
+											  //static_cast<Entidades::Personagens::Personagem*>(LIs[i]));
+					if (verificaColisao(pJog1, LIs[i])) {
+						pJog1->colidir(LIs[i]);
+						reposicionar(pJog1->getCorpo(), LIs[i]->getCorpo());
 					}
 				}
 				else {
@@ -138,7 +138,7 @@ namespace Gerenciadores {
 				if (*it) {
 					Entidades::Entidade* pO = static_cast<Entidades::Entidade*>(*it);
 					if (verificaColisao(pJog1, pO)) {
-						pJog1->colidir(pO);
+						//pJog1->colidir(pO);
 						reposicionar(pJog1->getCorpo(), pO->getCorpo());
 					}
 				}
@@ -159,7 +159,7 @@ namespace Gerenciadores {
 				if (*it) {
 					Entidades::Entidade* pP = static_cast<Entidades::Entidade*>(*it);
 					if (verificaColisao(pJog1, pP)) {
-						pJog1->colidir(pP);
+						//pJog1->colidir(pP);
 						reposicionar(pJog1->getCorpo(), pP->getCorpo());
 					}
 				}

@@ -24,7 +24,7 @@ namespace Entidades {
 
 		public:
 
-			Personagem();
+			Personagem(); //passar numero de vidas aqui na construtora (?)
 			~Personagem();
 			//void salvarDataBuffer();
 			virtual void executar() = 0;

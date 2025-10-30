@@ -1,9 +1,13 @@
 #pragma once
-#include "Jogador.h"
+
+#include "Personagem.h"
+
 
 namespace Entidades {
 
 	namespace Personagens {
+
+		class Jogador;
 
 		class Inimigo : public Personagem
 		{
