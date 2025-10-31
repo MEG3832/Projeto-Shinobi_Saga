@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Animacao.h"
 #include "Ente.h"
 
 namespace Entidades {
@@ -10,6 +11,7 @@ namespace Entidades {
 
 		//ostream buffer; ->implementar
 		sf::Vector2f pos;	// Qual o sentido de ter pos?
+		Animadores::Animacao* animador;
 
 	protected:
 
@@ -23,6 +25,7 @@ namespace Entidades {
 		virtual void salvar() = 0;
 		sf::Vector2f getPos();
 		virtual void inicializaAnimacoes() = 0;
+		void setAnimador(sf::RectangleShape* body);
 		//...
 
 	};

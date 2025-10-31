@@ -8,7 +8,6 @@ namespace Entidades {
 			Entidade(),
 			num_vidas(0),
 			id(-1),
-			animador(nullptr),
 			dano(-1)
 		{}
 
@@ -18,11 +17,6 @@ namespace Entidades {
 			delete animador;
 			animador = nullptr;
 		}
-
-		void Personagem::setAnimador(sf::RectangleShape* body) {
-			animador = new Animadores::Animacao(body);
-		}
-
 
 		//int Personagem::getNumVidas()
 		//{

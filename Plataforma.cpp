@@ -14,7 +14,7 @@ namespace Entidades {
 
 			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));
 			corpo->setPosition(200.0f, 300.0f);
-			corpo->setTexture(&textura);
+			inicializaAnimacoes();
 		}
 
 		Plataforma::~Plataforma() {
@@ -35,7 +35,8 @@ namespace Entidades {
 		}
 
 		void Plataforma::inicializaAnimacoes() {
-			return;
+			setAnimador(corpo);
+			corpo->setTexture(&textura);
 		}
 
 	}

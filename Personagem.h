@@ -15,8 +15,6 @@ namespace Entidades {
 			int id;
 			int num_vidas;
 
-			Animadores::Animacao* animador;
-
 			float dano;
 
 			//sf::Vector2f veloc;
@@ -31,7 +29,6 @@ namespace Entidades {
 			virtual void salvar() = 0;
 			virtual void mover() = 0;
 			virtual void inicializaAnimacoes() = 0;
-			void setAnimador(sf::RectangleShape* body);
 
 			//virtual int getNumVidas();
 			//virtual float getDano();
