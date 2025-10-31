@@ -4,6 +4,7 @@
 #include "ListaEntidades.h"
 #include "Gerenciador_de_Eventos.h"
 #include "Gerenciador_Colisoes.h"
+#include "Plataforma.h"
 
 class Jogo {
 	private:
@@ -12,7 +13,7 @@ class Jogo {
 		Entidades::Personagens::Jogador jogador;
 		Gerenciadores::Gerenciador_de_Eventos* GE;	// Singleton
 		Entidades::Personagens::Inimigo inimigo;
-		Entidades::Obstaculos::Obstaculo obstaculo;
+		Entidades::Obstaculos::Plataforma plataforma;
 		Entidades::Projetil projetil;
 		Gerenciadores::Gerenciador_Colisoes* GC1;	// Um para jogador, que tal?
 		Listas::ListaEntidades lista_ents;

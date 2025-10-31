@@ -6,7 +6,7 @@ Jogo::Jogo() :
     jogador(), 
     GE(GE->getGerenciadorEventos()),
     inimigo(),
-    obstaculo(),
+    plataforma(),
     GC1(new Gerenciadores::Gerenciador_Colisoes(fundo.getChao())),
     lista_ents()
 {
@@ -46,22 +46,22 @@ void Jogo::inicializarGC() {
 void Jogo::inicializaListaEntidades() {
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
                        static_cast<Entidades::Personagens::Personagem*>(&jogador)));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(&obstaculo));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(&projetil));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-                       static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(&plataforma));
+    //lista_ents.incluir(static_cast<Entidades::Entidade*>(&projetil));
+    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
+    //                   static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
 }
 
 void Jogo::inicializarListaInimigos() {
-    GC1->incluirInimigo(&inimigo);
+    //GC1->incluirInimigo(&inimigo);
 }
 
 void Jogo::inicializarListaObtaculos() {
-    GC1->incluirObstaculo(&obstaculo);
+    GC1->incluirObstaculo(&plataforma);
 }
 
 void Jogo::inicializarListaProjeteis() {
-    GC1->incluirProjetil(&projetil);
+    //GC1->incluirProjetil(&projetil);
 }
 
 void Jogo::executar() { // Desenha 4 retangulos e o fundo

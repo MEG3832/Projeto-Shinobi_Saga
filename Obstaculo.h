@@ -14,10 +14,10 @@ namespace Entidades {
 				Obstaculo();
 				~Obstaculo();
 				void salvarDataBuffer();
-				virtual void executar();
-				virtual void salvar();
-				virtual void obstaculizar(Personagens::Jogador* pJ);
-				virtual void inicializaAnimacoes();
+				virtual void executar() = 0;
+				virtual void salvar() = 0;
+				virtual void obstaculizar(Personagens::Jogador* pJ) = 0;
+				virtual void inicializaAnimacoes() = 0;
 		};
 
 	}
