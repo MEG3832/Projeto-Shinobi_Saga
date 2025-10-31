@@ -20,6 +20,7 @@ namespace Entidades {
 				void salvarDataBuffer();
 				virtual void executar();
 				virtual void danificar(Jogador* pJ);
+				virtual void empurrar(Jogador* pJ);
 				virtual void salvar();
 				virtual void mover();
 				virtual void inicializaAnimacoes();

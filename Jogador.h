@@ -15,17 +15,15 @@ namespace Entidades {
 		protected:
 
 			int pontos;
-
-			//!!!!!!!!talvez rastrear esse tipo de coisa apenas para o jogador...
 			bool paraEsq;
 			bool subindo;
 			bool caindo;
 			
 			sf::Vector2f veloc;
+			sf::Vector2f velocKnockBack;
 			int id; // 1 ou 2
 			char direcao;
 			int num;
-			sf::RectangleShape teste;
 
 		public:
 
@@ -39,6 +37,7 @@ namespace Entidades {
 			void mover();
 			void diminuiVida(int nv_maldade);
 			int getVida();
+			void setVelKnockBack(sf::Vector2f velKB);
 			void setDirecao(const char direcao);
 			char getDirecao();
 			void inicializaAnimacoes();
