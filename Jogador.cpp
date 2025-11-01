@@ -154,6 +154,11 @@ namespace Entidades {
 			return direcao;
 		}
 
+		void Jogador::resetarDirecao()
+		{
+			direcao = 0;
+		}
+
 		void Jogador::inicializaAnimacoes()
 		{
 			//Animações em loop

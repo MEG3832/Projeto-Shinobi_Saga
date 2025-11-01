@@ -34,12 +34,13 @@ namespace Entidades {
 			//void atacar();
 			void executar();
 			void salvar();
-			void mover();
+			void mover(); //nota! o método mover lida com toda a parte do "knockBack" causado pelo inimigo
 			void diminuiVida(int nv_maldade);
 			int getVida();
 			void setVelKnockBack(sf::Vector2f velKB);
 			void setDirecao(const char direcao);
 			char getDirecao();
+			void resetarDirecao();
 			void inicializaAnimacoes();
 			void atualizaAnimacao();
 		};
