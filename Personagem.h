@@ -29,6 +29,7 @@ namespace Entidades {
 			virtual void salvar() = 0;
 			virtual void mover() = 0;
 			virtual void inicializaAnimacoes() = 0;
+			void diminuiVida(float dano);
 
 			//virtual int getNumVidas();
 			//virtual float getDano();

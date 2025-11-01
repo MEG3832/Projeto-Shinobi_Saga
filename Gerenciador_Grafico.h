@@ -27,7 +27,6 @@ namespace Gerenciadores {
 		sf::View getCamera();
 		void atualizaCamera(sf::Vector2f pos);	// Faz a câmera se mover junto com sua referência (o jogador)
 		sf::Texture carregarTextura(const char* caminhoTextura);
-
 	};
 
 }

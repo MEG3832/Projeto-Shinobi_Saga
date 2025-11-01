@@ -148,6 +148,7 @@
     <ClInclude Include="Personagem.h" />
     <ClInclude Include="Plataforma.h" />
     <ClInclude Include="Projetil.h" />
+    <ClInclude Include="Redemoinho.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animacao.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Personagem.cpp" />
     <ClCompile Include="Plataforma.cpp" />
     <ClCompile Include="Projetil.cpp" />
+    <ClCompile Include="Redemoinho.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Plataforma.png" />

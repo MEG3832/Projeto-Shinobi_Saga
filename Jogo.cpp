@@ -7,6 +7,7 @@ Jogo::Jogo() :
     GE(GE->getGerenciadorEventos()),
     inimigo(),
     plataforma(),
+    redemoinho(),
     GC1(new Gerenciadores::Gerenciador_Colisoes(fundo.getChao())),
     lista_ents()
 {
@@ -44,9 +45,10 @@ void Jogo::inicializarGC() {
 }
 
 void Jogo::inicializaListaEntidades() {
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-                       static_cast<Entidades::Personagens::Personagem*>(&jogador)));
     lista_ents.incluir(static_cast<Entidades::Entidade*>(&plataforma));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(&redemoinho));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+        static_cast<Entidades::Personagens::Personagem*>(&jogador)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(&projetil));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
     //                   static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
@@ -58,6 +60,7 @@ void Jogo::inicializarListaInimigos() {
 
 void Jogo::inicializarListaObtaculos() {
     GC1->incluirObstaculo(&plataforma);
+    GC1->incluirObstaculo(&redemoinho);
 }
 
 void Jogo::inicializarListaProjeteis() {
@@ -77,10 +80,14 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
 
             GC1->executar();
 
+            lista_ents.percorrer();
+
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
             fundo.executar();
             
             jogador.atualizaAnimacao();
+
+            redemoinho.atualizaAnimacao();
 
             lista_ents.desenharEntidades();
 

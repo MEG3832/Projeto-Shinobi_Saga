@@ -24,8 +24,6 @@ namespace Entidades {
 			sf::Vector2f veloc;
 			int id; // 1 ou 2
 			char direcao;
-			int num;
-			sf::RectangleShape teste;
 
 		public:
 
@@ -37,7 +35,6 @@ namespace Entidades {
 			void executar();
 			void salvar();
 			void mover();
-			void diminuiVida(int nv_maldade);
 			int getVida();
 			void setDirecao(const char direcao);
 			char getDirecao();

@@ -5,7 +5,8 @@ namespace Entidades {
 	namespace Obstaculos {
 
 		Obstaculo::Obstaculo() :
-			Entidade()
+			Entidade(),
+			danoso(false)
 		{}
 
 		Obstaculo::~Obstaculo() 
@@ -13,6 +14,10 @@ namespace Entidades {
 
 		void Obstaculo::salvarDataBuffer() {
 			return;
+		}
+
+		void Obstaculo::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
+			pGG->desenharEnte(*corpo);
 		}
 
 	}

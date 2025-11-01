@@ -6,19 +6,25 @@ namespace Entidades {
 
 	namespace Obstaculos {
 
-		class Plataforma : public Obstaculo
+		class Redemoinho : public Obstaculo
 		{
 			private:
 				int altura;
 				int comprimento;
+				float cooldown;
+				sf::Clock timer;
+				float dt;
+				float dano;
 				sf::Texture textura;
 
 			public:
-				Plataforma();
-				~Plataforma();
+				Redemoinho();
+				~Redemoinho();
 				void executar();
 				void obstaculizar(Personagens::Jogador* pJ);
 				void salvar();
+				void inicializaAnimacoes();
+				void atualizaAnimacao();
 		};
 
 	}

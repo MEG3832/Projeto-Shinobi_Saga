@@ -12,6 +12,7 @@ namespace Entidades {
 		//ostream buffer; ->implementar
 		sf::Vector2f pos;	// Qual o sentido de ter pos?
 		Animadores::Animacao* animador;
+		bool intransponivel;
 
 	protected:
 
@@ -24,8 +25,9 @@ namespace Entidades {
 		virtual void executar() = 0;
 		virtual void salvar() = 0;
 		sf::Vector2f getPos();
-		virtual void inicializaAnimacoes() = 0;
 		void setAnimador(sf::RectangleShape* body);
+		virtual void desenhar();
+		bool getIntransponivel();
 		//...
 
 	};

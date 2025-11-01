@@ -91,14 +91,6 @@ namespace Entidades {
 			}
 		}
 
-		void Jogador::diminuiVida(int nv_maldade)
-		{
-			int dano = nv_maldade;
-
-			num_vidas -= dano;
-
-		}
-
 		int Jogador::getVida()
 		{
 			return num_vidas;

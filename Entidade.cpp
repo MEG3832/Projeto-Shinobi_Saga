@@ -2,7 +2,7 @@
 
 namespace Entidades {
 	//Criar o corpo aqui já, na construtora de Entidade
-	Entidade::Entidade() : Ente(), pos(0.0, 0.0), animador(nullptr)
+	Entidade::Entidade() : Ente(), pos(0.0, 0.0), animador(nullptr), intransponivel(true)
 	{}
 
 	Entidade::~Entidade() {}
@@ -21,6 +21,14 @@ namespace Entidades {
 
 	void Entidade::setAnimador(sf::RectangleShape* body) {
 		animador = new Animadores::Animacao(body);
+	}
+
+	void Entidade::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
+		pGG->desenharEnte(*corpo);
+	}
+
+	bool Entidade::getIntransponivel() {
+		return intransponivel;
 	}
 
 }
