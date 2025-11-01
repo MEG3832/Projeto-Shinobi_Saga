@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animacao.h" />
+    <ClInclude Include="Armadilha_de_urso.h" />
     <ClInclude Include="Coord.h" />
     <ClInclude Include="Ente.h" />
     <ClInclude Include="Fundo.h" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animacao.cpp" />
+    <ClCompile Include="Armadilha_de_urso.cpp" />
     <ClCompile Include="Ente.cpp" />
     <ClCompile Include="Fundo.cpp" />
     <ClCompile Include="Entidade.cpp" />

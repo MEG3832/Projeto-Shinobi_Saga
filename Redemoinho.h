@@ -16,6 +16,7 @@ namespace Entidades {
 				float dt;
 				float dano;
 				sf::Texture textura;
+				bool dano_unico;
 
 			public:
 				Redemoinho();

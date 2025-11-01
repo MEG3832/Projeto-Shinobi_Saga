@@ -8,8 +8,9 @@ namespace Entidades {
 			Obstaculo(),
 			altura(60),
 			comprimento(60),
-			dano(0.0000005),	// Estou imaginando que cada vida tem uns 100
-			textura(pGG->carregarTextura("Imagens/Obstaculos/redemoinho.png"))
+			dano(1),	// Estou imaginando que cada vida tem uns 100
+			textura(pGG->carregarTextura("Imagens/Obstaculos/redemoinho.png")),
+			dano_unico (false)
 		{
 			intransponivel = false;
 			danoso = true;
@@ -32,9 +33,10 @@ namespace Entidades {
 
 		void Redemoinho::executar() {
 			if (animador->getImgAtual("ataque") < 4 || animador->getImgAtual("ataque") > 11) {
+				dano_unico = true;
 				danoso = false;
 			}
-			else if(animador->getImgAtual("ataque") == 4){
+			else {
 				danoso = true;
 			}
 
@@ -42,9 +44,10 @@ namespace Entidades {
 
 		void Redemoinho::obstaculizar(Personagens::Jogador* pJ) {
 			if (pJ) {
-				if (danoso) {
+				if (dano_unico && danoso) {
 					pJ->diminuiVida(dano);
 					danoso = false;
+					dano_unico = false;
 				}
 			}
 			else {

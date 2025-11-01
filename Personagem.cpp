@@ -6,7 +6,7 @@ namespace Entidades {
 
 		Personagem::Personagem() :
 			Entidade(),
-			num_vidas(5000),
+			num_vidas(3),
 			id(-1),
 			dano(-1)
 		{}
@@ -20,7 +20,7 @@ namespace Entidades {
 
 		void Personagem::diminuiVida(float dano) {
 			if (num_vidas > 0) {
-				num_vidas--;
+				num_vidas -= dano;
 			}
 			std::cout << num_vidas << std::endl;
 		}
