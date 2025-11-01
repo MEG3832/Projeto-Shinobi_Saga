@@ -13,9 +13,11 @@ namespace Entidades {
 			direcao(),
 			caindo(false),
 			subindo(false),
-			paraEsq(false)
+			paraEsq(false),
+			atordoado(false)
 		{
-			corpo = new sf::RectangleShape(sf::Vector2f(90.0f, 140.0f));
+			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
+			corpo->setPosition(pos);
 			setAnimador(corpo);
 			inicializaAnimacoes();
 		}
@@ -28,7 +30,8 @@ namespace Entidades {
 			direcao(),
 			caindo(false),
 			subindo(false),
-			paraEsq(false)
+			paraEsq(false),
+			atordoado(false)
 		{
 			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
 			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
@@ -65,25 +68,27 @@ namespace Entidades {
 
 		void Jogador::mover() {
 			if (corpo) {
-				if ('D' == direcao)
-				{
-					corpo->move(veloc.x, 0.0);
-				}
+				if (!atordoado) {
+					if ('D' == direcao)
+					{
+						corpo->move(veloc.x, 0.0);
+					}
 
-				if ('C' == direcao)
-				{
-					corpo->move(0.0, -veloc.y);
-				}
+					if ('C' == direcao)
+					{
+						corpo->move(0.0, -veloc.y);
+					}
 
-				if ('B' == direcao)
-				{
-					corpo->move(0.0, veloc.y);
-				}
+					if ('B' == direcao)
+					{
+						corpo->move(0.0, veloc.y);
+					}
 
-				if ('E' == direcao)
-				{
+					if ('E' == direcao)
+					{
 
-					corpo->move(-veloc.x, 0.0);
+						corpo->move(-veloc.x, 0.0);
+					}
 				}
 			}
 			else {
@@ -143,9 +148,12 @@ namespace Entidades {
 			animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 		}
 
+		void Jogador::setAtordoado(bool atordoar) {
+			atordoado = atordoar;
+		}
+
 	}
 
 }
 
-// atributos estáticos:
 

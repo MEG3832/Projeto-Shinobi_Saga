@@ -8,8 +8,7 @@ namespace Entidades {
 			Obstaculo(),
 			altura(60),
 			comprimento(60),
-			dano(1),	// Estou imaginando que cada vida tem uns 100
-			textura(pGG->carregarTextura("Imagens/Obstaculos/redemoinho.png")),
+			dano(1),
 			dano_unico (false)
 		{
 			intransponivel = false;
@@ -27,7 +26,6 @@ namespace Entidades {
 		Redemoinho::~Redemoinho() {
 			altura = -1;
 			comprimento = -1;
-			cooldown = -1;
 			dano = -1;
 		}
 
@@ -46,7 +44,6 @@ namespace Entidades {
 			if (pJ) {
 				if (dano_unico && danoso) {
 					pJ->diminuiVida(dano);
-					danoso = false;
 					dano_unico = false;
 				}
 			}

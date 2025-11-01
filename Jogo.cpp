@@ -8,6 +8,7 @@ Jogo::Jogo() :
     inimigo(),
     plataforma(),
     redemoinho(),
+    armadilha_de_urso(),
     GC1(new Gerenciadores::Gerenciador_Colisoes(fundo.getChao())),
     lista_ents()
 {
@@ -45,13 +46,14 @@ void Jogo::inicializarGC() {
 }
 
 void Jogo::inicializaListaEntidades() {
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(&plataforma));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(&redemoinho));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+        static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+        static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
         static_cast<Entidades::Personagens::Personagem*>(&jogador)));
-    //lista_ents.incluir(static_cast<Entidades::Entidade*>(&projetil));
-    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //                   static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+        static_cast<Entidades::Obstaculos::Obstaculo*>(&armadilha_de_urso)));
 }
 
 void Jogo::inicializarListaInimigos() {
@@ -61,6 +63,7 @@ void Jogo::inicializarListaInimigos() {
 void Jogo::inicializarListaObtaculos() {
     GC1->incluirObstaculo(&plataforma);
     GC1->incluirObstaculo(&redemoinho);
+    GC1->incluirObstaculo(&armadilha_de_urso);
 }
 
 void Jogo::inicializarListaProjeteis() {

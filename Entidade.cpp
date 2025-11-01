@@ -2,7 +2,10 @@
 
 namespace Entidades {
 	//Criar o corpo aqui já, na construtora de Entidade
-	Entidade::Entidade() : Ente(), pos(0.0, 0.0), animador(nullptr), intransponivel(true)
+	Entidade::Entidade() : Ente(),
+		pos(0.0, 0.0),
+		animador(nullptr),
+		intransponivel(true)
 	{}
 
 	Entidade::~Entidade() {}

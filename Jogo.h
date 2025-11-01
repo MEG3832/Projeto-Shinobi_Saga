@@ -6,6 +6,7 @@
 #include "Gerenciador_Colisoes.h"
 #include "Plataforma.h"
 #include "Redemoinho.h"
+#include "Armadilha_de_urso.h"
 
 class Jogo {
 	private:
@@ -16,6 +17,7 @@ class Jogo {
 		Entidades::Personagens::Inimigo inimigo;
 		Entidades::Obstaculos::Plataforma plataforma;
 		Entidades::Obstaculos::Redemoinho redemoinho;
+		Entidades::Obstaculos::Armadilha_de_urso armadilha_de_urso;
 		Entidades::Projetil projetil;
 		Gerenciadores::Gerenciador_Colisoes* GC1;	// Um para jogador, que tal?
 		Listas::ListaEntidades lista_ents;

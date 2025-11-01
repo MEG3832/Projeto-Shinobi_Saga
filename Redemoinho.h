@@ -11,11 +11,7 @@ namespace Entidades {
 			private:
 				int altura;
 				int comprimento;
-				float cooldown;
-				sf::Clock timer;
-				float dt;
 				float dano;
-				sf::Texture textura;
 				bool dano_unico;
 
 			public:

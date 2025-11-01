@@ -20,6 +20,7 @@ namespace Entidades {
 			bool paraEsq;
 			bool subindo;
 			bool caindo;
+			bool atordoado;
 			
 			sf::Vector2f veloc;
 			int id; // 1 ou 2
@@ -40,6 +41,7 @@ namespace Entidades {
 			char getDirecao();
 			void inicializaAnimacoes();
 			void atualizaAnimacao();
+			void setAtordoado(bool atordoar);
 		};
 
 	}

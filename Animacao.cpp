@@ -14,8 +14,6 @@ namespace Animadores {
 
 	//atualizar de inimigo e de projetil
 
-	
-
 	void Animacao::atualizarAnimJog(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg)
 	{
 		if (corpo) {
