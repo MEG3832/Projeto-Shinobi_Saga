@@ -22,7 +22,7 @@ namespace Entidades {
 			sf::Vector2f veloc;
 			sf::Vector2f velocKnockBack;
 			int id; // 1 ou 2
-			char direcao;
+			sf::Vector2f direcao;
 			int num;
 
 		public:
@@ -38,9 +38,10 @@ namespace Entidades {
 			void diminuiVida(int nv_maldade);
 			int getVida();
 			void setVelKnockBack(sf::Vector2f velKB);
-			void setDirecao(const char direcao);
-			char getDirecao();
-			void resetarDirecao();
+			//void setDirecao(const char direcao);
+			//char getDirecao();
+			//void resetarDirecao();
+			void setDirecao(sf::Vector2f dir);
 			void inicializaAnimacoes();
 			void atualizaAnimacao();
 		};

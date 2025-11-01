@@ -11,7 +11,7 @@ namespace Entidades {
 			velocKnockBack(0.0f, 0.0f),
 			pontos(0),
 			id(ident),
-			direcao(),
+			direcao(0.0f, 0.0f),
 			caindo(false),
 			subindo(false),
 			paraEsq(false)
@@ -27,7 +27,7 @@ namespace Entidades {
 			velocKnockBack(0.0f, 0.0f),
 			pontos(0),
 			id(1),
-			direcao(),
+			direcao(0.0f,0.0f),
 			caindo(false),
 			subindo(false),
 			paraEsq(false)
@@ -45,7 +45,7 @@ namespace Entidades {
 			veloc.y = 0;
 			pontos = -1;
 			id = 0;
-			direcao = 0;
+			direcao = sf::Vector2f(0.0f, 0.0f);
 			paraEsq = false;
 			subindo = false;
 			caindo = false;
@@ -76,31 +76,13 @@ namespace Entidades {
 
 				if (abs(velocKnockBack.x) < limiarStun) {
 
-					if ('D' == direcao)
-					{
-						velocFinal.x += veloc.x;
-					}
-
-					if ('E' == direcao)
-					{
-
-						velocFinal.x -= veloc.x;
-					}
-
+					velocFinal.x += veloc.x * direcao.x; //a direcao é setada no set, que é chamado lá no gerenciador de eventos.
 					
 				}
 
 				if (abs(velocKnockBack.y) < limiarStun) {
 
-					if ('B' == direcao)
-					{
-						velocFinal.y += veloc.y;
-					}
-
-					if ('C' == direcao)
-					{
-						velocFinal.y -= veloc.y;
-					}
+					velocFinal.y += veloc.y * direcao.y;
 
 				}
 				
@@ -146,17 +128,9 @@ namespace Entidades {
 			velocKnockBack = velKB;
 		}
 
-		void Jogador::setDirecao(const char direcao) {
-			this->direcao = direcao;
-		}
-
-		char Jogador::getDirecao() {
-			return direcao;
-		}
-
-		void Jogador::resetarDirecao()
+		void Jogador::setDirecao(sf::Vector2f dir)
 		{
-			direcao = 0;
+			direcao = dir;
 		}
 
 		void Jogador::inicializaAnimacoes()

@@ -27,29 +27,35 @@ namespace Gerenciadores {
 	}
 
 	void Gerenciador_de_Eventos::verificaTeclaPressionada() {
+
+		sf::Vector2f direcaoInput(0.0f, 0.0f);
+
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			pJogador->setDirecao('D');
+			direcaoInput.x += 1.0f;
 			//pJogador->mover(); -> é chamado no loop do jogo!, por isso estou comentando...
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			pJogador->setDirecao('C');
+			direcaoInput.y -= 1.0f;
 			//pJogador->mover();
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
-			pJogador->setDirecao('B');
+			direcaoInput.y += 1.0f;
 			//pJogador->mover();
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			pJogador->setDirecao('E');
+			direcaoInput.x -= 1.0f;
 			//pJogador->mover();
 		}
+
+		pJogador->setDirecao(direcaoInput);
+
 	}
 
 	void Gerenciador_de_Eventos::executar() {

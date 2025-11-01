@@ -68,9 +68,6 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
     if (GG) {
         while (GG->verificaJanelaAberta()) {
 
-            jogador.resetarDirecao(); //resetamos a "direção" para zero (jogador parado)
-                                      //para que a função mover funcione corretamente quanto ao knockback, msm qnd ele nn estiver se movendo
-
             // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
             GE->executar();
 

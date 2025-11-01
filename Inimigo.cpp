@@ -96,6 +96,11 @@ namespace Entidades {
 				{
 					corpo->move(-veloc.x, 0.0f);
 				}
+
+				else if (distancia <= raio_perseg && posJog_X > posInim_X)
+				{
+					corpo->move(veloc.x, 0.0f);
+				}
 			}
 
 			else
