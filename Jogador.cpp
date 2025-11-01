@@ -23,7 +23,7 @@ namespace Entidades {
 
 		Jogador::Jogador() :
 			Personagem(),
-			veloc(0.10f, 0.10f),
+			veloc(0.08f, 0.08f),
 			velocKnockBack(0.0f, 0.0f),
 			pontos(0),
 			id(1),

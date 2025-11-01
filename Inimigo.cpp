@@ -5,13 +5,17 @@ namespace Entidades {
 
 	namespace Personagens {
 
-		Inimigo::Inimigo() :
+		Inimigo::Inimigo(Jogador* pJ) :
 			Personagem(),
-			nivel_maldade(1)
+			nivel_maldade(1),
+			raio_perseg(200.0f),
+			veloc(0.05f,0.05f),
+			jogAlvo(pJ)
 		{
 			corpo = new sf::RectangleShape(sf::Vector2f(30.0f, 30.0f));
 			corpo->setPosition(sf::Vector2f(400, 300));	// Posição qualquer para teste
 			corpo->setFillColor(sf::Color::Red);	// Pintando de vermelho só pra ficar visivel
+			
 		}
 
 		Inimigo::~Inimigo() {
@@ -23,7 +27,9 @@ namespace Entidades {
 		}
 
 		void Inimigo::executar() {
-			return;
+
+			perseguir(jogAlvo);
+			
 		}
 
 		void Inimigo::danificar(Jogador* pJ) { //quando criar inimigos fácil, médio e chefao, será virtual
@@ -31,6 +37,7 @@ namespace Entidades {
 			if (pJ)
 			{
 				pJ->diminuiVida(nivel_maldade);
+				std::cout << pJ->getVida() << std::endl;
 				empurrar(pJ);
 			}
 
@@ -69,6 +76,26 @@ namespace Entidades {
 
 				pJ->setVelKnockBack(vetor);
 
+			}
+
+			else
+				std::cout << "ponteiro de jogador nulo!" << std::endl;
+
+		}
+
+		void Inimigo::perseguir(Jogador* pJ)
+		{
+			if (pJ) {
+
+				float posJog_X = pJ->getPos().x + pJ->getTam().x / 2;
+				float posInim_X = this->getPos().x + this->getTam().x / 2;
+
+				float distancia = abs(posJog_X - posInim_X);
+				
+				if (distancia <= raio_perseg && posJog_X<posInim_X) //jogador está à esquerda do inimigo
+				{
+					corpo->move(-veloc.x, 0.0f);
+				}
 			}
 
 			else

@@ -5,7 +5,7 @@ Jogo::Jogo() :
     fundo(),    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
     jogador(), 
     GE(GE->getGerenciadorEventos()),
-    inimigo(),
+    inimigo(&jogador), //pode fazer isso, né?
     obstaculo(),
     GC1(new Gerenciadores::Gerenciador_Colisoes(fundo.getChao())),
     lista_ents()
@@ -69,6 +69,10 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
         while (GG->verificaJanelaAberta()) {
             // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
             GE->executar();
+
+            //coloquei o executar de inimigo:
+
+            inimigo.executar();
 
             GG->limpaJanela();
 
