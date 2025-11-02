@@ -166,14 +166,22 @@ namespace Entidades
 		{
 			if (jogAlvo) {
 
-
+				//posição em x
 				float posJog_X = jogAlvo->getPos().x + jogAlvo->getTam().x / 2;
 				float posInim_X = this->getPos().x + this->getTam().x / 2;
 
+				float distHorizontal = abs(posJog_X - posInim_X);
 
-				float distanciaCentros = abs(posJog_X - posInim_X);
+				//posição em y
 
-				if (distanciaCentros <= raio_perseg)
+				float posJog_Y = jogAlvo->getPos().y + jogAlvo->getTam().y / 2;
+				float posInim_Y = this->getPos().y + this->getTam().y / 2;
+
+				float distVertical = abs(posJog_Y - posInim_Y); // verificamos em y para evitar a perseguição sem sentido se o jogador estiver mto acima ou abaixo do inimigo
+
+				float raio_vertical = this->getTam().y / 2; //esse seria o "raio_perseg" na vertical...
+
+				if (distHorizontal <= raio_perseg && distVertical <= raio_vertical)
 					perseguir(jogAlvo);
 
 				else {
