@@ -28,10 +28,10 @@ namespace Entidades {
 			std::cout << num_vidas << std::endl;
 		}
 
-		//int Personagem::getNumVidas()
-		//{
-
-		//}
+		int Personagem::getVida()
+		{
+			return num_vidas;
+		}
 
 		//void Personagem::getDano()
 		//{

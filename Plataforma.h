@@ -17,7 +17,7 @@ namespace Entidades {
 				Plataforma();
 				~Plataforma();
 				void executar();
-				void obstaculizar(Personagens::Jogador* pJ);
+				void obstaculizar(Personagens::Jogador* p);
 				void salvar();
 		};
 

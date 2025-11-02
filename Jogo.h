@@ -12,14 +12,14 @@ class Jogo {
 	private:
 		Gerenciadores::Gerenciador_Grafico* GG;	// Singelton
 		Parallax::Fundo fundo;
-		Entidades::Personagens::Jogador jogador;
+		Entidades::Personagens::Jogador pJog1;
 		Gerenciadores::Gerenciador_de_Eventos* GE;	// Singleton
 		Entidades::Personagens::Inimigo inimigo;
 		Entidades::Obstaculos::Plataforma plataforma;
 		Entidades::Obstaculos::Redemoinho redemoinho;
 		Entidades::Obstaculos::Armadilha_de_urso armadilha_de_urso;
 		Entidades::Projetil projetil;
-		Gerenciadores::Gerenciador_Colisoes* GC1;	// Um para jogador, que tal?
+		Gerenciadores::Gerenciador_Colisoes* GC;	// Um para jogador, que tal?
 		Listas::ListaEntidades lista_ents;
 
 	public:

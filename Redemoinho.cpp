@@ -7,13 +7,13 @@ namespace Entidades {
 		Redemoinho::Redemoinho() :
 			Obstaculo(),
 			altura(60),
-			comprimento(60),
-			dano(1),
+			largura(60),
+			danosidade(1),
 			dano_unico (false)
 		{
 			intransponivel = false;
 			danoso = true;
-			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));
+			corpo = new sf::RectangleShape(sf::Vector2f(largura, altura));
 			if (corpo) {
 				corpo->setPosition(100.0, ALTURA_TELA - 160 - altura);
 				inicializaAnimacoes();
@@ -25,8 +25,8 @@ namespace Entidades {
 
 		Redemoinho::~Redemoinho() {
 			altura = -1;
-			comprimento = -1;
-			dano = -1;
+			largura = -1;
+			danosidade = -1;
 		}
 
 		void Redemoinho::executar() {
@@ -41,10 +41,10 @@ namespace Entidades {
 
 		}
 
-		void Redemoinho::obstaculizar(Personagens::Jogador* pJ) {
-			if (pJ) {
+		void Redemoinho::obstaculizar(Personagens::Jogador* p) {
+			if (p) {
 				if (dano_unico && danoso) {
-					pJ->diminuiVida(dano);
+					p->diminuiVida(danosidade);
 					dano_unico = false;
 				}
 			}

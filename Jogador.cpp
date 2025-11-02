@@ -96,11 +96,6 @@ namespace Entidades {
 			}
 		}
 
-		int Jogador::getVida()
-		{
-			return num_vidas;
-		}
-
 		void Jogador::setDirecao(const char direcao) {
 			this->direcao = direcao;
 		}

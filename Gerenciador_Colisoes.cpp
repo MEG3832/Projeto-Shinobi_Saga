@@ -2,6 +2,8 @@
 
 namespace Gerenciadores {
 
+	Gerenciador_Colisoes* Gerenciador_Colisoes::pColisoes = nullptr;
+
 	Gerenciador_Colisoes::Gerenciador_Colisoes(sf::RectangleShape* piso) :
 		LIs(),
 		LOs(),
@@ -12,6 +14,14 @@ namespace Gerenciadores {
 
 	Gerenciador_Colisoes::~Gerenciador_Colisoes() {
 		pJog1 = nullptr;
+	}
+
+	Gerenciador_Colisoes* Gerenciador_Colisoes::getGerenciadorColisoes(sf::RectangleShape* piso) {
+		if (!pColisoes) {
+			pColisoes = new Gerenciador_Colisoes(piso);
+		}
+
+		return pColisoes;
 	}
 
 	void Gerenciador_Colisoes::executar() {
@@ -82,12 +92,12 @@ namespace Gerenciadores {
 		}
 	}
 
-	const bool Gerenciador_Colisoes::verificaColisaoChao(Entidades::Entidade* pe1) const {
-		if (pe1) {
+	const bool Gerenciador_Colisoes::verificaColisaoChao(Entidades::Entidade* pe) const {
+		if (pe) {
 			if (chao) {
-				sf::Vector2f pos1 = pe1->getPos();
+				sf::Vector2f pos1 = pe->getPos();
 				sf::Vector2f pos2 = chao->getPosition();
-				sf::Vector2f tam1 = pe1->getTam();
+				sf::Vector2f tam1 = pe->getTam();
 				sf::Vector2f tam2 = chao->getSize();
 
 				sf::Vector2f distanciaCentros(fabs((pos1.x + tam1.x / 2) - (pos2.x + tam2.x / 2)),

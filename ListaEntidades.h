@@ -12,8 +12,8 @@ namespace Listas {
 		public:
 			ListaEntidades();
 			~ListaEntidades();
-			void incluir(Entidades::Entidade* PE);
-			void remover(Entidades::Entidade* PE);
+			void incluir(Entidades::Entidade* pE);
+			void remover(Entidades::Entidade* pE);
 			void percorrer();
 			void desenharEntidades();
 			const int getTam() const;

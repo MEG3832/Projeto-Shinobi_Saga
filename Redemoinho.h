@@ -10,15 +10,15 @@ namespace Entidades {
 		{
 			private:
 				int altura;
-				int comprimento;
-				float dano;
+				float largura;
+				float danosidade;
 				bool dano_unico;
 
 			public:
 				Redemoinho();
 				~Redemoinho();
 				void executar();
-				void obstaculizar(Personagens::Jogador* pJ);
+				void obstaculizar(Personagens::Jogador* p);
 				void salvar();
 				void inicializaAnimacoes();
 				void atualizaAnimacao();

@@ -17,16 +17,19 @@ namespace Gerenciadores {
 			sf::RectangleShape* chao;
 		
 			// Funções privadas de verificação de colisão
+			static Gerenciador_Colisoes* pColisoes;
+			Gerenciador_Colisoes(sf::RectangleShape* piso);
+
 			const bool verificaColisao(Entidades::Entidade* pe1, Entidades::Entidade* pe2) const;
-			const bool verificaColisaoChao(Entidades::Entidade* pe1) const;
+			const bool verificaColisaoChao(Entidades::Entidade* pe) const;
 			void tratarColisoesJogsInimgs();
 			void tratarColisoesJogsObstacs();
 			void tratarColisoesJogsProjeteis();
 			void tratarColisoesJogsChao();
 
 		public:
-			Gerenciador_Colisoes(sf::RectangleShape* piso);
 			~Gerenciador_Colisoes();
+			Gerenciador_Colisoes* getGerenciadorColisoes(sf::RectangleShape* piso);
 			void executar();
 			void incluirInimigo(Entidades::Personagens::Inimigo* pi);
 			void incluirObstaculo(Entidades::Obstaculos::Obstaculo* po);

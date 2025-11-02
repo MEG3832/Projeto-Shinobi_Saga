@@ -10,7 +10,7 @@ namespace Entidades {
 		private:
 			int altura;
 			int comprimento;
-			float dano;
+			short int danosidade;
 			float cooldown;
 			sf::Clock timer;
 			float dt;
@@ -23,6 +23,7 @@ namespace Entidades {
 			void salvar();
 			void inicializaAnimacoes();
 			void atualizaAnimacao();
+			void salvarDataBuffer();
 		};
 
 	}

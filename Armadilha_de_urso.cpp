@@ -8,7 +8,7 @@ namespace Entidades {
 			Obstaculo(),
 			altura(30),
 			comprimento(30),
-			dano(2),	// Estou imaginando que cada vida tem uns 100
+			danosidade(2),	// Estou imaginando que cada vida tem uns 100
 			cooldown(3.0f),
 			timer(),
 			dt(0.0f)
@@ -28,7 +28,7 @@ namespace Entidades {
 		Armadilha_de_urso::~Armadilha_de_urso() {
 			altura = -1;
 			comprimento = -1;
-			dano = -1;
+			danosidade = -1;
 			danoso = false;
 		}
 
@@ -41,7 +41,7 @@ namespace Entidades {
 				if (danoso) {
 					if (pJ) {
 						pJ->setAtordoado(true);
-						pJ->diminuiVida(dano);
+						pJ->diminuiVida(danosidade);
 					}
 					else {
 						std::cerr << "ERRO: nao eh possivel atordoar pois o jogador eh NULL" << std::endl;
@@ -89,6 +89,11 @@ namespace Entidades {
 				std::cerr << "Nao eh possivel atualizar a animacao pois o animador eh NULL" << std::endl;
 			}
 		}
+
+		void salvarDataBuffer() {
+			return;
+		}
+
 	}
 
 }

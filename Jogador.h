@@ -36,7 +36,6 @@ namespace Entidades {
 			void executar();
 			void salvar();
 			void mover();
-			int getVida();
 			void setDirecao(const char direcao);
 			char getDirecao();
 			void inicializaAnimacoes();

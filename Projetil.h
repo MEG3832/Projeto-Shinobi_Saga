@@ -13,7 +13,6 @@ namespace Entidades {
 		~Projetil();
 		void executar();
 		void salvar();
-		virtual void inicializaAnimacoes();
 	};
 
 }

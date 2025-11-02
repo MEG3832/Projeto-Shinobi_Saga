@@ -3,16 +3,16 @@
 Jogo::Jogo() :
     GG(GG->getGerenciadorGrafico()),
     fundo(),    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
-    jogador(), 
+    pJog1(),
     GE(GE->getGerenciadorEventos()),
     inimigo(),
     plataforma(),
     redemoinho(),
     armadilha_de_urso(),
-    GC1(new Gerenciadores::Gerenciador_Colisoes(fundo.getChao())),
+    GC(GC->getGerenciadorColisoes(fundo.getChao())),
     lista_ents()
 {
-    GE->setJogador(&jogador);
+    GE->setJogador(&pJog1);
 
     inicializar();
 
@@ -25,8 +25,8 @@ Jogo::~Jogo() {
     GG = nullptr;
     if (GG) delete GE;
     GE = nullptr;
-    if (GC1) delete GC1;
-    GC1 = nullptr;
+    if (GC) delete GC;
+    GC = nullptr;
 }
 
 void Jogo::inicializar() {
@@ -36,7 +36,7 @@ void Jogo::inicializar() {
 }
 
 void Jogo::inicializarGC() {
-    GC1->setJogador(&jogador);
+    GC->setJogador(&pJog1);
 
     inicializarListaInimigos();
 
@@ -51,7 +51,7 @@ void Jogo::inicializaListaEntidades() {
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
         static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
-        static_cast<Entidades::Personagens::Personagem*>(&jogador)));
+        static_cast<Entidades::Personagens::Personagem*>(&pJog1)));
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
         static_cast<Entidades::Obstaculos::Obstaculo*>(&armadilha_de_urso)));
 }
@@ -61,13 +61,13 @@ void Jogo::inicializarListaInimigos() {
 }
 
 void Jogo::inicializarListaObtaculos() {
-    GC1->incluirObstaculo(&plataforma);
-    GC1->incluirObstaculo(&redemoinho);
-    GC1->incluirObstaculo(&armadilha_de_urso);
+    GC->incluirObstaculo(&plataforma);
+    GC->incluirObstaculo(&redemoinho);
+    GC->incluirObstaculo(&armadilha_de_urso);
 }
 
 void Jogo::inicializarListaProjeteis() {
-    //GC1->incluirProjetil(&projetil);
+    //GC->incluirProjetil(&projetil);
 }
 
 void Jogo::executar() { // Desenha 4 retangulos e o fundo
@@ -79,16 +79,16 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             GG->limpaJanela();
 
             // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
-            GG->atualizaCamera(jogador.getPos());
+            GG->atualizaCamera(pJog1.getPos());
 
-            GC1->executar();
+            GC->executar();
 
             lista_ents.percorrer();
 
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
             fundo.executar();
             
-            jogador.atualizaAnimacao();
+            pJog1.atualizaAnimacao();
 
             lista_ents.desenharEntidades();
 

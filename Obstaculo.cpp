@@ -16,11 +16,6 @@ namespace Entidades {
 			return;
 		}
 
-		void Obstaculo::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
-			pGG->desenharEnte(static_cast<Ente*>(
-							  static_cast<Entidade*>(this)));
-		}
-
 	}
 
 }
