@@ -48,9 +48,9 @@ namespace Parallax {
 
 	void Fundo::Camada::desenharCamada(sf::RenderWindow* window) {
 		if(pGG) {
-			pGG->desenharEnte(fundo);
+			pGG->desenharRect(fundo);
 			if (vel) {
-				pGG->desenharEnte(fundoAuxiliar);
+				pGG->desenharRect(fundoAuxiliar);
 			}
 		}
 		else {

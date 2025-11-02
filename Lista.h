@@ -9,23 +9,24 @@ namespace Listas {
 	{
 		private:
 
+			template <class TE>
 			class Elemento
 			{
 				private:
-					Elemento* pProx;
-					TL* pInfo;
+					Elemento<TE>* pProx;
+					TE* pInfo;
 
 				public:
-					Elemento();
-					~Elemento();
-					void setInfo(TL* pt);	// seta mesmo que seja NULL
-					void setProximo(Elemento* pE = nullptr);
-					Elemento* getProximo() const;
-					TL* getInfo() const;
+					Elemento() : pProx(nullptr), pInfo(nullptr) {}
+					~Elemento() { pProx = nullptr; pInfo = nullptr; }
+					void setInfo(TE* pt) { pInfo = pt; }
+					void setProximo(Elemento<TE>* pE = nullptr) { pProx = pE; }
+					Elemento<TE>* getProximo() const { return pProx; }
+					TE* getInfo() const { return pInfo; }
 			};
 
-			Elemento* pPrimeiro;
-			Elemento* pUltimo;
+			Elemento<TL>* pPrimeiro;
+			Elemento<TL>* pUltimo;
 			int tamanho;
 
 		public:
@@ -39,44 +40,6 @@ namespace Listas {
 			TL* operator[](int index);	// Acessa com [] como em vector
 
 	};
-
-	/* =============== IMPLEMENTAÇÕES =============== */
-
-	template <class TL>
-	Lista<TL>::Elemento::Elemento() :
-		pProx(nullptr), pInfo(nullptr)
-	{
-	}
-
-	template <class TL>
-	Lista<TL>::Elemento::~Elemento()
-	{
-		pInfo = nullptr;
-		pProx = nullptr;
-	}
-
-	template <class TL>
-	void Lista<TL>::Elemento::setInfo(TL* pt)
-	{
-		pInfo = pt;
-	}
-
-	template <class TL>
-	void Lista<TL>::Elemento::setProximo(Elemento* pE)
-	{
-		pProx = pE;
-	}
-
-	template <class TL>
-	typename Lista<TL>::Elemento* Lista<TL>::Elemento::getProximo() const
-	{
-		return pProx;
-	}
-
-	template <class TL>
-	TL* Lista<TL>::Elemento::getInfo() const {
-		return pInfo;
-	}
 
 	template <class TL>
 	Lista<TL>::Lista() :
@@ -94,7 +57,7 @@ namespace Listas {
 	void Lista<TL>::incluir(TL* pt)
 	{
 		if (pt) {
-			Elemento* pElemAux = new Elemento;	// Coloquei aqui em cima para diminuir o número de verificações
+			Elemento<TL>* pElemAux = new Elemento<TL>;	// Coloquei aqui em cima para diminuir o número de verificações
 			if (pElemAux) {
 				if (pPrimeiro == nullptr && pUltimo == nullptr) //se a lista está vazia...
 				{
@@ -129,8 +92,8 @@ namespace Listas {
 	{
 		if (pPrimeiro != nullptr)
 		{
-			Elemento* pAux1 = pPrimeiro;
-			Elemento* pAux2 = pAux1;
+			Elemento<TL>* pAux1 = pPrimeiro;
+			Elemento<TL>* pAux2 = pAux1;
 
 			while (pAux1 != nullptr)
 			{
@@ -156,8 +119,8 @@ namespace Listas {
 	void Lista<TL>::remover(TL* pE) {
 		if (pPrimeiro) {
 			if (pE) {
-				Elemento* pAux1 = pPrimeiro;
-				Elemento* pAux2 = nullptr;
+				Elemento<TL>* pAux1 = pPrimeiro;
+				Elemento<TL>* pAux2 = nullptr;
 
 				while (pAux1 && pAux1->getInfo() != pE) {
 					pAux2 = pAux1;	// pAux2 só serve pra ficar no elemento anterior ao pAux1
@@ -205,7 +168,7 @@ namespace Listas {
 	TL* Lista<TL>::operator[](int index) {	
 		if(pPrimeiro) {
 			if (index >= 0 && index < tamanho) {
-				Elemento* pAux1 = pPrimeiro;
+				Elemento<TL>* pAux1 = pPrimeiro;
 				for (int i = 0; i < index; i++) {
 					pAux1 = pAux1->getProximo();
 				}

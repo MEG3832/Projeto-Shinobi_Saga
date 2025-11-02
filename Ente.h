@@ -3,13 +3,14 @@
 class Ente
 {
 	protected:
+		int id;
 		static Gerenciadores::Gerenciador_Grafico* pGG;
 		sf::RectangleShape* corpo;
 
 	public:
 		Ente();
 		virtual ~Ente();
-		virtual void desenhar();	// Não sei se podia fazer isso, mas deixei desenhar() como virtual para o Fundo
+		void desenhar();	// Não sei se podia fazer isso, mas deixei desenhar() como virtual para o Fundo
 		virtual void executar() = 0;
 		sf::Vector2f getTam();
 		sf::RectangleShape* getCorpo();

@@ -26,7 +26,6 @@ namespace Entidades {
 		virtual void salvar() = 0;
 		sf::Vector2f getPos();
 		void setAnimador(sf::RectangleShape* body);
-		virtual void desenhar();
 		bool getIntransponivel();
 		//...
 

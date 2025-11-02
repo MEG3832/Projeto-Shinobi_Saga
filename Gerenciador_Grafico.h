@@ -1,5 +1,6 @@
 #pragma once
 #include "Header.h"
+class Ente;
 
 namespace Gerenciadores {
 
@@ -18,7 +19,8 @@ namespace Gerenciadores {
 	public:
 		~Gerenciador_Grafico();
 		Gerenciador_Grafico* getGerenciadorGrafico();
-		void desenharEnte(sf::RectangleShape corpo);
+		void desenharEnte(Ente* pE);
+		void desenharRect(sf::RectangleShape rect);
 		void mostrarEntes();	//Imprime na tela o que foi desenhado
 		sf::RenderWindow* getWindow();
 		const bool verificaJanelaAberta();

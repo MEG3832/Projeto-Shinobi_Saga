@@ -1,4 +1,5 @@
 ﻿#include "Gerenciador_Grafico.h"
+#include "Ente.h"
 
 namespace Gerenciadores {
 
@@ -26,9 +27,23 @@ namespace Gerenciadores {
 		return pGrafico;
 	}
 
-	void Gerenciador_Grafico::desenharEnte(sf::RectangleShape corpo) {
+	void Gerenciador_Grafico::desenharEnte(Ente* pE) {
 		if (window) {
-			window->draw(corpo);
+			if(pE) {
+				window->draw(*pE->getCorpo());
+			}
+			else {
+				std::cerr << "ERRO: nao eh possivel desenhar o ente pois ele eh NULL" << std::endl;
+			}
+		}
+		else {
+			std::cerr << "ERRO: window eh NULL" << std::endl;
+		}
+	}
+
+	void Gerenciador_Grafico::desenharRect(sf::RectangleShape rect) {
+		if (window) {
+			window->draw(rect);
 		}
 		else {
 			std::cerr << "ERRO: window eh NULL" << std::endl;

@@ -7,6 +7,7 @@ void Ente::setGG(Gerenciadores::Gerenciador_Grafico* pG) {	// Não utilizamos
 }
 
 Ente::Ente() :
+	id(0),
 	corpo(nullptr)
 {}
 
@@ -19,7 +20,7 @@ Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos delet
 }
 
 void Ente::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
-	pGG->desenharEnte(*corpo);
+	pGG->desenharEnte(this);
 }
 
 sf::Vector2f Ente::getTam() {

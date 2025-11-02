@@ -26,10 +26,6 @@ namespace Entidades {
 		animador = new Animadores::Animacao(body);
 	}
 
-	void Entidade::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
-		pGG->desenharEnte(*corpo);
-	}
-
 	bool Entidade::getIntransponivel() {
 		return intransponivel;
 	}
