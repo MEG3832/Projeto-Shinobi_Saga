@@ -43,7 +43,7 @@ namespace Animadores {
 		}
 	}
 
-	/*void Animacao::atualizarAnimInim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg)
+	void Animacao::atualizarAnimInim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg)
 	{
 		if(corpo) {
 			if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
@@ -73,7 +73,7 @@ namespace Animadores {
 
 	}
 
-	void Animacao::atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico)
+	/*void Animacao::atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico)
 	{
 		if(corpo) {
 			float dt = clock.getElapsedTime().asSeconds();
@@ -105,5 +105,10 @@ namespace Animadores {
 	const int Animacao::getImgAtual(std::string nomeAnimacao) {
 		return mapImagens[nomeAnimacao]->getImgAtual();
 	}
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> jogador-e-inimigo
 
 }

@@ -15,16 +15,24 @@ namespace Entidades {
 		protected:
 
 			int pontos;
-
-			//!!!!!!!!talvez rastrear esse tipo de coisa apenas para o jogador...
 			bool paraEsq;
 			bool subindo;
 			bool caindo;
+<<<<<<< HEAD
 			bool atordoado;
+=======
+			bool correndo;
+>>>>>>> jogador-e-inimigo
 			
 			sf::Vector2f veloc;
+			sf::Vector2f velocKnockBack;
 			int id; // 1 ou 2
+<<<<<<< HEAD
 			char direcao;
+=======
+			sf::Vector2f direcao;
+			int num;
+>>>>>>> jogador-e-inimigo
 
 		public:
 
@@ -35,9 +43,17 @@ namespace Entidades {
 			//void atacar();
 			void executar();
 			void salvar();
+<<<<<<< HEAD
 			void mover();
 			void setDirecao(const char direcao);
 			char getDirecao();
+=======
+			void mover(); //nota! o método mover lida com toda a parte do "knockBack" causado pelo inimigo
+			void diminuiVida(int nv_maldade);
+			int getVida();
+			void setVelKnockBack(sf::Vector2f velKB);
+			void setDirecao(sf::Vector2f dir);
+>>>>>>> jogador-e-inimigo
 			void inicializaAnimacoes();
 			void atualizaAnimacao();
 			void setAtordoado(bool atordoar);

@@ -27,10 +27,18 @@ namespace Entidades {
 			//void salvarDataBuffer();
 			virtual void executar() = 0;
 			virtual void salvar() = 0;
+<<<<<<< HEAD
 			virtual void mover() = 0;
 			virtual void inicializaAnimacoes() = 0;
 			void diminuiVida(float dano);
 			int getVida();
+=======
+			virtual void mover() = 0; //ok
+			virtual void inicializaAnimacoes() = 0; //ok
+			void setAnimador(sf::RectangleShape* body);
+
+			//virtual int getNumVidas();
+>>>>>>> jogador-e-inimigo
 			//virtual float getDano();
 
 

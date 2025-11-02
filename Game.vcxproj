@@ -143,13 +143,18 @@
     <ClInclude Include="Jogador.h" />
     <ClInclude Include="Jogo.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="Kitsune.h" />
     <ClInclude Include="Lista.h" />
     <ClInclude Include="ListaEntidades.h" />
     <ClInclude Include="Obstaculo.h" />
     <ClInclude Include="Personagem.h" />
     <ClInclude Include="Plataforma.h" />
     <ClInclude Include="Projetil.h" />
+<<<<<<< HEAD
     <ClInclude Include="Redemoinho.h" />
+=======
+    <ClInclude Include="Tengu.h" />
+>>>>>>> jogador-e-inimigo
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animacao.cpp" />
@@ -164,13 +169,18 @@
     <ClCompile Include="Inimigo.cpp" />
     <ClCompile Include="Jogador.cpp" />
     <ClCompile Include="Jogo.cpp" />
+    <ClCompile Include="Kitsune.cpp" />
     <ClCompile Include="ListaEntidades.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstaculo.cpp" />
     <ClCompile Include="Personagem.cpp" />
     <ClCompile Include="Plataforma.cpp" />
     <ClCompile Include="Projetil.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Redemoinho.cpp" />
+=======
+    <ClCompile Include="Tengu.cpp" />
+>>>>>>> jogador-e-inimigo
   </ItemGroup>
   <ItemGroup>
     <Image Include="Plataforma.png" />

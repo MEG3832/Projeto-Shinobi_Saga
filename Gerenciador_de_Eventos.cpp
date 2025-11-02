@@ -27,29 +27,36 @@ namespace Gerenciadores {
 	}
 
 	void Gerenciador_de_Eventos::verificaTeclaPressionada() {
+
+		sf::Vector2f direcaoInput(0.0f, 0.0f); //resetamos a "direção" para zero (jogador parado) a cada iteração do loop do jogo
+											   //para que a função mover funcione corretamente quanto ao knockback, msm qnd ele nn estiver se movendo
+
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			pJogador->setDirecao('D');
-			pJogador->mover();
+			direcaoInput.x += 1.0f;
+			//pJogador->mover(); -> é chamado no loop do jogo!, por isso estou comentando...
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			pJogador->setDirecao('C');
-			pJogador->mover();
+			direcaoInput.y -= 1.0f;
+			//pJogador->mover();
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
-			pJogador->setDirecao('B');
-			pJogador->mover();
+			direcaoInput.y += 1.0f;
+			//pJogador->mover();
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			pJogador->setDirecao('E');
-			pJogador->mover();
+			direcaoInput.x -= 1.0f;
+			//pJogador->mover();
 		}
+
+		pJogador->setDirecao(direcaoInput);
+
 	}
 
 	void Gerenciador_de_Eventos::executar() {

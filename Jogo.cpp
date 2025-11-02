@@ -5,11 +5,17 @@ Jogo::Jogo() :
     fundo(),    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
     pJog1(),
     GE(GE->getGerenciadorEventos()),
+<<<<<<< HEAD
     inimigo(),
     plataforma(),
     redemoinho(),
     armadilha_de_urso(),
     GC(GC->getGerenciadorColisoes(fundo.getChao())),
+=======
+    inimigo(&jogador), //pode fazer isso, né?
+    obstaculo(),
+    GC1(new Gerenciadores::Gerenciador_Colisoes(fundo.getChao())),
+>>>>>>> jogador-e-inimigo
     lista_ents()
 {
     GE->setJogador(&pJog1);
@@ -73,8 +79,17 @@ void Jogo::inicializarListaProjeteis() {
 void Jogo::executar() { // Desenha 4 retangulos e o fundo
     if (GG) {
         while (GG->verificaJanelaAberta()) {
+
             // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
             GE->executar();
+
+            //coloquei o executar de inimigo:
+
+            inimigo.executar();
+
+            jogador.mover(); //chamamos o mover no loop pq precisamos q o "knockback" seja processado mesmo que não estejamos
+                             //apertando uma tecla!
+           
 
             GG->limpaJanela();
 
@@ -89,6 +104,21 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             fundo.executar();
             
             pJog1.atualizaAnimacao();
+
+
+
+            //teste
+            sf::RectangleShape* corpoTengu = inimigo.getCorpo();
+
+            sf::RectangleShape debugHitbox = *corpoTengu;
+
+            debugHitbox.setTexture(nullptr);
+            debugHitbox.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+
+            
+            GG->getWindow()->draw(debugHitbox);
+
+            
 
             lista_ents.desenharEntidades();
 

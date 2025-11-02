@@ -4,9 +4,13 @@
 #include "ListaEntidades.h"
 #include "Gerenciador_de_Eventos.h"
 #include "Gerenciador_Colisoes.h"
+<<<<<<< HEAD
 #include "Plataforma.h"
 #include "Redemoinho.h"
 #include "Armadilha_de_urso.h"
+=======
+#include "Tengu.h"
+>>>>>>> jogador-e-inimigo
 
 class Jogo {
 	private:
@@ -14,10 +18,15 @@ class Jogo {
 		Parallax::Fundo fundo;
 		Entidades::Personagens::Jogador pJog1;
 		Gerenciadores::Gerenciador_de_Eventos* GE;	// Singleton
+<<<<<<< HEAD
 		Entidades::Personagens::Inimigo inimigo;
 		Entidades::Obstaculos::Plataforma plataforma;
 		Entidades::Obstaculos::Redemoinho redemoinho;
 		Entidades::Obstaculos::Armadilha_de_urso armadilha_de_urso;
+=======
+		Entidades::Personagens::Tengu inimigo; //teste tengu
+		Entidades::Obstaculos::Obstaculo obstaculo;
+>>>>>>> jogador-e-inimigo
 		Entidades::Projetil projetil;
 		Gerenciadores::Gerenciador_Colisoes* GC;	// Um para jogador, que tal?
 		Listas::ListaEntidades lista_ents;
