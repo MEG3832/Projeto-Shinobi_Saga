@@ -33,7 +33,7 @@ namespace Entidades {
 				~Inimigo();
 				void salvarDataBuffer();
 				virtual void executar();
-				virtual void danificar(Jogador* pJ);
+				virtual void danificar(Jogador* pJ)=0;
 				virtual void empurrar(Jogador* pJ);
 				virtual void perseguir(Jogador* pJ);
 				virtual void salvar();

@@ -18,6 +18,7 @@ namespace Entidades {
 			bool paraEsq;
 			bool subindo;
 			bool caindo;
+			bool correndo;
 			
 			sf::Vector2f veloc;
 			sf::Vector2f velocKnockBack;
@@ -38,9 +39,6 @@ namespace Entidades {
 			void diminuiVida(int nv_maldade);
 			int getVida();
 			void setVelKnockBack(sf::Vector2f velKB);
-			//void setDirecao(const char direcao);
-			//char getDirecao();
-			//void resetarDirecao();
 			void setDirecao(sf::Vector2f dir);
 			void inicializaAnimacoes();
 			void atualizaAnimacao();
