@@ -32,6 +32,8 @@ namespace Entidades {
 			subindo(false),
 			paraEsq(false)
 		{
+			num_vidas = 100;
+
 			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
 			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
 			setAnimador(corpo);

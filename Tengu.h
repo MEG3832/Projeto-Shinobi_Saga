@@ -12,11 +12,10 @@ namespace Entidades
 		{
 		private:
 
-			//sf::RectangleShape* espada;
-			//bool atacando;
 			float cooldownAtaque;
 			sf::Clock relogioAtaque; //mede o cooldown
 			bool paraEsq;
+
 
 		public:
 
@@ -25,10 +24,9 @@ namespace Entidades
 			void executar();
 			void danificar(Jogador* pJ);
 			//void empurrar(Jogador* pJ); ->igual ao de inimigo
-			void empurrarForte(Jogador* pJ);
+			//void empurrarForte(Jogador* pJ);
 			void perseguir(Jogador* pJ);
 			void atacar(Jogador* pJ);
-			//void atualizarPosEspada();
 
 			//void salvar();
 			//void mover();
