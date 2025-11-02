@@ -163,13 +163,6 @@ namespace Entidades {
 		{
 			bool rodaUmaVez = false;
 
-
-			//terminar: fazer uma animação de cada estado de acordo com o valor de caindo, subindo, velocidade, se está no chão ou não...
-			//vamos fazer as partes dos botões dentro de Jogador mesmo?
-
-			//botão -> move o corpo e muda a animação 
-
-
 			//teste:
 			animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 		}

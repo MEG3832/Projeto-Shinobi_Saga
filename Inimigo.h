@@ -17,6 +17,17 @@ namespace Entidades {
 				sf::Vector2f veloc;
 				Jogador* jogAlvo;
 
+				//tratam da ação de atacar:
+
+				float cooldownAtaque;
+				sf::Clock relogioAtaque; //mede o cooldown
+
+				//tratam da ação de andar:
+				bool andando;
+				sf::Clock relogioAndar;
+				float tempoAndar;
+
+
 			public:
 				Inimigo(Jogador* pJ);
 				~Inimigo();

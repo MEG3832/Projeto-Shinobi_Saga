@@ -7,8 +7,6 @@ namespace Entidades
 	{
 		Tengu::Tengu(Jogador* pJ) :
 			Inimigo(pJ),
-			cooldownAtaque(3.0f),
-			relogioAtaque(),
 			paraEsq(true)
 		{
 			nivel_maldade = 1;
@@ -27,7 +25,8 @@ namespace Entidades
 
 		Tengu::~Tengu()
 		{
-			//..
+			jogAlvo = nullptr;
+
 		}
 
 		void Tengu::danificar(Jogador* pJ)
@@ -47,15 +46,7 @@ namespace Entidades
 
 		void Tengu::executar()
 		{
-			if (jogAlvo)
-			{
-				perseguir(jogAlvo);
-			}
-
-			else
-			{
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
-			}
+			mover();
 		}
 
 		void Tengu::perseguir(Jogador* pJ)
@@ -146,22 +137,91 @@ namespace Entidades
 
 		void Tengu::inicializaAnimacoes()
 		{
+			if (animador) {
 
-			//Animações em loop
 
-			animador->addAnimacao("Imagens/Tengu/Idle.png", "Parado", 6, 0.20f, sf::Vector2f(1.5, 1.0));
-			animador->addAnimacao("Imagens/Tengu/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(1.5, 1.0));
+				//Animações em loop
 
-			
+				animador->addAnimacao("Imagens/Tengu/Idle.png", "Parado", 6, 0.20f, sf::Vector2f(1.5, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Walk.png", "Andando", 8, 0.20f, sf::Vector2f(1.5, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(1.5, 1.0));
 
-			//Animações que só devem rodar uma vez
 
-			animador->addAnimacao("Imagens/Tengu/Attack_1.png", "Ataque1", 6, 0.1f, sf::Vector2f(1.5, 1.0));
-			animador->addAnimacao("Imagens/Tengu/Attack_2.png", "Ataque2", 4, 0.12f, sf::Vector2f(1.5, 1.0));
-			animador->addAnimacao("Imagens/Tengu/Attack_3.png", "Ataque3", 3, 0.1f, sf::Vector2f(1.5, 1.0));
-			animador->addAnimacao("Imagens/Tengu/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(1.5, 1.0));
-			animador->addAnimacao("Imagens/Tengu/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(1.5, 1.0));
 
+				//Animações que só devem rodar uma vez
+
+				animador->addAnimacao("Imagens/Tengu/Attack_1.png", "Ataque1", 6, 0.1f, sf::Vector2f(1.5, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Attack_2.png", "Ataque2", 4, 0.12f, sf::Vector2f(1.5, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Attack_3.png", "Ataque3", 3, 0.1f, sf::Vector2f(1.5, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(1.5, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(1.5, 1.0));
+			}
+
+			else 
+				std::cout << "ponteiro de animacao nulo!" << std::endl;
+		}
+
+
+		void Tengu::mover()
+		{
+			if (jogAlvo) {
+
+
+				float posJog_X = jogAlvo->getPos().x + jogAlvo->getTam().x / 2;
+				float posInim_X = this->getPos().x + this->getTam().x / 2;
+
+
+				float distanciaCentros = abs(posJog_X - posInim_X);
+
+				if (distanciaCentros <= raio_perseg)
+					perseguir(jogAlvo);
+
+				else {
+
+					if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar) //se passou o tempo para parar de andar 
+					{															 // ou se passou o tempo para começar a andar
+						relogioAndar.restart();
+
+						andando = !andando;
+
+						//sorteio para qual lado ele vai!
+						if (rand() % 2 == 0)
+						{
+							paraEsq = true;
+						}
+						else
+						{
+							paraEsq = false;
+						}
+
+
+					}
+
+					if (andando)
+					{
+						if (paraEsq)
+							corpo->move(-veloc.x, 0.0f);
+						else
+							corpo->move(veloc.x, 0.0f);
+
+						animador->atualizarAnimInim(paraEsq, false, "Andando");
+
+					}
+
+					else //está parado
+					{
+						corpo->move(0.0f, 0.0f);
+						animador->atualizarAnimInim(paraEsq, false, "Parado");
+					}
+
+				}
+
+			}
+
+			else
+			{
+				std::cout << "ponteiro de jogador nulo!" << std::endl;
+			}
 		}
 	}
 }

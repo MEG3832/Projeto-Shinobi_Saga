@@ -8,9 +8,14 @@ namespace Entidades {
 		Inimigo::Inimigo(Jogador* pJ) :
 			Personagem(),
 			nivel_maldade(1),
-			raio_perseg(300.0f),
+			raio_perseg(200.0f),
 			veloc(0.05f,0.05f),
-			jogAlvo(pJ)
+			jogAlvo(pJ),
+			cooldownAtaque(3.0f),
+			relogioAtaque(),
+			andando(false),
+			relogioAndar(),
+			tempoAndar(3.0)
 		{
 			corpo = new sf::RectangleShape(sf::Vector2f(30.0f, 30.0f));
 			corpo->setPosition(sf::Vector2f(400, 300));	// Posição qualquer para teste
@@ -28,6 +33,7 @@ namespace Entidades {
 
 		void Inimigo::executar() {
 
+			mover();
 			perseguir(jogAlvo);
 			
 		}

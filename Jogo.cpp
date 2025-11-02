@@ -93,27 +93,18 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
 
 
 
-            // --- CÓDIGO DE TESTE DA HITBOX (ADICIONE AQUI) ---
-
-            // 1. Pegamos o 'corpo' original do Tengu (que está na variável 'inimigo')
-            //    (Sabemos que getCorpo() existe por causa do Gerenciador_Colisoes)
+            //teste
             sf::RectangleShape* corpoTengu = inimigo.getCorpo();
 
-            // 2. Criamos uma CÓPIA temporária para desenhar
             sf::RectangleShape debugHitbox = *corpoTengu;
 
-            // 3. Estilizamos a cópia:
-            debugHitbox.setTexture(nullptr); // Remove a textura (MUITO IMPORTANTE)
+            debugHitbox.setTexture(nullptr);
             debugHitbox.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
-            debugHitbox.setOutlineColor(sf::Color::Red);
-            debugHitbox.setOutlineThickness(1.0f);
 
-            // 4. Desenhamos a cópia (o GG deve ter acesso ao getWindow())
+            
             GG->getWindow()->draw(debugHitbox);
 
-            // --- FIM DO CÓDIGO DE TESTE ---
-
-
+            
 
             lista_ents.desenharEntidades();
 
