@@ -138,22 +138,22 @@ namespace Entidades {
 			//Animações em loop
 
 			animador->addAnimacao("Imagens/Samurai/Idle_2.png", "Parado", 6, 0.20f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Samurai/Walk.png", "Andando", 9, 0.12f, sf::Vector2f(6.0, 2.0));
-			animador->addAnimacao("Imagens/Samurai/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(6.0, 2.0));
+			animador->addAnimacao("Imagens/Samurai/Walk.png", "Andando", 9, 0.12f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Samurai/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(2.5, 1.0));
 
 			//Animações de pulo
 
-			animador->addAnimacao("Imagens/Samurai/Jump.png", "Subindo", 9, 0.2f, sf::Vector2f(6.0, 2.0));
-			animador->addAnimacao("Imagens/Samurai/Jump.png", "Descendo", 9, 0.2f, sf::Vector2f(6.0, 2.0));
+			animador->addAnimacao("Imagens/Samurai/Jump.png", "Subindo", 9, 0.2f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Samurai/Jump.png", "Descendo", 9, 0.2f, sf::Vector2f(2.5, 1.0));
 
 			//Animações que só devem rodar uma vez
 
-			animador->addAnimacao("Imagens/Samurai/Attack_1.png", "Ataque1", 4, 0.16f, sf::Vector2f(6.0, 2.0));
-			animador->addAnimacao("Imagens/Samurai/Attack_2.png", "Ataque2", 5, 0.12f, sf::Vector2f(6.0, 2.0));
-			animador->addAnimacao("Imagens/Samurai/Attack_3.png", "Ataque3", 4, 0.18f, sf::Vector2f(6.0, 2.0));
-			animador->addAnimacao("Imagens/Samurai/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(6.0, 2.0));
-			animador->addAnimacao("Imagens/Samurai/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(6.0, 2.0));
-			animador->addAnimacao("Imagens/Samurai/Protection.png", "Protegendo", 2, 0.17f, sf::Vector2f(6.0, 2.0));
+			animador->addAnimacao("Imagens/Samurai/Attack_1.png", "Ataque1", 4, 0.16f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Samurai/Attack_2.png", "Ataque2", 5, 0.12f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Samurai/Attack_3.png", "Ataque3", 4, 0.18f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Samurai/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Samurai/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Samurai/Protection.png", "Protegendo", 2, 0.17f, sf::Vector2f(2.5, 1.0));
 
 		}
 

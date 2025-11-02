@@ -28,7 +28,8 @@ namespace Gerenciadores {
 
 	void Gerenciador_de_Eventos::verificaTeclaPressionada() {
 
-		sf::Vector2f direcaoInput(0.0f, 0.0f);
+		sf::Vector2f direcaoInput(0.0f, 0.0f); //resetamos a "direção" para zero (jogador parado) a cada iteração do loop do jogo
+											   //para que a função mover funcione corretamente quanto ao knockback, msm qnd ele nn estiver se movendo
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{

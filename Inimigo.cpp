@@ -8,7 +8,7 @@ namespace Entidades {
 		Inimigo::Inimigo(Jogador* pJ) :
 			Personagem(),
 			nivel_maldade(1),
-			raio_perseg(200.0f),
+			raio_perseg(300.0f),
 			veloc(0.05f,0.05f),
 			jogAlvo(pJ)
 		{

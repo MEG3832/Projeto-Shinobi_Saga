@@ -147,6 +147,7 @@
     <ClInclude Include="Obstaculo.h" />
     <ClInclude Include="Personagem.h" />
     <ClInclude Include="Projetil.h" />
+    <ClInclude Include="Tengu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animacao.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Obstaculo.cpp" />
     <ClCompile Include="Personagem.cpp" />
     <ClCompile Include="Projetil.cpp" />
+    <ClCompile Include="Tengu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Plataforma.png" />
