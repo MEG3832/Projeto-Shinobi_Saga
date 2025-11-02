@@ -161,5 +161,9 @@ namespace Animadores {
 
 	const sf::Vector2f Imagem::getEscala() { return escala; }
 
+	const int Imagem::getImgAtual()
+	{
+		return imag_Atual;
+	}
 }
 

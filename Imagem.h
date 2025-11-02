@@ -37,6 +37,10 @@ namespace Animadores {
 		const sf::Texture* getTextura();
 		const sf::Vector2f getEscala();
 
+		//teste:
+
+		const int getImgAtual();
+
 	};
 
 }

@@ -104,5 +104,10 @@ namespace Animadores {
 		mapImagens.insert({ nomeAnimacao, img });
 	}
 
+	const int Animacao::getImgAtual(std::string nomeAnimacao) {
+		return mapImagens[nomeAnimacao]->getImgAtual();
+	}
+
+
 
 }

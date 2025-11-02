@@ -16,7 +16,7 @@ namespace Entidades
 			//faz o corpo:
 
 			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
-			corpo->setPosition(sf::Vector2f(400, 400));	// Posição qualquer para teste
+			corpo->setPosition(sf::Vector2f(100, 400));	// Posição qualquer para teste
 
 
 			//cuida da animação:
@@ -92,8 +92,19 @@ namespace Entidades
 
 				else if (distanciaCentros <= distanciaAtaque) //entrou na área de ataque!
 				{
-					animador->atualizarAnimInim(paraEsq, true, "Ataque3");
-					atacar(pJ);
+					if (relogioAtaque.getElapsedTime().asSeconds() >= cooldownAtaque)
+					{
+						animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
+
+						if (animador->getImgAtual("Ataque3") == 2) //se chegou no último frame, pode atacar!
+						{
+							atacar(pJ);
+						}
+					}
+					else
+					{
+						animador->atualizarAnimInim(paraEsq, false, "Parado");
+					}
 				}
 
 			}
@@ -115,14 +126,12 @@ namespace Entidades
 
 					if(paraEsq) 
 					{
-						animador->atualizarAnimInim(paraEsq, false, "Ataque3");
 						float investida = - 40.0f;
 						corpo->move(investida, 0.0f);
 					}
 
 					else 
 					{
-						animador->atualizarAnimInim(paraEsq, false, "Ataque3");
 						float investida = 40.0f;
 						corpo->move(investida, 0.0f);
 					}
