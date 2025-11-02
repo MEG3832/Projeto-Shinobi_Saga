@@ -30,6 +30,7 @@ namespace Entidades {
 		}
 
 		void Redemoinho::executar() {
+			atualizaAnimacao();
 			if (animador->getImgAtual("ataque") < 4 || animador->getImgAtual("ataque") > 11) {
 				dano_unico = true;
 				danoso = false;

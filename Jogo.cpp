@@ -90,8 +90,6 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             
             jogador.atualizaAnimacao();
 
-            redemoinho.atualizaAnimacao();
-
             lista_ents.desenharEntidades();
 
             GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
