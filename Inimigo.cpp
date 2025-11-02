@@ -24,7 +24,14 @@ namespace Entidades {
 		}
 
 		Inimigo::~Inimigo() {
+
 			nivel_maldade = -1;
+			raio_perseg = 0;
+			veloc = sf::Vector2f(0.0f, 0.0f);
+			jogAlvo = nullptr;
+			cooldownAtaque = 0.0;
+			andando = false;
+			tempoAndar = 0;
 		}
 
 		void Inimigo::salvarDataBuffer() {
@@ -32,9 +39,7 @@ namespace Entidades {
 		}
 
 		void Inimigo::executar() {
-
-			mover();
-			perseguir(jogAlvo);
+			return;
 			
 		}
 
@@ -89,9 +94,9 @@ namespace Entidades {
 
 		}
 
-		void Inimigo::perseguir(Jogador* pJ)
+		void Inimigo::perseguir(Jogador* pJ) //base da perseguição, mas nos inimigos específicos (fácil, médio e chefão), elas são melhor implementadas para cada um! (provavelmente vou apagar ela...)
 		{
-			if (pJ) {
+			/*if (pJ) {
 
 				float posJog_X = pJ->getPos().x + pJ->getTam().x / 2;
 				float posInim_X = this->getPos().x + this->getTam().x / 2;
@@ -110,7 +115,8 @@ namespace Entidades {
 			}
 
 			else
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
+				std::cout << "ponteiro de jogador nulo!" << std::endl;*/
+			return;
 
 		}
 

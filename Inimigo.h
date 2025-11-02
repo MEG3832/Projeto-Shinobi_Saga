@@ -23,6 +23,7 @@ namespace Entidades {
 				sf::Clock relogioAtaque; //mede o cooldown
 
 				//tratam da ação de andar:
+
 				bool andando;
 				sf::Clock relogioAndar;
 				float tempoAndar;

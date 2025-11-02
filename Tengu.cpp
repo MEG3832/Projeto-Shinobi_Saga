@@ -25,7 +25,6 @@ namespace Entidades
 
 		Tengu::~Tengu()
 		{
-			jogAlvo = nullptr;
 
 		}
 
