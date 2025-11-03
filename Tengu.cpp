@@ -191,6 +191,15 @@ namespace Entidades
 
 						andando = !andando;
 
+						//sorteio para qual lado ele vai!
+						if (rand() % 2 == 0)
+						{
+							paraEsq = true;
+						}
+						else
+						{
+							paraEsq = false;
+						}
 
 					}
 
