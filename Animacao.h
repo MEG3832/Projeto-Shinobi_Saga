@@ -24,8 +24,6 @@ namespace Animadores {
 		void addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale);
 		const int getImgAtual(std::string nomeAnimacao);
 
-		const int getImgAtual(std::string nomeAnimacao);
-
 	};
 
 }

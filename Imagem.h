@@ -38,10 +38,6 @@ namespace Animadores {
 		const sf::Vector2f getEscala();
 		const int getImgAtual();
 
-		//teste:
-
-		const int getImgAtual();
-
 	};
 
 }

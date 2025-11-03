@@ -34,28 +34,25 @@ namespace Gerenciadores {
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			direcaoInput.x += 1.0f;
-			//pJogador->mover(); -> é chamado no loop do jogo!, por isso estou comentando...
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			direcaoInput.y -= 1.0f;
-			//pJogador->mover();
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			direcaoInput.y += 1.0f;
-			//pJogador->mover();
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			direcaoInput.x -= 1.0f;
-			//pJogador->mover();
 		}
-
+	
 		pJogador->setDirecao(direcaoInput);
+		pJogador->mover();
 
 	}
 

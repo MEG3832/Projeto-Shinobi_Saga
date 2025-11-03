@@ -14,7 +14,7 @@ namespace Entidades
 			//faz o corpo:
 
 			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
-			corpo->setPosition(sf::Vector2f(100, 400));	// Posição qualquer para teste
+			corpo->setPosition(sf::Vector2f(300, 400));	// Posição qualquer para teste
 
 
 			//cuida da animação:
@@ -190,16 +190,6 @@ namespace Entidades
 						relogioAndar.restart();
 
 						andando = !andando;
-
-						//sorteio para qual lado ele vai!
-						if (rand() % 2 == 0)
-						{
-							paraEsq = true;
-						}
-						else
-						{
-							paraEsq = false;
-						}
 
 
 					}

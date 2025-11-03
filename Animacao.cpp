@@ -105,10 +105,4 @@ namespace Animadores {
 	const int Animacao::getImgAtual(std::string nomeAnimacao) {
 		return mapImagens[nomeAnimacao]->getImgAtual();
 	}
-<<<<<<< HEAD
-=======
-
-
->>>>>>> jogador-e-inimigo
-
 }

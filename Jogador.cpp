@@ -15,7 +15,8 @@ namespace Entidades {
 			caindo(false),
 			subindo(false),
 			paraEsq(false),
-			atordoado(false)
+			atordoado(false),
+			correndo(false)
 		{
 			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
 			corpo->setPosition(pos);
@@ -33,7 +34,8 @@ namespace Entidades {
 			caindo(false),
 			subindo(false),
 			paraEsq(false),
-			atordoado(false)
+			atordoado(false),
+			correndo()
 		{
 			num_vidas = 100;
 
@@ -71,50 +73,24 @@ namespace Entidades {
 		}
 
 		void Jogador::mover() {
+			if (!atordoado) {
+				//primeiro "calculamos" a velocidade e depois a aplicamos no movimento...
 
-			//primeiro "calculamos" a velocidade e depois a aplicamos no movimento...
-
-			sf::Vector2f velocFinal(0.0f, 0.0f);
-			float limiarStun = 0.5f; //serve para impedir que o jogador se mova ao colidir (cm um inimigo!)
-
-			if (corpo) {
-<<<<<<< HEAD
-				if (!atordoado) {
-					if ('D' == direcao)
-					{
-						corpo->move(veloc.x, 0.0);
-					}
-
-					if ('C' == direcao)
-					{
-						corpo->move(0.0, -veloc.y);
-					}
-
-					if ('B' == direcao)
-					{
-						corpo->move(0.0, veloc.y);
-					}
-
-					if ('E' == direcao)
-					{
-
-						corpo->move(-veloc.x, 0.0);
-					}
-=======
+				sf::Vector2f velocFinal(0.0f, 0.0f);
+				float limiarStun = 0.5f; //serve para impedir que o jogador se mova ao colidir (cm um inimigo!)
 
 				if (abs(velocKnockBack.x) < limiarStun) {
 
 					velocFinal.x += veloc.x * direcao.x; //a direcao é setada no set, que é chamado lá no gerenciador de eventos.
-					
+
 				}
 
 				if (abs(velocKnockBack.y) < limiarStun) {
 
 					velocFinal.y += veloc.y * direcao.y;
 
->>>>>>> jogador-e-inimigo
 				}
-				
+
 
 				velocFinal.x += velocKnockBack.x;
 				velocFinal.y += velocKnockBack.y;
@@ -132,34 +108,12 @@ namespace Entidades {
 
 				if (abs(velocKnockBack.x) < 0.1f) { velocKnockBack.x = 0; }
 				if (abs(velocKnockBack.y) < 0.1f) { velocKnockBack.y = 0; }
-
 			}
-			else {
-				std::cerr << "ERRO: Nao foi possivel encontrar o corpo pois ele eh NULL" << std::endl;
-			}
-		}
-
-<<<<<<< HEAD
-		void Jogador::setDirecao(const char direcao) {
-			this->direcao = direcao;
-=======
-		void Jogador::diminuiVida(int nv_maldade)
-		{
-			int dano = nv_maldade;
-
-			num_vidas -= dano;
-
-		}
-
-		int Jogador::getVida()
-		{
-			return num_vidas;
 		}
 
 		void Jogador::setVelKnockBack(sf::Vector2f velKB)
 		{
 			velocKnockBack = velKB;
->>>>>>> jogador-e-inimigo
 		}
 
 		void Jogador::setDirecao(sf::Vector2f dir)

@@ -161,12 +161,8 @@ namespace Animadores {
 
 	const sf::Vector2f Imagem::getEscala() { return escala; }
 
-<<<<<<< HEAD
-	const int Imagem::getImgAtual() {
-=======
 	const int Imagem::getImgAtual()
 	{
->>>>>>> jogador-e-inimigo
 		return imag_Atual;
 	}
 }

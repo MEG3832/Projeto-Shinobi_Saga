@@ -150,11 +150,8 @@
     <ClInclude Include="Personagem.h" />
     <ClInclude Include="Plataforma.h" />
     <ClInclude Include="Projetil.h" />
-<<<<<<< HEAD
     <ClInclude Include="Redemoinho.h" />
-=======
     <ClInclude Include="Tengu.h" />
->>>>>>> jogador-e-inimigo
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animacao.cpp" />
@@ -176,11 +173,8 @@
     <ClCompile Include="Personagem.cpp" />
     <ClCompile Include="Plataforma.cpp" />
     <ClCompile Include="Projetil.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="Redemoinho.cpp" />
-=======
     <ClCompile Include="Tengu.cpp" />
->>>>>>> jogador-e-inimigo
   </ItemGroup>
   <ItemGroup>
     <Image Include="Plataforma.png" />
