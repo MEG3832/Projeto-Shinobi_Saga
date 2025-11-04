@@ -20,6 +20,10 @@ namespace Entidades {
 			bool caindo;
 			bool atordoado;
 			bool correndo;
+			bool atacando;
+			float dt;
+			sf::Clock timer;
+			float cooldown_ataque;
 			
 			sf::Vector2f veloc;
 			sf::Vector2f velocKnockBack;
@@ -41,6 +45,9 @@ namespace Entidades {
 			void inicializaAnimacoes();
 			void atualizaAnimacao();
 			void setAtordoado(bool atordoar);
+			void correr(bool correr);
+			void atacar();
+			bool getAtacando();
 		};
 
 	}

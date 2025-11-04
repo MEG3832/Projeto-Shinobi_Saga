@@ -16,7 +16,8 @@ namespace Entidades {
 			subindo(false),
 			paraEsq(false),
 			atordoado(false),
-			correndo(false)
+			correndo(false),
+			atacando(false)
 		{
 			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
 			corpo->setPosition(pos);
@@ -35,15 +36,18 @@ namespace Entidades {
 			subindo(false),
 			paraEsq(false),
 			atordoado(false),
-			correndo()
+			correndo(false),
+			atacando(false),
+			dt(0),
+			timer(),
+			cooldown_ataque(4*0.10)
 		{
 			num_vidas = 100;
 
-			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
+			corpo = new sf::RectangleShape(sf::Vector2f(80.0f, 130.0f));
 			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
 			setAnimador(corpo);
 			inicializaAnimacoes();
-
 		}
 
 		Jogador::~Jogador()
@@ -64,7 +68,7 @@ namespace Entidades {
 
 		void Jogador::executar()
 		{
-			return;
+			atualizaAnimacao();
 		}
 
 		void Jogador::salvar()
@@ -125,36 +129,76 @@ namespace Entidades {
 		{
 			//Animações em loop
 
-			animador->addAnimacao("Imagens/Samurai/Idle_2.png", "Parado", 6, 0.20f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Samurai/Walk.png", "Andando", 9, 0.12f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Samurai/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Idle.png", "Parado", 6, 0.20f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Walk.png", "Andando", 8, 0.12f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(2.5, 1.0));
 
 			//Animações de pulo
 
-			animador->addAnimacao("Imagens/Samurai/Jump.png", "Subindo", 9, 0.2f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Samurai/Jump.png", "Descendo", 9, 0.2f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Jump.png", "Subindo", 10, 0.2f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Jump.png", "Descendo", 10, 0.2f, sf::Vector2f(2.5, 1.0));
 
 			//Animações que só devem rodar uma vez
 
-			animador->addAnimacao("Imagens/Samurai/Attack_1.png", "Ataque1", 4, 0.16f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Samurai/Attack_2.png", "Ataque2", 5, 0.12f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Samurai/Attack_3.png", "Ataque3", 4, 0.18f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Samurai/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Samurai/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Samurai/Protection.png", "Protegendo", 2, 0.17f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Attack_1.png", "Ataque1", 4, 0.10, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Attack_2.png", "Ataque2", 3, 0.12f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Attack_3.png", "Ataque3", 4, 0.18f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Dead.png", "Derrotado", 3, 0.45f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Shield.png", "Protegendo", 2, 0.17f, sf::Vector2f(2.5, 1.0));
 
 		}
 
 		void Jogador::atualizaAnimacao()
 		{
-			bool rodaUmaVez = false;
+			bool rodaUmaVez;
 
-			//teste:
-			animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+			if(atacando && dt < cooldown_ataque) {
+				rodaUmaVez = true;
+				animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Ataque1");
+				dt = timer.getElapsedTime().asSeconds();
+			}
+			else {
+				rodaUmaVez = false;
+				atacando = false;
+
+				if (direcao.x == 0 && direcao.y == 0) {
+					animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+				}
+				else if (direcao.x != 0 && direcao.y == 0) {
+					if (direcao.x < 0) {
+						paraEsq = true;
+					}
+					else {
+						paraEsq = false;
+					}
+
+					if (correndo) {
+						animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+					}
+					else {
+						animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+					}
+				}
+			}
 		}
 
 		void Jogador::setAtordoado(bool atordoar) {
 			atordoado = atordoar;
+		}
+
+		void Jogador::correr(bool correr) {
+			correndo = correr;
+		}
+
+		void Jogador::atacar() {
+			timer.restart();
+			dt = 0;
+			atacando = true;
+		}
+
+		bool Jogador::getAtacando() {
+			return atacando;
 		}
 
 	}
