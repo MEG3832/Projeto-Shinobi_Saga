@@ -151,6 +151,7 @@
     <ClInclude Include="Plataforma.h" />
     <ClInclude Include="Projetil.h" />
     <ClInclude Include="Redemoinho.h" />
+    <ClInclude Include="Samurai_Inimigo.h" />
     <ClInclude Include="Tengu.h" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +175,7 @@
     <ClCompile Include="Plataforma.cpp" />
     <ClCompile Include="Projetil.cpp" />
     <ClCompile Include="Redemoinho.cpp" />
+    <ClCompile Include="Samurai_Inimigo.cpp" />
     <ClCompile Include="Tengu.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -64,6 +64,7 @@
     <ClCompile Include="Tengu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Samurai_Inimigo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animacao.h">
@@ -135,6 +136,7 @@
     <ClInclude Include="Tengu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Samurai_Inimigo.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Camada1.png">
