@@ -140,21 +140,21 @@ namespace Entidades {
 
 			animador->addAnimacao("Imagens/Fighter/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
 			animador->addAnimacao("Imagens/Fighter/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Run.png", "Correndo", 8, 0.1, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Run.png", "Correndo", 8, 0.1, sf::Vector2f(1.0, 1.0));
 
 			//Animações de pulo
 
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Subindo", 10, 0.2, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Descendo", 10, 0.2, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Jump.png", "Subindo", 10, 0.2, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Jump.png", "Descendo", 10, 0.2, sf::Vector2f(1.0, 1.0));
 
 			//Animações que só devem rodar uma vez
 
-			animador->addAnimacao("Imagens/Fighter/Attack_1.png", "Ataque1", 4, 0.10, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Attack_2.png", "Ataque2", 3, 0.12, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Dead.png", "Derrotado", 3, 0.45, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Hurt.png", "Ferido", 3, 0.17, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Shield.png", "Protegendo", 2, 0.17, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Attack_1.png", "Ataque1", 4, 0.10, sf::Vector2f(1.0 , 1.0));
+			animador->addAnimacao("Imagens/Fighter/Attack_2.png", "Ataque2", 3, 0.12, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Dead.png", "Derrotado", 3, 0.45, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Hurt.png", "Ferido", 3, 0.17, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Shield.png", "Protegendo", 2, 0.17, sf::Vector2f(1.0, 1.0));
 
 		}
 
