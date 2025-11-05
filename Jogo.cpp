@@ -94,7 +94,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             lista_ents.desenharEntidades();
 
             //teste
-            sf::RectangleShape* corpoJogador = pJog1.getHitBox();
+            /*sf::RectangleShape* corpoJogador = pJog1.getHitBox();
 
             sf::RectangleShape debugHitbox = *corpoJogador;
 
@@ -103,7 +103,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
 
             GG->getWindow()->draw(debugHitbox);
 
-            /*sf::RectangleShape* corpo2 = inimigo.getHitBox();
+            sf::RectangleShape* corpo2 = inimigo.getHitBox();
 
             sf::RectangleShape debugHitbox1 = *corpo2;
 
