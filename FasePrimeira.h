@@ -1,0 +1,32 @@
+#pragma once
+
+namespace Fases {
+
+	class Fase;
+
+	class FasePrimeira : public Fase
+	{
+	private:
+
+		const int maxSamurais;
+		const int maxTengus; 
+		const int maxObstacFaceis; //mudar nome dps para o específico
+		const int maxObstacMedios;
+
+	public:
+
+		FasePrimeira();
+		~FasePrimeira();
+
+		//reimplementação dos métodos virtuais puros:
+		void criarInimigos();
+		void criarObstaculos();
+
+		// ---- //
+
+		void criarSamurais(); //inimigo exclusivo da fase 1!
+
+	};
+
+}
+
