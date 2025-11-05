@@ -38,16 +38,16 @@ void Jogo::inicializar() {
 void Jogo::inicializarGC() {
     GC->setJogador(&pJog1);
 
-    inicializarListaInimigos();
+    //inicializarListaInimigos();
 
-    inicializarListaObtaculos();
+    //inicializarListaObtaculos();
 
     //inicializarListaProjeteis();
 }
 
 void Jogo::inicializaListaEntidades() {
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-       static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
+    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
+    //   static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
     //   static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
@@ -59,13 +59,13 @@ void Jogo::inicializaListaEntidades() {
 }
 
 void Jogo::inicializarListaInimigos() {
-    //GC->incluirInimigo(&inimigo);
+    GC->incluirInimigo(&inimigo);
 }
 
 void Jogo::inicializarListaObtaculos() {
     GC->incluirObstaculo(&plataforma);
-    //GC->incluirObstaculo(&redemoinho);
-    //GC->incluirObstaculo(&armadilha_de_urso);
+    GC->incluirObstaculo(&redemoinho);
+    GC->incluirObstaculo(&armadilha_de_urso);
 }
 
 void Jogo::inicializarListaProjeteis() {
@@ -92,6 +92,25 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             fundo.executar();
 
             lista_ents.desenharEntidades();
+
+            //teste
+            /*sf::RectangleShape* corpoJogador = pJog1.getHitBox();
+
+            sf::RectangleShape debugHitbox = *corpoJogador;
+
+            debugHitbox.setTexture(nullptr);
+            debugHitbox.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+
+            GG->getWindow()->draw(debugHitbox);
+
+            sf::RectangleShape* corpo2 = inimigo.getHitBox();
+
+            sf::RectangleShape debugHitbox1 = *corpo2;
+
+            debugHitbox1.setTexture(nullptr);
+            debugHitbox1.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+
+            GG->getWindow()->draw(debugHitbox1);*/
 
             GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
         }

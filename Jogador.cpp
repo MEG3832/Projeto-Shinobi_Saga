@@ -7,11 +7,11 @@ namespace Entidades {
 
 		Jogador::Jogador(const sf::Vector2f pos, int ident) :
 			Personagem(),
-			veloc(0.10f, 0.10f),	// Isso eh uma boa velocidade?
-			velocKnockBack(0.0f, 0.0f),
+			veloc(0.10, 0.10),	// Isso eh uma boa velocidade?
+			velocKnockBack(0.0, 0.0),
 			pontos(0),
 			id(ident),
-			direcao(0.0f, 0.0f),
+			direcao(0.0, 0.0),
 			caindo(false),
 			subindo(false),
 			paraEsq(false),
@@ -19,19 +19,20 @@ namespace Entidades {
 			correndo(false),
 			atacando(false)
 		{
-			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
+			corpo = new sf::RectangleShape(sf::Vector2f(100.0, 160.0));
 			corpo->setPosition(pos);
+
 			setAnimador(corpo);
 			inicializaAnimacoes();
 		}
 
 		Jogador::Jogador() :
 			Personagem(),
-			veloc(0.08f, 0.08f),
-			velocKnockBack(0.0f, 0.0f),
+			veloc(0.08, 0.08),
+			velocKnockBack(0.0, 0.0),
 			pontos(0),
 			id(1),
-			direcao(0.0f,0.0f),
+			direcao(0.0, 0.0),
 			caindo(false),
 			subindo(false),
 			paraEsq(false),
@@ -40,13 +41,17 @@ namespace Entidades {
 			atacando(false),
 			dt(0),
 			timer(),
-			cooldown_ataque(4*0.10)
+			cooldown_ataque(4 * 0.10)
 		{
 			num_vidas = 100;
 
-			corpo = new sf::RectangleShape(sf::Vector2f(80.0f, 130.0f));
+			corpo = new sf::RectangleShape(sf::Vector2f(150.0, 120.0));
 			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
-			setAnimador(corpo);
+
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
+			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x/2 - hitBox->getSize().x/2),
+								corpo->getPosition().y);
+
 			inicializaAnimacoes();
 		}
 
@@ -56,7 +61,7 @@ namespace Entidades {
 			veloc.y = 0;
 			pontos = -1;
 			id = 0;
-			direcao = sf::Vector2f(0.0f, 0.0f);
+			direcao = sf::Vector2f(0.0, 0.0);
 			paraEsq = false;
 			subindo = false;
 			caindo = false;
@@ -80,8 +85,8 @@ namespace Entidades {
 			if (!atordoado) {
 				//primeiro "calculamos" a velocidade e depois a aplicamos no movimento...
 
-				sf::Vector2f velocFinal(0.0f, 0.0f);
-				float limiarStun = 0.5f; //serve para impedir que o jogador se mova ao colidir (cm um inimigo!)
+				sf::Vector2f velocFinal(0.0, 0.0);
+				float limiarStun = 0.5; //serve para impedir que o jogador se mova ao colidir (cm um inimigo!)
 
 				if (abs(velocKnockBack.x) < limiarStun) {
 
@@ -100,6 +105,8 @@ namespace Entidades {
 				velocFinal.y += velocKnockBack.y;
 
 				corpo->move(velocFinal);
+				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+									corpo->getPosition().y);
 
 				//aplicamos um "atrito" aqui! (valor menor que 1, portanto, irá diminuir a cada chamada do mover)
 
@@ -127,25 +134,27 @@ namespace Entidades {
 
 		void Jogador::inicializaAnimacoes()
 		{
+			setAnimador(corpo);
+
 			//Animações em loop
 
-			animador->addAnimacao("Imagens/Fighter/Idle.png", "Parado", 6, 0.20f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Walk.png", "Andando", 8, 0.12f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Run.png", "Correndo", 8, 0.1, sf::Vector2f(2.5, 1.0));
 
 			//Animações de pulo
 
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Subindo", 10, 0.2f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Descendo", 10, 0.2f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Jump.png", "Subindo", 10, 0.2, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Jump.png", "Descendo", 10, 0.2, sf::Vector2f(2.5, 1.0));
 
 			//Animações que só devem rodar uma vez
 
 			animador->addAnimacao("Imagens/Fighter/Attack_1.png", "Ataque1", 4, 0.10, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Attack_2.png", "Ataque2", 3, 0.12f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Attack_3.png", "Ataque3", 4, 0.18f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Dead.png", "Derrotado", 3, 0.45f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(2.5, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Shield.png", "Protegendo", 2, 0.17f, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Attack_2.png", "Ataque2", 3, 0.12, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Dead.png", "Derrotado", 3, 0.45, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Hurt.png", "Ferido", 3, 0.17, sf::Vector2f(2.5, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Shield.png", "Protegendo", 2, 0.17, sf::Vector2f(2.5, 1.0));
 
 		}
 

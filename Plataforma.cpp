@@ -15,6 +15,10 @@ namespace Entidades {
 			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));
 			corpo->setPosition(200.0f, 300.0f);
 			corpo->setTexture(&textura);
+
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize()));
+			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+				corpo->getPosition().y);
 		}
 
 		Plataforma::~Plataforma() {
