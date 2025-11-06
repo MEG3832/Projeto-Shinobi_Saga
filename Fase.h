@@ -1,6 +1,7 @@
 #pragma once
 #include "ListaEntidades.h"
 #include "Gerenciador_Colisoes.h"
+#include "Tengu.h"
 
 namespace Fases {
 
@@ -8,7 +9,7 @@ namespace Fases {
 	{
 	protected:
 
-
+		static const int maxTengus;
 		sf::RectangleShape chao;
 
 		Listas::ListaEntidades lista_ents;

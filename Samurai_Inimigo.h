@@ -1,5 +1,16 @@
 #pragma once
-class Samurai_Inimigo
-{
-};
+#include "Inimigo.h"
+
+namespace Entidades {
+
+	namespace Personagens {
+
+		class Samurai_Inimigo : public Inimigo
+		{
+		};
+
+
+	}
+}
+
 

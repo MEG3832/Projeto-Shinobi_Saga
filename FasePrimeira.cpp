@@ -3,6 +3,7 @@
 #include "Samurai_Inimigo.h"
 #include "Entidade.h"
 #include "ListaEntidades.h"
+#include "Inimigo.h"
 
 namespace Fases
 {
@@ -10,12 +11,11 @@ namespace Fases
 	FasePrimeira::FasePrimeira():
 		Fase(),
 		maxSamurais(10), //NOTA! tanto a quantidade de inimigos e obstáculos podem ser alterados...
-		maxTengus(10),
 		maxObstacFaceis(5), 
 		maxObstacMedios(5)
 	{
-		criarInimigos();
-		criarObstaculos();
+		//criarInimigos(); ->não precisa disso né? já que chamamosa construtora de Fase explicitamente...
+		//criarObstaculos(); ->nem disso?
 		executar();
 	}
 
@@ -27,10 +27,10 @@ namespace Fases
 	void FasePrimeira::criarInimigos()
 	{
 		criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
-		criarSamurais();
+		//criarSamurais();
 	}
 
-	void criarSamurais()
+	void FasePrimeira::criarSamurais()
 	{
 		const int min_samurais = 3;
 		
@@ -38,14 +38,14 @@ namespace Fases
 
 		for (int i = 0; i < qnt_inim; i++)
 		{
-			Samurai_Inimigo* pSam;
-			pSam = new Samurai_Inimigo();
+			Entidades::Personagens::Samurai_Inimigo* pSam;
+			pSam = new Entidades::Personagens::Samurai_Inimigo(); //?
 
 			if (pSam)
 			{
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pSam);
 				lista_ents.incluir(pEnt);
-				GC.incluirInimigo(pSam);
+				GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pSam));
 			}
 
 			else
