@@ -40,14 +40,14 @@ void Jogo::inicializarGC() {
 
     //inicializarListaInimigos();
 
-    //inicializarListaObtaculos();
+    inicializarListaObtaculos();
 
     //inicializarListaProjeteis();
 }
 
 void Jogo::inicializaListaEntidades() {
-    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //   static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+       static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
     //   static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
@@ -64,8 +64,8 @@ void Jogo::inicializarListaInimigos() {
 
 void Jogo::inicializarListaObtaculos() {
     GC->incluirObstaculo(&plataforma);
-    GC->incluirObstaculo(&redemoinho);
-    GC->incluirObstaculo(&armadilha_de_urso);
+    //GC->incluirObstaculo(&redemoinho);
+    //GC->incluirObstaculo(&armadilha_de_urso);
 }
 
 void Jogo::inicializarListaProjeteis() {
@@ -103,7 +103,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
 
             GG->getWindow()->draw(debugHitbox);
 
-            /*sf::RectangleShape* corpo2 = inimigo.getHitBox();
+            /*sf::RectangleShape* corpo2 = plataforma.getHitBox();
 
             sf::RectangleShape debugHitbox1 = *corpo2;
 

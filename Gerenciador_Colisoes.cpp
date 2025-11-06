@@ -201,6 +201,7 @@ namespace Gerenciadores {
 	void Gerenciador_Colisoes::tratarColisoesJogsChao() {
 		if (chao) {
 			if (verificaColisaoChao(pJog1)) {
+				pJog1->setNoChao(true);
 				reposicionar(pJog1->getHitBox(), chao);
 				if (pJog1->getCorpo()) {
 					pJog1->getCorpo()->setPosition(

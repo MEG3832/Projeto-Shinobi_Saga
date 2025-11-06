@@ -26,6 +26,12 @@ namespace Gerenciadores {
 		this->pJogador = pJogador;
 	}
 
+	/* TECLAS:
+	* Atacar - Q
+	* Pular - W
+	* Andar para a direita - D
+	* Andar para a esquerda - E
+	*/
 	void Gerenciador_de_Eventos::verificaTeclaPressionada() {
 
 		sf::Vector2f direcaoInput(0.0f, 0.0f); //resetamos a "direção" para zero (jogador parado) a cada iteração do loop do jogo
@@ -52,6 +58,7 @@ namespace Gerenciadores {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				{
 					direcaoInput.y -= 1.0f;
+					pJogador->pular();
 				}
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -78,10 +85,9 @@ namespace Gerenciadores {
 		}
 	
 		pJogador->setDirecao(direcaoInput);
-		pJogador->mover();
-
 	}
 
+	// Verifica qual tecla está sendo pressionada e muda a diração do jogador segundo ela
 	void Gerenciador_de_Eventos::executar() {
 		if(pGrafico) {
 			sf::Event evento;

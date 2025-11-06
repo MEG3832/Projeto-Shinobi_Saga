@@ -7,7 +7,6 @@ namespace Entidades {
 
 		Jogador::Jogador(const sf::Vector2f pos, int ident) :
 			Personagem(),
-			veloc(0.10, 0.10),	// Isso eh uma boa velocidade?
 			velocKnockBack(0.0, 0.0),
 			pontos(0),
 			id(ident),
@@ -19,6 +18,9 @@ namespace Entidades {
 			correndo(false),
 			atacando(false)
 		{
+			veloc.x = 0.05;
+			veloc.y = 0.05;
+
 			corpo = new sf::RectangleShape(sf::Vector2f(100.0, 160.0));
 			corpo->setPosition(pos);
 
@@ -28,7 +30,6 @@ namespace Entidades {
 
 		Jogador::Jogador() :
 			Personagem(),
-			veloc(0.08, 0.08),
 			velocKnockBack(0.0, 0.0),
 			pontos(0),
 			id(1),
@@ -39,10 +40,14 @@ namespace Entidades {
 			atordoado(false),
 			correndo(false),
 			atacando(false),
+			noChao(true),
 			dt(0),
 			timer(),
 			cooldown_ataque(4 * 0.10)
 		{
+			veloc.x = 0.05;
+			veloc.y = 0.00;
+
 			num_vidas = 100;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(150.0, 120.0));
@@ -74,6 +79,20 @@ namespace Entidades {
 		void Jogador::executar()
 		{
 			atualizaAnimacao();
+
+			sofrerGravidade();
+			if (!subindo && !caindo) {
+				sofrerForcaNormal();
+			}
+			corpo->move(0.0, veloc.y);
+			hitBox->move(0.0, veloc.y);
+
+			if (subindo && 0.0 == veloc.y) {
+				subindo = false;
+				caindo = true;
+			}
+
+			mover();
 		}
 
 		void Jogador::salvar()
@@ -198,6 +217,12 @@ namespace Entidades {
 
 		void Jogador::correr(bool correr) {
 			correndo = correr;
+			if (correr) {
+				veloc.x = 0.08;
+			}
+			else {
+				veloc.x = 0.05;
+			}
 		}
 
 		void Jogador::atacar() {
@@ -208,6 +233,26 @@ namespace Entidades {
 
 		bool Jogador::getAtacando() {
 			return atacando;
+		}
+
+		void Jogador::sofrerForcaNormal() {
+			float aceleracao = - GRAVIDADE;
+			veloc.y += aceleracao;
+		}
+
+		void Jogador::pular() {
+			if (!subindo) {
+				veloc.y = -0.045;
+				subindo = true;
+			}
+		}
+
+		void Jogador::setNoChao(bool noChao) {
+			if (noChao) {
+				caindo = false;
+				subindo = false;
+				veloc.y = 0.0;
+			}
 		}
 
 	}
