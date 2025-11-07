@@ -13,7 +13,7 @@ namespace Entidades {
 			danoso = false;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));
-			corpo->setPosition(200.0f, 300.0f);
+			corpo->setPosition(200.0f, 400.0f);
 			corpo->setTexture(&textura);
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize()));
@@ -36,7 +36,15 @@ namespace Entidades {
 		}
 
 		void Plataforma::obstaculizar(Personagens::Jogador* p) {
-			return;
+			if (p) {
+				if (corpo->getPosition().y == p->getCorpo()->getPosition().y + p->getCorpo()->getSize().y) {
+					p->setNoChao(true);
+					p->aplicarForcaNormal();
+				}
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel obstaculizar pois o jogador eh NULL" << std::endl;
+			}
 		}
 
 		void Plataforma::salvar() {

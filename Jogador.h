@@ -16,15 +16,19 @@ namespace Entidades {
 
 			int pontos;
 			bool paraEsq;
-			bool subindo;
+			bool pulando;
 			bool caindo;
 			bool atordoado;
 			bool correndo;
 			bool atacando;
+			bool parado;
 			bool noChao;
 			float dt;
 			sf::Clock timer;
 			float cooldown_ataque;
+			float cooldown_pulo;
+			bool preparandoPulo;
+			float velPulo;
 
 			sf::Vector2f velocKnockBack;
 			int id; // 1 ou 2
@@ -48,9 +52,12 @@ namespace Entidades {
 			void correr(bool correr);
 			void atacar();
 			bool getAtacando();
-			void sofrerForcaNormal();
+			void aplicarForcaNormal();
 			void pular();
 			void setNoChao(bool noChao);
+			bool getSubindo();
+			bool getCaindo();
+			void setCair(bool cair);
 		};
 
 	}

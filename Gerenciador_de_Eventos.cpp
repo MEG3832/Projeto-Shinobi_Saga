@@ -38,44 +38,40 @@ namespace Gerenciadores {
 											   //para que a função mover funcione corretamente quanto ao knockback, msm qnd ele nn estiver se movendo
 
 		if (!pJogador->getAtacando()) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			{
-				pJogador->atacar();
-			}
-			else {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-				{
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-						pJogador->correr(true);
-					}
-					else {
-						pJogador->correr(false);
-					}
-
-					direcaoInput.x += 1.0f;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->getCaindo()) {
+					pJogador->correr(true);
+				}
+				else {
+					pJogador->correr(false);
 				}
 
+				direcaoInput.x += 1.0f;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->getCaindo()) {
+					pJogador->correr(true);
+				}
+				else {
+					pJogador->correr(false);
+				}
+
+				direcaoInput.x -= 1.0f;
+			}
+			
+			if (!pJogador->getSubindo() && (!pJogador->getSubindo())) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				{
 					direcaoInput.y -= 1.0f;
 					pJogador->pular();
 				}
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 				{
-					direcaoInput.y += 1.0f;
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-				{
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-						pJogador->correr(true);
-					}
-					else {
-						pJogador->correr(false);
-					}
-
-					direcaoInput.x -= 1.0f;
+					pJogador->atacar();
 				}
 			}
 		}
