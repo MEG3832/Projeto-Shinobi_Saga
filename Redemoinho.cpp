@@ -8,13 +8,13 @@ namespace Entidades {
 			Obstaculo(),
 			altura(120),
 			largura(120),
-			danosidade(1),
+			danosidade(20),
 			dano_unico (false)
 		{
 			intransponivel = false;
 			danoso = true;
 			corpo = new sf::RectangleShape(sf::Vector2f(largura, altura));
-			corpo->setPosition(120.0, ALTURA_TELA - 50 - altura);	// 50 Seria o tamanho do chão
+			corpo->setPosition(150.0, ALTURA_TELA - 50 - altura);	// 50 Seria o tamanho do chão
 			
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 10.0f, corpo->getSize().y));
 			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2) - 08.0f,

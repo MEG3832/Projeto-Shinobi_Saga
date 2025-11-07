@@ -6,8 +6,7 @@ namespace Entidades
 	namespace Personagens
 	{
 		Tengu::Tengu(Jogador* pJ) :
-			Inimigo(pJ),
-			paraEsq(true)
+			Inimigo(pJ)
 		{
 			nivel_maldade = 1;
 

@@ -27,8 +27,6 @@ namespace Gerenciadores {
 	void Gerenciador_Colisoes::executar() {
 		if (pJog1) {
 			if (pJog1->getHitBox()) {
-				pJog1->setNoChao(false);
-
 				tratarColisoesJogsInimgs();
 
 				tratarColisoesJogsObstacs();
@@ -212,7 +210,7 @@ namespace Gerenciadores {
 		if (chao) {
 			if (verificaColisaoChao(pJog1)) {
 				reposicionar(pJog1->getHitBox(), chao);
-				pJog1->setNoChao(true);
+				pJog1->setNoChao();
 				if (pJog1->getCorpo()) {
 					pJog1->getCorpo()->setPosition(
 						pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),

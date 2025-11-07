@@ -33,6 +33,8 @@ namespace Entidades {
 
 	void Entidade::sofrerGravidade() {
 		veloc.y += GRAVIDADE;
+		corpo->move(0.0, veloc.y);
+		hitBox->move(0.0, veloc.y);
 	}
 
 }

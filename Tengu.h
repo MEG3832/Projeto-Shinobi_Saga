@@ -10,9 +10,9 @@ namespace Entidades
 
 		class Tengu : public Inimigo
 		{
-		private:
+		//private:
 
-			bool paraEsq;
+			// Nada
 
 
 		public:
