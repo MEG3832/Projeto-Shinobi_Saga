@@ -13,8 +13,12 @@ namespace Entidades
 
 			//faz o corpo:
 
-			corpo = new sf::RectangleShape(sf::Vector2f(100.0f, 160.0f));
-			corpo->setPosition(sf::Vector2f(300, 400));	// Posição qualquer para teste
+			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
+			corpo->setPosition(sf::Vector2f(150, ALTURA_TELA - 50 - corpo->getSize().y));	// Posição qualquer para teste
+
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x, corpo->getSize().y));
+			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+								corpo->getPosition().y);
 
 
 			//cuida da animação:
@@ -46,6 +50,8 @@ namespace Entidades
 		void Tengu::executar()
 		{
 			mover();
+			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+				corpo->getPosition().y);
 		}
 
 		void Tengu::perseguir(Jogador* pJ)
@@ -54,19 +60,19 @@ namespace Entidades
 
 				float posJog_X = pJ->getPos().x + pJ->getTam().x / 2;
 				float posInim_X = this->getPos().x + this->getTam().x / 2;
-				      
+
 
 				float distanciaCentros = abs(posJog_X - posInim_X);
-				float distanciaAtaque = abs((pJ->getTam().x / 2) + this->getTam().x/2) +30.0f; //30pixels para a distancia entre as bordas dos personagens
+				float distanciaAtaque = abs((pJ->getTam().x / 2) + this->getTam().x / 2) + 30.0f; //30pixels para a distancia entre as bordas dos personagens
 
-				if (distanciaCentros <= raio_perseg && distanciaCentros > distanciaAtaque) 
+				if (distanciaCentros <= raio_perseg && distanciaCentros > distanciaAtaque)
 				{
 					if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
 					{
 						paraEsq = true;
 						animador->atualizarAnimInim(paraEsq, false, "Correndo");
 						corpo->move(-veloc.x, 0.0f);
-						
+
 					}
 
 					else if (posJog_X > posInim_X) //jogador está à direita do inimigo
@@ -74,10 +80,10 @@ namespace Entidades
 						paraEsq = false;
 						animador->atualizarAnimInim(paraEsq, false, "Correndo");
 						corpo->move(veloc.x, 0.0f);
-						
+
 					}
-					
-						
+
+
 				}
 
 				else if (distanciaCentros <= distanciaAtaque) //entrou na área de ataque!
@@ -109,24 +115,25 @@ namespace Entidades
 			if (pJ)
 			{
 				float dt = relogioAtaque.getElapsedTime().asSeconds();
-				
+
 				if (dt >= cooldownAtaque)
 				{
 					relogioAtaque.restart();
 
-					if(paraEsq) 
+					if (paraEsq)
 					{
-						float investida = - 40.0f;
+						float investida = -40.0f;
 						corpo->move(investida, 0.0f);
 					}
 
-					else 
+					else
 					{
 						float investida = 40.0f;
 						corpo->move(investida, 0.0f);
 					}
 
 				}
+
 			}
 
 			else
@@ -141,22 +148,22 @@ namespace Entidades
 
 				//Animações em loop
 
-				animador->addAnimacao("Imagens/Tengu/Idle.png", "Parado", 6, 0.20f, sf::Vector2f(1.5, 1.0));
-				animador->addAnimacao("Imagens/Tengu/Walk.png", "Andando", 8, 0.20f, sf::Vector2f(1.5, 1.0));
-				animador->addAnimacao("Imagens/Tengu/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(1.5, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Idle.png", "Parado", 6, 0.20f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Walk.png", "Andando", 8, 0.20f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(1.0, 1.0));
 
 
 
 				//Animações que só devem rodar uma vez
 
-				animador->addAnimacao("Imagens/Tengu/Attack_1.png", "Ataque1", 6, 0.1f, sf::Vector2f(1.5, 1.0));
-				animador->addAnimacao("Imagens/Tengu/Attack_2.png", "Ataque2", 4, 0.12f, sf::Vector2f(1.5, 1.0));
-				animador->addAnimacao("Imagens/Tengu/Attack_3.png", "Ataque3", 3, 0.1f, sf::Vector2f(1.5, 1.0));
-				animador->addAnimacao("Imagens/Tengu/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(1.5, 1.0));
-				animador->addAnimacao("Imagens/Tengu/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(1.5, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Attack_1.png", "Ataque1", 6, 0.1f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Attack_2.png", "Ataque2", 4, 0.12f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Attack_3.png", "Ataque3", 3, 0.1f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(1.0, 1.0));
 			}
 
-			else 
+			else
 				std::cout << "ponteiro de animacao nulo!" << std::endl;
 		}
 

@@ -6,6 +6,7 @@ class Ente
 		int id;
 		static Gerenciadores::Gerenciador_Grafico* pGG;
 		sf::RectangleShape* corpo;
+		sf::RectangleShape* hitBox;
 
 	public:
 		Ente();
@@ -14,6 +15,7 @@ class Ente
 		virtual void executar() = 0;
 		sf::Vector2f getTam();
 		sf::RectangleShape* getCorpo();
+		sf::RectangleShape* getHitBox();
 
 		static void setGG(Gerenciadores::Gerenciador_Grafico* pG);
 };

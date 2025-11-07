@@ -8,7 +8,8 @@ void Ente::setGG(Gerenciadores::Gerenciador_Grafico* pG) {	// Não utilizamos
 
 Ente::Ente() :
 	id(0),
-	corpo(nullptr)
+	corpo(nullptr),
+	hitBox(nullptr)
 {}
 
 Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos deletá-lo em Ente
@@ -17,6 +18,11 @@ Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos delet
 		delete corpo;
 	}
 	corpo = nullptr;
+
+	if (hitBox) {
+		delete hitBox;
+	}
+	hitBox = nullptr;
 }
 
 void Ente::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
@@ -34,4 +40,8 @@ sf::Vector2f Ente::getTam() {
 
 sf::RectangleShape* Ente::getCorpo() {
 	return corpo;
+}
+
+sf::RectangleShape* Ente::getHitBox() {
+	return hitBox;
 }

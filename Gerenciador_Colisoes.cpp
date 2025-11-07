@@ -25,13 +25,25 @@ namespace Gerenciadores {
 	}
 
 	void Gerenciador_Colisoes::executar() {
-		tratarColisoesJogsInimgs();
+		if (pJog1) {
+			if (pJog1->getHitBox()) {
+				pJog1->setNoChao(false);
 
-		tratarColisoesJogsObstacs();
+				tratarColisoesJogsInimgs();
 
-		tratarColisoesJogsProjeteis();
+				tratarColisoesJogsObstacs();
 
-		tratarColisoesJogsChao();
+				tratarColisoesJogsProjeteis();
+
+				tratarColisoesJogsChao();
+			}
+			else {
+				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o Hit Box eh NULL" << std::endl;
+			}
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o jogador eh NULL" << std::endl;
+		}
 	}
 
 	void Gerenciador_Colisoes::incluirInimigo(Entidades::Personagens::Inimigo* pi) {
@@ -67,10 +79,10 @@ namespace Gerenciadores {
 	const bool Gerenciador_Colisoes::verificaColisao(Entidades::Entidade* pe1, Entidades::Entidade* pe2) const {
 		if (pe1) {
 			if (pe2) {
-				sf::Vector2f pos1 = pe1->getPos();
-				sf::Vector2f pos2 = pe2->getPos();
-				sf::Vector2f tam1 = pe1->getTam();
-				sf::Vector2f tam2 = pe2->getTam();
+				sf::Vector2f pos1 = pe1->getHitBox()->getPosition();
+				sf::Vector2f pos2 = pe2->getHitBox()->getPosition();
+				sf::Vector2f tam1 = pe1->getHitBox()->getSize();
+				sf::Vector2f tam2 = pe2->getHitBox()->getSize();
 
 				sf::Vector2f distanciaCentros(fabs((pos1.x + tam1.x / 2) - (pos2.x + tam2.x / 2)),
 					fabs((pos1.y + tam1.y / 2) - (pos2.y + tam2.y / 2)));
@@ -82,7 +94,7 @@ namespace Gerenciadores {
 				return ((ds.x < 0.0f) && (ds.y < 0.0f));
 			}
 			else {
-				std::cout << "ERRO: Nao foi possivel calcular a colisao pois ente 1 eh NULL" << std::endl;
+				std::cout << "ERRO: Nao foi possivel calcular a colisao pois ente 2 eh NULL" << std::endl;
 				return false;
 			}
 		}
@@ -121,86 +133,98 @@ namespace Gerenciadores {
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesJogsInimgs() {
-		if (pJog1) {
-			for (int i = 0; i < (int)LIs.size(); i++) {
-				if (LIs[i]) {
-					//Entidades::Entidade* pI = static_cast<Entidades::Entidade*>(
-											  //static_cast<Entidades::Personagens::Personagem*>(LIs[i]));
-					if (verificaColisao(pJog1, LIs[i])) {
-						pJog1->colidir(LIs[i]);
-						if (LIs[i]->getIntransponivel()) {
-							reposicionar(pJog1->getCorpo(), LIs[i]->getCorpo());
-						}
+		for (int i = 0; i < (int)LIs.size(); i++) {
+			if (LIs[i]) {
+				if (verificaColisao((static_cast<Entidades::Entidade*>(
+									static_cast<Entidades::Personagens::Personagem*>(pJog1))),
+									(static_cast<Entidades::Entidade*>(
+									static_cast<Entidades::Personagens::Personagem*>(LIs[i]))))) {
+
+					pJog1->colidir(LIs[i]);
+
+					if (LIs[i]->getIntransponivel()) {
+
+						reposicionar(pJog1->getCorpo(), LIs[i]->getCorpo());
 					}
 				}
-				else {
-					std::cerr << "ERRO: nao eh possivel calcular a colisao pois o inimigo eh NULL" << std::endl;
-				}
 			}
-		}
-		else {
-			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o jogador eh NULL" << std::endl;
+			else {
+				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o inimigo eh NULL" << std::endl;
+			}
 		}
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesJogsObstacs() {
-		if (pJog1) {
-			std::list<Entidades::Obstaculos::Obstaculo*>::iterator it = LOs.begin();
-			for (it = LOs.begin(); it != LOs.end(); it++) {
-				if (*it) {
-					Entidades::Entidade* pO = static_cast<Entidades::Entidade*>(*it);
-					if (verificaColisao(pJog1, pO)) {
-						if ((*it)->getIntransponivel()) {
-							reposicionar(pJog1->getCorpo(), pO->getCorpo());
+		std::list<Entidades::Obstaculos::Obstaculo*>::iterator it = LOs.begin();
+		for (it = LOs.begin(); it != LOs.end(); it++) {
+
+			if (*it) {
+
+				Entidades::Entidade* pO = static_cast<Entidades::Entidade*>(*it);
+
+				if (verificaColisao(static_cast<Entidades::Entidade*>(
+
+					static_cast<Entidades::Personagens::Personagem*>(pJog1)),
+					(static_cast<Entidades::Entidade*>(pO)))) {
+
+					if ((*it)->getIntransponivel()) {
+						reposicionar(pJog1->getHitBox(), pO->getHitBox());
+
+						if (pJog1->getCorpo()) {
+
+							pJog1->getCorpo()->setPosition(
+								pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
+								pJog1->getHitBox()->getPosition().y);
 						}
-						(*it)->obstaculizar(pJog1);
+						else {
+							std::cerr << "ERRO: nao eh possivel reposicionar pois o corpo eh NULL" << std::endl;
+						}
 					}
-				}
-				else {
-					std::cerr << "ERRO: nao eh possivel calcular a colisao pois o inimigo eh NULL" << std::endl;
+					(*it)->obstaculizar(pJog1);
 				}
 			}
-		}
-		else {
-			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o jogador eh NULL" << std::endl;
+			else {
+				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o obstaculo eh NULL" << std::endl;
+			}
 		}
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesJogsProjeteis() {
-		if (pJog1) {
-			std::set<Entidades::Projetil*>::iterator it = LPs.begin();
-			for (it = LPs.begin(); it != LPs.end(); it++) {
-				if (*it) {
-					Entidades::Entidade* pP = static_cast<Entidades::Entidade*>(*it);
-					if (verificaColisao(pJog1, pP)) {
-						if ((*it)->getIntransponivel()) {
-							reposicionar(pJog1->getCorpo(), pP->getCorpo());
-						}
+		std::set<Entidades::Projetil*>::iterator it = LPs.begin();
+		for (it = LPs.begin(); it != LPs.end(); it++) {
+			if (*it) {
+				Entidades::Entidade* pP = static_cast<Entidades::Entidade*>(*it);
+				if (verificaColisao(static_cast<Entidades::Entidade*>(
+					static_cast<Entidades::Personagens::Personagem*>(pJog1)),
+					(static_cast<Entidades::Entidade*>(pP)))) {
+					if ((*it)->getIntransponivel()) {
+						reposicionar(pJog1->getCorpo(), pP->getCorpo());
 					}
 				}
-				else {
-					std::cerr << "ERRO: nao eh possivel calcular a colisao pois o inimigo eh NULL" << std::endl;
-				}
 			}
-		}
-		else {
-			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o jogador eh NULL" << std::endl;
+			else {
+				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o projetil eh NULL" << std::endl;
+			}
 		}
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesJogsChao() {
-		if (pJog1) {
-			if (chao) {
-				if (verificaColisaoChao(pJog1)) {
-					reposicionar(pJog1->getCorpo(), chao);
+		if (chao) {
+			if (verificaColisaoChao(pJog1)) {
+				reposicionar(pJog1->getHitBox(), chao);
+				pJog1->setNoChao(true);
+				if (pJog1->getCorpo()) {
+					pJog1->getCorpo()->setPosition(
+						pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
+						pJog1->getHitBox()->getPosition().y);
 				}
-			}
-			else {
-				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o chao eh NULL" << std::endl;
+				else {
+					std::cerr << "ERRO: nao eh possivel reposicionar pois o corpo eh NULL" << std::endl;
+				}
 			}
 		}
 		else {
-			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o jogador eh NULL" << std::endl;
+			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o chao eh NULL" << std::endl;
 		}
 	}
 
