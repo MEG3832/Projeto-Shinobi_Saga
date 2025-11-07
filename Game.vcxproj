@@ -134,6 +134,7 @@
     <ClInclude Include="Coord.h" />
     <ClInclude Include="Ente.h" />
     <ClInclude Include="Fase.h" />
+    <ClInclude Include="FasePrimeira.h" />
     <ClInclude Include="Fundo.h" />
     <ClInclude Include="Entidade.h" />
     <ClInclude Include="Gerenciador_Colisoes.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Armadilha_de_urso.cpp" />
     <ClCompile Include="Ente.cpp" />
     <ClCompile Include="Fase.cpp" />
+    <ClCompile Include="FasePrimeira.cpp" />
     <ClCompile Include="Fundo.cpp" />
     <ClCompile Include="Entidade.cpp" />
     <ClCompile Include="Gerenciador_Colisoes.cpp" />

@@ -65,6 +65,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Samurai_Inimigo.cpp" />
+    <ClCompile Include="Fase.cpp" />
+    <ClCompile Include="FasePrimeira.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animacao.h">
@@ -137,6 +139,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Samurai_Inimigo.h" />
+    <ClInclude Include="Fase.h" />
+    <ClInclude Include="FasePrimeira.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Camada1.png">
