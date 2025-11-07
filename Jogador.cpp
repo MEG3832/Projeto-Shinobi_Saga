@@ -7,18 +7,20 @@ namespace Entidades {
 
 		Jogador::Jogador(const sf::Vector2f pos, int ident) :
 			Personagem(),
-			veloc(0.10, 0.10),	// Isso eh uma boa velocidade?
 			velocKnockBack(0.0, 0.0),
 			pontos(0),
 			id(ident),
 			direcao(0.0, 0.0),
 			caindo(false),
-			subindo(false),
+			pulando(false),
 			paraEsq(false),
 			atordoado(false),
 			correndo(false),
 			atacando(false)
 		{
+			veloc.x = 0.05;
+			veloc.y = 0.05;
+
 			corpo = new sf::RectangleShape(sf::Vector2f(100.0, 160.0));
 			corpo->setPosition(pos);
 
@@ -28,24 +30,31 @@ namespace Entidades {
 
 		Jogador::Jogador() :
 			Personagem(),
-			veloc(0.08, 0.08),
 			velocKnockBack(0.0, 0.0),
 			pontos(0),
 			id(1),
 			direcao(0.0, 0.0),
 			caindo(false),
-			subindo(false),
+			pulando(false),
 			paraEsq(false),
 			atordoado(false),
 			correndo(false),
 			atacando(false),
+			parado(true),
+			noChao(true),
 			dt(0),
 			timer(),
-			cooldown_ataque(4 * 0.10)
+			cooldown_ataque(4 * 0.10),
+			cooldown_pulo(3 * 0.15),
+			preparandoPulo(false),
+			velPulo(-0.05)
 		{
+			veloc.x = 0.04;
+			veloc.y = 0.00;
+
 			num_vidas = 100;
 
-			corpo = new sf::RectangleShape(sf::Vector2f(150.0, 120.0));
+			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
 			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
@@ -63,7 +72,7 @@ namespace Entidades {
 			id = 0;
 			direcao = sf::Vector2f(0.0, 0.0);
 			paraEsq = false;
-			subindo = false;
+			pulando = false;
 			caindo = false;
 		}
 
@@ -74,6 +83,12 @@ namespace Entidades {
 		void Jogador::executar()
 		{
 			atualizaAnimacao();
+
+			sofrerGravidade();
+			corpo->move(0.0, veloc.y);
+			hitBox->move(0.0, veloc.y);
+
+			mover();
 		}
 
 		void Jogador::salvar()
@@ -83,42 +98,44 @@ namespace Entidades {
 
 		void Jogador::mover() {
 			if (!atordoado) {
-				//primeiro "calculamos" a velocidade e depois a aplicamos no movimento...
+				if (!preparandoPulo) {
+					//primeiro "calculamos" a velocidade e depois a aplicamos no movimento...
 
-				sf::Vector2f velocFinal(0.0, 0.0);
-				float limiarStun = 0.5; //serve para impedir que o jogador se mova ao colidir (cm um inimigo!)
+					sf::Vector2f velocFinal(0.0, 0.0);
+					float limiarStun = 0.5; //serve para impedir que o jogador se mova ao colidir (cm um inimigo!)
 
-				if (abs(velocKnockBack.x) < limiarStun) {
+					if (abs(velocKnockBack.x) < limiarStun) {
 
-					velocFinal.x += veloc.x * direcao.x; //a direcao é setada no set, que é chamado lá no gerenciador de eventos.
+						velocFinal.x += veloc.x * direcao.x; //a direcao é setada no set, que é chamado lá no gerenciador de eventos.
 
+					}
+
+					if (abs(velocKnockBack.y) < limiarStun) {
+
+						velocFinal.y += veloc.y * direcao.y;
+
+					}
+
+
+					velocFinal.x += velocKnockBack.x;
+					velocFinal.y += velocKnockBack.y;
+
+					corpo->move(velocFinal);
+					hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+						corpo->getPosition().y);
+
+					//aplicamos um "atrito" aqui! (valor menor que 1, portanto, irá diminuir a cada chamada do mover)
+
+					float atrito = 0.99f;
+
+					velocKnockBack.x *= atrito;
+					velocKnockBack.y *= atrito;
+
+					//para não processar infinitamente, zeramos a velocidade do empurrão se ela já for mto pequena.
+
+					if (abs(velocKnockBack.x) < 0.1f) { velocKnockBack.x = 0; }
+					if (abs(velocKnockBack.y) < 0.1f) { velocKnockBack.y = 0; }
 				}
-
-				if (abs(velocKnockBack.y) < limiarStun) {
-
-					velocFinal.y += veloc.y * direcao.y;
-
-				}
-
-
-				velocFinal.x += velocKnockBack.x;
-				velocFinal.y += velocKnockBack.y;
-
-				corpo->move(velocFinal);
-				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-									corpo->getPosition().y);
-
-				//aplicamos um "atrito" aqui! (valor menor que 1, portanto, irá diminuir a cada chamada do mover)
-
-				float atrito = 0.99f;
-
-				velocKnockBack.x *= atrito;
-				velocKnockBack.y *= atrito;
-
-				//para não processar infinitamente, zeramos a velocidade do empurrão se ela já for mto pequena.
-
-				if (abs(velocKnockBack.x) < 0.1f) { velocKnockBack.x = 0; }
-				if (abs(velocKnockBack.y) < 0.1f) { velocKnockBack.y = 0; }
 			}
 		}
 
@@ -144,8 +161,8 @@ namespace Entidades {
 
 			//Animações de pulo
 
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Subindo", 10, 0.2, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Descendo", 10, 0.2, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Jump.png", "Subindo", 10, 0.15, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Fighter/Jump.png", "Descendo", 10, 0.15, sf::Vector2f(1.0, 1.0));
 
 			//Animações que só devem rodar uma vez
 
@@ -160,33 +177,39 @@ namespace Entidades {
 
 		void Jogador::atualizaAnimacao()
 		{
-			bool rodaUmaVez;
+
+			if (direcao.x < 0) {
+				paraEsq = true;
+			}
+			else if (direcao.x > 0) {
+				paraEsq = false;
+			}
 
 			if(atacando && dt < cooldown_ataque) {
-				rodaUmaVez = true;
-				animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Ataque1");
+				animador->atualizarAnimJog(caindo, false, paraEsq, false, "Ataque1");
 				dt = timer.getElapsedTime().asSeconds();
 			}
 			else {
-				rodaUmaVez = false;
 				atacando = false;
 
-				if (direcao.x == 0 && direcao.y == 0) {
-					animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+				if (preparandoPulo || pulando) {
+					dt = timer.getElapsedTime().asSeconds();
+					if (dt >= cooldown_pulo && preparandoPulo) {
+						preparandoPulo = false;
+						pulando = true;
+						veloc.y = velPulo;
+					}
+					animador->atualizarAnimJog(caindo, false, paraEsq, true, "Subindo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+				}
+				else if (direcao.x == 0 && direcao.y == 0) {
+					animador->atualizarAnimJog(caindo, false, paraEsq, false, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 				}
 				else if (direcao.x != 0 && direcao.y == 0) {
-					if (direcao.x < 0) {
-						paraEsq = true;
-					}
-					else {
-						paraEsq = false;
-					}
-
 					if (correndo) {
-						animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+						animador->atualizarAnimJog(caindo, false, paraEsq, false, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 					}
 					else {
-						animador->atualizarAnimJog(caindo, subindo, paraEsq, rodaUmaVez, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+						animador->atualizarAnimJog(caindo, false, paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 					}
 				}
 			}
@@ -198,6 +221,12 @@ namespace Entidades {
 
 		void Jogador::correr(bool correr) {
 			correndo = correr;
+			if (correr) {
+				veloc.x = 0.07;
+			}
+			else {
+				veloc.x = 0.04;
+			}
 		}
 
 		void Jogador::atacar() {
@@ -208,6 +237,38 @@ namespace Entidades {
 
 		bool Jogador::getAtacando() {
 			return atacando;
+		}
+
+		void Jogador::aplicarForcaNormal() {
+			float aceleracao = - GRAVIDADE;
+			veloc.y += aceleracao;
+		}
+
+		void Jogador::pular() {
+			if (!pulando && !preparandoPulo) {
+				preparandoPulo = true;
+				timer.restart();
+				dt = 0;
+			}
+		}
+
+		void Jogador::setNoChao(bool noChao) {
+			if (noChao) {
+				pulando = false;
+				veloc.y = 0.0;
+			}
+		}
+
+		bool Jogador::getSubindo() {
+			return pulando;
+		}
+
+		bool Jogador::getCaindo() {
+			return caindo;
+		}
+
+		void Jogador::setCair(bool cair) {
+			caindo = cair;
 		}
 
 	}

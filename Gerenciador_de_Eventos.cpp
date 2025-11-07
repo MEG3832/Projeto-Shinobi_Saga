@@ -26,49 +26,52 @@ namespace Gerenciadores {
 		this->pJogador = pJogador;
 	}
 
+	/* TECLAS:
+	* Atacar - Q
+	* Pular - W
+	* Andar para a direita - D
+	* Andar para a esquerda - E
+	*/
 	void Gerenciador_de_Eventos::verificaTeclaPressionada() {
 
 		sf::Vector2f direcaoInput(0.0f, 0.0f); //resetamos a "direção" para zero (jogador parado) a cada iteração do loop do jogo
 											   //para que a função mover funcione corretamente quanto ao knockback, msm qnd ele nn estiver se movendo
 
 		if (!pJogador->getAtacando()) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			{
-				pJogador->atacar();
-			}
-			else {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-				{
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-						pJogador->correr(true);
-					}
-					else {
-						pJogador->correr(false);
-					}
-
-					direcaoInput.x += 1.0f;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->getCaindo()) {
+					pJogador->correr(true);
+				}
+				else {
+					pJogador->correr(false);
 				}
 
+				direcaoInput.x += 1.0f;
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->getCaindo()) {
+					pJogador->correr(true);
+				}
+				else {
+					pJogador->correr(false);
+				}
+
+				direcaoInput.x -= 1.0f;
+			}
+			
+			if (!pJogador->getSubindo() && (!pJogador->getSubindo())) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				{
 					direcaoInput.y -= 1.0f;
+					pJogador->pular();
 				}
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 				{
-					direcaoInput.y += 1.0f;
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-				{
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-						pJogador->correr(true);
-					}
-					else {
-						pJogador->correr(false);
-					}
-
-					direcaoInput.x -= 1.0f;
+					pJogador->atacar();
 				}
 			}
 		}
@@ -78,10 +81,9 @@ namespace Gerenciadores {
 		}
 	
 		pJogador->setDirecao(direcaoInput);
-		pJogador->mover();
-
 	}
 
+	// Verifica qual tecla está sendo pressionada e muda a diração do jogador segundo ela
 	void Gerenciador_de_Eventos::executar() {
 		if(pGrafico) {
 			sf::Event evento;

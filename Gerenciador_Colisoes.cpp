@@ -27,6 +27,8 @@ namespace Gerenciadores {
 	void Gerenciador_Colisoes::executar() {
 		if (pJog1) {
 			if (pJog1->getHitBox()) {
+				pJog1->setNoChao(false);
+
 				tratarColisoesJogsInimgs();
 
 				tratarColisoesJogsObstacs();
@@ -133,14 +135,15 @@ namespace Gerenciadores {
 	void Gerenciador_Colisoes::tratarColisoesJogsInimgs() {
 		for (int i = 0; i < (int)LIs.size(); i++) {
 			if (LIs[i]) {
-				//Entidades::Entidade* pI = static_cast<Entidades::Entidade*>(
-											//static_cast<Entidades::Personagens::Personagem*>(LIs[i]));
 				if (verificaColisao((static_cast<Entidades::Entidade*>(
 									static_cast<Entidades::Personagens::Personagem*>(pJog1))),
 									(static_cast<Entidades::Entidade*>(
 									static_cast<Entidades::Personagens::Personagem*>(LIs[i]))))) {
+
 					pJog1->colidir(LIs[i]);
+
 					if (LIs[i]->getIntransponivel()) {
+
 						reposicionar(pJog1->getCorpo(), LIs[i]->getCorpo());
 					}
 				}
@@ -154,14 +157,21 @@ namespace Gerenciadores {
 	void Gerenciador_Colisoes::tratarColisoesJogsObstacs() {
 		std::list<Entidades::Obstaculos::Obstaculo*>::iterator it = LOs.begin();
 		for (it = LOs.begin(); it != LOs.end(); it++) {
+
 			if (*it) {
+
 				Entidades::Entidade* pO = static_cast<Entidades::Entidade*>(*it);
+
 				if (verificaColisao(static_cast<Entidades::Entidade*>(
+
 					static_cast<Entidades::Personagens::Personagem*>(pJog1)),
 					(static_cast<Entidades::Entidade*>(pO)))) {
+
 					if ((*it)->getIntransponivel()) {
 						reposicionar(pJog1->getHitBox(), pO->getHitBox());
+
 						if (pJog1->getCorpo()) {
+
 							pJog1->getCorpo()->setPosition(
 								pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
 								pJog1->getHitBox()->getPosition().y);
@@ -202,6 +212,7 @@ namespace Gerenciadores {
 		if (chao) {
 			if (verificaColisaoChao(pJog1)) {
 				reposicionar(pJog1->getHitBox(), chao);
+				pJog1->setNoChao(true);
 				if (pJog1->getCorpo()) {
 					pJog1->getCorpo()->setPosition(
 						pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),

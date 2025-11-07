@@ -2,6 +2,7 @@
 
 #define COMPRIMENTO_TELA 800.0f
 #define ALTURA_TELA 600.0f
+#define GRAVIDADE 0.000008
 
 #include <iostream>
 #include <SFML/Graphics.hpp>

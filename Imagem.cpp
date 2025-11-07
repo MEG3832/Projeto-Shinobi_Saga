@@ -29,14 +29,14 @@ namespace Animadores {
 			tempo_Total = 0.0; //reinicia a contagem de tempo...
 			imag_Atual++;
 
-			if (imag_Atual >= 5)
-				imag_Atual = 4; //trava a imagem
+			if (imag_Atual >= 7)
+				imag_Atual = 6; //trava a imagem
 		}
 
 		else if (caindo && tempo_Total >= duracao_Frame)
 		{
 			tempo_Total = 0.0; //reinicia a contagem de tempo...
-			imag_Atual = 5;
+			imag_Atual = 7;
 		}
 
 		else if (rodaUmaVez && tempo_Total >= duracao_Frame)
@@ -70,10 +70,6 @@ namespace Animadores {
 			retangulo.left = imag_Atual * retangulo.width;
 			retangulo.width = abs(retangulo.width);
 		}
-
-
-
-
 	}
 
 	void Imagem::atualizarFrameInim(const bool indoParaEsq, const bool rodaUmaVez, const float dt)
