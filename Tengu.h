@@ -10,7 +10,7 @@ namespace Entidades
 
 		class Tengu : public Inimigo
 		{
-		private:
+		//private:
 
 			float raio_perseg;
 

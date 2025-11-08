@@ -14,8 +14,12 @@ namespace Entidades {
 
 			int id;
 			int num_vidas;
-
 			float dano;
+			bool morrendo;
+			bool paraEsq;
+			bool ferido;
+			float dt;
+			sf::Clock timer;
 
 			//sf::Vector2f veloc;
 			//...
@@ -29,8 +33,9 @@ namespace Entidades {
 			virtual void salvar() = 0;
 			virtual void mover() = 0;
 			virtual void inicializaAnimacoes() = 0;
-			void diminuiVida(int dano);
 			int getVida();
+			bool getFerido();
+
 			//virtual int getNumVidas();
 			virtual int getDano();
 		};

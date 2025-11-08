@@ -37,10 +37,10 @@ namespace Gerenciadores {
 		sf::Vector2f direcaoInput(0.0f, 0.0f); //resetamos a "direção" para zero (jogador parado) a cada iteração do loop do jogo
 											   //para que a função mover funcione corretamente quanto ao knockback, msm qnd ele nn estiver se movendo
 
-		if (!pJogador->getAtacando()) {
+		if (!pJogador->getAtacando() && !pJogador->morto() && !pJogador->getFerido()) {
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->getCaindo()) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {
 					pJogador->correr(true);
 				}
 				else {
@@ -52,7 +52,7 @@ namespace Gerenciadores {
 
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->getCaindo()) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {
 					pJogador->correr(true);
 				}
 				else {
@@ -62,7 +62,7 @@ namespace Gerenciadores {
 				direcaoInput.x -= 1.0f;
 			}
 			
-			if (!pJogador->getSubindo() && (!pJogador->getSubindo())) {
+			if (!pJogador->getSubindo()) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				{
 					direcaoInput.y -= 1.0f;
@@ -72,6 +72,13 @@ namespace Gerenciadores {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 				{
 					pJogador->atacar();
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+					pJogador->setDefesa(true);
+				}
+				else {
+					pJogador->setDefesa(false);
 				}
 			}
 		}

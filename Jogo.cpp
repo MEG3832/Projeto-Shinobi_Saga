@@ -46,10 +46,10 @@ void Jogo::inicializarGC() {
 }
 
 void Jogo::inicializaListaEntidades() {
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-       static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //   static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
+    //   static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+       static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
         static_cast<Entidades::Personagens::Personagem*>(&pJog1)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
@@ -63,8 +63,8 @@ void Jogo::inicializarListaInimigos() {
 }
 
 void Jogo::inicializarListaObtaculos() {
-    GC->incluirObstaculo(&plataforma);
-    //GC->incluirObstaculo(&redemoinho);
+    //GC->incluirObstaculo(&plataforma);
+    GC->incluirObstaculo(&redemoinho);
     //GC->incluirObstaculo(&armadilha_de_urso);
 }
 
@@ -84,6 +84,9 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
             GG->atualizaCamera(pJog1.getPos());
 
+            pJog1.sofrerGravidade();    // Queria colocar na lista
+
+            GC->executar();
 
             lista_ents.percorrer();
 
@@ -116,7 +119,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
                 GG->getWindow()->draw(debugAtaque);
             }
 
-            /*sf::RectangleShape* corpo2 = plataforma.getHitBox();
+            sf::RectangleShape* corpo2 = plataforma.getHitBox();
 
             sf::RectangleShape debugHitbox1 = *corpo2;
 
