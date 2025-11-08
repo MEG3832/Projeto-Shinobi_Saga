@@ -36,6 +36,7 @@ namespace Gerenciadores {
 			void incluirProjetil(Entidades::Projetil* pj);
 			void setJogador(Entidades::Personagens::Jogador* pJog);
 			void reposicionar(sf::RectangleShape* c1, sf::RectangleShape* c2);
+			const bool verificaColisao(sf::RectangleShape* r1, sf::RectangleShape* r2) const;
 	};
 
 }

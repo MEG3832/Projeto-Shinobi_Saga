@@ -66,6 +66,12 @@ namespace Entidades {
 			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x/2 - hitBox->getSize().x/2),
 								corpo->getPosition().y);
 
+			// Após inicializar a hitbox normal
+			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(80.0f, 100.0f)); // Tamanho maior para ataque
+			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); // Transparente por padrão
+			hitboxAtaqueAtiva = false;
+
+
 			inicializaAnimacoes();
 		}
 
@@ -192,10 +198,16 @@ namespace Entidades {
 			}
 
 			if(atacando && dt < cooldown_ataque) {
+				hitboxAtaqueAtiva = true;
+				atualizarHitboxAtaque(); // Posiciona a hitbox de ataque
+
 				animador->atualizarAnimJog(caindo, false, paraEsq, false, "Ataque1");
 				dt = timer.getElapsedTime().asSeconds();
+
+				std::cout << "ATAQUE ATIVO - dt: " << dt << std::endl;
 			}
 			else {
+				hitboxAtaqueAtiva = false;
 				atacando = false;
 
 				if (preparandoPulo || pulando) {
@@ -218,6 +230,23 @@ namespace Entidades {
 						animador->atualizarAnimJog(caindo, false, paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 					}
 				}
+			}
+		}
+
+		void Jogador::atualizarHitboxAtaque() {
+			if (paraEsq) {
+				// Posiciona à esquerda do jogador
+				hitboxAtaque->setPosition(
+					corpo->getPosition().x - hitboxAtaque->getSize().x,
+					corpo->getPosition().y
+				);
+			}
+			else {
+				// Posiciona à direita do jogador
+				hitboxAtaque->setPosition(
+					corpo->getPosition().x + corpo->getSize().x,
+					corpo->getPosition().y
+				);
 			}
 		}
 

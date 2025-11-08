@@ -110,6 +110,13 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             GG->getWindow()->draw(debugHitbox);
             GG->getWindow()->draw(debugHitbox2);
 
+            // No loop de renderização, após desenhar as entidades
+            if (pJog1.getHitboxAtaqueAtiva()) {
+                sf::RectangleShape debugAtaque = *pJog1.getHitboxAtaque();
+                debugAtaque.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho transparente
+                GG->getWindow()->draw(debugAtaque);
+            }
+
             /*sf::RectangleShape* corpo2 = plataforma.getHitBox();
 
             sf::RectangleShape debugHitbox1 = *corpo2;

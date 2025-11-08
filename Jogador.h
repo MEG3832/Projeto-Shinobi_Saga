@@ -30,6 +30,11 @@ namespace Entidades {
 			bool preparandoPulo;
 			float velPulo;
 
+			//irão tratar da alteração do hitbox do jogador quando estiver atacando...
+			sf::RectangleShape* hitboxAtaque; // hitbox específica para ataques
+			bool hitboxAtaqueAtiva;
+
+
 			sf::Vector2f velocKnockBack;
 			int id; // 1 ou 2
 			sf::Vector2f direcao;
@@ -58,6 +63,11 @@ namespace Entidades {
 			bool getSubindo();
 			bool getCaindo();
 			void setCair(bool cair);
+
+			void atualizarHitboxAtaque();
+			sf::RectangleShape* getHitboxAtaque() const { return hitboxAtaque; }
+			bool getHitboxAtaqueAtiva() const { return hitboxAtaqueAtiva; }
+
 		};
 
 	}

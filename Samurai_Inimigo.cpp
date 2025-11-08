@@ -13,8 +13,9 @@ namespace Entidades {
 			veloc = sf::Vector2f(0.03f, 0.05f);
 			tempoAndar = 4.0f;
 
-			// 2 frames * 0.17s/frame = 0.34s
-			cooldownAtordoado = 0.34f;
+			num_vidas = 100;
+
+			cooldownAtordoado = 1.0f;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
 			//corpo->setPosition(pos); //posicao??
@@ -75,9 +76,7 @@ namespace Entidades {
 
 			std::cout << "Samurai tomou " << dano_reduzido << " de dano (original: " << dano << ")" << std::endl;
 
-			// Chama a implementação da classe base (provavelmente Personagem)
-			// para aplicar o dano já reduzido.
-			Personagem::diminuiVida(dano_reduzido);
+			Inimigo::diminuiVida(dano_reduzido);
 		}
 
 		void Samurai_Inimigo::inicializaAnimacoes()
