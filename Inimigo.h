@@ -59,7 +59,7 @@ namespace Entidades {
 				virtual void mover() = 0;
 				virtual void inicializaAnimacoes() = 0;
 
-				// Métodos com implementação base, mas que podem ser sobrescritos
+				// método com implementação base, mas que pode ser sobrescrito
 				virtual void empurrar(Jogador* pJ);
 
 				// getters de estado
@@ -69,9 +69,7 @@ namespace Entidades {
 				virtual bool getIntransponivel() const { return intransponivel; }
 				virtual void setIntransponivel(bool val) { intransponivel = val; }
 
-				// Sobrescreve o método da classe Personagem (assumindo que ela exista lá)
-				// Usado quando o INIMIGO recebe dano
-				virtual void diminuiVida(int dano);
+				virtual void diminuiVida(int dano); //para diminuir a vida do inimigo!
 
 		};
 

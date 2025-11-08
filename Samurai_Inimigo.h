@@ -13,9 +13,9 @@ namespace Entidades {
 			Samurai_Inimigo(Jogador* pJ, float resist);
 			~Samurai_Inimigo();
 
-			// Implementação dos métodos virtuais da base
+			// (re)implementação dos métodos virtuais da base
 			void mover();
-			void danificar(Jogador* pJ); // Dano no jogador
+			void danificar(Jogador* pJ); // dano no jogador
 			void inicializaAnimacoes();
 
 			void diminuiVida(int dano);

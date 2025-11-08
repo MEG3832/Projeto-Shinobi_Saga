@@ -35,7 +35,7 @@ namespace Entidades {
 
 			// essa é a hitbox de ataque!
 			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
-			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); // Transparente por padrão
+			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); //tirar depois, é só pra conseguir visualizar o hitbox de ataque
 			hitboxAtaqueAtiva = false;
 
 
@@ -66,7 +66,7 @@ namespace Entidades {
 
 			dano = 25;
 
-			veloc.x = 0.04;
+			veloc.x = 2.0;
 			veloc.y = 0.00;
 
 			num_vidas = 100;
@@ -81,7 +81,7 @@ namespace Entidades {
 
 			// essa é a hitbox de ataque!
 			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
-			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); // Transparente por padrão
+			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); //tirar depois, é só pra conseguir visualizar o hitbox de ataque
 			hitboxAtaqueAtiva = false;
 
 
@@ -249,14 +249,14 @@ namespace Entidades {
 			if (paraEsq) {
 				// posiciona à esquerda do jogador
 				hitboxAtaque->setPosition(
-					corpo->getPosition().x - 5.0f,
+					corpo->getPosition().x + 25.0f, //esse valor somado é pra ajustar a posição
 					corpo->getPosition().y
 				);
 			}
 			else {
 				// posiciona à direita do jogador
 				hitboxAtaque->setPosition(
-					corpo->getPosition().x + corpo->getSize().x - 45.0f,
+					corpo->getPosition().x + corpo->getSize().x - 75.0f, //esse valor somado/subtraído é pra ajustar a posição
 					corpo->getPosition().y
 				);
 			}

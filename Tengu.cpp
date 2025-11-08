@@ -7,14 +7,16 @@ namespace Entidades
 	{
 		Tengu::Tengu(Jogador* pJ) :
 			Inimigo(pJ),
-			raio_perseg(350.0f)
+			raio_perseg(250.0f)
 		{
 			paraEsq = true;
 			nivel_maldade = 1;
-			veloc = sf::Vector2f(0.1f, 0.05f); // Velocidade específica
+			veloc = sf::Vector2f(0.01f, 0.01f); // Velocidade específica
 			tempoAndar = 2.5f; // Tempo de "perambular" específico
 
-			cooldownAtordoado = 1.0f;
+			num_vidas = 200;
+
+			cooldownAtordoado = 2.0f;
 
 			//faz o corpo:
 
@@ -39,7 +41,6 @@ namespace Entidades
 
 		void Tengu::diminuiVida(int dano)
 		{
-			// 1. Checa se já está atordoado (lógica da base)
 			if (atordoado || estaMorto) {
 				return;
 			}
@@ -70,7 +71,13 @@ namespace Entidades
 
 		void Tengu::executar()
 		{
-			mover();
+			Inimigo::executar();
+
+			// Só move se não estiver morto nem atordoado
+			if (!estaMorto && !atordoado) {
+				mover();
+			}
+
 			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
 				corpo->getPosition().y);
 		}
@@ -84,7 +91,7 @@ namespace Entidades
 
 
 				float distanciaCentros = abs(posJog_X - posInim_X);
-				float distanciaAtaque = abs((pJ->getTam().x / 2) + this->getTam().x / 2) + 30.0f; //30pixels para a distancia entre as bordas dos personagens
+				float distanciaAtaque = abs((pJ->getTam().x / 2) + this->getTam().x / 2)-20.0f; //ajuste da distancia por testes
 
 				if (distanciaCentros <= raio_perseg && distanciaCentros > distanciaAtaque)
 				{

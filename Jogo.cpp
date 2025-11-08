@@ -8,7 +8,7 @@ Jogo::Jogo() :
     plataforma(),
     redemoinho(),
     armadilha_de_urso(),
-    inimigo(&pJog1,1.2f),
+    inimigo(&pJog1),
     GC(GC->getGerenciadorColisoes(fundo.getChao())),
     lista_ents()
 {
@@ -84,10 +84,10 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
             GG->atualizaCamera(pJog1.getPos());
 
-            GC->executar();
 
             lista_ents.percorrer();
 
+            GC->executar();
 
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
             fundo.executar();
@@ -110,7 +110,6 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             GG->getWindow()->draw(debugHitbox);
             GG->getWindow()->draw(debugHitbox2);
 
-            // No loop de renderização, após desenhar as entidades
             if (pJog1.getHitboxAtaqueAtiva()) {
                 sf::RectangleShape debugAtaque = *pJog1.getHitboxAtaque();
                 debugAtaque.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho transparente
