@@ -4,18 +4,17 @@
 namespace Entidades {
 	namespace Personagens {
 
-		Samurai_Inimigo::Samurai_Inimigo(Jogador* pJ, sf::Vector2f pos, sf::Vector2f tam) :
+		Samurai_Inimigo::Samurai_Inimigo(Jogador* pJ, float resist) :
 			Inimigo(pJ)
 		{
-
-			tamanho = tam.x;
+			resistencia = resist;
 			nivel_maldade = 1; // nível de maldade base
 			paraEsq = true;
 			veloc = sf::Vector2f(0.03f, 0.05f);
 			tempoAndar = 4.0f;
 
 
-			corpo = new sf::RectangleShape(tam);
+			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
 			corpo->setPosition(pos);
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x-75, corpo->getSize().y));
@@ -35,23 +34,21 @@ namespace Entidades {
 				corpo->getPosition().y);
 		}
 
-		// 1. Comportamento de movimento (só perambula)
 		void Samurai_Inimigo::mover()
 		{
-			Inimigo::perambular(); // Só chama a lógica base de andar
+			Inimigo::perambular(); //ele só perambula!
 		}
 
-		// 2. Quando o Samurai ATACA (colide com o jogador)
 		void Samurai_Inimigo::danificar(Jogador* pJ)
 		{
 			if (pJ)
 			{
-				int dano_calculado = nivel_maldade * (int)tamanho; // dano = nivel * tamanho
+				int dano_calculado = nivel_maldade * 15; //dano base
 
 				pJ->diminuiVida(dano_calculado);
 				std::cout << "Samurai causou " << dano_calculado << " de dano! Vida do Jogador: " << pJ->getVida() << std::endl;
 
-				empurrar(pJ); // Chama o empurrão CUSTOMIZADO do Samurai
+				empurrar(pJ);
 			}
 			else
 			{
@@ -59,30 +56,22 @@ namespace Entidades {
 			}
 		}
 
-		void Samurai_Inimigo::empurrar(Jogador* pJ)
+		void Samurai_Inimigo::diminuiVida(float dano)
 		{
-			sf::Vector2f velKnockBack;
-
-			float tamanho = this->getTam().x;
-			float força_empurrao = 1.0f + (tamanho / 75.0f); // Ex: Base 1.0 + força bônus pelo tamanho
-
-			if (pJ) {
-				sf::Vector2f centroJog = pJ->getPos() + (pJ->getTam()) / 2.0f;
-				sf::Vector2f centroInim = this->getPos() + (this->getTam()) / 2.0f;
-				sf::Vector2f vetor = centroJog - centroInim;
-
-				float modulo = std::sqrt(vetor.x * vetor.x + vetor.y * vetor.y);
-
-				if (modulo != 0)
-					vetor = vetor / modulo;
-
-				vetor *= força_empurrao;
-				pJ->setVelKnockBack(vetor);
+			float dano_reduzido = 0.0f;
+			if (resistencia > 0.0f) {
+				dano_reduzido = dano / resistencia;
 			}
-			else
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
-		}
+			else {
+				dano_reduzido = dano; //para evitar divisão por zero
+			}
 
+			std::cout << "Samurai tomou " << dano_reduzido << " de dano (original: " << dano << ")" << std::endl;
+
+			// Chama a implementação da classe base (provavelmente Personagem)
+			// para aplicar o dano já reduzido.
+			Personagem::diminuiVida(dano_reduzido);
+		}
 
 		void Samurai_Inimigo::inicializaAnimacoes()
 		{

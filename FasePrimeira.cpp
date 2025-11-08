@@ -32,6 +32,9 @@ namespace Fases
 
 	/*void FasePrimeira::criarSamurais()
 	{
+
+		//POSSO SORTEAR DE UM NUMERO ENTRE 1, 2 OU 3 para definir o tamanho.
+
 		const int min_samurais = 3;
 		
 		int qnt_inim = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido

@@ -7,10 +7,10 @@ namespace Entidades {
 		class Samurai_Inimigo : public Inimigo
 		{
 		private:
-			float tamanho; // pegamos o tamanho em x do corpo do inimigo.
+			float resistencia;
 
 		public:
-			Samurai_Inimigo(Jogador* pJ, sf::Vector2f pos, sf::Vector2f tam);
+			Samurai_Inimigo(Jogador* pJ, float resist);
 			~Samurai_Inimigo();
 
 			// Implementação dos métodos virtuais da base
@@ -18,8 +18,9 @@ namespace Entidades {
 			void danificar(Jogador* pJ); // Dano no jogador
 			void inicializaAnimacoes();
 
-			// Sobrescreve o empurrão
-			void empurrar(Jogador* pJ);
+			void diminuiVida(float dano);
+
+			//void empurrar(Jogador* pJ); -> igual ao da base
 
 
 			void executar();

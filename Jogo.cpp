@@ -8,7 +8,7 @@ Jogo::Jogo() :
     plataforma(),
     redemoinho(),
     armadilha_de_urso(),
-    inimigo(&pJog1,sf::Vector2f(300.0f,400.0f), sf::Vector2f(140.0f, 150.0f)),
+    inimigo(&pJog1,1.2f),
     GC(GC->getGerenciadorColisoes(fundo.getChao())),
     lista_ents()
 {
