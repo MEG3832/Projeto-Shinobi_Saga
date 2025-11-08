@@ -8,7 +8,7 @@ Jogo::Jogo() :
     plataforma(),
     redemoinho(),
     armadilha_de_urso(),
-    inimigo(&pJog1),
+    inimigo(&pJog1,sf::Vector2f(300.0f,400.0f), sf::Vector2f(140.0f, 150.0f)),
     GC(GC->getGerenciadorColisoes(fundo.getChao())),
     lista_ents()
 {
@@ -38,7 +38,7 @@ void Jogo::inicializar() {
 void Jogo::inicializarGC() {
     GC->setJogador(&pJog1);
 
-    //inicializarListaInimigos();
+    inicializarListaInimigos();
 
     inicializarListaObtaculos();
 
@@ -54,8 +54,8 @@ void Jogo::inicializaListaEntidades() {
         static_cast<Entidades::Personagens::Personagem*>(&pJog1)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
     //    static_cast<Entidades::Obstaculos::Obstaculo*>(&armadilha_de_urso)));
-    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //    static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+      static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
 }
 
 void Jogo::inicializarListaInimigos() {
@@ -88,13 +88,14 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
 
             lista_ents.percorrer();
 
+
             // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
             fundo.executar();
 
             lista_ents.desenharEntidades();
 
             //teste
-            /*sf::RectangleShape* corpoJogador = pJog1.getHitBox();
+            sf::RectangleShape* corpoJogador = inimigo.getHitBox();
 
             sf::RectangleShape debugHitbox = *corpoJogador;
 

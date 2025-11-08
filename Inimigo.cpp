@@ -8,25 +8,23 @@ namespace Entidades {
 		Inimigo::Inimigo(Jogador* pJ) :
 			Personagem(),
 			nivel_maldade(1),
-			raio_perseg(200.0f),
 			veloc(0.05f,0.05f),
 			jogAlvo(pJ),
+			paraEsq(true),
 			cooldownAtaque(3.0f),
 			relogioAtaque(),
 			andando(false),
 			relogioAndar(),
 			tempoAndar(3.0)
 		{
-			corpo = new sf::RectangleShape(sf::Vector2f(30.0f, 30.0f));
-			corpo->setPosition(sf::Vector2f(400, 300));	// Posição qualquer para teste
-			corpo->setFillColor(sf::Color::Red);	// Pintando de vermelho só pra ficar visivel
+
+			//corpo é feito nas classes folha
 			
 		}
 
 		Inimigo::~Inimigo() {
 
 			nivel_maldade = -1;
-			raio_perseg = 0;
 			veloc = sf::Vector2f(0.0f, 0.0f);
 			jogAlvo = nullptr;
 			cooldownAtaque = 0.0;
@@ -39,11 +37,24 @@ namespace Entidades {
 		}
 
 		void Inimigo::executar() {
-			return;
+			// Chama o método 'mover' específico da classe filha
+			mover();
+
+			// Atualiza a hitbox (comum a todos)
+			if (hitBox && corpo) {
+				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+					corpo->getPosition().y);
+			}
 			
 		}
 
-		void Inimigo::danificar(Jogador* pJ) { //quando criar inimigos fácil, médio e chefao, será virtual
+		void Inimigo::diminuiVida(int dano)
+		{
+			Personagem::diminuiVida(dano);
+		}
+
+
+		void Inimigo::danificar(Jogador* pJ) { //é reimplementado nas folhas
 
 			if (pJ)
 			{
@@ -59,7 +70,7 @@ namespace Entidades {
 
 		}
 
-		void Inimigo::empurrar(Jogador* pJ)
+		void Inimigo::empurrar(Jogador* pJ) //empurrão base
 		{
 			//nesse método, vamos calcular a direção do vetor KnockBack que queremos passar para o jogador,
 			// e, depois disso, iremos multiplicar por uma "força" (intensidade)
@@ -94,31 +105,31 @@ namespace Entidades {
 
 		}
 
-		void Inimigo::perseguir(Jogador* pJ) //base da perseguição, mas nos inimigos específicos (fácil, médio e chefão), elas são melhor implementadas para cada um! (provavelmente vou apagar ela...)
+		void Inimigo::perambular()
 		{
-			/*if (pJ) {
-
-				float posJog_X = pJ->getPos().x + pJ->getTam().x / 2;
-				float posInim_X = this->getPos().x + this->getTam().x / 2;
-
-				float distancia = abs(posJog_X - posInim_X);
-				
-				if (distancia <= raio_perseg && posJog_X<posInim_X) //jogador está à esquerda do inimigo
-				{
-					corpo->move(-veloc.x, 0.0f);
-				}
-
-				else if (distancia <= raio_perseg && posJog_X > posInim_X)
-				{
-					corpo->move(veloc.x, 0.0f);
-				}
+			if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
+			{
+				relogioAndar.restart();
+				andando = !andando;
+				paraEsq = (rand() % 2 == 0);
 			}
 
-			else
-				std::cout << "ponteiro de jogador nulo!" << std::endl;*/
-			return;
+			if (andando)
+			{
+				if (paraEsq)
+					corpo->move(-veloc.x, 0.0f);
+				else
+					corpo->move(veloc.x, 0.0f);
 
+				animador->atualizarAnimInim(paraEsq, false, "Andando");
+			}
+			else
+			{
+				corpo->move(0.0f, 0.0f);
+				animador->atualizarAnimInim(paraEsq, false, "Parado");
+			}
 		}
+
 
 		void Inimigo::salvar() {
 			return;

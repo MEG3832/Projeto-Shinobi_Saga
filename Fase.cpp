@@ -3,13 +3,13 @@
 namespace Fases
 {
 	Fase::Fase() :
-		maxTengus(10),
 		chao(sf::RectangleShape(sf::Vector2f(9000,500))),
-		lista_ents(),
-		GC(&chao)
+		fundo(),
+		lista_ents()
+		//GC(GC.getGerenciadorColisoes(fundo.getChao()))
 	{
-		criarInimigos(); //virtual pura, desce para fase 1 ou 2
-		criarObstaculos(); //virtual pura, desce para fase 1 ou 2
+		//criarInimigos(); //virtual pura, desce para fase 1 ou 2
+		//criarObstaculos(); //virtual pura, desce para fase 1 ou 2
 		criarCenario();
 	}
 
@@ -23,18 +23,19 @@ namespace Fases
 		criarCenario();
 		lista_ents.desenharEntidades();
 		lista_ents.percorrer(); //percorre a lista chamando o executar de todas as entidades...
-		GC.executar();
+		//GC.executar();
 	}
 
 	void Fase::criarCenario()
 	{
 		//como?
+		return;
 	}
 
 	void Fase::criarTengus()
 	{ //seria uma boa ideia passar como parametro a posicao em que ele vai nascer?
 
-		const int min_tengus = 3;
+		/*const int min_tengus = 3;
 
 		int qnt_inim = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
 
@@ -53,8 +54,12 @@ namespace Fases
 			else
 				std::cout << "Não foi possível alocar o Tengu!" << std::endl;
 
-		}
+		}*/
+		return;
 
 	}
 
+
 }
+
+//int Fases::Fase::maxTengus = 10;

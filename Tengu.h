@@ -12,7 +12,7 @@ namespace Entidades
 		{
 		private:
 
-			bool paraEsq;
+			float raio_perseg;
 
 
 		public:
@@ -21,13 +21,15 @@ namespace Entidades
 			~Tengu();
 			void executar();
 			void danificar(Jogador* pJ);
-			//void empurrar(Jogador* pJ); ->igual ao de inimigo
 			void perseguir(Jogador* pJ);
-			void atacar(Jogador* pJ);
-
-			//void salvar();
+			void atacar(Jogador* pJ); //implementa a investida do tengu
 			void mover();
 			void inicializaAnimacoes();
+
+			// Sobrescreve 'diminuiVida' para aumentar a maldade
+			void diminuiVida(int dano); // Dano recebido pelo Tengu
+
+			//void salvar();
 
 		};
 

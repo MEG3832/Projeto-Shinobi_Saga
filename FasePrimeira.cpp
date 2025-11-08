@@ -1,5 +1,4 @@
 #include "FasePrimeira.h"
-#include "Fase.h"
 #include "Samurai_Inimigo.h"
 #include "Entidade.h"
 #include "ListaEntidades.h"
@@ -26,11 +25,12 @@ namespace Fases
 
 	void FasePrimeira::criarInimigos()
 	{
-		criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
+		//criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
 		//criarSamurais();
+		return;
 	}
 
-	void FasePrimeira::criarSamurais()
+	/*void FasePrimeira::criarSamurais()
 	{
 		const int min_samurais = 3;
 		
@@ -52,7 +52,7 @@ namespace Fases
 				std::cout << "Não foi possível alocar o Samurai Inimigo!" << std::endl;
 
 		}
-	}
+	}*/
 
 	void FasePrimeira::criarObstaculos()
 	{
@@ -60,5 +60,6 @@ namespace Fases
 
 		//criarPlataformas();
 		//criarRedemoinhos();
+		return;
 	}
 }

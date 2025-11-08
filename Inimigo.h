@@ -13,11 +13,11 @@ namespace Entidades {
 		{
 			protected:
 				int nivel_maldade;
-				float raio_perseg;
 				sf::Vector2f veloc;
 				Jogador* jogAlvo;
+				bool paraEsq;
 
-				//tratam da ação de atacar:
+				//tratam da ação de atacar: (Tengu e Kitsune usam)
 
 				float cooldownAtaque;
 				sf::Clock relogioAtaque; //mede o cooldown
@@ -28,18 +28,36 @@ namespace Entidades {
 				sf::Clock relogioAndar;
 				float tempoAndar;
 
+				
+				// Nova função de comportamento base
+				void perambular();
+
 
 			public:
+
+				//construtora e destrutora
 				Inimigo(Jogador* pJ);
-				~Inimigo();
+				virtual ~Inimigo(); //destrutora virtual **
+				
+				//------//
+
+				virtual void executar() = 0;
 				void salvarDataBuffer();
-				virtual void executar();
-				virtual void danificar(Jogador* pJ)=0;
-				virtual void empurrar(Jogador* pJ);
-				virtual void perseguir(Jogador* pJ);
 				virtual void salvar();
-				virtual void mover();
-				virtual void inicializaAnimacoes();
+
+				//classes filhas (inimigos específicos) vão reimplementar:
+
+				virtual void danificar(Jogador* pJ) = 0;
+				virtual void mover() = 0;
+				virtual void inicializaAnimacoes() = 0;
+
+				// Métodos com implementação base, mas que podem ser sobrescritos
+				virtual void empurrar(Jogador* pJ);
+
+				// Sobrescreve o método da classe Personagem (assumindo que ela exista lá)
+				// Usado quando o INIMIGO recebe dano
+				virtual void diminuiVida(int dano);
+
 		};
 
 	}

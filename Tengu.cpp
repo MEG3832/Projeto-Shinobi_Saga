@@ -7,9 +7,12 @@ namespace Entidades
 	{
 		Tengu::Tengu(Jogador* pJ) :
 			Inimigo(pJ),
-			paraEsq(true)
+			raio_perseg(350.0f)
 		{
+			paraEsq = true;
 			nivel_maldade = 1;
+			veloc = sf::Vector2f(0.1f, 0.05f); // Velocidade específica
+			tempoAndar = 2.5f; // Tempo de "perambular" específico
 
 			//faz o corpo:
 
@@ -32,15 +35,22 @@ namespace Entidades
 
 		}
 
+		void Tengu::diminuiVida(int dano)
+		{
+			Inimigo::diminuiVida(dano); // Chama a base para perder vida
+			nivel_maldade++; // Aumenta o nível de maldade
+			std::cout << "Tengu enfurecido! Nivel de maldade: " << nivel_maldade << std::endl; //para teste
+		}
+
 		void Tengu::danificar(Jogador* pJ)
 		{
 			if (pJ)
 			{
-				pJ->diminuiVida(nivel_maldade);
-				std::cout << pJ->getVida() << std::endl;
-				empurrar(pJ);
+				int dano_calculado = nivel_maldade * 50; // Dano = nivel_maldade * 50
+				pJ->diminuiVida(dano_calculado);
+				std::cout << "Tengu causou " << dano_calculado << " de dano! Vida do Jogador: " << pJ->getVida() << std::endl;
+				empurrar(pJ); // Chama o empurrão (pode ser o base 'Inimigo::empurrar')
 			}
-
 			else
 			{
 				std::cout << "ponteiro de jogador nulo!" << std::endl;
@@ -190,44 +200,8 @@ namespace Entidades
 				if (distHorizontal <= raio_perseg && distVertical <= raio_vertical)
 					perseguir(jogAlvo);
 
-				else {
-
-					if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar) //se passou o tempo para parar de andar 
-					{															 // ou se passou o tempo para começar a andar
-						relogioAndar.restart();
-
-						andando = !andando;
-
-						//sorteio para qual lado ele vai!
-						if (rand() % 2 == 0)
-						{
-							paraEsq = true;
-						}
-						else
-						{
-							paraEsq = false;
-						}
-
-					}
-
-					if (andando)
-					{
-						if (paraEsq)
-							corpo->move(-veloc.x, 0.0f);
-						else
-							corpo->move(veloc.x, 0.0f);
-
-						animador->atualizarAnimInim(paraEsq, false, "Andando");
-
-					}
-
-					else //está parado
-					{
-						corpo->move(0.0f, 0.0f);
-						animador->atualizarAnimInim(paraEsq, false, "Parado");
-					}
-
-				}
+				else
+					perambular();
 
 			}
 
