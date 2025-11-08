@@ -21,6 +21,7 @@ namespace Gerenciadores {
 			Gerenciador_Colisoes(sf::RectangleShape* piso);
 
 			const bool verificaColisao(Entidades::Entidade* pe1, Entidades::Entidade* pe2) const;
+			const bool verificaColisao(sf::RectangleShape* r1, sf::RectangleShape* r2) const;
 			const bool verificaColisaoChao(Entidades::Entidade* pe) const;
 			void tratarColisoesJogsInimgs();
 			void tratarColisoesJogsObstacs();
@@ -36,7 +37,6 @@ namespace Gerenciadores {
 			void incluirProjetil(Entidades::Projetil* pj);
 			void setJogador(Entidades::Personagens::Jogador* pJog);
 			void reposicionar(sf::RectangleShape* c1, sf::RectangleShape* c2);
-			const bool verificaColisao(sf::RectangleShape* r1, sf::RectangleShape* r2) const;
 	};
 
 }

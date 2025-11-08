@@ -20,13 +20,25 @@ namespace Entidades {
 		{
 			dano = 25;
 
-			veloc.x = 0.05;
-			veloc.y = 0.05;
+			veloc.x = 0.04;
+			veloc.y = 0.00;
 
-			corpo = new sf::RectangleShape(sf::Vector2f(100.0, 160.0));
-			corpo->setPosition(pos);
+			num_vidas = 100;
 
-			setAnimador(corpo);
+			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
+			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
+
+			//essa é a hitbox do corpo do jogador!
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
+			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+				corpo->getPosition().y);
+
+			// essa é a hitbox de ataque!
+			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
+			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); // Transparente por padrão
+			hitboxAtaqueAtiva = false;
+
+
 			inicializaAnimacoes();
 		}
 
@@ -62,12 +74,13 @@ namespace Entidades {
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
 			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
 
+			//essa é a hitbox do corpo do jogador!
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
 			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x/2 - hitBox->getSize().x/2),
 								corpo->getPosition().y);
 
-			// Após inicializar a hitbox normal
-			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(80.0f, 100.0f)); // Tamanho maior para ataque
+			// essa é a hitbox de ataque!
+			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
 			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); // Transparente por padrão
 			hitboxAtaqueAtiva = false;
 
@@ -199,12 +212,11 @@ namespace Entidades {
 
 			if(atacando && dt < cooldown_ataque) {
 				hitboxAtaqueAtiva = true;
-				atualizarHitboxAtaque(); // Posiciona a hitbox de ataque
+				atualizarHitboxAtaque(); // posiciona a hitbox de ataque
 
 				animador->atualizarAnimJog(caindo, false, paraEsq, false, "Ataque1");
 				dt = timer.getElapsedTime().asSeconds();
 
-				std::cout << "ATAQUE ATIVO - dt: " << dt << std::endl;
 			}
 			else {
 				hitboxAtaqueAtiva = false;
@@ -235,16 +247,16 @@ namespace Entidades {
 
 		void Jogador::atualizarHitboxAtaque() {
 			if (paraEsq) {
-				// Posiciona à esquerda do jogador
+				// posiciona à esquerda do jogador
 				hitboxAtaque->setPosition(
-					corpo->getPosition().x - hitboxAtaque->getSize().x,
+					corpo->getPosition().x - 5.0f,
 					corpo->getPosition().y
 				);
 			}
 			else {
-				// Posiciona à direita do jogador
+				// posiciona à direita do jogador
 				hitboxAtaque->setPosition(
-					corpo->getPosition().x + corpo->getSize().x,
+					corpo->getPosition().x + corpo->getSize().x - 45.0f,
 					corpo->getPosition().y
 				);
 			}

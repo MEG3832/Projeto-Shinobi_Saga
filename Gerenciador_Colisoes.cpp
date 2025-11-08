@@ -76,6 +76,8 @@ namespace Gerenciadores {
 		pJog1 = pJog;
 	}
 
+	//esse verificaColisao tem o intuito da verificação entre colisão corpo-a-corpo entre as entidades.
+	//aqui usamos as hitboxes principais!!
 	const bool Gerenciador_Colisoes::verificaColisao(Entidades::Entidade* pe1, Entidades::Entidade* pe2) const {
 		if (pe1) {
 			if (pe2) {
@@ -103,6 +105,17 @@ namespace Gerenciadores {
 			return false;
 		}
 	}
+
+	//já essa aqui, verifica colisões mais específicas, entre retângulos. Usamos para o hitbox de ataque vs hitbox do inimigo.
+	const bool Gerenciador_Colisoes::verificaColisao(sf::RectangleShape* r1, sf::RectangleShape* r2) const {
+		if (r1 && r2) {
+			sf::FloatRect rect1 = r1->getGlobalBounds();
+			sf::FloatRect rect2 = r2->getGlobalBounds();
+			return rect1.intersects(rect2);
+		}
+		return false;
+	}
+
 
 	const bool Gerenciador_Colisoes::verificaColisaoChao(Entidades::Entidade* pe) const {
 		if (pe) {
@@ -137,29 +150,19 @@ namespace Gerenciadores {
 
 			if (LIs[i] && !LIs[i]->getEstaMorto()) {
 
-				// PRIMEIRO: Verificar colisão de ATAQUE (independente da colisão física)
 				if (pJog1->getHitboxAtaqueAtiva()) {
-					std::cout << "Hitbox de ataque ATIVA" << std::endl;
 
 					if (verificaColisao(pJog1->getHitboxAtaque(), LIs[i]->getHitBox())) {
-						std::cout << "COLISAO DE ATAQUE DETECTADA! Aplicando dano." << std::endl;
 						LIs[i]->diminuiVida(pJog1->getDano());
-
-						// Impedir que o mesmo ataque cause dano múltiplas vezes
-						// pJog1->setHitboxAtaqueAtiva(false); // Opcional
 					}
 				}
 
-				// DEPOIS: Verificar colisão FÍSICA normal
 				if (verificaColisao((static_cast<Entidades::Entidade*>(
 					static_cast<Entidades::Personagens::Personagem*>(pJog1))),
 					(static_cast<Entidades::Entidade*>(
 						static_cast<Entidades::Personagens::Personagem*>(LIs[i]))))) {
 
-					std::cout << "Colisao fisica normal detectada" << std::endl;
-
 					if (!pJog1->getAtacando() && !LIs[i]->getAtordoado()) {
-						std::cout << "Jogador tomou dano do inimigo" << std::endl;
 						pJog1->colidir(LIs[i]);
 					}
 
@@ -168,62 +171,13 @@ namespace Gerenciadores {
 					}
 				}
 			}
-
-			/*if (LIs[i] && !LIs[i]->getEstaMorto()) {
-
-				if (verificaColisao((static_cast<Entidades::Entidade*>(
-									static_cast<Entidades::Personagens::Personagem*>(pJog1))),
-									(static_cast<Entidades::Entidade*>(
-									static_cast<Entidades::Personagens::Personagem*>(LIs[i]))))) {
-
-					/*if (pJog1->getAtacando()) {
-						LIs[i]->diminuiVida(pJog1->getDano());
-					}
-					else if (!LIs[i]->getAtordoado()) {
-						// inimigo não está atordoado e jogador nn está atacando
-						pJog1->colidir(LIs[i]);
-					}
-					// se o jogador não está atacando s o inimigo está atordoado,
-					// nada acontece (eles só se empurram).
-
-					if (LIs[i]->getIntransponivel()) {
-						reposicionar(pJog1->getCorpo(), LIs[i]->getCorpo());
-					}
-
-					if (verificaColisao(pJog1, LIs[i])) {
-						if (!pJog1->getAtacando() && !LIs[i]->getAtordoado()) {
-							pJog1->colidir(LIs[i]);
-						}
-
-						if (LIs[i]->getIntransponivel()) {
-							reposicionar(pJog1->getHitBox(), LIs[i]->getHitBox());
-						}
-					}
-
-					// Colisão de ataque (com hitbox especial)
-					if (pJog1->getHitboxAtaqueAtiva() &&
-						verificaColisao(pJog1->getHitboxAtaque(), LIs[i]->getHitBox())) {
-						LIs[i]->diminuiVida(pJog1->getDano());
-					}
-				}
-			}*/
+						
 			else {
 				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o inimigo eh NULL" << std::endl;
 			}
 		}
 	}
-
-	//adicionando isso:
-
-	const bool Gerenciador_Colisoes::verificaColisao(sf::RectangleShape* r1, sf::RectangleShape* r2) const {
-    if (r1 && r2) {
-        sf::FloatRect rect1 = r1->getGlobalBounds();
-        sf::FloatRect rect2 = r2->getGlobalBounds();
-        return rect1.intersects(rect2);
-    }
-    return false;
-}
-
+	
 	void Gerenciador_Colisoes::tratarColisoesJogsObstacs() {
 		std::list<Entidades::Obstaculos::Obstaculo*>::iterator it = LOs.begin();
 		for (it = LOs.begin(); it != LOs.end(); it++) {
