@@ -28,8 +28,16 @@ namespace Entidades {
 				sf::Clock relogioAndar;
 				float tempoAndar;
 
+				//tratam do estado ao inimigo ser atacado.
+				bool atordoado;
+				sf::Clock relogioAtordoado; //mede o cooldown
+				float cooldownAtordoado; //p/ duração da animação "Ferido"
+
+				bool estaMorto;
+				bool intransponivel;
 				
-				// Nova função de comportamento base
+				//--//
+
 				void perambular();
 
 
@@ -53,6 +61,13 @@ namespace Entidades {
 
 				// Métodos com implementação base, mas que podem ser sobrescritos
 				virtual void empurrar(Jogador* pJ);
+
+				// getters de estado
+				const bool getAtordoado() const { return atordoado; }
+				const bool getEstaMorto() const { return estaMorto; }
+
+				virtual bool getIntransponivel() const { return intransponivel; }
+				virtual void setIntransponivel(bool val) { intransponivel = val; }
 
 				// Sobrescreve o método da classe Personagem (assumindo que ela exista lá)
 				// Usado quando o INIMIGO recebe dano

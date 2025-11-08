@@ -95,14 +95,20 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             lista_ents.desenharEntidades();
 
             //teste
-            sf::RectangleShape* corpoJogador = inimigo.getHitBox();
+            sf::RectangleShape* corpoJogador = pJog1.getHitBox();
+            sf::RectangleShape* corpoInim = inimigo.getHitBox();
 
             sf::RectangleShape debugHitbox = *corpoJogador;
+            sf::RectangleShape debugHitbox2 = *corpoInim;
 
             debugHitbox.setTexture(nullptr);
             debugHitbox.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
 
+            debugHitbox2.setTexture(nullptr);
+            debugHitbox2.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+
             GG->getWindow()->draw(debugHitbox);
+            GG->getWindow()->draw(debugHitbox2);
 
             /*sf::RectangleShape* corpo2 = plataforma.getHitBox();
 

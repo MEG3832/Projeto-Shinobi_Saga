@@ -135,15 +135,32 @@ namespace Gerenciadores {
 	void Gerenciador_Colisoes::tratarColisoesJogsInimgs() {
 		for (int i = 0; i < (int)LIs.size(); i++) {
 			if (LIs[i]) {
+
+				if (LIs[i]->getEstaMorto()) {
+					continue; // Pula para o próximo inimigo
+				}
+
 				if (verificaColisao((static_cast<Entidades::Entidade*>(
 									static_cast<Entidades::Personagens::Personagem*>(pJog1))),
 									(static_cast<Entidades::Entidade*>(
 									static_cast<Entidades::Personagens::Personagem*>(LIs[i]))))) {
 
-					pJog1->colidir(LIs[i]);
+					if (pJog1->getAtacando()) {
+						// 1. JOGADOR ESTÁ ATACANDO
+						// O inimigo toma dano (que vai ativar seu 'atordoado')
+						LIs[i]->diminuiVida(pJog1->getDano());
+					}
+					else if (!LIs[i]->getAtordoado()) {
+						// 2. JOGADOR NÃO ESTÁ ATACANDO
+						// Se o inimigo não estiver atordoado, ele causa dano no jogador
+						pJog1->colidir(LIs[i]);
+					}
+					// Se o jogador não está atacando E o inimigo ESTÁ atordoado,
+					// nada acontece (eles só se empurram).
 
+
+					// REPOSICIONAMENTO (acontece de qualquer forma)
 					if (LIs[i]->getIntransponivel()) {
-
 						reposicionar(pJog1->getCorpo(), LIs[i]->getCorpo());
 					}
 				}

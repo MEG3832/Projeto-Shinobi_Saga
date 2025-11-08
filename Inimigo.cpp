@@ -15,7 +15,11 @@ namespace Entidades {
 			relogioAtaque(),
 			andando(false),
 			relogioAndar(),
-			tempoAndar(3.0)
+			tempoAndar(3.0),
+			atordoado(false),
+			cooldownAtordoado(0.5f), // Valor padrão
+			estaMorto(false),
+			intransponivel(true) // inimigos são "sólidos" por padrão
 		{
 
 			//corpo é feito nas classes folha
@@ -37,10 +41,29 @@ namespace Entidades {
 		}
 
 		void Inimigo::executar() {
-			// Chama o método 'mover' específico da classe filha
-			mover();
 
-			// Atualiza a hitbox (comum a todos)
+			//analisamos o estado do inimigo.
+			
+			if (estaMorto) {
+				animador->atualizarAnimInim(paraEsq, true, "Derrotado");
+				return;
+			}
+
+			if (atordoado) {
+				if (relogioAtordoado.getElapsedTime().asSeconds() >= cooldownAtordoado) {
+					atordoado = false;
+				}
+				else {
+					animador->atualizarAnimInim(paraEsq, true, "Ferido");
+				}
+			}
+
+			if (!atordoado) {
+
+				mover();
+			}
+
+
 			if (hitBox && corpo) {
 				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
 					corpo->getPosition().y);
@@ -50,7 +73,31 @@ namespace Entidades {
 
 		void Inimigo::diminuiVida(int dano)
 		{
-			Personagem::diminuiVida(dano);
+			// Não pode tomar dano se já estiver atordoado ou morto
+			if (atordoado || estaMorto) {
+				return;
+			}
+
+			// Não faz nada se o dano for 0 ou negativo
+			if (dano <= 0) {
+				return;
+			}
+
+			Personagem::diminuiVida(dano); // aplica o dano (da classe Personagem)
+
+			// verifica o resultado do ataque
+			if (getVida() <= 0) {
+				estaMorto = true;
+				atordoado = false; // Morte é mais importante que atordoamento
+				setIntransponivel(false); // Inimigo morto pode ser atravessado
+				std::cout << "Inimigo morreu!" << std::endl;
+			}
+			else {
+				// Se tomou dano mas não morreu, fica atordoado
+				atordoado = true;
+				relogioAtordoado.restart();
+				std::cout << "Inimigo tomou " << dano << " de dano. Vida: " << getVida() << std::endl;
+			}
 		}
 
 

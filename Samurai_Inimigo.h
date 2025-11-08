@@ -18,7 +18,7 @@ namespace Entidades {
 			void danificar(Jogador* pJ); // Dano no jogador
 			void inicializaAnimacoes();
 
-			void diminuiVida(float dano);
+			void diminuiVida(int dano);
 
 			//void empurrar(Jogador* pJ); -> igual ao da base
 

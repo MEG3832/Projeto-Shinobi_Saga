@@ -18,6 +18,8 @@ namespace Entidades {
 			correndo(false),
 			atacando(false)
 		{
+			dano = 25;
+
 			veloc.x = 0.05;
 			veloc.y = 0.05;
 
@@ -49,6 +51,9 @@ namespace Entidades {
 			preparandoPulo(false),
 			velPulo(-0.05)
 		{
+
+			dano = 25;
+
 			veloc.x = 0.04;
 			veloc.y = 0.00;
 
@@ -89,6 +94,7 @@ namespace Entidades {
 			hitBox->move(0.0, veloc.y);
 
 			mover();
+
 		}
 
 		void Jogador::salvar()

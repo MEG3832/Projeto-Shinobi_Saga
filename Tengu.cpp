@@ -14,6 +14,8 @@ namespace Entidades
 			veloc = sf::Vector2f(0.1f, 0.05f); // Velocidade específica
 			tempoAndar = 2.5f; // Tempo de "perambular" específico
 
+			cooldownAtordoado = 1.0f;
+
 			//faz o corpo:
 
 			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
@@ -37,9 +39,18 @@ namespace Entidades
 
 		void Tengu::diminuiVida(int dano)
 		{
+			// 1. Checa se já está atordoado (lógica da base)
+			if (atordoado || estaMorto) {
+				return;
+			}
+
 			Inimigo::diminuiVida(dano); // Chama a base para perder vida
-			nivel_maldade++; // Aumenta o nível de maldade
-			std::cout << "Tengu enfurecido! Nivel de maldade: " << nivel_maldade << std::endl; //para teste
+
+			if (!estaMorto) {
+				nivel_maldade++; // Aumenta o nível de maldade
+				std::cout << "Tengu enfurecido! Nivel de maldade: " << nivel_maldade << std::endl;
+			}
+
 		}
 
 		void Tengu::danificar(Jogador* pJ)

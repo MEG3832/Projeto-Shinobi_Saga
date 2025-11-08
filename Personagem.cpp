@@ -18,11 +18,11 @@ namespace Entidades {
 			animador = nullptr;
 		}
 
-		void Personagem::diminuiVida(float dano) {
-			if (num_vidas - dano < 0) {
-				num_vidas -= (dano - num_vidas);
+		void Personagem::diminuiVida(int dano) {
+			if (num_vidas - dano <= 0) {
+				num_vidas = 0;
 			}
-			else if (num_vidas > 0) {
+			else {
 				num_vidas -= dano;
 			}
 			std::cout << num_vidas << std::endl;
@@ -33,10 +33,10 @@ namespace Entidades {
 			return num_vidas;
 		}
 
-		//void Personagem::getDano()
-		//{
-			
-		//}
+		int Personagem::getDano()
+		{
+			return dano;
+		}
 
 	}
 

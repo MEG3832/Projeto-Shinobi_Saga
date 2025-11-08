@@ -13,9 +13,13 @@ namespace Entidades {
 			veloc = sf::Vector2f(0.03f, 0.05f);
 			tempoAndar = 4.0f;
 
+			// 2 frames * 0.17s/frame = 0.34s
+			cooldownAtordoado = 0.34f;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
-			corpo->setPosition(pos);
+			//corpo->setPosition(pos); //posicao??
+
+			corpo->setPosition(300.0f, ALTURA_TELA - 50 - corpo->getSize().y);
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x-75, corpo->getSize().y));
 			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
@@ -29,9 +33,7 @@ namespace Entidades {
 
 		void Samurai_Inimigo::executar()
 		{
-			mover();
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-				corpo->getPosition().y);
+			Inimigo::executar(); //será que posso só fazer isso?
 		}
 
 		void Samurai_Inimigo::mover()
@@ -56,9 +58,14 @@ namespace Entidades {
 			}
 		}
 
-		void Samurai_Inimigo::diminuiVida(float dano)
+		void Samurai_Inimigo::diminuiVida(int dano)
 		{
-			float dano_reduzido = 0.0f;
+			// 1. Checa se já está atordoado (lógica da base)
+			if (atordoado || estaMorto) {
+				return;
+			}
+
+			int dano_reduzido = 0;
 			if (resistencia > 0.0f) {
 				dano_reduzido = dano / resistencia;
 			}
