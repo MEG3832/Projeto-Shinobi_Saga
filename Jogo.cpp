@@ -8,7 +8,7 @@ Jogo::Jogo() :
     plataforma(),
     redemoinho(),
     armadilha_de_urso(),
-    inimigo(&pJog1),
+    inimigo(&pJog1, 50.0),
     GC(GC->getGerenciadorColisoes(fundo.getChao())),
     lista_ents()
 {
@@ -40,22 +40,22 @@ void Jogo::inicializarGC() {
 
     inicializarListaInimigos();
 
-    inicializarListaObtaculos();
+    //inicializarListaObtaculos();
 
     //inicializarListaProjeteis();
 }
 
 void Jogo::inicializaListaEntidades() {
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //   static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-       static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-        static_cast<Entidades::Personagens::Personagem*>(&pJog1)));
+    //                  static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //    static_cast<Entidades::Obstaculos::Obstaculo*>(&armadilha_de_urso)));
+    //                   static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
-      static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
+                       static_cast<Entidades::Personagens::Personagem*>(&pJog1)));
+    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
+    //                   static_cast<Entidades::Obstaculos::Obstaculo*>(&armadilha_de_urso)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+                       static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
 }
 
 void Jogo::inicializarListaInimigos() {
@@ -63,8 +63,8 @@ void Jogo::inicializarListaInimigos() {
 }
 
 void Jogo::inicializarListaObtaculos() {
-    //GC->incluirObstaculo(&plataforma);
-    GC->incluirObstaculo(&redemoinho);
+    GC->incluirObstaculo(&plataforma);
+    //GC->incluirObstaculo(&redemoinho);
     //GC->incluirObstaculo(&armadilha_de_urso);
 }
 
@@ -119,7 +119,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
                 GG->getWindow()->draw(debugAtaque);
             }
 
-            sf::RectangleShape* corpo2 = plataforma.getHitBox();
+            /*sf::RectangleShape* corpo2 = plataforma.getHitBox();
 
             sf::RectangleShape debugHitbox1 = *corpo2;
 

@@ -7,7 +7,7 @@ namespace Entidades {
 		Personagem::Personagem() :
 			Entidade(),
 			num_vidas(3),
-			id(-1),
+			id(1),
 			dano(-1),
 			morrendo(false),
 			paraEsq(false),

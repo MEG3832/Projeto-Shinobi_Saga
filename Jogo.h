@@ -8,6 +8,7 @@
 #include "Redemoinho.h"
 #include "Armadilha_de_urso.h"
 #include "Tengu.h"
+#include "Samurai_Inimigo.h"
 
 class Jogo {
 	private:
@@ -18,7 +19,7 @@ class Jogo {
 		Entidades::Obstaculos::Plataforma plataforma;
 		Entidades::Obstaculos::Redemoinho redemoinho;
 		Entidades::Obstaculos::Armadilha_de_urso armadilha_de_urso;
-		Entidades::Personagens::Tengu inimigo; //teste tengu
+		Entidades::Personagens::Samurai_Inimigo inimigo; //teste tengu
 		Entidades::Projetil projetil;
 		Gerenciadores::Gerenciador_Colisoes* GC;	// Um para jogador, que tal?
 		Listas::ListaEntidades lista_ents;
