@@ -1,6 +1,7 @@
 #pragma once
 #include "Gerenciador_Grafico.h"
 #include "Jogador.h"
+class Menu;
 
 namespace Gerenciadores {
 
@@ -19,6 +20,8 @@ namespace Gerenciadores {
 			void setJogador(Entidades::Personagens::Jogador* pJogador);
 			void verificaTeclaPressionada();
 			void executar();
+			void executarMenu(Menu* pMenu);
+			void verificaTeclaPressionadaMenu(Menu* pMenu, sf::Keyboard::Key tecla);
 	};
 
 }

@@ -14,6 +14,9 @@ class Jogo;
 			Parallax::Fundo fundo;
 			sf::Font fonte;
 			std::vector<sf::Text> texto;
+			int selecionado;
+			bool executa;
+			bool parar;
 
 		public:
 			Menu();
@@ -22,5 +25,9 @@ class Jogo;
 			void inicializaFundo();	// Inicializa com o Japan Village
 			void inicializaTexto();
 			void desenharTexto();
+			void operator++();
+			void operator--();
+			void selecionar();
+			void setJogo(Jogo* jogo);
 	};
 

@@ -13,6 +13,7 @@
 
 class Jogo {
 	private:
+		Menu menu;
 		Gerenciadores::Gerenciador_Grafico* GG;	// Singelton
 		Parallax::Fundo fundo;
 		Entidades::Personagens::Jogador pJog1;
@@ -24,7 +25,7 @@ class Jogo {
 		Entidades::Projetil projetil;
 		Gerenciadores::Gerenciador_Colisoes* GC;	// Um para jogador, que tal?
 		Listas::ListaEntidades lista_ents;
-		Menu menu;
+		int fase;
 
 	public:
 		Jogo();
@@ -38,6 +39,7 @@ class Jogo {
 		void inicializarListaObtaculos();
 		void inicializarListaProjeteis();
 		void inicializaFundo();
+		void setFase(int num);
 
 		void executar();
 };

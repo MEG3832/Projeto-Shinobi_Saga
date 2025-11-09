@@ -1,4 +1,5 @@
 #include "Gerenciador_de_Eventos.h"
+#include "Menu.h"
 
 namespace Gerenciadores {
 
@@ -7,8 +8,7 @@ namespace Gerenciadores {
 	Gerenciador_de_Eventos::Gerenciador_de_Eventos() :
 		pGrafico(pGrafico->getGerenciadorGrafico()),
 		pJogador(new Entidades::Personagens::Jogador())
-	{
-	}
+	{}
 
 	Gerenciador_de_Eventos::~Gerenciador_de_Eventos() {
 		pGrafico = nullptr;
@@ -104,6 +104,41 @@ namespace Gerenciadores {
 		}
 		else {
 			std::cerr << "ERRO: Gerenciador Grafico eh NULL" << std::endl;
+		}
+	}
+
+	void Gerenciador_de_Eventos::executarMenu(Menu* pMenu) {
+		if (pGrafico) {
+			sf::Event evento;
+			while (pGrafico->getWindow()->pollEvent(evento)) {
+				if (evento.type == sf::Event::Closed) {
+					pGrafico->fecharJanela();
+				}
+				else if (evento.type == sf::Event::KeyPressed) {
+					verificaTeclaPressionadaMenu(pMenu, evento.key.code);
+				}
+			}
+		}
+		else {
+			std::cerr << "ERRO: Gerenciador Grafico eh NULL" << std::endl;
+		}
+	}
+
+	void Gerenciador_de_Eventos::verificaTeclaPressionadaMenu(Menu* pMenu, sf::Keyboard::Key tecla) {
+		if (pMenu) {
+			if (sf::Keyboard::S == tecla)
+			{
+				pMenu->operator++();
+			}
+			else if (sf::Keyboard::W == tecla) {
+				pMenu->operator--();
+			}
+			else if (sf::Keyboard::Enter == tecla) {
+				pMenu->selecionar();
+			}
+		}
+		else {
+			std::cerr << "ERRO: Nao eh possivel mover a selecao pois o Menu eh NULL" << std::endl;
 		}
 	}
 

@@ -1,6 +1,7 @@
 #include "Jogo.h"
 
 Jogo::Jogo() :
+    menu(),
     GG(GG->getGerenciadorGrafico()),
     fundo(),    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
     pJog1(),
@@ -10,13 +11,16 @@ Jogo::Jogo() :
     armadilha_de_urso(),
     inimigo(&pJog1, 50.0),
     GC(GC->getGerenciadorColisoes()),
-    lista_ents()
+    lista_ents(),
+    fase(1)
 {
     GE->setJogador(&pJog1);
 
     inicializar();
 
-	executar();
+    //menu.executar();
+
+    executar();
 }
 
 Jogo::~Jogo() {
@@ -27,9 +31,12 @@ Jogo::~Jogo() {
     GE = nullptr;
     if (GC) delete GC;
     GC = nullptr;
+    fase = -1;
 }
 
 void Jogo::inicializar() {
+    menu.setJogo(this);
+
     inicializaFundo();
 
     inicializarGC();
@@ -78,65 +85,64 @@ void Jogo::inicializarListaProjeteis() {
 
 void Jogo::executar() { // Desenha 4 retangulos e o fundo
     if (GG) {
-        menu.executar();
-
+        fase = 1;
         while (GG->verificaJanelaAberta()) {
+            if (1 == fase) {
+                // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
+                GE->executar();
 
-            // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
-            GE->executar();
+                GG->limpaJanela();
 
-            GG->limpaJanela();
+                // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
+                GG->atualizaCamera(pJog1.getPos());
 
-            // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
-            GG->atualizaCamera(pJog1.getPos());
+                pJog1.sofrerGravidade();    // Queria colocar na lista
 
-            pJog1.sofrerGravidade();    // Queria colocar na lista
+                GC->executar();
 
-            GC->executar();
+                lista_ents.percorrer();
 
-            lista_ents.percorrer();
+                GC->executar();
 
-            GC->executar();
+                // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
+                fundo.executar();
 
-            // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
-            fundo.executar();
+                lista_ents.desenharEntidades();
 
-            lista_ents.desenharEntidades();
+                //teste
+                /*sf::RectangleShape* corpoJogador = pJog1.getHitBox();
+                sf::RectangleShape* corpoInim = inimigo.getHitBox();
 
-            //teste
-            /*sf::RectangleShape* corpoJogador = pJog1.getHitBox();
-            sf::RectangleShape* corpoInim = inimigo.getHitBox();
+                sf::RectangleShape debugHitbox = *corpoJogador;
+                sf::RectangleShape debugHitbox2 = *corpoInim;
 
-            sf::RectangleShape debugHitbox = *corpoJogador;
-            sf::RectangleShape debugHitbox2 = *corpoInim;
+                debugHitbox.setTexture(nullptr);
+                debugHitbox.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
 
-            debugHitbox.setTexture(nullptr);
-            debugHitbox.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+                debugHitbox2.setTexture(nullptr);
+                debugHitbox2.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
 
-            debugHitbox2.setTexture(nullptr);
-            debugHitbox2.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+                GG->getWindow()->draw(debugHitbox);
+                GG->getWindow()->draw(debugHitbox2);
 
-            GG->getWindow()->draw(debugHitbox);
-            GG->getWindow()->draw(debugHitbox2);
+                if (pJog1.getHitboxAtaqueAtiva()) {
+                    sf::RectangleShape debugAtaque = *pJog1.getHitboxAtaque();
+                    debugAtaque.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho transparente
+                    GG->getWindow()->draw(debugAtaque);
+                }
 
-            if (pJog1.getHitboxAtaqueAtiva()) {
-                sf::RectangleShape debugAtaque = *pJog1.getHitboxAtaque();
-                debugAtaque.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho transparente
-                GG->getWindow()->draw(debugAtaque);
+                /*sf::RectangleShape* corpo2 = plataforma.getHitBox();
+
+                sf::RectangleShape debugHitbox1 = *corpo2;
+
+                debugHitbox1.setTexture(nullptr);
+                debugHitbox1.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+
+                GG->getWindow()->draw(debugHitbox1);*/
+
+
+                GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
             }
-
-            /*sf::RectangleShape* corpo2 = plataforma.getHitBox();
-
-            sf::RectangleShape debugHitbox1 = *corpo2;
-
-            debugHitbox1.setTexture(nullptr);
-            debugHitbox1.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
-
-            GG->getWindow()->draw(debugHitbox1);*/
-
-
-
-            GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
         }
     }
     else {
@@ -155,4 +161,8 @@ void Jogo::inicializaFundo() {
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada8.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0000005f, "Imagens/JapanVillage/Camada9.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize().x, GG->getWindow()->getSize().y - 80.0f));	// Chao
+}
+
+void Jogo::setFase(int num) {
+    fase = num;
 }

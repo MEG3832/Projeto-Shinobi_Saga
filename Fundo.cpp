@@ -173,12 +173,8 @@ namespace Parallax {
 			else {
 				camada = new Camada(tam, vel);
 			}
-			if (camada) {
-				camadas.push_back(camada);
-			}
-			else {
-				std::cerr << "ERRO: nao foi possivel adicionar a camada " << std::endl;
-			}
+
+			camadas.push_back(camada);
 		}
 		else {
 			std::cerr << "ERRO: Nao eh possivel adicionar a cmamada pois o Gerenciador Grafico eh NULL" << std::endl;
