@@ -51,6 +51,10 @@ namespace Entidades {
 			return dano;
 		}
 
+		void Personagem::setNoChao() {
+			veloc.y = 0.0f;
+		}
+
 	}
 
 }

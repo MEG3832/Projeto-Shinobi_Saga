@@ -18,7 +18,6 @@ namespace Entidades {
 			cooldownAtordoado = 1.0f;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
-			//corpo->setPosition(pos); //posicao??
 
 			corpo->setPosition(300.0f, ALTURA_TELA - 50 - corpo->getSize().y);
 

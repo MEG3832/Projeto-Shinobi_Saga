@@ -1,4 +1,4 @@
-#include "Jogo.h"
+/*#include "Jogo.h"
 
 Jogo::Jogo() :
     GG(GG->getGerenciadorGrafico()),
@@ -104,7 +104,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             lista_ents.desenharEntidades();
 
             //teste
-            /*sf::RectangleShape* corpoJogador = pJog1.getHitBox();
+            sf::RectangleShape* corpoJogador = pJog1.getHitBox();
             sf::RectangleShape* corpoInim = inimigo.getHitBox();
 
             sf::RectangleShape debugHitbox = *corpoJogador;
@@ -125,14 +125,14 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
                 GG->getWindow()->draw(debugAtaque);
             }
 
-            /*sf::RectangleShape* corpo2 = plataforma.getHitBox();
+            sf::RectangleShape* corpo2 = plataforma.getHitBox();
 
             sf::RectangleShape debugHitbox1 = *corpo2;
 
             debugHitbox1.setTexture(nullptr);
             debugHitbox1.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
 
-            GG->getWindow()->draw(debugHitbox1);*/
+            GG->getWindow()->draw(debugHitbox1);
 
 
 
@@ -144,7 +144,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
     }
 }
 
-void Jogo::inicializaFundo() {
+/*void Jogo::inicializaFundo() {
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada3.png");
@@ -155,4 +155,85 @@ void Jogo::inicializaFundo() {
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada8.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0000005f, "Imagens/JapanVillage/Camada9.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize().x, GG->getWindow()->getSize().y - 80.0f));	// Chao
+}*/
+
+
+#include "Jogo.h"
+#include <SFML/Graphics.hpp>
+
+Jogo::Jogo() :
+    pGG(pGG->getGerenciadorGrafico()),
+    pGE(pGE->getGerenciadorEventos()),
+    pFase1(nullptr)
+{
+    if (!pGG)
+    {
+        std::cout << "ERRO! O ponteiro Gerenc. Grafico NAO pôde ser inicializado..." << std::endl;
+        exit(1);
+    }
+
+    if (!pGE)
+    {
+        std::cout << "ERRO! O ponteiro Gerenc. de Eventos NAO pôde ser inicializado..." << std::endl;
+        exit(1);
+    }
+
+    Ente::setGG(pGG);
+
+    criarFase();
+    
+    // Configura o Gerenciador de Eventos
+    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
+
+}
+
+Jogo::~Jogo()
+{
+    // Limpa a fase (que limpa suas listas, etc.)
+    if (pFase1) {
+        delete pFase1;
+        pFase1 = nullptr;
+    }
+}
+
+void Jogo::criarFase()
+{
+    // Cria a primeira fase
+   // O construtor de FasePrimeira vai criar o cenário, inimigos, etc.
+    pFase1 = new Fases::FasePrimeira();
+}
+
+void Jogo::executar()
+{
+    // Loop principal do Jogo
+    while (pGG->verificaJanelaAberta())
+    {
+
+        // Tratamento de Eventos (fechar a janela)
+        sf::Event evento;
+        while (pGG->getWindow()->pollEvent(evento))
+        {
+            if (evento.type == sf::Event::Closed)
+            {
+                pGG->fecharJanela();
+            }
+            // (Aqui você chamará o Gerenciador de Eventos)
+            if (pGE) {
+                 pGE->executar();
+            }
+        }
+
+        // Limpa a tela
+        pGG->limpaJanela();
+
+        //Executa a lógica da fase 
+        //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
+        if (pFase1)
+        {
+            pFase1->executar();
+        }
+
+        // Mostra o que foi desenhado
+        pGG->mostrarEntes();
+    }
 }

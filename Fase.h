@@ -1,21 +1,30 @@
 #pragma once
 #include "ListaEntidades.h"
 #include "Gerenciador_Colisoes.h"
+#include "Jogador.h"
 #include "Tengu.h"
 #include "Fundo.h"
+#include "Ente.h"
 
 namespace Fases {
 
-	class Fase
+	class Fase:public Ente
 	{
+	private:
+		int maxTengus; //posso fazer isso? já que os Tengus serão os inimigos em comum na fase 1 e 2, por que não fazer isso aqui na Fase?
+
 	protected:
 
-		static const int maxTengus;
-		Parallax::Fundo fundo;
-		sf::RectangleShape chao;
-
 		Listas::ListaEntidades lista_ents;
-		//Gerenciadores::Gerenciador_Colisoes GC;
+		Gerenciadores::Gerenciador_Colisoes* GC; //n está exatamente de acordo com o diagrama, mas é para seguir o modelo do singleton
+		Entidades::Personagens::Jogador* pJog;
+
+		Parallax::Fundo* pFundo;
+
+		//serão reimplementados da FasePrimeira e na FaseSegunda
+		virtual void criarInimigos() = 0;
+		virtual void criarObstaculos() = 0;
+		virtual void criarCenario() = 0;
 
 
 	public:
@@ -24,18 +33,20 @@ namespace Fases {
 		~Fase();
 
 		virtual void executar(); // ->percorre a lista de entidades...
+		void criarTengus(); //inimigos em comum nas duas fases.
 
-	protected:
+		Entidades::Personagens::Jogador* getJogador() { return pJog; }
+
+	/*protected:
 
 		//virtual void criarInimigos() = 0 ;
 		//virtual void criarObstaculos() = 0;
 
 		void criarCenario();
-		void criarTengus(); //inimigos em comum nas duas fases.
 		//void criarSamurais();
 		//void criarKitsunes();
 		
-
+	*/
 
 	};
 

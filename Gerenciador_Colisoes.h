@@ -27,6 +27,7 @@ namespace Gerenciadores {
 			void tratarColisoesJogsObstacs();
 			void tratarColisoesJogsProjeteis();
 			void tratarColisoesJogsChao();
+			void tratarColisoesInimigosChao();
 
 		public:
 			~Gerenciador_Colisoes();

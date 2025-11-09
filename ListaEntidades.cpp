@@ -33,6 +33,14 @@ namespace Listas {
 		}
 	}
 
+	void ListaEntidades::aplicarGravidade()
+	{
+		for (int i = 0; i < LEs.getTam(); i++) {
+			LEs[i]->sofrerGravidade();
+		}
+
+	}
+
 	void ListaEntidades::desenharEntidades() {
 		for (int i = 0; i < LEs.getTam(); i++) {
 			LEs[i]->desenhar();

@@ -3,59 +3,85 @@
 namespace Fases
 {
 	Fase::Fase() :
-		chao(sf::RectangleShape(sf::Vector2f(9000,500))),
-		fundo(),
-		lista_ents()
-		//GC(GC.getGerenciadorColisoes(fundo.getChao()))
+		maxTengus(10),
+		lista_ents(),
+		GC(GC->getGerenciadorColisoes()),
+		pJog(nullptr),
+		pFundo(nullptr)
 	{
-		//criarInimigos(); //virtual pura, desce para fase 1 ou 2
-		//criarObstaculos(); //virtual pura, desce para fase 1 ou 2
-		criarCenario();
+		pJog = new Entidades::Personagens::Jogador(); //cria o jogador
+
+		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pJog); //coloca o jogador na lista de entidades
+		lista_ents.incluir(pEnt);
+
+		GC->setJogador(pJog); //por enquanto, só o jogador é setado no gerenc. de colisões
+
+		pFundo = new Parallax::Fundo(); //cria o fundo
+
 	}
 
 	Fase::~Fase()
 	{
-		//...
+		if (GC)
+		{
+			delete(GC);
+			GC = nullptr;
+		}
+		//A lista de entidades já é limpada ao ser destruída (lista_ents é da classe Lista_Entidades, q possui uma Lista parametrizada com Entidades)
 	}
 
-	void Fase::executar()
+		void Fase::executar()
 	{
-		criarCenario();
-		lista_ents.desenharEntidades();
-		lista_ents.percorrer(); //percorre a lista chamando o executar de todas as entidades...
-		//GC.executar();
-	}
+			lista_ents.aplicarGravidade();
 
-	void Fase::criarCenario()
-	{
-		//como?
-		return;
+			
+			lista_ents.percorrer();
+
+			
+			GC->executar();
+
+			
+			if (pJog) {
+				Ente::pGG->atualizaCamera(pJog->getPos());
+			}
+
+			
+			if (pFundo)
+				pFundo->executar();
+
+
+			lista_ents.desenharEntidades();
 	}
 
 	void Fase::criarTengus()
-	{ //seria uma boa ideia passar como parametro a posicao em que ele vai nascer?
+	{
+		sf::RectangleShape* pChao = pFundo->getChao();
+		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
 
-		/*const int min_tengus = 3;
+		const int min_tengus = 3;
 
 		int qnt_inim = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_inim; i++)
 		{
 			Entidades::Personagens::Tengu* pTengu;
-			pTengu = new Entidades::Personagens::Tengu(); //temos que passar o endereço do jogador aqui...
+			pTengu = new Entidades::Personagens::Tengu(pJog); //temos que passar o endereço do jogador aqui...
 
 			if (pTengu)
 			{
+				float posX = 400 + (i * 300.0f); // Espalha os inimigos
+				float posY = ALTURA_TELA - alturaChao - pTengu->getTam().y;
+				pTengu->getCorpo()->setPosition(posX, posY);
+
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pTengu);
 				lista_ents.incluir(pEnt);
-				GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
+				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
 			}
 
 			else
 				std::cout << "Não foi possível alocar o Tengu!" << std::endl;
 
-		}*/
-		return;
+		}
 
 	}
 

@@ -20,6 +20,7 @@ namespace Fases {
 		~FasePrimeira();
 
 		//reimplementação dos métodos virtuais puros:
+		void criarCenario();
 		void criarInimigos();
 		void criarObstaculos();
 

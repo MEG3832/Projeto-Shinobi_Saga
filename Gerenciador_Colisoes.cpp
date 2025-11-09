@@ -34,6 +34,8 @@ namespace Gerenciadores {
 				tratarColisoesJogsProjeteis();
 
 				tratarColisoesJogsChao();
+
+				tratarColisoesInimigosChao();
 			}
 			else {
 				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o Hit Box eh NULL" << std::endl;
@@ -247,6 +249,30 @@ namespace Gerenciadores {
 		}
 		else {
 			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o chao eh NULL" << std::endl;
+		}
+	}
+
+	void Gerenciador_Colisoes::tratarColisoesInimigosChao() {
+		if (!chao) {
+			std::cerr << "ERRO: nao eh possivel calcular a colisao (Inimigos-Chao) pois o chao eh NULL" << std::endl;
+			return;
+		}
+
+		for (int i = 0; i < (int)LIs.size(); i++) {
+			if (LIs[i]) {
+				if (verificaColisaoChao(LIs[i])) {
+					reposicionar(LIs[i]->getHitBox(), chao);
+					LIs[i]->setNoChao(); // Chama a função para parar a gravidade do inimigo
+
+					// Reposiciona o corpo visual (sprite) do inimigo
+					if (LIs[i]->getCorpo()) {
+						LIs[i]->getCorpo()->setPosition(
+							LIs[i]->getHitBox()->getPosition().x - (LIs[i]->getCorpo()->getSize().x / 2 - LIs[i]->getHitBox()->getSize().x / 2),
+							LIs[i]->getHitBox()->getPosition().y
+						);
+					}
+				}
+			}
 		}
 	}
 
