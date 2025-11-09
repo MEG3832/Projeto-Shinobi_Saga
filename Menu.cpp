@@ -72,13 +72,13 @@ void Menu::inicializaFundo() {
 	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
 	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
 	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada3.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada4.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada5.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada6.png");
+	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0000001f, "Imagens/JapanVillage/Camada4.png");
+	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.002f, "Imagens/JapanVillage/Camada5.png");
+	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.08f, "Imagens/JapanVillage/Camada6.png");
 	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada8.png");
+	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.6f, "Imagens/JapanVillage/Camada8.png");
 	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0000005f, "Imagens/JapanVillage/Camada9.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize().x, GG->getWindow()->getSize().y - 80.0f));	// Chao
+	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize().x,80.0f));	// Chao
 }
 
 void Menu::inicializaTexto() {
@@ -98,19 +98,19 @@ void Menu::inicializaTexto() {
 
 	temp.setCharacterSize(30);
 	temp.setString("Fase 1");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 35);
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
 	texto.push_back(temp);
 
 	temp.setString("Fase 2");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 35 + 45);
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
 	texto.push_back(temp);
 
 	temp.setString("Salvar Jogo");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 35 + 45 * 2);
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
 	texto.push_back(temp);
 
 	temp.setString("Sair");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 35 + 45 * 3);
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
 	texto.push_back(temp);
 }
 

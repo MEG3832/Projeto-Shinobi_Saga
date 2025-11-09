@@ -7,13 +7,15 @@ namespace Entidades {
 		Plataforma::Plataforma() :
 			Obstaculo(),
 			altura(55),
-			comprimento(180),
-			textura(pGG->carregarTextura("Imagens/Obstaculos/Plataforma.png"))
+			comprimento(120),
+			//comprimento(180),
+			//textura(pGG->carregarTextura("Imagens/Obstaculos/Plataforma_DarkForest.png")),
+			textura(pGG->carregarTextura("Imagens/Obstaculos/Plataforma_Village.png"))
 		{
 			danoso = false;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));
-			corpo->setPosition(200.0f, 450.0f);
+			corpo->setPosition(200.0f, 400.0f);
 			corpo->setTexture(&textura);
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize()));

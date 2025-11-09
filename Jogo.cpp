@@ -18,8 +18,6 @@ Jogo::Jogo() :
 
     inicializar();
 
-    //menu.executar();
-
     executar();
 }
 
@@ -51,14 +49,14 @@ void Jogo::inicializarGC() {
 
     //inicializarListaInimigos();
 
-    //inicializarListaObtaculos();
+    inicializarListaObtaculos();
 
     //inicializarListaProjeteis();
 }
 
 void Jogo::inicializaListaEntidades() {
-    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //                  static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+                      static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
     //                   static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
     lista_ents.incluir(static_cast<Entidades::Entidade*>(
@@ -85,7 +83,7 @@ void Jogo::inicializarListaProjeteis() {
 
 void Jogo::executar() { // Desenha 4 retangulos e o fundo
     if (GG) {
-        fase = 1;
+        menu.executar();
         while (GG->verificaJanelaAberta()) {
             if (1 == fase) {
                 // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
@@ -154,13 +152,13 @@ void Jogo::inicializaFundo() {
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada3.png");
-    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada4.png");
-    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada5.png");
-    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada6.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0000001f, "Imagens/JapanVillage/Camada4.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.002f, "Imagens/JapanVillage/Camada5.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.08f, "Imagens/JapanVillage/Camada6.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
-    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada8.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.6f, "Imagens/JapanVillage/Camada8.png");
     fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0000005f, "Imagens/JapanVillage/Camada9.png");
-    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize().x, GG->getWindow()->getSize().y - 80.0f));	// Chao
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize().x, 80.0f));	// Chao
 }
 
 void Jogo::setFase(int num) {
