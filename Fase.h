@@ -3,6 +3,7 @@
 #include "Gerenciador_Colisoes.h"
 #include "Jogador.h"
 #include "Tengu.h"
+#include "Plataforma.h"
 #include "Fundo.h"
 #include "Ente.h"
 
@@ -12,6 +13,7 @@ namespace Fases {
 	{
 	private:
 		int maxTengus; //posso fazer isso? já que os Tengus serão os inimigos em comum na fase 1 e 2, por que não fazer isso aqui na Fase?
+		int maxPlataf;
 
 	protected:
 
@@ -34,6 +36,7 @@ namespace Fases {
 
 		virtual void executar(); // ->percorre a lista de entidades...
 		void criarTengus(); //inimigos em comum nas duas fases.
+		void criarPlataformas(); //obstáculo em comum nas duas fases.
 
 		Entidades::Personagens::Jogador* getJogador() { return pJog; }
 

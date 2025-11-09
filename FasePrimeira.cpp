@@ -91,7 +91,7 @@ namespace Fases
 			if (pSam)
 			{
 
-				float posX = 100 + (i * 300.0f); // Espalha os inimigos
+				float posX = 300 + (i * 300.0f); // Espalha os inimigos
 				float posY = ALTURA_TELA - alturaChao - pSam->getTam().y;
 				pSam->getCorpo()->setPosition(posX, posY);
 
@@ -108,10 +108,14 @@ namespace Fases
 
 	void FasePrimeira::criarObstaculos()
 	{
-		//FAZER!!
+		criarPlataformas();
+		criarRedemoinhos();
+		return;
+	}
 
-		//criarPlataformas();
-		//criarRedemoinhos();
+	void FasePrimeira::criarRedemoinhos()
+	{
+		//fazer.
 		return;
 	}
 }

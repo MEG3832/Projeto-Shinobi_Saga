@@ -27,6 +27,7 @@ namespace Fases {
 		// ---- //
 
 		void criarSamurais(); //inimigo exclusivo da fase 1!
+		void criarRedemoinhos(); //obstáculo exclusivo da fase 1!
 
 	};
 
