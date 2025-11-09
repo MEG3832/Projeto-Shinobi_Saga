@@ -57,33 +57,42 @@ void Menu::inicializaFundo() {
 
 void Menu::inicializaTexto() {
 	texto.clear();
-	fonte.loadFromFile("Fonte/determination.ttf");
+	fonte.loadFromFile("Fonte/superstar_memesbruh03.ttf");
 
 	sf::Text temp;
-	temp.setString("Iniciar Jogo");
-	temp.setCharacterSize(25);
-	temp.setFillColor(sf::Color::White);
+	temp.setString("NOME DO JOGO");
+	temp.setCharacterSize(85);
+	temp.setFillColor(sf::Color(sf::Color::White));
+	//temp.setFillColor(sf::Color(sf::Color(255, 209, 230)));
 	temp.setOutlineColor(sf::Color::Black);
-	temp.setOutlineThickness(2);
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 30);
+	temp.setOutlineThickness(3);
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 150);
 	temp.setFont(fonte);
 	texto.push_back(temp);
+	
 
-	sf::Text temp2;
-	temp2.setString("Salvar Jogo");
-	temp2.setCharacterSize(25);
-	temp2.setFillColor(sf::Color::White);
-	temp2.setOutlineColor(sf::Color::Black);
-	temp2.setOutlineThickness(2);
-	temp2.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 50);
-	temp2.setFont(fonte);
+	temp.setCharacterSize(30);
+	temp.setString("Fase 1");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 35);
+	texto.push_back(temp);
+
+	temp.setString("Fase 2");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 35 + 45);
+	texto.push_back(temp);
+
+	temp.setString("Salvar Jogo");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 35 + 45 * 2);
+	texto.push_back(temp);
+
+	temp.setString("Sair");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 35 + 45 * 3);
 	texto.push_back(temp);
 }
 
 void Menu::desenharTexto() {
 	if (GG) {
 		for (int i = 0; i < (int)texto.size(); i++) {
-			texto[0].setPosition(GG->getCamera().getCenter().x - texto[i].getLocalBounds().width / 2, texto[i].getPosition().y);
+			texto[i].setPosition(GG->getCamera().getCenter().x - texto[i].getLocalBounds().width / 2, texto[i].getPosition().y);
 			GG->desenharTexto(texto[i]);
 		}
 	}

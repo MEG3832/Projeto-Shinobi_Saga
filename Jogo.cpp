@@ -78,7 +78,7 @@ void Jogo::inicializarListaProjeteis() {
 
 void Jogo::executar() { // Desenha 4 retangulos e o fundo
     if (GG) {
-        //menu.executar();
+        menu.executar();
 
         while (GG->verificaJanelaAberta()) {
 
