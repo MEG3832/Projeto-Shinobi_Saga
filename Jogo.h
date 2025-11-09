@@ -9,6 +9,7 @@
 #include "Armadilha_de_urso.h"
 #include "Tengu.h"
 #include "Samurai_Inimigo.h"
+#include "Menu.h"
 
 class Jogo {
 	private:
@@ -23,6 +24,7 @@ class Jogo {
 		Entidades::Projetil projetil;
 		Gerenciadores::Gerenciador_Colisoes* GC;	// Um para jogador, que tal?
 		Listas::ListaEntidades lista_ents;
+		Menu menu;
 
 	public:
 		Jogo();
@@ -35,6 +37,7 @@ class Jogo {
 		void inicializarListaInimigos();
 		void inicializarListaObtaculos();
 		void inicializarListaProjeteis();
+		void inicializaFundo();
 
 		void executar();
 };

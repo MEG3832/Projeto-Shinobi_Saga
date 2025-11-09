@@ -16,7 +16,7 @@ namespace Parallax {
 		// Dá o tamanho do fundo, sua posição inicial e seta a sua textura
 		fundo.setSize(tam);
 		fundo.setTexture(&this->textura);
-		fundo.setPosition(5.0f, 0.0f);
+		fundo.setPosition(0.0f, 0.0f);
 
 		fundoAuxiliar.setSize(tam);
 		fundoAuxiliar.setTexture(&this->textura);
@@ -30,10 +30,10 @@ namespace Parallax {
 	{
 		// Dá o tamanho do fundo, sua posição inicial e seta a sua textura
 		fundo.setSize(tam);
-		fundo.setPosition(5.0f, pGG->getWindow()->getSize().y - 50);
+		fundo.setPosition(0.0f, pGG->getWindow()->getSize().y - tam.y);
 
 		fundoAuxiliar.setSize(tam);
-		fundoAuxiliar.setPosition(tam.x, pGG->getWindow()->getSize().y - 50);
+		fundoAuxiliar.setPosition(tam.x, pGG->getWindow()->getSize().y - tam.y);
 	}
 
 	Fundo::Camada::~Camada()
@@ -109,13 +109,7 @@ namespace Parallax {
 		}
 
 		camadas.clear();
-
-		// cada fase tem seu próprio fundo, então isso aqui vai mudar
-		addCamada(0.05f, "Imagens/DarkForest/Camada1.png");
-		addCamada(0.05f, "Imagens/DarkForest/Camada2.png");
-		addCamada(0.4f, "Imagens/DarkForest/Camada3.png");
-		addCamada(0.4f, "Imagens/DarkForest/Chao.png");
-		addCamada();
+		// cada fase tem seu próprio fundo
 	}
 
 	Fundo::~Fundo() {	// Dá´pra adicionar um iterador aqui (padrão de projeto)
@@ -170,24 +164,39 @@ namespace Parallax {
 		}
 	}
 
-	void Fundo::addCamada(const float vel, const char* caminhoTextura) {
-		Camada* camada = nullptr;
-		if(caminhoTextura) {
-			camada = new Camada((sf::Vector2f)pGG->getWindow()->getSize(), pGG->carregarTextura(caminhoTextura), vel);
+	void Fundo::addCamada(const sf::Vector2f tam, const float vel, const char* caminhoTextura) {
+		if (pGG) {
+			Camada* camada = nullptr;
+			if (caminhoTextura) {
+				camada = new Camada(tam, pGG->carregarTextura(caminhoTextura), vel);
+			}
+			else {
+				camada = new Camada(tam, vel);
+			}
+			if (camada) {
+				camadas.push_back(camada);
+			}
+			else {
+				std::cerr << "ERRO: nao foi possivel adicionar a camada " << std::endl;
+			}
 		}
 		else {
-			camada = new Camada(sf::Vector2f(pGG->getWindow()->getSize().x, 50.0f), vel);
-		}
-		if (camada) {
-			camadas.push_back(camada);
-		}
-		else {
-			std::cerr << "ERRO: nao foi possivel adicionar a camada " << std::endl;
+			std::cerr << "ERRO: Nao eh possivel adicionar a cmamada pois o Gerenciador Grafico eh NULL" << std::endl;
 		}
 	}
 
 	sf::RectangleShape* Fundo::getChao() {
-		return camadas.back()->getChao();
+		if (!camadas.empty()) {
+			if (camadas.back()) {
+				return camadas.back()->getChao();
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel retornar o chao pois ele eh NULL" << std::endl;
+			}
+		}
+		else {
+			std::cerr << "ERRO: Nao eh possivel retornar o chao pois a lista de camadas estah vazia" << std::endl;
+		}
 	}
 
 }

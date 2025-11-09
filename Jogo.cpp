@@ -9,7 +9,7 @@ Jogo::Jogo() :
     redemoinho(),
     armadilha_de_urso(),
     inimigo(&pJog1, 50.0),
-    GC(GC->getGerenciadorColisoes(fundo.getChao())),
+    GC(GC->getGerenciadorColisoes()),
     lista_ents()
 {
     GE->setJogador(&pJog1);
@@ -30,6 +30,8 @@ Jogo::~Jogo() {
 }
 
 void Jogo::inicializar() {
+    inicializaFundo();
+
     inicializarGC();
 
     inicializaListaEntidades();
@@ -38,7 +40,9 @@ void Jogo::inicializar() {
 void Jogo::inicializarGC() {
     GC->setJogador(&pJog1);
 
-    inicializarListaInimigos();
+    GC->setChao(fundo.getChao());
+
+    //inicializarListaInimigos();
 
     //inicializarListaObtaculos();
 
@@ -54,8 +58,8 @@ void Jogo::inicializaListaEntidades() {
                        static_cast<Entidades::Personagens::Personagem*>(&pJog1)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
     //                   static_cast<Entidades::Obstaculos::Obstaculo*>(&armadilha_de_urso)));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-                       static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
+    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
+    //                   static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
 }
 
 void Jogo::inicializarListaInimigos() {
@@ -74,6 +78,8 @@ void Jogo::inicializarListaProjeteis() {
 
 void Jogo::executar() { // Desenha 4 retangulos e o fundo
     if (GG) {
+        menu.executar();
+
         while (GG->verificaJanelaAberta()) {
 
             // Processar eventos (no momento só fecha clicando no X). Vamos fazer um Gerenciador de Eventos pra ver isso
@@ -98,7 +104,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
             lista_ents.desenharEntidades();
 
             //teste
-            sf::RectangleShape* corpoJogador = pJog1.getHitBox();
+            /*sf::RectangleShape* corpoJogador = pJog1.getHitBox();
             sf::RectangleShape* corpoInim = inimigo.getHitBox();
 
             sf::RectangleShape debugHitbox = *corpoJogador;
@@ -128,10 +134,25 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
 
             GG->getWindow()->draw(debugHitbox1);*/
 
+
+
             GG->mostrarEntes(); // Mostra tudo que foi desenhado na tela
         }
     }
     else {
         std::cerr << "Gerenciador Grafico eh NULL" << std::endl;
     }
+}
+
+void Jogo::inicializaFundo() {
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada3.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada4.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada5.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada6.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada8.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0000005f, "Imagens/JapanVillage/Camada9.png");
+    fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize().x, GG->getWindow()->getSize().y - 80.0f));	// Chao
 }

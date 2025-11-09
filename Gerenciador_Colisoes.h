@@ -30,13 +30,14 @@ namespace Gerenciadores {
 
 		public:
 			~Gerenciador_Colisoes();
-			Gerenciador_Colisoes* getGerenciadorColisoes(sf::RectangleShape* piso);
+			Gerenciador_Colisoes* getGerenciadorColisoes();
 			void executar();
 			void incluirInimigo(Entidades::Personagens::Inimigo* pi);
 			void incluirObstaculo(Entidades::Obstaculos::Obstaculo* po);
 			void incluirProjetil(Entidades::Projetil* pj);
 			void setJogador(Entidades::Personagens::Jogador* pJog);
 			void reposicionar(sf::RectangleShape* c1, sf::RectangleShape* c2);
+			void setChao(sf::RectangleShape* piso);
 	};
 
 }

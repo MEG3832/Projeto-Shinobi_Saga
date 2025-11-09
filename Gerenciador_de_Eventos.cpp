@@ -7,7 +7,8 @@ namespace Gerenciadores {
 	Gerenciador_de_Eventos::Gerenciador_de_Eventos() :
 		pGrafico(pGrafico->getGerenciadorGrafico()),
 		pJogador(new Entidades::Personagens::Jogador())
-	{}
+	{
+	}
 
 	Gerenciador_de_Eventos::~Gerenciador_de_Eventos() {
 		pGrafico = nullptr;

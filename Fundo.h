@@ -36,7 +36,7 @@ namespace Parallax {
 			~Fundo();
 			void executar();	// Atualiza a posição de cada uma das camadas se houver velocidade e desenha elas
 			void desenhar();
-			void addCamada(const float vel = 0.0f, const char* caminhoTextura = nullptr);
+			void addCamada(const sf::Vector2f tam, const float vel = 0.0f, const char* caminhoTextura = nullptr);
 			sf::RectangleShape* getChao();
 	};
 

@@ -16,9 +16,9 @@ namespace Gerenciadores {
 		pJog1 = nullptr;
 	}
 
-	Gerenciador_Colisoes* Gerenciador_Colisoes::getGerenciadorColisoes(sf::RectangleShape* piso) {
+	Gerenciador_Colisoes* Gerenciador_Colisoes::getGerenciadorColisoes() {
 		if (!pColisoes) {
-			pColisoes = new Gerenciador_Colisoes(piso);
+			pColisoes = new Gerenciador_Colisoes(nullptr);
 		}
 
 		return pColisoes;
@@ -296,6 +296,10 @@ namespace Gerenciadores {
 		else {
 			std::cout << "ERRO: Nao foi possivel calcular a colisao pois corpo 1 eh NULL" << std::endl;
 		}
+	}
+
+	void Gerenciador_Colisoes::setChao(sf::RectangleShape* piso) {
+		chao = piso;
 	}
 
 }

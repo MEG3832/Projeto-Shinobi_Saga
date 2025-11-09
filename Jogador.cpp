@@ -70,7 +70,7 @@ namespace Entidades {
 			num_vidas = 100;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
-			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
+			corpo->setPosition(0.0, ALTURA_TELA - 80 - corpo->getSize().y);	// 80 eh a altura do chao
 
 			//essa é a hitbox do corpo do jogador!
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
