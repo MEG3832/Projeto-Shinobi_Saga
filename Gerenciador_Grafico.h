@@ -21,6 +21,7 @@ namespace Gerenciadores {
 		Gerenciador_Grafico* getGerenciadorGrafico();
 		void desenharEnte(Ente* pE);
 		void desenharRect(sf::RectangleShape rect);
+		void desenharTexto(sf::Text texto);
 		void mostrarEntes();	//Imprime na tela o que foi desenhado
 		sf::RenderWindow* getWindow();
 		const bool verificaJanelaAberta();

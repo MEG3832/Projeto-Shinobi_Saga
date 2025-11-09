@@ -12,11 +12,15 @@ class Jogo;
 			Gerenciadores::Gerenciador_Grafico* GG;
 			Gerenciadores::Gerenciador_de_Eventos* GE;
 			Parallax::Fundo fundo;
+			sf::Font fonte;
+			std::vector<sf::Text> texto;
 
 		public:
 			Menu();
 			~Menu();
 			void executar();
 			void inicializaFundo();	// Inicializa com o Japan Village
+			void inicializaTexto();
+			void desenharTexto();
 	};
 

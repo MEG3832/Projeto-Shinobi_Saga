@@ -50,6 +50,15 @@ namespace Gerenciadores {
 		}
 	}
 
+	void Gerenciador_Grafico::desenharTexto(sf::Text texto) {
+		if (window) {
+			window->draw(texto);
+		}
+		else {
+			std::cerr << "ERRO: window eh NULL" << std::endl;
+		}
+	}
+
 	void Gerenciador_Grafico::mostrarEntes() {
 		if (window) {
 			window->display();
