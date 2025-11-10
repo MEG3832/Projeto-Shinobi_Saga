@@ -39,6 +39,11 @@ namespace Entidades {
 				danoso = true;
 			}
 
+			sofrerContraForca();
+
+			corpo->move(veloc.x, veloc.y);
+			hitBox->move(veloc.x, veloc.y);
+
 		}
 
 		void Redemoinho::obstaculizar(Personagens::Jogador* p) {

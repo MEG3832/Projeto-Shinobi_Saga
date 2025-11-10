@@ -59,7 +59,7 @@ namespace Entidades {
 			cooldown_pulo(0.16),
 			cooldown_dano(0.2),
 			preparandoPulo(false),
-			velPulo(-0.045)
+			velPulo(-0.1)
 		{
 
 			dano = 25;
@@ -107,7 +107,7 @@ namespace Entidades {
 			atualizaAnimacao();
 
 			mover();
-
+			std::cout << veloc.y << std::endl;
 		}
 
 		void Jogador::salvar()

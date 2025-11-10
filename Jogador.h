@@ -66,8 +66,6 @@ namespace Entidades {
 			bool protegendo();
 			void diminuiVida(float dano);
 			void ferir();
-			bool getCaindo();
-			void setCair(bool cair);
 
 			void atualizarHitboxAtaque();
 			sf::RectangleShape* getHitboxAtaque() const { return hitboxAtaque; }

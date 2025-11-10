@@ -36,6 +36,8 @@ namespace Gerenciadores {
 				tratarColisoesJogsChao();
 
 				tratarColisoesInimigosChao();
+
+				tratarColisoesInimigosObstacs();
 			}
 			else {
 				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o Hit Box eh NULL" << std::endl;
@@ -262,15 +264,63 @@ namespace Gerenciadores {
 			if (LIs[i]) {
 				if (verificaColisaoChao(LIs[i])) {
 					reposicionar(LIs[i]->getHitBox(), chao);
-					LIs[i]->setNoChao(); // Chama a função para parar a gravidade do inimigo
+					LIs[i]->setNoChao(); 
 
-					// Reposiciona o corpo visual (sprite) do inimigo
 					if (LIs[i]->getCorpo()) {
 						LIs[i]->getCorpo()->setPosition(
 							LIs[i]->getHitBox()->getPosition().x - (LIs[i]->getCorpo()->getSize().x / 2 - LIs[i]->getHitBox()->getSize().x / 2),
 							LIs[i]->getHitBox()->getPosition().y
 						);
 					}
+				}
+			}
+		}
+	}
+
+	void Gerenciador_Colisoes::tratarColisoesInimigosObstacs() { //comparamos cada inimigo com cada obstáculo
+
+		for (int i = 0; i < (int)LIs.size(); i++) {
+
+			Entidades::Personagens::Inimigo* pInimigo = LIs[i];
+
+			// ignora inimigos nulos ou que já estão mortos
+			if (!pInimigo || pInimigo->getEstaMorto()) {
+				continue;
+			}
+
+			// Loop 2: Passa por toda a lista de Obstáculos (LOs)
+			std::list<Entidades::Obstaculos::Obstaculo*>::iterator it_obs = LOs.begin();
+			for (it_obs = LOs.begin(); it_obs != LOs.end(); it_obs++) {
+
+				Entidades::Obstaculos::Obstaculo* pObstaculo = *it_obs;
+
+				// ignora obstáculos nulos
+				if (!pObstaculo) {
+					continue;
+				}
+
+				// converte para Entidade* para usar a função de verificação
+				Entidades::Entidade* pE_Inimigo = static_cast<Entidades::Entidade*>(pInimigo);
+				Entidades::Entidade* pE_Obstaculo = static_cast<Entidades::Entidade*>(pObstaculo);
+
+				// se houver colisão...
+				if (verificaColisao(pE_Inimigo, pE_Obstaculo)) {
+
+					// se o obstáculo for "sólido" (intransponível)...
+					if (pObstaculo->getIntransponivel()) {
+
+						// reposiciona a hitbox do inimigo
+						reposicionar(pInimigo->getHitBox(), pE_Obstaculo->getHitBox());
+
+						// reposiciona o corpo visual do inimigo (baseado na hitbox)
+						if (pInimigo->getCorpo()) {
+							pInimigo->getCorpo()->setPosition(
+								pInimigo->getHitBox()->getPosition().x - (pInimigo->getCorpo()->getSize().x / 2 - pInimigo->getHitBox()->getSize().x / 2),
+								pInimigo->getHitBox()->getPosition().y
+							);
+						}
+					}
+
 				}
 			}
 		}

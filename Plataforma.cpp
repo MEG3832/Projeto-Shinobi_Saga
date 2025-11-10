@@ -27,8 +27,6 @@ namespace Entidades {
 		}
 
 		void Plataforma::executar() {
-			sofrerGravidade();
-
 			sofrerContraForca();
 
 			corpo->move(veloc.x, veloc.y);
@@ -37,6 +35,7 @@ namespace Entidades {
 
 		void Plataforma::obstaculizar(Personagens::Jogador* p) {
 			if (p) {
+
 				if (corpo->getPosition().y == p->getCorpo()->getPosition().y + p->getCorpo()->getSize().y) {
 					p->setNoChao();
 				}
@@ -48,11 +47,6 @@ namespace Entidades {
 
 		void Plataforma::salvar() {
 			return;
-		}
-
-		void Plataforma::sofrerContraForca() {
-			float aceleracao = -GRAVIDADE;
-			veloc.y += aceleracao;
 		}
 
 	}

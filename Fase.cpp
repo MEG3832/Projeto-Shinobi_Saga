@@ -4,6 +4,7 @@ namespace Fases
 {
 	Fase::Fase() :
 		maxTengus(10),
+		maxPlataf(10),
 		lista_ents(),
 		GC(GC->getGerenciadorColisoes()),
 		pJog(nullptr),
@@ -34,12 +35,9 @@ namespace Fases
 	{
 			lista_ents.aplicarGravidade();
 
-			
-			lista_ents.percorrer();
-
-			
 			GC->executar();
 
+			lista_ents.percorrer();
 			
 			if (pJog) {
 				Ente::pGG->atualizaCamera(pJog->getPos());
@@ -49,14 +47,13 @@ namespace Fases
 			if (pFundo)
 				pFundo->executar();
 
-
 			lista_ents.desenharEntidades();
 	}
 
 	void Fase::criarTengus()
 	{
-		sf::RectangleShape* pChao = pFundo->getChao();
-		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
+		//sf::RectangleShape* pChao = pFundo->getChao();
+		//float alturaChao = pChao ? pChao->getSize().y : 80.0f;
 
 		const int min_tengus = 3;
 
@@ -70,7 +67,7 @@ namespace Fases
 			if (pTengu)
 			{
 				float posX = 600 + (i * 300.0f); // Espalha os inimigos
-				float posY = ALTURA_TELA - alturaChao - pTengu->getTam().y;
+				float posY = pTengu->getTam().y + 10.0f;
 				pTengu->getCorpo()->setPosition(posX, posY);
 
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pTengu);
@@ -87,39 +84,64 @@ namespace Fases
 
 	void Fase::criarPlataformas()
 	{
-		/*
+		
 		sf::RectangleShape* pChao = pFundo->getChao();
 		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
 
 		const int min_plataf = 3;
 
-		int qnt_inim = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
+		int qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
 
-		for (int i = 0; i < qnt_inim; i++)
+		int metade1 = qnt_plataf / 2;
+		int metade2 = qnt_plataf - metade1;
+
+		for (int i = 0; i < metade1; i++)
 		{
-			Entidades::Personagens::Tengu* pTengu;
-			pTengu = new Entidades::Personagens::Tengu(pJog); //temos que passar o endereço do jogador aqui...
+			Entidades::Obstaculos::Plataforma* pPlataf;
+			pPlataf = new Entidades::Obstaculos::Plataforma();
 
-			if (pTengu)
+			if (pPlataf)
 			{
-				float posX = 400 + (i * 300.0f); // Espalha os inimigos
-				float posY = ALTURA_TELA - alturaChao - pTengu->getTam().y;
-				pTengu->getCorpo()->setPosition(posX, posY);
+				float posX = 200 + (i * 300.0f); 
+				float posY = ALTURA_TELA - alturaChao - pPlataf->getTam().y - 150.0f; //adiciono alguns pixels para a plataforma ficar mais pra cima do chao
+				pPlataf->getCorpo()->setPosition(posX, posY);
+				if (pPlataf->getHitBox()) {
+					pPlataf->getHitBox()->setPosition(posX, posY);
+				}
 
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pTengu);
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pPlataf);
 				lista_ents.incluir(pEnt);
-				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
+				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
 			}
 
 			else
-				std::cout << "Não foi possível alocar o Tengu!" << std::endl;
+				std::cout << "Não foi possível alocar a plataforma!" << std::endl;
 
 		}
-		*/
-		return;
+		
+		for (int i = 0; i < metade2; i++)
+		{
+			Entidades::Obstaculos::Plataforma* pPlataf;
+			pPlataf = new Entidades::Obstaculos::Plataforma();
+
+			if (pPlataf)
+			{
+				float posX = 400 + (i * 300.0f);
+				float posY = ALTURA_TELA - alturaChao - pPlataf->getTam().y - 250.0f;
+				pPlataf->getCorpo()->setPosition(posX, posY);
+				pPlataf->getHitBox()->setPosition(posX, posY);
+
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pPlataf);
+				lista_ents.incluir(pEnt);
+				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+			}
+
+			else
+				std::cout << "Não foi possível alocar a plataforma!" << std::endl;
+
+		}
+
 	}
 
 
 }
-
-//int Fases::Fase::maxTengus = 10;

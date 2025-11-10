@@ -16,6 +16,11 @@ namespace Entidades {
 			return;
 		}
 
+		void Obstaculo::sofrerContraForca() {
+			float aceleracao = -GRAVIDADE;
+			veloc.y += aceleracao;
+		}
+
 	}
 
 }

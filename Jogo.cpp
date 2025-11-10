@@ -182,7 +182,6 @@ Jogo::Jogo() :
 
     criarFase();
     
-    // Configura o Gerenciador de Eventos
     pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
 
 }
@@ -199,41 +198,28 @@ Jogo::~Jogo()
 void Jogo::criarFase()
 {
     // Cria a primeira fase
-   // O construtor de FasePrimeira vai criar o cenário, inimigos, etc.
+   // o construtor de FasePrimeira vai criar o cenário, inimigos, etc.
     pFase1 = new Fases::FasePrimeira();
 }
 
 void Jogo::executar()
 {
-    // Loop principal do Jogo
     while (pGG->verificaJanelaAberta())
     {
-
-        // Tratamento de Eventos (fechar a janela)
-        sf::Event evento;
-        while (pGG->getWindow()->pollEvent(evento))
-        {
-            if (evento.type == sf::Event::Closed)
-            {
-                pGG->fecharJanela();
-            }
-            // (Aqui você chamará o Gerenciador de Eventos)
-            if (pGE) {
-                 pGE->executar();
-            }
+        if (pGE) {
+            pGE->executar();
         }
-
+    
         // Limpa a tela
         pGG->limpaJanela();
 
-        //Executa a lógica da fase 
+        //executa a lógica da fase 
         //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
         if (pFase1)
         {
             pFase1->executar();
         }
 
-        // Mostra o que foi desenhado
         pGG->mostrarEntes();
     }
 }

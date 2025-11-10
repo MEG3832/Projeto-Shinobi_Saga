@@ -3,15 +3,15 @@
 #include "Entidade.h"
 #include "ListaEntidades.h"
 #include "Inimigo.h"
+#include "Redemoinho.h"
 
 namespace Fases
 {
 
 	FasePrimeira::FasePrimeira():
 		Fase(),
-		maxSamurais(10), //NOTA! tanto a quantidade de inimigos e obstáculos podem ser alterados...
-		maxObstacFaceis(5), 
-		maxObstacMedios(5)
+		maxSamurais(10),
+		maxRedemoinhos(10)
 	{
 		criarCenario();
 
@@ -55,15 +55,14 @@ namespace Fases
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada8.png");
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000005f, "Imagens/JapanVillage/Camada9.png");
-		pFundo->addCamada(sf::Vector2f(9000.0f, 80.0f), 0.0f, nullptr); //chao
-		//pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize().x, pGG->getWindow()->getSize().y - 80.0f));	// Chao
+		//pFundo->addCamada(sf::Vector2f(9000.0f, 80.0f), 0.0f, nullptr); //chao
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize().x, 80.0f));	// Chao
 	}
 
 	void FasePrimeira::criarInimigos()
 	{
 		criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
 		criarSamurais();
-		return;
 	}
 
 	void FasePrimeira::criarSamurais()
@@ -92,7 +91,7 @@ namespace Fases
 			{
 
 				float posX = 300 + (i * 300.0f); // Espalha os inimigos
-				float posY = ALTURA_TELA - alturaChao - pSam->getTam().y;
+				float posY = pSam->getTam().y + 10.0f;
 				pSam->getCorpo()->setPosition(posX, posY);
 
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pSam);
@@ -115,7 +114,36 @@ namespace Fases
 
 	void FasePrimeira::criarRedemoinhos()
 	{
-		//fazer.
-		return;
+		sf::RectangleShape* pChao = pFundo->getChao();
+		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
+
+		const int min_red = 3;
+
+		int qnt_red = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
+
+
+		for (int i = 0; i < qnt_red; i++)
+		{
+			Entidades::Obstaculos::Redemoinho* pRed;
+			pRed = new Entidades::Obstaculos::Redemoinho();
+
+			if (pRed)
+			{
+				float posX = 200 + (i * 300.0f);
+				float posY = ALTURA_TELA - alturaChao - pRed->getTam().y; 
+				pRed->getCorpo()->setPosition(posX, posY);
+				pRed->getHitBox()->setPosition(posX, posY);
+
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pRed);
+				lista_ents.incluir(pEnt);
+				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
+			}
+
+			else
+				std::cout << "Não foi possível alocar o redemoinho!" << std::endl;
+
+		}
+
+
 	}
 }

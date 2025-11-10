@@ -18,8 +18,7 @@ namespace Entidades {
 			tempoAndar(3.0),
 			atordoado(false),
 			cooldownAtordoado(0.5f), // Valor padrão
-			estaMorto(false),
-			intransponivel(true) // inimigos são "sólidos" por padrão
+			estaMorto(false)
 		{
 
 			//corpo é feito nas classes folha
@@ -71,14 +70,19 @@ namespace Entidades {
 			
 		}
 
+		void Inimigo::setNoChao()
+		{
+			veloc.y = 0.0f;
+		}
+
 		void Inimigo::diminuiVida(int dano)
 		{
-			// Não pode tomar dano se já estiver atordoado ou morto
+			//não toma dano se já estiver atordoado ou morto
 			if (atordoado || estaMorto) {
 				return;
 			}
 
-			// Não faz nada se o dano for 0 ou negativo
+			// não faz nada se o dano for 0 ou negativo
 			if (dano <= 0) {
 				return;
 			}

@@ -10,9 +10,7 @@ namespace Fases {
 	private:
 
 		const int maxSamurais;
-		//const int maxTengus; ->já temos na classe base!
-		const int maxObstacFaceis; //mudar nome dps para o específico
-		const int maxObstacMedios;
+		const int maxRedemoinhos;
 
 	public:
 
