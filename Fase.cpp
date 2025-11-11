@@ -31,18 +31,17 @@ namespace Fases
 		//A lista de entidades já é limpada ao ser destruída (lista_ents é da classe Lista_Entidades, q possui uma Lista parametrizada com Entidades)
 	}
 
-		void Fase::executar()
+	void Fase::executar()
 	{
-			lista_ents.aplicarGravidade();
-
 			GC->executar();
 
 			lista_ents.percorrer();
-			
+
+			lista_ents.aplicarGravidade();
+
 			if (pJog) {
 				Ente::pGG->atualizaCamera(pJog->getPos());
 			}
-
 			
 			if (pFundo)
 				pFundo->executar();
@@ -68,11 +67,19 @@ namespace Fases
 			{
 				float posX = 600 + (i * 300.0f); // Espalha os inimigos
 				float posY = pTengu->getTam().y + 10.0f;
-				pTengu->getCorpo()->setPosition(posX, posY);
+				if (pTengu->getCorpo()) {
+					pTengu->getCorpo()->setPosition(posX, posY);
+				}
+				if (pTengu->getHitBox()) {
+					pTengu->getHitBox()->setPosition(pTengu->getCorpo()->getPosition().x + (pTengu->getCorpo()->getSize().x / 2 - pTengu->getHitBox()->getSize().x / 2),
+													 pTengu->getCorpo()->getPosition().y);
+				}
 
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pTengu);
-				lista_ents.incluir(pEnt);
 				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Personagens::Personagem*>(
+											static_cast<Entidades::Personagens::Inimigo*>(pTengu)));
+				lista_ents.incluir(pEnt);
 			}
 
 			else
@@ -104,14 +111,18 @@ namespace Fases
 			{
 				float posX = 200 + (i * 300.0f); 
 				float posY = ALTURA_TELA - alturaChao - pPlataf->getTam().y - 150.0f; //adiciono alguns pixels para a plataforma ficar mais pra cima do chao
-				pPlataf->getCorpo()->setPosition(posX, posY);
+				if (pPlataf->getCorpo()) {
+					pPlataf->getCorpo()->setPosition(posX, posY);
+				}
 				if (pPlataf->getHitBox()) {
-					pPlataf->getHitBox()->setPosition(posX, posY);
+					pPlataf->getHitBox()->setPosition(pPlataf->getCorpo()->getPosition().x + (pPlataf->getCorpo()->getSize().x / 2 - pPlataf->getHitBox()->getSize().x / 2),
+													  pPlataf->getCorpo()->getPosition().y);
 				}
 
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pPlataf);
-				lista_ents.incluir(pEnt);
 				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+				lista_ents.incluir(pEnt);
 			}
 
 			else
@@ -131,9 +142,10 @@ namespace Fases
 				pPlataf->getCorpo()->setPosition(posX, posY);
 				pPlataf->getHitBox()->setPosition(posX, posY);
 
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pPlataf);
-				lista_ents.incluir(pEnt);
 				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+				lista_ents.incluir(pEnt);
 			}
 
 			else

@@ -34,10 +34,6 @@ namespace Gerenciadores {
 				tratarColisoesJogsProjeteis();
 
 				tratarColisoesJogsChao();
-
-				tratarColisoesInimigosChao();
-
-				tratarColisoesInimigosObstacs();
 			}
 			else {
 				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o Hit Box eh NULL" << std::endl;
@@ -46,6 +42,12 @@ namespace Gerenciadores {
 		else {
 			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o jogador eh NULL" << std::endl;
 		}
+
+		tratarColisoesInimigosChao();
+
+		tratarColisoesInimigosObstacs();
+
+		tratarColisoesObstacsChao();
 	}
 
 	void Gerenciador_Colisoes::incluirInimigo(Entidades::Personagens::Inimigo* pi) {
@@ -300,8 +302,11 @@ namespace Gerenciadores {
 				}
 
 				// converte para Entidade* para usar a função de verificação
-				Entidades::Entidade* pE_Inimigo = static_cast<Entidades::Entidade*>(pInimigo);
-				Entidades::Entidade* pE_Obstaculo = static_cast<Entidades::Entidade*>(pObstaculo);
+				Entidades::Entidade* pE_Inimigo = static_cast<Entidades::Entidade*>(
+												  static_cast<Entidades::Personagens::Personagem*>(
+												  static_cast<Entidades::Personagens::Inimigo*>(pInimigo)));
+				Entidades::Entidade* pE_Obstaculo = static_cast<Entidades::Entidade*>(
+													static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo));
 
 				// se houver colisão...
 				if (verificaColisao(pE_Inimigo, pE_Obstaculo)) {
@@ -371,6 +376,37 @@ namespace Gerenciadores {
 		}
 		else {
 			std::cout << "ERRO: Nao foi possivel calcular a colisao pois corpo 1 eh NULL" << std::endl;
+		}
+	}
+
+	void Gerenciador_Colisoes::tratarColisoesObstacsChao() {
+		if (!chao) {
+			std::cerr << "ERRO: nao eh possivel calcular a colisao (Inimigos-Chao) pois o chao eh NULL" << std::endl;
+			return;
+		}
+
+
+		std::list<Entidades::Obstaculos::Obstaculo*>::iterator it_obs = LOs.begin();
+		for (it_obs = LOs.begin(); it_obs != LOs.end(); it_obs++) {
+
+			Entidades::Obstaculos::Obstaculo* pObstaculo = *it_obs;
+
+			if (pObstaculo) {
+				// converte para Entidade* para usar a função de verificação
+				Entidades::Entidade* pE_Obstaculo = static_cast<Entidades::Entidade*>(
+													static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo));
+
+				if (verificaColisaoChao(pObstaculo)) {
+					reposicionar(pObstaculo->getHitBox(), chao);
+
+					if (pObstaculo->getCorpo()) {
+						pObstaculo->getCorpo()->setPosition(
+							pObstaculo->getHitBox()->getPosition().x - (pObstaculo->getCorpo()->getSize().x / 2 - pObstaculo->getHitBox()->getSize().x / 2),
+							pObstaculo->getHitBox()->getPosition().y
+						);
+					}
+				}
+			}
 		}
 	}
 

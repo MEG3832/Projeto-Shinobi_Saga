@@ -8,7 +8,6 @@ namespace Entidades {
 		Inimigo::Inimigo(Jogador* pJ) :
 			Personagem(),
 			nivel_maldade(1),
-			veloc(0.05f,0.05f),
 			jogAlvo(pJ),
 			paraEsq(true),
 			cooldownAtaque(3.0f),
@@ -20,9 +19,9 @@ namespace Entidades {
 			cooldownAtordoado(0.5f), // Valor padrão
 			estaMorto(false)
 		{
-
 			//corpo é feito nas classes folha
-			
+			veloc.x = 0.05f;
+			veloc.y = 0.05f;
 		}
 
 		Inimigo::~Inimigo() {

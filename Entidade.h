@@ -25,7 +25,7 @@ namespace Entidades {
 		virtual ~Entidade();
 		virtual void executar() = 0;
 		virtual void salvar() = 0;
-		sf::Vector2f getPos();
+		sf::Vector2f getPos(); // Isso estah inutil, posso tirar? Assim como o atributo posição
 		void setAnimador(sf::RectangleShape* body);
 		bool getIntransponivel();
 		void sofrerGravidade();
