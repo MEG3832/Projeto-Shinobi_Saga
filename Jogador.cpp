@@ -107,7 +107,6 @@ namespace Entidades {
 			atualizaAnimacao();
 
 			mover();
-			std::cout << veloc.y << std::endl;
 		}
 
 		void Jogador::salvar()
