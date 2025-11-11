@@ -18,17 +18,15 @@ namespace Fases
 		sf::RectangleShape* pChao = pFundo->getChao();
 
 		if (pChao) {
-
-			pChao->setPosition(0.0f, ALTURA_TELA - pChao->getSize().y);
 			GC->setChao(pChao);
 			std::cout << "Chao configurado: " << pChao->getSize().x << "x" << pChao->getSize().y << std::endl;
+
+			pJog->getCorpo()->setPosition(100.0f, ALTURA_TELA - pChao->getSize().y - pJog->getTam().y);
+			pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
+											pJog->getCorpo()->getPosition().y);
 		}
 		else
 			std::cerr << "ERRO: pFundo nao retornou um chao!" << std::endl;
-
-		pJog->getCorpo()->setPosition(100.0f, ALTURA_TELA - pChao->getSize().y - pJog->getTam().y);
-		pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
-			pJog->getCorpo()->getPosition().y);
 
 		criarInimigos();
 		criarObstaculos();
@@ -55,7 +53,6 @@ namespace Fases
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada8.png");
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000005f, "Imagens/JapanVillage/Camada9.png");
-		//pFundo->addCamada(sf::Vector2f(9000.0f, 80.0f), 0.0f, nullptr); //chao
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize().x, 80.0f));	// Chao
 	}
 
@@ -92,11 +89,19 @@ namespace Fases
 
 				float posX = 300 + (i * 300.0f); // Espalha os inimigos
 				float posY = pSam->getTam().y + 10.0f;
-				pSam->getCorpo()->setPosition(posX, posY);
+				if (pSam->getCorpo()) {
+					pSam->getCorpo()->setPosition(posX, posY);
+				}
+				if (pSam->getHitBox()) {
+					pSam->getHitBox()->setPosition(pSam->getCorpo()->getPosition().x + (pSam->getCorpo()->getSize().x / 2 - pSam->getHitBox()->getSize().x / 2),
+												   pSam->getCorpo()->getPosition().y);
+				}
 
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pSam);
-				lista_ents.incluir(pEnt);
 				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pSam));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Personagens::Personagem*>(
+											static_cast<Entidades::Personagens::Inimigo*>(pSam)));
+				lista_ents.incluir(pEnt);
 			}
 
 			else
@@ -108,8 +113,8 @@ namespace Fases
 	void FasePrimeira::criarObstaculos()
 	{
 		criarPlataformas();
+
 		criarRedemoinhos();
-		return;
 	}
 
 	void FasePrimeira::criarRedemoinhos()
@@ -131,19 +136,24 @@ namespace Fases
 			{
 				float posX = 200 + (i * 300.0f);
 				float posY = ALTURA_TELA - alturaChao - pRed->getTam().y; 
-				pRed->getCorpo()->setPosition(posX, posY);
-				pRed->getHitBox()->setPosition(posX, posY);
+				if (pRed->getCorpo()) {
+					pRed->getCorpo()->setPosition(posX, posY);
+				}
+				if (pRed->getHitBox()) {
+					pRed->getHitBox()->setPosition(pRed->getCorpo()->getPosition().x + (pRed->getCorpo()->getSize().x / 2 - pRed->getHitBox()->getSize().x / 2),
+												   pRed->getCorpo()->getPosition().y);
+				}
 
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pRed);
-				lista_ents.incluir(pEnt);
 				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
+
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
+				lista_ents.incluir(pEnt);
 			}
 
 			else
 				std::cout << "Não foi possível alocar o redemoinho!" << std::endl;
 
 		}
-
-
 	}
 }

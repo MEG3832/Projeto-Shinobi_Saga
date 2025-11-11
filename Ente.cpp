@@ -28,10 +28,11 @@ Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos delet
 void Ente::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
 	pGG->desenharEnte(this);
 
+	/*teste
 	if (hitBox) {
 		hitBox->setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
 		pGG->desenharRect(*hitBox);
-	}
+	}*/
 }
 
 sf::Vector2f Ente::getTam() {

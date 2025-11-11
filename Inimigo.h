@@ -13,7 +13,6 @@ namespace Entidades {
 		{
 			protected:
 				int nivel_maldade;
-				sf::Vector2f veloc;
 				Jogador* jogAlvo;
 				bool paraEsq;
 
