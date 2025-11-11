@@ -178,6 +178,8 @@ Jogo::Jogo() :
         exit(1);
     }
 
+    pGG->getWindow()->setFramerateLimit(60);
+
     Ente::setGG(pGG);
 
     criarFase();

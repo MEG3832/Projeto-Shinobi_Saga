@@ -56,12 +56,12 @@ namespace Entidades {
 			cooldown_pulo(0.16),
 			cooldown_dano(0.2),
 			preparandoPulo(false),
-			velPulo(-0.1)
+			velPulo(-10)
 		{
 
 			dano = 25;
 
-			veloc.x = 2.0;
+			veloc.x = 30.0f;
 			veloc.y = 0.00;
 
 			num_vidas = 100;
@@ -283,10 +283,10 @@ namespace Entidades {
 		void Jogador::correr(bool correr) {
 			correndo = correr;
 			if (correr) {
-				veloc.x = 0.07;
+				veloc.x = 7.0f;
 			}
 			else {
-				veloc.x = 0.04;
+				veloc.x = 5.0f;
 			}
 		}
 

@@ -19,7 +19,6 @@ namespace Fases
 
 		if (pChao) {
 			GC->setChao(pChao);
-			std::cout << "Chao configurado: " << pChao->getSize().x << "x" << pChao->getSize().y << std::endl;
 
 			pJog->getCorpo()->setPosition(100.0f, ALTURA_TELA - pChao->getSize().y - pJog->getTam().y);
 			pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
@@ -28,7 +27,7 @@ namespace Fases
 		else
 			std::cerr << "ERRO: pFundo nao retornou um chao!" << std::endl;
 
-		criarInimigos();
+		//criarInimigos();
 		criarObstaculos();
 	}
 
@@ -46,13 +45,13 @@ namespace Fases
 
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
-		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada3.png");
-		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada4.png");
-		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada5.png");
-		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada6.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.00000000001f, "Imagens/JapanVillage/Camada3.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000000001f, "Imagens/JapanVillage/Camada4.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000000001f, "Imagens/JapanVillage/Camada5.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada6.png");
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
-		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada8.png");
-		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000005f, "Imagens/JapanVillage/Camada9.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.3f, "Imagens/JapanVillage/Camada8.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada9.png");
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize().x, 80.0f));	// Chao
 	}
 
@@ -114,7 +113,7 @@ namespace Fases
 	{
 		criarPlataformas();
 
-		criarRedemoinhos();
+		//criarRedemoinhos();
 	}
 
 	void FasePrimeira::criarRedemoinhos()
