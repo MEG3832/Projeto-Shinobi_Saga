@@ -16,7 +16,6 @@ namespace Entidades {
 
 			int pontos;
 			bool pulando;
-			bool caindo;
 			bool atordoado;
 			bool correndo;
 			bool atacando;

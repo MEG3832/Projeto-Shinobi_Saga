@@ -11,7 +11,6 @@ namespace Entidades {
 			pontos(0),
 			id(ident),
 			direcao(0.0, 0.0),
-			caindo(false),
 			pulando(false),
 			atordoado(false),
 			correndo(false),
@@ -43,7 +42,6 @@ namespace Entidades {
 			pontos(0),
 			id(1),
 			direcao(0.0, 0.0),
-			caindo(false),
 			pulando(false),
 			atordoado(false),
 			correndo(false),
@@ -88,7 +86,6 @@ namespace Entidades {
 			direcao = sf::Vector2f(0.0, 0.0);
 			paraEsq = false;
 			pulando = false;
-			caindo = false;
 		}
 
 		void Jogador::colidir(Inimigo* pIn) {
@@ -212,11 +209,11 @@ namespace Entidades {
 						atualizarHitboxAtaque(); // posiciona a hitbox de ataque
 
 						if (!trocaPunho) {
-							animador->atualizarAnimJog(caindo, false, paraEsq, false, "Ataque1");
+							animador->atualizarAnimJog(false, false, paraEsq, false, "Ataque1");
 							dt = timer.getElapsedTime().asSeconds();
 						}
 						else {
-							animador->atualizarAnimJog(caindo, false, paraEsq, false, "Ataque2");
+							animador->atualizarAnimJog(false, false, paraEsq, false, "Ataque2");
 							dt = timer.getElapsedTime().asSeconds();
 						}
 					}
@@ -234,7 +231,7 @@ namespace Entidades {
 								pulando = true;
 								veloc.y = velPulo;	// Velocidade inicial do salto
 							}
-							animador->atualizarAnimJog(caindo, false, paraEsq, true, "Subindo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+							animador->atualizarAnimJog(false, false, paraEsq, true, "Subindo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 						}
 
 						else if (defendendo) {	// Quinta prioridade eh a defesa
@@ -247,10 +244,10 @@ namespace Entidades {
 						}
 						else if (direcao.x != 0 && direcao.y == 0) {
 							if (correndo) {
-								animador->atualizarAnimJog(caindo, false, paraEsq, false, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+								animador->atualizarAnimJog(false, false, paraEsq, false, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 							}
 							else {
-								animador->atualizarAnimJog(caindo, false, paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+								animador->atualizarAnimJog(false, false, paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 							}
 						}
 					}
@@ -293,6 +290,10 @@ namespace Entidades {
 			timer.restart();
 			dt = 0;
 			atacando = true;
+			pulando = false;
+			preparandoPulo = false;
+			correndo = false;
+
 		}
 
 		bool Jogador::getAtacando() {
@@ -314,7 +315,6 @@ namespace Entidades {
 		// Zera tudo relacionado ao movimento vertical e aplica a forca normal
 		void Jogador::setNoChao() {
 			pulando = false;
-			caindo = false;
 			veloc.y = 0.0;
 			aplicarForcaNormal();
 		}

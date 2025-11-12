@@ -27,7 +27,7 @@ namespace Fases
 		else
 			std::cerr << "ERRO: pFundo nao retornou um chao!" << std::endl;
 
-		criarInimigos();
+		//criarInimigos();
 		//criarObstaculos();
 	}
 
@@ -57,7 +57,7 @@ namespace Fases
 
 	void FasePrimeira::criarInimigos()
 	{
-		//criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
+		criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
 		criarSamurais();
 	}
 
@@ -87,9 +87,8 @@ namespace Fases
 			if (pSam)
 			{
 
-				//float posX = 300 + (i * 300.0f); // Espalha os inimigos
+				float posX = 300 + (i * 300.0f); // Espalha os inimigos
 				float posY = pGG->getWindow()->getSize().y - alturaChao - pSam->getCorpo()->getSize().y;
-				float posX = 200;
 
 				if (pSam->getCorpo()) {
 					pSam->getCorpo()->setPosition(posX, posY);
