@@ -8,6 +8,9 @@ namespace Entidades {
 		{
 		private:
 			float resistencia;
+			sf::Clock timer;
+			float cooldownEmpurrao;
+			bool empurra;
 
 		public:
 			Samurai_Inimigo(Jogador* pJ, float resist);

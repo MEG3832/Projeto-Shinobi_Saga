@@ -50,6 +50,7 @@ namespace Entidades {
 			if (atordoado) {
 				if (relogioAtordoado.getElapsedTime().asSeconds() >= cooldownAtordoado) {
 					atordoado = false;
+					relogioAndar.restart();
 				}
 				else {
 					animador->atualizarAnimInim(paraEsq, true, "Ferido");
@@ -60,12 +61,6 @@ namespace Entidades {
 
 				mover();
 			}
-
-
-			/*if (hitBox && corpo) {
-				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-					corpo->getPosition().y);
-			}*/
 		}
 
 		void Inimigo::setNoChao()
@@ -83,6 +78,25 @@ namespace Entidades {
 			// não faz nada se o dano for 0 ou negativo
 			if (dano <= 0) {
 				return;
+			}
+
+			// Na verdade precisa adaptar para o caso em que quem estah atacando eh o outro jogador e nao o alvo
+			if (jogAlvo) {
+				if (corpo) {
+					if (jogAlvo->getCorpo()->getPosition().x < corpo->getPosition().x) {
+						paraEsq = true;
+					}
+					else
+					{
+						paraEsq = false;
+					}
+				}
+				else {
+					std::cerr << "ERRO: nao eh possivel virar o inimigo pois o corpo dele eh NULL" << std::endl;
+				}
+			}
+			else {
+				std::cerr << "ERRO: nao eh possivel virar o inimigo pois o jogador alvo eh NULL" << std::endl;
 			}
 
 			Personagem::diminuiVida(dano); // aplica o dano (da classe Personagem)
@@ -108,8 +122,7 @@ namespace Entidades {
 			if (pJ)
 			{
 				pJ->diminuiVida(nivel_maldade);
-				//std::cout << pJ->getVida() << std::endl;
-				//empurrar(pJ);
+				std::cout << pJ->getVida() << std::endl;
 			}
 
 			else
@@ -125,7 +138,7 @@ namespace Entidades {
 			// e, depois disso, iremos multiplicar por uma "força" (intensidade)
 
 			sf::Vector2f velKnockBack;
-			float força_empurrao = 1.5f;
+			float força_empurrao = 8.0f;
 
 			if (pJ) {
 
@@ -156,7 +169,7 @@ namespace Entidades {
 
 		void Inimigo::perambular()
 		{
-			/*if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
+			if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
 			{
 				relogioAndar.restart();
 				andando = !andando;
@@ -165,18 +178,21 @@ namespace Entidades {
 
 			if (andando)
 			{
-				if (paraEsq)
+				if (paraEsq) {
 					corpo->move(-veloc.x, 0.0f);
-				else
+					hitBox->move(-veloc.x, 0.0f);
+				}
+				else {
 					corpo->move(veloc.x, 0.0f);
+					hitBox->move(veloc.x, 0.0f);
+				}
 
 				animador->atualizarAnimInim(paraEsq, false, "Andando");
 			}
 			else
-			{*/
-				corpo->move(0.0f, 0.0f);	// Esse comando não faz nada, pode tirar
+			{
 				animador->atualizarAnimInim(paraEsq, false, "Parado");
-			//}
+			}
 		}
 
 

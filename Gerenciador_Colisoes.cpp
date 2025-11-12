@@ -167,9 +167,9 @@ namespace Gerenciadores {
 									 static_cast<Entidades::Personagens::Personagem*>(
 									 static_cast<Entidades::Personagens::Inimigo*>(LIs[i])))))) {
 
-					/*if (!pJog1->getAtacando() && !LIs[i]->getAtordoado()) {
+					if (!pJog1->getAtacando() && !LIs[i]->getAtordoado()) {
 						pJog1->colidir(LIs[i]);
-					}*/
+					}
 
 					if (LIs[i]->getIntransponivel()) {
 						reposicionar(pJog1->getHitBox(), LIs[i]->getHitBox());
@@ -185,10 +185,6 @@ namespace Gerenciadores {
 
 					}
 				}
-			}
-						
-			else {
-				std::cerr << "ERRO: nao eh possivel calcular a colisao pois o inimigo eh NULL" << std::endl;
 			}
 		}
 	}

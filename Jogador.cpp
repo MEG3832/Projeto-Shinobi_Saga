@@ -30,8 +30,7 @@ namespace Entidades {
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
 
 			// essa é a hitbox de ataque!
-			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
-			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); //tirar depois, é só pra conseguir visualizar o hitbox de ataque
+			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f));
 			hitboxAtaqueAtiva = false;	// Não precisa disso se já tem a flag atacando
 
 
@@ -61,7 +60,7 @@ namespace Entidades {
 
 			dano = 25;
 
-			veloc.x = 30.0f;
+			veloc.x = 15.0f;
 			veloc.y = 0.00;
 
 			num_vidas = 100;
@@ -72,7 +71,7 @@ namespace Entidades {
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 125.0, corpo->getSize().y));
 
 			// essa é a hitbox de ataque!
-			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(23.0f, 100.0f));
+			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f));
 			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); //tirar depois, é só pra conseguir visualizar o hitbox de ataque
 			hitboxAtaqueAtiva = false;
 
@@ -263,15 +262,15 @@ namespace Entidades {
 			if (paraEsq) {
 				// posiciona à esquerda do jogador
 				hitboxAtaque->setPosition(
-					corpo->getPosition().x + 25.0f, //esse valor somado é pra ajustar a posição
-					corpo->getPosition().y
+					corpo->getPosition().x + 42.0f,
+					corpo->getPosition().y + 35.0f
 				);
 			}
 			else {
 				// posiciona à direita do jogador
 				hitboxAtaque->setPosition(
-					corpo->getPosition().x + corpo->getSize().x - 75.0f, //esse valor somado/subtraído é pra ajustar a posição
-					corpo->getPosition().y
+					corpo->getPosition().x + corpo->getSize().x - 75.0f,
+					corpo->getPosition().y + 35.0f
 				);
 			}
 		}

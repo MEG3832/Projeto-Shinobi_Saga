@@ -42,10 +42,6 @@ namespace Entidades {
 			return ferido;
 		}
 
-		//void Personagem::getDano()
-		//{
-			
-		//}
 		int Personagem::getDano()
 		{
 			return dano;

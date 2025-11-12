@@ -62,6 +62,16 @@ void Jogo::executar()
             pFase1->executar();
         }
 
+        /*sf::RectangleShape* hitBoxAtaque; // Tem a exata posição e tamanho da hitBox de ataque
+        hitBoxAtaque = new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f));
+        hitBoxAtaque->setFillColor(sf::Color(255, 0, 0, 100));
+        //hitBoxAtaque->setPosition(pFase1->getJogador()->getCorpo()->getPosition().x + 42.0f,
+        //                          pFase1->getJogador()->getCorpo()->getPosition().y + 35.0f);
+        hitBoxAtaque->setPosition(pFase1->getJogador()->getCorpo()->getPosition().x + pFase1->getJogador()->getCorpo()->getSize().x - 75.0f,
+            pFase1->getJogador()->getCorpo()->getPosition().y + 35.0f);
+
+        pGG->getWindow()->draw(*hitBoxAtaque);*/
+
         pGG->mostrarEntes();
     }
 }

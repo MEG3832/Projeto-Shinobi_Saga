@@ -88,7 +88,6 @@ namespace Fases
 			{
 
 				//float posX = 300 + (i * 300.0f); // Espalha os inimigos
-				//float posY = pSam->getTam().y + 10.0f;
 				float posY = pGG->getWindow()->getSize().y - alturaChao - pSam->getCorpo()->getSize().y;
 				float posX = 200;
 
