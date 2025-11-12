@@ -62,11 +62,10 @@ namespace Entidades {
 			}
 
 
-			if (hitBox && corpo) {
+			/*if (hitBox && corpo) {
 				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
 					corpo->getPosition().y);
-			}
-			
+			}*/
 		}
 
 		void Inimigo::setNoChao()
@@ -109,8 +108,8 @@ namespace Entidades {
 			if (pJ)
 			{
 				pJ->diminuiVida(nivel_maldade);
-				std::cout << pJ->getVida() << std::endl;
-				empurrar(pJ);
+				//std::cout << pJ->getVida() << std::endl;
+				//empurrar(pJ);
 			}
 
 			else
@@ -157,7 +156,7 @@ namespace Entidades {
 
 		void Inimigo::perambular()
 		{
-			if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
+			/*if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
 			{
 				relogioAndar.restart();
 				andando = !andando;
@@ -174,10 +173,10 @@ namespace Entidades {
 				animador->atualizarAnimInim(paraEsq, false, "Andando");
 			}
 			else
-			{
-				corpo->move(0.0f, 0.0f);
+			{*/
+				corpo->move(0.0f, 0.0f);	// Esse comando não faz nada, pode tirar
 				animador->atualizarAnimInim(paraEsq, false, "Parado");
-			}
+			//}
 		}
 
 

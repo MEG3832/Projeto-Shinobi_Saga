@@ -64,9 +64,18 @@
     <ClCompile Include="Tengu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Samurai_Inimigo.cpp" />
-    <ClCompile Include="Fase.cpp" />
-    <ClCompile Include="FasePrimeira.cpp" />
+    <ClCompile Include="Fase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FasePrimeira.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Samurai_Inimigo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animacao.h">
@@ -138,9 +147,18 @@
     <ClInclude Include="Tengu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Samurai_Inimigo.h" />
-    <ClInclude Include="Fase.h" />
-    <ClInclude Include="FasePrimeira.h" />
+    <ClInclude Include="Fase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FasePrimeira.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Samurai_Inimigo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Camada1.png">

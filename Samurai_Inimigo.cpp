@@ -13,17 +13,15 @@ namespace Entidades {
 			veloc = sf::Vector2f(0.03f, 0.05f);
 			tempoAndar = 4.0f;
 
-			num_vidas = 100;
+			num_vidas = 10000;
 
 			cooldownAtordoado = 1.0f;
 
-			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
+			corpo = new sf::RectangleShape(sf::Vector2f(200.0f, 200.0f));
 
 			corpo->setPosition(300.0f, ALTURA_TELA - 50 - corpo->getSize().y);
 
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x-75, corpo->getSize().y));
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-				corpo->getPosition().y);
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 155, corpo->getSize().y));
 
 			setAnimador(corpo);
 			inicializaAnimacoes();
@@ -47,10 +45,10 @@ namespace Entidades {
 			{
 				int dano_calculado = nivel_maldade * 15; //dano base
 
-				pJ->diminuiVida(dano_calculado);
+				//pJ->diminuiVida(dano_calculado);
 				std::cout << "Samurai causou " << dano_calculado << " de dano! Vida do Jogador: " << pJ->getVida() << std::endl;
 
-				empurrar(pJ);
+				//empurrar(pJ);
 			}
 			else
 			{

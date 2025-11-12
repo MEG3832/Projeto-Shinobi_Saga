@@ -27,8 +27,8 @@ namespace Fases
 		else
 			std::cerr << "ERRO: pFundo nao retornou um chao!" << std::endl;
 
-		//criarInimigos();
-		criarObstaculos();
+		criarInimigos();
+		//criarObstaculos();
 	}
 
 	FasePrimeira::~FasePrimeira()
@@ -57,7 +57,7 @@ namespace Fases
 
 	void FasePrimeira::criarInimigos()
 	{
-		criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
+		//criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
 		criarSamurais();
 	}
 
@@ -69,7 +69,8 @@ namespace Fases
 
 		const int min_samurais = 3;
 		
-		int qnt_inim = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
+		//int qnt_inim = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
+		int qnt_inim = 1;
 
 
 		for (int i = 0; i < qnt_inim; i++)
@@ -86,8 +87,11 @@ namespace Fases
 			if (pSam)
 			{
 
-				float posX = 300 + (i * 300.0f); // Espalha os inimigos
-				float posY = pSam->getTam().y + 10.0f;
+				//float posX = 300 + (i * 300.0f); // Espalha os inimigos
+				//float posY = pSam->getTam().y + 10.0f;
+				float posY = pGG->getWindow()->getSize().y - alturaChao - pSam->getCorpo()->getSize().y;
+				float posX = 200;
+
 				if (pSam->getCorpo()) {
 					pSam->getCorpo()->setPosition(posX, posY);
 				}
@@ -113,7 +117,7 @@ namespace Fases
 	{
 		criarPlataformas();
 
-		//criarRedemoinhos();
+		criarRedemoinhos();
 	}
 
 	void FasePrimeira::criarRedemoinhos()

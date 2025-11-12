@@ -32,7 +32,7 @@ namespace Entidades {
 			// essa é a hitbox de ataque!
 			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
 			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); //tirar depois, é só pra conseguir visualizar o hitbox de ataque
-			hitboxAtaqueAtiva = false;
+			hitboxAtaqueAtiva = false;	// Não precisa disso se já tem a flag atacando
 
 
 			inicializaAnimacoes();
@@ -69,10 +69,10 @@ namespace Entidades {
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
 
 			//essa é a hitbox do corpo do jogador!
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 125.0, corpo->getSize().y));
 
 			// essa é a hitbox de ataque!
-			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
+			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(23.0f, 100.0f));
 			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); //tirar depois, é só pra conseguir visualizar o hitbox de ataque
 			hitboxAtaqueAtiva = false;
 
@@ -134,11 +134,11 @@ namespace Entidades {
 
 					corpo->move(velocFinal);
 					hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-						corpo->getPosition().y);
+										corpo->getPosition().y);
 
 					//aplicamos um "atrito" aqui! (valor menor que 1, portanto, irá diminuir a cada chamada do mover)
 
-					float atrito = 0.99f;
+					float atrito = 0.96f;
 
 					velocKnockBack.x *= atrito;
 					velocKnockBack.y *= atrito;

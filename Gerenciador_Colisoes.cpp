@@ -162,16 +162,27 @@ namespace Gerenciadores {
 				}
 
 				if (verificaColisao((static_cast<Entidades::Entidade*>(
-					static_cast<Entidades::Personagens::Personagem*>(pJog1))),
-					(static_cast<Entidades::Entidade*>(
-						static_cast<Entidades::Personagens::Personagem*>(LIs[i]))))) {
+									 static_cast<Entidades::Personagens::Personagem*>(pJog1))),
+									(static_cast<Entidades::Entidade*>(
+									 static_cast<Entidades::Personagens::Personagem*>(
+									 static_cast<Entidades::Personagens::Inimigo*>(LIs[i])))))) {
 
-					if (!pJog1->getAtacando() && !LIs[i]->getAtordoado()) {
+					/*if (!pJog1->getAtacando() && !LIs[i]->getAtordoado()) {
 						pJog1->colidir(LIs[i]);
-					}
+					}*/
 
 					if (LIs[i]->getIntransponivel()) {
 						reposicionar(pJog1->getHitBox(), LIs[i]->getHitBox());
+						if (pJog1->getCorpo()) {
+
+							pJog1->getCorpo()->setPosition(
+								pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
+								pJog1->getHitBox()->getPosition().y);
+						}
+						else {
+							std::cerr << "ERRO: nao eh possivel reposicionar pois o corpo eh NULL" << std::endl;
+						}
+
 					}
 				}
 			}
@@ -242,9 +253,8 @@ namespace Gerenciadores {
 				reposicionar(pJog1->getHitBox(), chao);
 				pJog1->setNoChao();
 				if (pJog1->getCorpo()) {
-					pJog1->getCorpo()->setPosition(
-						pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
-						pJog1->getHitBox()->getPosition().y);
+					pJog1->getCorpo()->setPosition(pJog1->getCorpo()->getPosition().x,
+												   pJog1->getHitBox()->getPosition().y);
 				}
 				else {
 					std::cerr << "ERRO: nao eh possivel reposicionar pois o corpo eh NULL" << std::endl;
@@ -270,7 +280,7 @@ namespace Gerenciadores {
 
 					if (LIs[i]->getCorpo()) {
 						LIs[i]->getCorpo()->setPosition(
-							LIs[i]->getHitBox()->getPosition().x - (LIs[i]->getCorpo()->getSize().x / 2 - LIs[i]->getHitBox()->getSize().x / 2),
+							LIs[i]->getHitBox()->getPosition().x - (LIs[i]->getCorpo()->getSize().x / 2 - LIs[i]->getHitBox()->getSize().x / 2 + 8),
 							LIs[i]->getHitBox()->getPosition().y
 						);
 					}
