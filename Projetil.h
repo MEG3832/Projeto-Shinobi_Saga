@@ -11,6 +11,8 @@ namespace Entidades {
 	public:
 		Projetil();
 		~Projetil();
+		void setEstadoProj(bool estado);
+		bool getEstadoProj();
 		void executar();
 		void salvar();
 	};
