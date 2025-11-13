@@ -51,8 +51,8 @@ namespace Fases
 
 	void Fase::criarTengus()
 	{
-		//sf::RectangleShape* pChao = pFundo->getChao();
-		//float alturaChao = pChao ? pChao->getSize().y : 80.0f;
+		sf::RectangleShape* pChao = pFundo->getChao();
+		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
 
 		const int min_tengus = 3;
 
@@ -66,7 +66,8 @@ namespace Fases
 			if (pTengu)
 			{
 				float posX = 600 + (i * 300.0f); // Espalha os inimigos
-				float posY = pTengu->getTam().y + 10.0f;
+				float posY = pGG->getWindow()->getSize().y - alturaChao - pTengu->getCorpo()->getSize().y;
+
 				if (pTengu->getCorpo()) {
 					pTengu->getCorpo()->setPosition(posX, posY);
 				}

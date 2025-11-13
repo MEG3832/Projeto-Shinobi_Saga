@@ -1,6 +1,6 @@
 #include "Jogo.h"
 // Não se esqueça de inicializar os atributo em ordem
-// Adicionar colisao entre objetos, inimigos, projeteis e o chão
+// Colocar uma flag que diz se há dadno de contato no danificar do inimigo
 
 int main() {
 	Jogo jogo;

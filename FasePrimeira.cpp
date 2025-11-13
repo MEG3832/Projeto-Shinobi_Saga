@@ -27,8 +27,8 @@ namespace Fases
 		else
 			std::cerr << "ERRO: pFundo nao retornou um chao!" << std::endl;
 
-		//criarInimigos();
-		//criarObstaculos();
+		criarInimigos();
+		criarObstaculos();
 	}
 
 	FasePrimeira::~FasePrimeira()
@@ -69,9 +69,7 @@ namespace Fases
 
 		const int min_samurais = 3;
 		
-		//int qnt_inim = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
-		int qnt_inim = 1;
-
+		int qnt_inim = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_inim; i++)
 		{

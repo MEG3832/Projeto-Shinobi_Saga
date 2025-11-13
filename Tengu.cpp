@@ -11,7 +11,7 @@ namespace Entidades
 		{
 			paraEsq = true;
 			nivel_maldade = 1;
-			veloc = sf::Vector2f(0.01f, 0.01f); // Velocidade específica
+			veloc.x = 0.5f; // Velocidade específica
 			tempoAndar = 2.5f; // Tempo de "perambular" específico
 
 			num_vidas = 200;
@@ -20,12 +20,9 @@ namespace Entidades
 
 			//faz o corpo:
 
-			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
-			corpo->setPosition(sf::Vector2f(150, ALTURA_TELA - 50 - corpo->getSize().y));	// Posição qualquer para teste
+			corpo = new sf::RectangleShape(sf::Vector2f(180.0f, 160.0f));
 
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x, corpo->getSize().y));
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-								corpo->getPosition().y);
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 80.0, corpo->getSize().y));
 
 
 			//cuida da animação:
@@ -71,27 +68,26 @@ namespace Entidades
 
 		void Tengu::executar()
 		{
-			Inimigo::executar();
+			if (!jogAlvo->morto()) {
+				Inimigo::executar();
 
-			// Só move se não estiver morto nem atordoado
-			if (!estaMorto && !atordoado) {
-				mover();
+				// Só move se não estiver morto nem atordoado
+				if (!estaMorto && !atordoado) {
+					mover();
+				}
 			}
-
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-				corpo->getPosition().y);
 		}
 
 		void Tengu::perseguir(Jogador* pJ)
 		{
 			if (pJ) {
 
-				float posJog_X = pJ->getPos().x + pJ->getTam().x / 2;
-				float posInim_X = this->getPos().x + this->getTam().x / 2;
+				float posJog_X = pJ->getHitBox()->getPosition().x + pJ->getHitBox()->getSize().x / 2;
+				float posInim_X = hitBox->getPosition().x + hitBox->getSize().x / 2;
 
 
 				float distanciaCentros = abs(posJog_X - posInim_X);
-				float distanciaAtaque = abs((pJ->getTam().x / 2) + this->getTam().x / 2)-20.0f; //ajuste da distancia por testes
+				float distanciaAtaque = abs((pJ->getHitBox()->getSize().x / 2) + hitBox->getSize().x / 2) + 39.0f; //ajuste da distancia por testes
 
 				if (distanciaCentros <= raio_perseg && distanciaCentros > distanciaAtaque)
 				{
@@ -100,6 +96,7 @@ namespace Entidades
 						paraEsq = true;
 						animador->atualizarAnimInim(paraEsq, false, "Correndo");
 						corpo->move(-veloc.x, 0.0f);
+						hitBox->move(-veloc.x, 0.0f);
 
 					}
 
@@ -108,6 +105,7 @@ namespace Entidades
 						paraEsq = false;
 						animador->atualizarAnimInim(paraEsq, false, "Correndo");
 						corpo->move(veloc.x, 0.0f);
+						hitBox->move(veloc.x, 0.0f);
 
 					}
 
@@ -152,12 +150,14 @@ namespace Entidades
 					{
 						float investida = -40.0f;
 						corpo->move(investida, 0.0f);
+						hitBox->move(investida, 0.0f);
 					}
 
 					else
 					{
 						float investida = 40.0f;
 						corpo->move(investida, 0.0f);
+						hitBox->move(investida, 0.0f);
 					}
 
 				}
@@ -187,7 +187,7 @@ namespace Entidades
 				animador->addAnimacao("Imagens/Tengu/Attack_1.png", "Ataque1", 6, 0.1f, sf::Vector2f(1.0, 1.0));
 				animador->addAnimacao("Imagens/Tengu/Attack_2.png", "Ataque2", 4, 0.12f, sf::Vector2f(1.0, 1.0));
 				animador->addAnimacao("Imagens/Tengu/Attack_3.png", "Ataque3", 3, 0.1f, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Tengu/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Tengu/Dead.png", "Derrotado", 6, 0.3f, sf::Vector2f(1.0, 1.0));
 				animador->addAnimacao("Imagens/Tengu/Hurt.png", "Ferido", 3, 0.17f, sf::Vector2f(1.0, 1.0));
 			}
 
