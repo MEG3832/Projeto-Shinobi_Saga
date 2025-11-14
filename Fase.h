@@ -12,8 +12,11 @@ namespace Fases {
 	class Fase:public Ente
 	{
 	private:
-		int maxTengus; //posso fazer isso? já que os Tengus serão os inimigos em comum na fase 1 e 2, por que não fazer isso aqui na Fase?
+		int maxTengus;
 		int maxPlataf;
+		
+	protected:
+		int fim_mapa;	// Teste de tamanho
 
 	protected:
 

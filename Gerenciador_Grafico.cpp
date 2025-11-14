@@ -34,8 +34,8 @@ namespace Gerenciadores {
 			if(pE) {
 				window->draw(*pE->getCorpo());
 
-				/*pE->getHitBox()->setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente);
-				window->draw(*pE->getHitBox());*/
+				pE->getHitBox()->setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente);
+				window->draw(*pE->getHitBox());
 			}
 			else {
 				std::cerr << "ERRO: nao eh possivel desenhar o ente pois ele eh NULL" << std::endl;

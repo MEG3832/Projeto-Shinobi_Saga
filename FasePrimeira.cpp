@@ -8,11 +8,13 @@
 namespace Fases
 {
 
-	FasePrimeira::FasePrimeira():
+	FasePrimeira::FasePrimeira() :
 		Fase(),
 		maxSamurais(10),
 		maxRedemoinhos(10)
 	{
+		fim_mapa = 10000;
+
 		criarCenario();
 
 		sf::RectangleShape* pChao = pFundo->getChao();
@@ -27,8 +29,8 @@ namespace Fases
 		else
 			std::cerr << "ERRO: pFundo nao retornou um chao!" << std::endl;
 
-		criarInimigos();
 		criarObstaculos();
+		//criarInimigos();
 	}
 
 	FasePrimeira::~FasePrimeira()
@@ -57,7 +59,7 @@ namespace Fases
 
 	void FasePrimeira::criarInimigos()
 	{
-		criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
+		//criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
 		criarSamurais();
 	}
 
@@ -84,17 +86,20 @@ namespace Fases
 
 			if (pSam)
 			{
+				int correcao = 0;
+				do {
+					int posX = (300 + i * 800 + i * rand() % 1300) % fim_mapa + correcao;
+					float posY = pGG->getWindow()->getSize().y - alturaChao - pSam->getCorpo()->getSize().y;
 
-				float posX = 300 + (i * 300.0f); // Espalha os inimigos
-				float posY = pGG->getWindow()->getSize().y - alturaChao - pSam->getCorpo()->getSize().y;
-
-				if (pSam->getCorpo()) {
-					pSam->getCorpo()->setPosition(posX, posY);
-				}
-				if (pSam->getHitBox()) {
-					pSam->getHitBox()->setPosition(pSam->getCorpo()->getPosition().x + (pSam->getCorpo()->getSize().x / 2 - pSam->getHitBox()->getSize().x / 2),
-												   pSam->getCorpo()->getPosition().y);
-				}
+					if (pSam->getCorpo()) {
+						pSam->getCorpo()->setPosition(posX, posY);
+					}
+					if (pSam->getHitBox()) {
+						pSam->getHitBox()->setPosition(pSam->getCorpo()->getPosition().x + (pSam->getCorpo()->getSize().x / 2 - pSam->getHitBox()->getSize().x / 2),
+							pSam->getCorpo()->getPosition().y);
+					}
+					correcao += 20;
+				} while(GC->verificaColisaoEnteObstacs(pSam));
 
 				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pSam));
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
@@ -113,7 +118,7 @@ namespace Fases
 	{
 		criarPlataformas();
 
-		criarRedemoinhos();
+		//criarRedemoinhos();
 	}
 
 	void FasePrimeira::criarRedemoinhos()
@@ -133,7 +138,7 @@ namespace Fases
 
 			if (pRed)
 			{
-				float posX = 200 + (i * 300.0f);
+				int posX = (300 + i * 800 + i * rand() % 1300) % fim_mapa;
 				float posY = ALTURA_TELA - alturaChao - pRed->getTam().y; 
 				if (pRed->getCorpo()) {
 					pRed->getCorpo()->setPosition(posX, posY);

@@ -22,7 +22,7 @@ namespace Entidades {
 
 			corpo = new sf::RectangleShape(sf::Vector2f(200.0f, 200.0f));
 
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 155, corpo->getSize().y));
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 145, corpo->getSize().y));
 
 			setAnimador(corpo);
 			inicializaAnimacoes();

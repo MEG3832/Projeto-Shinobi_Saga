@@ -18,15 +18,18 @@ namespace Entidades {
 		{
 			dano = 25;
 
-			veloc.x = 0.04;
+			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
 			num_vidas = 100;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
+			corpo->setPosition(0.0f, 0.0f);
 
 			//essa é a hitbox do corpo do jogador!
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
+			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+								corpo->getPosition().y);
 
 			// essa é a hitbox de ataque!
 			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f));
@@ -53,15 +56,15 @@ namespace Entidades {
 			cooldown_pulo(0.16),
 			cooldown_dano(0.2),
 			preparandoPulo(false),
-			velPulo(-10)
+			velPulo(-12)
 		{
 
-			dano = 25;
+			dano = 200;
 
-			veloc.x = 15.0f;
+			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
-			num_vidas = 100;
+			num_vidas = 1000;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
 
@@ -300,10 +303,6 @@ namespace Entidades {
 			return atacando;
 		}
 
-		void Jogador::aplicarForcaNormal() {
-			veloc.y = 0.0f;
-		}
-
 		void Jogador::pular() {
 			if (!pulando && !preparandoPulo) {
 				preparandoPulo = true;
@@ -316,7 +315,6 @@ namespace Entidades {
 		void Jogador::setNoChao() {
 			pulando = false;
 			veloc.y = 0.0;
-			aplicarForcaNormal();
 		}
 
 		bool Jogador::getSubindo() {	// Usado no Gerenciador de Eventos

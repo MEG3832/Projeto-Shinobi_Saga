@@ -56,7 +56,6 @@ namespace Entidades {
 			void correr(bool correr);
 			void atacar();
 			bool getAtacando();
-			void aplicarForcaNormal();
 			void pular();
 			void setNoChao();
 			bool getSubindo();

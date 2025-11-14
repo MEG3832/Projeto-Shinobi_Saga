@@ -21,7 +21,7 @@ namespace Entidades {
 		{
 			//corpo é feito nas classes folha
 			veloc.x = 0.05f;
-			veloc.y = 0.05f;
+			veloc.y = 0.0f;
 		}
 
 		Inimigo::~Inimigo() {
@@ -180,7 +180,7 @@ namespace Entidades {
 			{
 				if (paraEsq) {
 					corpo->move(-veloc.x, 0.0f);
-					hitBox->move(-veloc.x, 0.0f);
+					hitBox->move(-veloc.x - 0.5f, 0.0f);
 				}
 				else {
 					corpo->move(veloc.x, 0.0f);

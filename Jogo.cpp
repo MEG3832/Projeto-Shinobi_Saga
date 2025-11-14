@@ -6,6 +6,8 @@ Jogo::Jogo() :
     pGE(pGE->getGerenciadorEventos()),
     pFase1(nullptr)
 {
+    srand(time(0));
+
     if (!pGG)
     {
         std::cout << "ERRO! O ponteiro Gerenc. Grafico NAO pôde ser inicializado..." << std::endl;
