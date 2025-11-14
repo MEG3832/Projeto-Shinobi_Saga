@@ -59,7 +59,7 @@ namespace Entidades {
 			velPulo(-12)
 		{
 
-			dano = 200;
+			dano = 25;
 
 			veloc.x = 5.0f;
 			veloc.y = 0.00;
