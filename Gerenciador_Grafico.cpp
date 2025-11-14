@@ -8,7 +8,9 @@ namespace Gerenciadores {
 	Gerenciador_Grafico::Gerenciador_Grafico() :
 		window(new sf::RenderWindow(sf::VideoMode(COMPRIMENTO_TELA, ALTURA_TELA), "Nome do Jogo")),
 		camera(sf::Vector2f(COMPRIMENTO_TELA / 2, ALTURA_TELA / 2), sf::Vector2f(COMPRIMENTO_TELA, ALTURA_TELA))
-	{}
+	{
+		window->setFramerateLimit(60);
+	}
 
 	Gerenciador_Grafico::~Gerenciador_Grafico()
 	{
@@ -31,6 +33,9 @@ namespace Gerenciadores {
 		if (window) {
 			if(pE) {
 				window->draw(*pE->getCorpo());
+
+				/*pE->getHitBox()->setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente);
+				window->draw(*pE->getHitBox());*/
 			}
 			else {
 				std::cerr << "ERRO: nao eh possivel desenhar o ente pois ele eh NULL" << std::endl;

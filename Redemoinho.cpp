@@ -39,6 +39,8 @@ namespace Entidades {
 				danoso = true;
 			}
 
+			sofrerContraForca();
+
 		}
 
 		void Redemoinho::obstaculizar(Personagens::Jogador* p) {

@@ -16,7 +16,6 @@ namespace Entidades {
 
 			int pontos;
 			bool pulando;
-			bool caindo;
 			bool atordoado;
 			bool correndo;
 			bool atacando;
@@ -57,7 +56,6 @@ namespace Entidades {
 			void correr(bool correr);
 			void atacar();
 			bool getAtacando();
-			void aplicarForcaNormal();
 			void pular();
 			void setNoChao();
 			bool getSubindo();
@@ -66,8 +64,6 @@ namespace Entidades {
 			bool protegendo();
 			void diminuiVida(float dano);
 			void ferir();
-			bool getCaindo();
-			void setCair(bool cair);
 
 			void atualizarHitboxAtaque();
 			sf::RectangleShape* getHitboxAtaque() const { return hitboxAtaque; }

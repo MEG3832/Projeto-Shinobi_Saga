@@ -29,10 +29,12 @@ namespace Gerenciadores {
 
 	/* TECLAS:
 	* Atacar - Q
+	* Defender - S
 	* Pular - W
 	* Andar para a direita - D
 	* Andar para a esquerda - E
 	*/
+
 	void Gerenciador_de_Eventos::verificaTeclaPressionada() {
 
 		sf::Vector2f direcaoInput(0.0f, 0.0f); //resetamos a "direção" para zero (jogador parado) a cada iteração do loop do jogo
@@ -63,16 +65,16 @@ namespace Gerenciadores {
 				direcaoInput.x -= 1.0f;
 			}
 			
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			{
+				pJogador->atacar();
+			}
+
 			if (!pJogador->getSubindo()) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				{
 					direcaoInput.y -= 1.0f;
 					pJogador->pular();
-				}
-
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-				{
-					pJogador->atacar();
 				}
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {

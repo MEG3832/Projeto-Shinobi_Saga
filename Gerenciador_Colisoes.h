@@ -27,6 +27,11 @@ namespace Gerenciadores {
 			void tratarColisoesJogsObstacs();
 			void tratarColisoesJogsProjeteis();
 			void tratarColisoesJogsChao();
+			void tratarColisoesInimigosChao();
+			void tratarColisoesInimigosObstacs();
+			void tratarColisoesObstacsChao();
+			void tratarColisaoObstacsObstacs();
+			void tratarColisaoInimgInimig();
 
 		public:
 			~Gerenciador_Colisoes();
@@ -38,6 +43,8 @@ namespace Gerenciadores {
 			void setJogador(Entidades::Personagens::Jogador* pJog);
 			void reposicionar(sf::RectangleShape* c1, sf::RectangleShape* c2);
 			void setChao(sf::RectangleShape* piso);
+			bool verificaColisaoEnteObstacs(Entidades::Entidade* pE);
+			bool verificaColisaoEnteInimgs(Entidades::Entidade* pE);
 	};
 
 }

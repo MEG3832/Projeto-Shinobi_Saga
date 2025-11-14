@@ -36,6 +36,7 @@ namespace Entidades {
 			void diminuiVida(float dano);
 			int getVida();
 			bool getFerido();
+			virtual void setNoChao();
 
 			//virtual int getNumVidas();
 			virtual int getDano();

@@ -5,26 +5,24 @@ namespace Entidades {
 	namespace Personagens {
 
 		Samurai_Inimigo::Samurai_Inimigo(Jogador* pJ, float resist) :
-			Inimigo(pJ)
+			Inimigo(pJ),
+			timer(),
+			cooldownEmpurrao(4.0f),
+			empurra(true)
 		{
 			resistencia = resist;
 			nivel_maldade = 1; // nível de maldade base
 			paraEsq = true;
-			veloc = sf::Vector2f(0.03f, 0.05f);
-			tempoAndar = 4.0f;
+			veloc = sf::Vector2f(0.5f, 0.0f);
+			tempoAndar = 0.5f;
 
 			num_vidas = 100;
 
 			cooldownAtordoado = 1.0f;
 
-			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
-			//corpo->setPosition(pos); //posicao??
+			corpo = new sf::RectangleShape(sf::Vector2f(200.0f, 200.0f));
 
-			corpo->setPosition(300.0f, ALTURA_TELA - 50 - corpo->getSize().y);
-
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x-75, corpo->getSize().y));
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-				corpo->getPosition().y);
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 145, corpo->getSize().y));
 
 			setAnimador(corpo);
 			inicializaAnimacoes();
@@ -48,10 +46,18 @@ namespace Entidades {
 			{
 				int dano_calculado = nivel_maldade * 15; //dano base
 
-				pJ->diminuiVida(dano_calculado);
-				std::cout << "Samurai causou " << dano_calculado << " de dano! Vida do Jogador: " << pJ->getVida() << std::endl;
+				if (empurra) {
+					pJ->diminuiVida(dano_calculado);
+					empurrar(pJ);
+					empurra = false;	// Comeca o cooldown do empurrao
+					timer.restart();
+				}
+				else if (timer.getElapsedTime().asSeconds() >= cooldownEmpurrao) {
+					empurra = true;
+					timer.restart();
+				}
 
-				empurrar(pJ);
+				std::cout << "Samurai causou " << dano_calculado << " de dano! Vida do Jogador: " << pJ->getVida() << std::endl;
 			}
 			else
 			{

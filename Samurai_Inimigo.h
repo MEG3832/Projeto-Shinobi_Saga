@@ -8,6 +8,9 @@ namespace Entidades {
 		{
 		private:
 			float resistencia;
+			sf::Clock timer;
+			float cooldownEmpurrao;
+			bool empurra;
 
 		public:
 			Samurai_Inimigo(Jogador* pJ, float resist);
@@ -17,11 +20,9 @@ namespace Entidades {
 			void mover();
 			void danificar(Jogador* pJ); // dano no jogador
 			void inicializaAnimacoes();
-
 			void diminuiVida(int dano);
 
 			//void empurrar(Jogador* pJ); -> igual ao da base
-
 
 			void executar();
 		};

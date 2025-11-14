@@ -15,12 +15,9 @@ namespace Entidades {
 			danoso = false;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));
-			corpo->setPosition(200.0f, 400.0f);
 			corpo->setTexture(&textura);
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize()));
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-				corpo->getPosition().y);
 		}
 
 		Plataforma::~Plataforma() {
@@ -29,16 +26,12 @@ namespace Entidades {
 		}
 
 		void Plataforma::executar() {
-			sofrerGravidade();
-
 			sofrerContraForca();
-
-			corpo->move(veloc.x, veloc.y);
-			hitBox->move(veloc.x, veloc.y);
 		}
 
 		void Plataforma::obstaculizar(Personagens::Jogador* p) {
 			if (p) {
+
 				if (corpo->getPosition().y == p->getCorpo()->getPosition().y + p->getCorpo()->getSize().y) {
 					p->setNoChao();
 				}
@@ -50,11 +43,6 @@ namespace Entidades {
 
 		void Plataforma::salvar() {
 			return;
-		}
-
-		void Plataforma::sofrerContraForca() {
-			float aceleracao = -GRAVIDADE;
-			veloc.y += aceleracao;
 		}
 
 	}

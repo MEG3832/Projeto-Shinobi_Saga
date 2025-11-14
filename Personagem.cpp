@@ -42,13 +42,13 @@ namespace Entidades {
 			return ferido;
 		}
 
-		//void Personagem::getDano()
-		//{
-			
-		//}
 		int Personagem::getDano()
 		{
 			return dano;
+		}
+
+		void Personagem::setNoChao() {
+			veloc.y = 0.0f;
 		}
 
 	}

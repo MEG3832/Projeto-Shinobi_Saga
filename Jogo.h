@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 // No momento, o jogo desenha 4 retangulos moveis e o fundo
 #include "Fundo.h"
 #include "ListaEntidades.h"
@@ -43,4 +43,25 @@ class Jogo {
 
 		void executar();
 };
+*/
+#pragma once
 
+#include "Gerenciador_Grafico.h"
+#include "Gerenciador_de_Eventos.h"
+#include "Fase.h"
+#include "FasePrimeira.h"
+#include "Ente.h"
+
+
+class Jogo {
+private:
+	Gerenciadores::Gerenciador_Grafico* pGG;
+	Gerenciadores::Gerenciador_de_Eventos* pGE;
+	Fases::FasePrimeira* pFase1; //o jogador é criado na fase!
+
+public:
+	Jogo();
+	~Jogo();
+	void criarFase();
+	void executar();
+};

@@ -8,7 +8,6 @@ namespace Entidades {
 		Inimigo::Inimigo(Jogador* pJ) :
 			Personagem(),
 			nivel_maldade(1),
-			veloc(0.05f,0.05f),
 			jogAlvo(pJ),
 			paraEsq(true),
 			cooldownAtaque(3.0f),
@@ -18,12 +17,11 @@ namespace Entidades {
 			tempoAndar(3.0),
 			atordoado(false),
 			cooldownAtordoado(0.5f), // Valor padrão
-			estaMorto(false),
-			intransponivel(true) // inimigos são "sólidos" por padrão
+			estaMorto(false)
 		{
-
 			//corpo é feito nas classes folha
-			
+			veloc.x = 0.05f;
+			veloc.y = 0.0f;
 		}
 
 		Inimigo::~Inimigo() {
@@ -52,6 +50,7 @@ namespace Entidades {
 			if (atordoado) {
 				if (relogioAtordoado.getElapsedTime().asSeconds() >= cooldownAtordoado) {
 					atordoado = false;
+					relogioAndar.restart();
 				}
 				else {
 					animador->atualizarAnimInim(paraEsq, true, "Ferido");
@@ -62,25 +61,42 @@ namespace Entidades {
 
 				mover();
 			}
+		}
 
-
-			if (hitBox && corpo) {
-				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-					corpo->getPosition().y);
-			}
-			
+		void Inimigo::setNoChao()
+		{
+			veloc.y = 0.0f;
 		}
 
 		void Inimigo::diminuiVida(int dano)
 		{
-			// Não pode tomar dano se já estiver atordoado ou morto
+			//não toma dano se já estiver atordoado ou morto
 			if (atordoado || estaMorto) {
 				return;
 			}
 
-			// Não faz nada se o dano for 0 ou negativo
+			// não faz nada se o dano for 0 ou negativo
 			if (dano <= 0) {
 				return;
+			}
+
+			// Na verdade precisa adaptar para o caso em que quem estah atacando eh o outro jogador e nao o alvo
+			if (jogAlvo) {
+				if (corpo) {
+					if (jogAlvo->getCorpo()->getPosition().x < corpo->getPosition().x) {
+						paraEsq = true;
+					}
+					else
+					{
+						paraEsq = false;
+					}
+				}
+				else {
+					std::cerr << "ERRO: nao eh possivel virar o inimigo pois o corpo dele eh NULL" << std::endl;
+				}
+			}
+			else {
+				std::cerr << "ERRO: nao eh possivel virar o inimigo pois o jogador alvo eh NULL" << std::endl;
 			}
 
 			Personagem::diminuiVida(dano); // aplica o dano (da classe Personagem)
@@ -107,7 +123,6 @@ namespace Entidades {
 			{
 				pJ->diminuiVida(nivel_maldade);
 				std::cout << pJ->getVida() << std::endl;
-				empurrar(pJ);
 			}
 
 			else
@@ -123,7 +138,7 @@ namespace Entidades {
 			// e, depois disso, iremos multiplicar por uma "força" (intensidade)
 
 			sf::Vector2f velKnockBack;
-			float força_empurrao = 1.5f;
+			float força_empurrao = 8.0f;
 
 			if (pJ) {
 
@@ -163,16 +178,19 @@ namespace Entidades {
 
 			if (andando)
 			{
-				if (paraEsq)
+				if (paraEsq) {
 					corpo->move(-veloc.x, 0.0f);
-				else
+					hitBox->move(-veloc.x - 0.5f, 0.0f);
+				}
+				else {
 					corpo->move(veloc.x, 0.0f);
+					hitBox->move(veloc.x, 0.0f);
+				}
 
 				animador->atualizarAnimInim(paraEsq, false, "Andando");
 			}
 			else
 			{
-				corpo->move(0.0f, 0.0f);
 				animador->atualizarAnimInim(paraEsq, false, "Parado");
 			}
 		}

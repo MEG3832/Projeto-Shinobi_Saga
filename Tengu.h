@@ -28,7 +28,6 @@ namespace Entidades
 
 			// Sobrescreve 'diminuiVida' para aumentar a maldade
 			void diminuiVida(int dano); // Dano recebido pelo Tengu
-
 			//void salvar();
 
 		};

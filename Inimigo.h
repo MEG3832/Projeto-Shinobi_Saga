@@ -13,7 +13,6 @@ namespace Entidades {
 		{
 			protected:
 				int nivel_maldade;
-				sf::Vector2f veloc;
 				Jogador* jogAlvo;
 				bool paraEsq;
 
@@ -34,7 +33,6 @@ namespace Entidades {
 				float cooldownAtordoado; //p/ duração da animação "Ferido"
 
 				bool estaMorto;
-				bool intransponivel;
 				
 				//--//
 
@@ -68,7 +66,7 @@ namespace Entidades {
 
 				virtual bool getIntransponivel() const { return intransponivel; }
 				virtual void setIntransponivel(bool val) { intransponivel = val; }
-
+				void setNoChao();
 				virtual void diminuiVida(int dano); //para diminuir a vida do inimigo!
 
 		};

@@ -3,19 +3,34 @@
 #include "Entidade.h"
 #include "ListaEntidades.h"
 #include "Inimigo.h"
+#include "Redemoinho.h"
 
 namespace Fases
 {
 
-	FasePrimeira::FasePrimeira():
+	FasePrimeira::FasePrimeira() :
 		Fase(),
-		maxSamurais(10), //NOTA! tanto a quantidade de inimigos e obstáculos podem ser alterados...
-		maxObstacFaceis(5), 
-		maxObstacMedios(5)
+		maxSamurais(8),
+		maxRedemoinhos(8)
 	{
-		//criarInimigos(); ->não precisa disso né? já que chamamosa construtora de Fase explicitamente...
-		//criarObstaculos(); ->nem disso?
-		executar();
+		fim_mapa = 10000;
+
+		criarCenario();
+
+		sf::RectangleShape* pChao = pFundo->getChao();
+
+		if (pChao) {
+			GC->setChao(pChao);
+
+			pJog->getCorpo()->setPosition(100.0f, ALTURA_TELA - pChao->getSize().y - pJog->getTam().y);
+			pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
+											pJog->getCorpo()->getPosition().y);
+		}
+		else
+			std::cerr << "ERRO: pFundo nao retornou um chao!" << std::endl;
+
+		criarObstaculos();
+		criarInimigos();
 	}
 
 	FasePrimeira::~FasePrimeira()
@@ -23,15 +38,37 @@ namespace Fases
 
 	}
 
-	void FasePrimeira::criarInimigos()
-	{
-		//criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
-		//criarSamurais();
-		return;
+	void FasePrimeira::criarCenario() {
+		// pFundo foi criado no construtor de Fase.
+		// Apenas adicionamos as camadas.
+
+		// Exemplo de camadas para Fase 1:
+		// (tam, vel, caminhoTextura)
+
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.00000000001f, "Imagens/JapanVillage/Camada3.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000000001f, "Imagens/JapanVillage/Camada4.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000000001f, "Imagens/JapanVillage/Camada5.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada6.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.3f, "Imagens/JapanVillage/Camada8.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada9.png");
+		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize().x, 80.0f));	// Chao
 	}
 
-	/*void FasePrimeira::criarSamurais()
+	void FasePrimeira::criarInimigos()
 	{
+		criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
+
+		criarSamurais();
+	}
+
+	void FasePrimeira::criarSamurais()
+	{
+
+		sf::RectangleShape* pChao = pFundo->getChao();
+		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
 
 		const int min_samurais = 3;
 		
@@ -39,28 +76,94 @@ namespace Fases
 
 		for (int i = 0; i < qnt_inim; i++)
 		{
+			//calcula uma resistência aleatória (float) entre 1.0 e 2.0
+			float min_res = 1.0f; //o samurai vai receber um dano normal
+			float max_res = 2.0f; //o samurai vai receber um dano pela metade.
+			float rand_percent = (float)rand() / (float)RAND_MAX; //essa divisão resulta em um valor no intervalo [0.0 , 1.0]
+			float resistencia_aleatoria = min_res + rand_percent * (max_res - min_res);
+
 			Entidades::Personagens::Samurai_Inimigo* pSam;
-			pSam = new Entidades::Personagens::Samurai_Inimigo(); //?
+			pSam = new Entidades::Personagens::Samurai_Inimigo(pJog, resistencia_aleatoria); 
 
 			if (pSam)
 			{
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pSam);
+				int correcao = 0;
+				do {
+					int posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
+					float posY = pGG->getWindow()->getSize().y - alturaChao - pSam->getCorpo()->getSize().y;
+
+					if (pSam->getCorpo()) {
+						pSam->getCorpo()->setPosition(posX, posY);
+					}
+					if (pSam->getHitBox()) {
+						pSam->getHitBox()->setPosition(pSam->getCorpo()->getPosition().x + (pSam->getCorpo()->getSize().x / 2 - pSam->getHitBox()->getSize().x / 2),
+							pSam->getCorpo()->getPosition().y);
+					}
+					correcao += 20;
+				} while(GC->verificaColisaoEnteObstacs(pSam) || GC->verificaColisaoEnteInimgs(pSam));
+
+				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pSam));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Personagens::Personagem*>(
+											static_cast<Entidades::Personagens::Inimigo*>(pSam)));
 				lista_ents.incluir(pEnt);
-				GC.incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pSam));
 			}
 
 			else
 				std::cout << "Não foi possível alocar o Samurai Inimigo!" << std::endl;
 
 		}
-	}*/
+	}
 
 	void FasePrimeira::criarObstaculos()
 	{
-		//FAZER!!
+		criarPlataformas();
 
-		//criarPlataformas();
-		//criarRedemoinhos();
-		return;
+		criarRedemoinhos();
+	}
+
+	void FasePrimeira::criarRedemoinhos()
+	{
+		sf::RectangleShape* pChao = pFundo->getChao();
+		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
+
+		const int min_red = 3;
+
+		int qnt_red = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
+
+
+		for (int i = 0; i < qnt_red; i++)
+		{
+			Entidades::Obstaculos::Redemoinho* pRed;
+			pRed = new Entidades::Obstaculos::Redemoinho();
+
+			if (pRed)
+			{
+				int correcao = 0;
+				do {
+					int posX = (2500 + i * 5000 + i * rand() % 800 + correcao) % fim_mapa;
+					float posY = ALTURA_TELA - alturaChao - pRed->getTam().y;
+					if (pRed->getCorpo()) {
+						pRed->getCorpo()->setPosition(posX, posY);
+					}
+					if (pRed->getHitBox()) {
+						pRed->getHitBox()->setPosition(pRed->getCorpo()->getPosition().x + (pRed->getCorpo()->getSize().x / 2 - pRed->getHitBox()->getSize().x / 2),
+							pRed->getCorpo()->getPosition().y);
+					}
+
+					correcao += 20;
+				} while (GC->verificaColisaoEnteObstacs(pRed) || GC->verificaColisaoEnteInimgs(pRed));
+
+
+				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
+				lista_ents.incluir(pEnt);
+			}
+
+			else
+				std::cout << "Não foi possível alocar o redemoinho!" << std::endl;
+
+		}
 	}
 }

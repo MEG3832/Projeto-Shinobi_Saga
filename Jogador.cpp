@@ -11,7 +11,6 @@ namespace Entidades {
 			pontos(0),
 			id(ident),
 			direcao(0.0, 0.0),
-			caindo(false),
 			pulando(false),
 			atordoado(false),
 			correndo(false),
@@ -19,23 +18,22 @@ namespace Entidades {
 		{
 			dano = 25;
 
-			veloc.x = 0.04;
+			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
 			num_vidas = 100;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
-			corpo->setPosition(0.0, ALTURA_TELA - 50 - corpo->getSize().y);
+			corpo->setPosition(0.0f, 0.0f);
 
 			//essa é a hitbox do corpo do jogador!
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
 			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-				corpo->getPosition().y);
+								corpo->getPosition().y);
 
 			// essa é a hitbox de ataque!
-			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
-			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); //tirar depois, é só pra conseguir visualizar o hitbox de ataque
-			hitboxAtaqueAtiva = false;
+			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f));
+			hitboxAtaqueAtiva = false;	// Não precisa disso se já tem a flag atacando
 
 
 			inicializaAnimacoes();
@@ -47,7 +45,6 @@ namespace Entidades {
 			pontos(0),
 			id(1),
 			direcao(0.0, 0.0),
-			caindo(false),
 			pulando(false),
 			atordoado(false),
 			correndo(false),
@@ -59,26 +56,23 @@ namespace Entidades {
 			cooldown_pulo(0.16),
 			cooldown_dano(0.2),
 			preparandoPulo(false),
-			velPulo(-0.045)
+			velPulo(-12)
 		{
 
 			dano = 25;
 
-			veloc.x = 2.0;
+			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
-			num_vidas = 100;
+			num_vidas = 1000;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
-			corpo->setPosition(0.0, ALTURA_TELA - 80 - corpo->getSize().y);	// 80 eh a altura do chao
 
 			//essa é a hitbox do corpo do jogador!
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-				corpo->getPosition().y);
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 125.0, corpo->getSize().y));
 
 			// essa é a hitbox de ataque!
-			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(50.0f, 100.0f));
+			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f));
 			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); //tirar depois, é só pra conseguir visualizar o hitbox de ataque
 			hitboxAtaqueAtiva = false;
 
@@ -95,7 +89,6 @@ namespace Entidades {
 			direcao = sf::Vector2f(0.0, 0.0);
 			paraEsq = false;
 			pulando = false;
-			caindo = false;
 		}
 
 		void Jogador::colidir(Inimigo* pIn) {
@@ -107,7 +100,6 @@ namespace Entidades {
 			atualizaAnimacao();
 
 			mover();
-
 		}
 
 		void Jogador::salvar()
@@ -141,11 +133,11 @@ namespace Entidades {
 
 					corpo->move(velocFinal);
 					hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-						corpo->getPosition().y);
+										corpo->getPosition().y);
 
 					//aplicamos um "atrito" aqui! (valor menor que 1, portanto, irá diminuir a cada chamada do mover)
 
-					float atrito = 0.99f;
+					float atrito = 0.96f;
 
 					velocKnockBack.x *= atrito;
 					velocKnockBack.y *= atrito;
@@ -174,23 +166,23 @@ namespace Entidades {
 
 			//Animações em loop
 
-			animador->addAnimacao("Imagens/Fighter/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Run.png", "Correndo", 8, 0.1, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Run.png", "Correndo", 8, 0.1, sf::Vector2f(1.0, 1.0));
 
 			//Animações de pulo
 
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Subindo", 10, cooldown_pulo, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Descendo", 10, 0.15, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Jump.png", "Subindo", 12, cooldown_pulo, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Jump.png", "Descendo", 10, 0.15, sf::Vector2f(1.0, 1.0));
 
 			//Animações que só devem rodar uma vez
 
-			animador->addAnimacao("Imagens/Fighter/Attack_1.png", "Ataque1", 4, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Dead.png", "Derrotado", 3, 0.45, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Hurt.png", "Ferido", 3, cooldown_dano, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Shield.png", "Protegendo", 2, 0.17, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Attack_1.png", "Ataque1", 5, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Dead.png", "Derrotado", 4, 0.45, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Shield.png", "Protegendo", 4, 0.10, sf::Vector2f(1.0, 1.0));
 
 		}
 
@@ -220,11 +212,11 @@ namespace Entidades {
 						atualizarHitboxAtaque(); // posiciona a hitbox de ataque
 
 						if (!trocaPunho) {
-							animador->atualizarAnimJog(caindo, false, paraEsq, false, "Ataque1");
+							animador->atualizarAnimJog(false, false, paraEsq, false, "Ataque1");
 							dt = timer.getElapsedTime().asSeconds();
 						}
 						else {
-							animador->atualizarAnimJog(caindo, false, paraEsq, false, "Ataque2");
+							animador->atualizarAnimJog(false, false, paraEsq, false, "Ataque2");
 							dt = timer.getElapsedTime().asSeconds();
 						}
 					}
@@ -242,7 +234,7 @@ namespace Entidades {
 								pulando = true;
 								veloc.y = velPulo;	// Velocidade inicial do salto
 							}
-							animador->atualizarAnimJog(caindo, false, paraEsq, true, "Subindo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+							animador->atualizarAnimJog(false, false, paraEsq, true, "Subindo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 						}
 
 						else if (defendendo) {	// Quinta prioridade eh a defesa
@@ -255,10 +247,10 @@ namespace Entidades {
 						}
 						else if (direcao.x != 0 && direcao.y == 0) {
 							if (correndo) {
-								animador->atualizarAnimJog(caindo, false, paraEsq, false, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+								animador->atualizarAnimJog(false, false, paraEsq, false, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 							}
 							else {
-								animador->atualizarAnimJog(caindo, false, paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+								animador->atualizarAnimJog(false, false, paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 							}
 						}
 					}
@@ -270,15 +262,15 @@ namespace Entidades {
 			if (paraEsq) {
 				// posiciona à esquerda do jogador
 				hitboxAtaque->setPosition(
-					corpo->getPosition().x + 25.0f, //esse valor somado é pra ajustar a posição
-					corpo->getPosition().y
+					corpo->getPosition().x + 42.0f,
+					corpo->getPosition().y + 35.0f
 				);
 			}
 			else {
 				// posiciona à direita do jogador
 				hitboxAtaque->setPosition(
-					corpo->getPosition().x + corpo->getSize().x - 75.0f, //esse valor somado/subtraído é pra ajustar a posição
-					corpo->getPosition().y
+					corpo->getPosition().x + corpo->getSize().x - 75.0f,
+					corpo->getPosition().y + 35.0f
 				);
 			}
 		}
@@ -290,10 +282,10 @@ namespace Entidades {
 		void Jogador::correr(bool correr) {
 			correndo = correr;
 			if (correr) {
-				veloc.x = 0.07;
+				veloc.x = 7.0f;
 			}
 			else {
-				veloc.x = 0.04;
+				veloc.x = 5.0f;
 			}
 		}
 
@@ -301,14 +293,14 @@ namespace Entidades {
 			timer.restart();
 			dt = 0;
 			atacando = true;
+			pulando = false;
+			preparandoPulo = false;
+			correndo = false;
+
 		}
 
 		bool Jogador::getAtacando() {
 			return atacando;
-		}
-
-		void Jogador::aplicarForcaNormal() {
-			veloc.y = 0.0f;
 		}
 
 		void Jogador::pular() {
@@ -322,9 +314,7 @@ namespace Entidades {
 		// Zera tudo relacionado ao movimento vertical e aplica a forca normal
 		void Jogador::setNoChao() {
 			pulando = false;
-			caindo = false;
 			veloc.y = 0.0;
-			aplicarForcaNormal();
 		}
 
 		bool Jogador::getSubindo() {	// Usado no Gerenciador de Eventos
