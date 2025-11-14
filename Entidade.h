@@ -27,9 +27,9 @@ namespace Entidades {
 		virtual void salvar() = 0;
 		sf::Vector2f getPos();
 		void setAnimador(sf::RectangleShape* body);
+		Animadores::Animacao* getAnimador();
 		bool getIntransponivel();
 		void sofrerGravidade();
-		//...
 
 	};
 

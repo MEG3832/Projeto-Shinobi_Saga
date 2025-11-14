@@ -1,4 +1,5 @@
 #include "Projetil.h"
+#include "Jogador.h"
 
 namespace Entidades {
 
@@ -21,11 +22,29 @@ namespace Entidades {
 	void Projetil::setEstadoProj(bool estado)
 	{
 		ativo = estado;
+		
+	}
+
+	void Projetil::setVelocidade(sf::Vector2f vel) {
+		veloc = vel;
 	}
 
 	bool Projetil::getEstadoProj()
 	{
 		return ativo;
+	}
+
+	void Projetil::danificar(Personagens::Jogador* pJ)
+	{
+		if (pJ && ativo) {
+			int dano_projetil = 20;
+			pJ->diminuiVida(dano_projetil);
+
+			std::cout << "Projetil acertou! Vida Jogador: " << pJ->getVida() << std::endl;
+
+			// desativa o projétil ao colidir
+			setEstadoProj(false);
+		}
 	}
 
 	void Projetil::executar() {

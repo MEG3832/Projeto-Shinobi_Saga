@@ -1,6 +1,7 @@
 #pragma once
 #include "Projetil.h"
 #include "Inimigo.h"
+#include "ListaEntidades.h"
 
 namespace Entidades
 {
@@ -12,7 +13,8 @@ namespace Entidades
 
 				float raio_ativacao;
 				float tempo_cooldown;
-				Projetil* pProjetil;
+				std::vector<Projetil*> projeteis;
+				static const int qnt_projeteis = 5;
 				sf::Clock relogio;
 
 			public:
@@ -27,6 +29,7 @@ namespace Entidades
 
 				void criaProjetil(); //cria o projétil. joga na lista de entidades e no set do gerenciador de colisões
 				void atiraProjetil(); //analisa o tempo de cooldown e o raio de ativação e daí cria o projétil
+				void inicializaAnimProjetil();
 
 				void executar();
 

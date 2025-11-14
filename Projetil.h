@@ -13,6 +13,8 @@ namespace Entidades {
 		~Projetil();
 		void setEstadoProj(bool estado);
 		bool getEstadoProj();
+		void setVelocidade(sf::Vector2f vel);
+		void danificar(Personagens::Jogador* pJ);
 		void executar();
 		void salvar();
 	};
