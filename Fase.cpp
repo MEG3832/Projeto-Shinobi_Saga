@@ -3,8 +3,8 @@
 namespace Fases
 {
 	Fase::Fase() :
-		maxTengus(10),
-		maxPlataf(10),
+		maxTengus(5),
+		maxPlataf(8),
 		lista_ents(),
 		GC(GC->getGerenciadorColisoes()),
 		pJog(nullptr),
@@ -71,16 +71,22 @@ namespace Fases
 
 			if (pTengu)
 			{
-				int posX = (300 + i * 800 + i * rand() % 1300) % fim_mapa;
-				int posY = pGG->getWindow()->getSize().y - alturaChao - pTengu->getCorpo()->getSize().y;
+				int correcao = 0;
 
-				if (pTengu->getCorpo()) {
-					pTengu->getCorpo()->setPosition(posX, posY);
-				}
-				if (pTengu->getHitBox()) {
-					pTengu->getHitBox()->setPosition(pTengu->getCorpo()->getPosition().x + (pTengu->getCorpo()->getSize().x / 2 - pTengu->getHitBox()->getSize().x / 2),
-													 pTengu->getCorpo()->getPosition().y);
-				}
+				do {
+					int posX = (1000 + i * 4000 + i * rand() % 1000 + correcao) % fim_mapa;
+					int posY = pGG->getWindow()->getSize().y - alturaChao - pTengu->getCorpo()->getSize().y;
+
+					if (pTengu->getCorpo()) {
+						pTengu->getCorpo()->setPosition(posX, posY);
+					}
+					if (pTengu->getHitBox()) {
+						pTengu->getHitBox()->setPosition(pTengu->getCorpo()->getPosition().x + (pTengu->getCorpo()->getSize().x / 2 - pTengu->getHitBox()->getSize().x / 2),
+							pTengu->getCorpo()->getPosition().y);
+					}
+
+					correcao += 20;
+				} while (GC->verificaColisaoEnteObstacs(pTengu) || GC->verificaColisaoEnteInimgs(pTengu));
 
 				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
@@ -113,17 +119,23 @@ namespace Fases
 
 			if (pPlataf)
 			{ 
-				int posX = (300 + i * 800 + i * rand() % 1300) % fim_mapa;
-				int posY = ALTURA_TELA - alturaChao - pPlataf->getTam().y -
-							(rand()%10 + 160);
+				int correcao = 0;
 
-				if (pPlataf->getCorpo()) {
-					pPlataf->getCorpo()->setPosition(posX, posY);
-				}
-				if (pPlataf->getHitBox()) {
-					pPlataf->getHitBox()->setPosition(pPlataf->getCorpo()->getPosition().x + (pPlataf->getCorpo()->getSize().x / 2 - pPlataf->getHitBox()->getSize().x / 2),
-						pPlataf->getCorpo()->getPosition().y);
-				}
+				do {
+					int posX = (300 + i * 4500 + i * rand() % 1500 + correcao) % fim_mapa;
+					int posY = ALTURA_TELA - alturaChao - pPlataf->getTam().y -
+						(rand() % 10 + 160);
+
+					if (pPlataf->getCorpo()) {
+						pPlataf->getCorpo()->setPosition(posX, posY);
+					}
+					if (pPlataf->getHitBox()) {
+						pPlataf->getHitBox()->setPosition(pPlataf->getCorpo()->getPosition().x + (pPlataf->getCorpo()->getSize().x / 2 - pPlataf->getHitBox()->getSize().x / 2),
+							pPlataf->getCorpo()->getPosition().y);
+					}
+
+					correcao += 20;
+				} while (GC->verificaColisaoEnteObstacs(pPlataf) || GC->verificaColisaoEnteInimgs(pPlataf));
 
 				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(

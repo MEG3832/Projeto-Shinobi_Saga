@@ -166,23 +166,23 @@ namespace Entidades {
 
 			//Animações em loop
 
-			animador->addAnimacao("Imagens/Fighter/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Run.png", "Correndo", 8, 0.1, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Run.png", "Correndo", 8, 0.1, sf::Vector2f(1.0, 1.0));
 
 			//Animações de pulo
 
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Subindo", 10, cooldown_pulo, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Jump.png", "Descendo", 10, 0.15, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Jump.png", "Subindo", 12, cooldown_pulo, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Jump.png", "Descendo", 10, 0.15, sf::Vector2f(1.0, 1.0));
 
 			//Animações que só devem rodar uma vez
 
-			animador->addAnimacao("Imagens/Fighter/Attack_1.png", "Ataque1", 4, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Dead.png", "Derrotado", 3, 0.45, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Hurt.png", "Ferido", 3, cooldown_dano, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Fighter/Shield.png", "Protegendo", 2, 0.17, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Attack_1.png", "Ataque1", 5, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Dead.png", "Derrotado", 4, 0.45, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
+			animador->addAnimacao("Imagens/Shinobi/Shield.png", "Protegendo", 4, 0.10, sf::Vector2f(1.0, 1.0));
 
 		}
 

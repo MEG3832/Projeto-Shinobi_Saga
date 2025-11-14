@@ -10,8 +10,8 @@ namespace Fases
 
 	FasePrimeira::FasePrimeira() :
 		Fase(),
-		maxSamurais(10),
-		maxRedemoinhos(10)
+		maxSamurais(8),
+		maxRedemoinhos(8)
 	{
 		fim_mapa = 10000;
 
@@ -30,7 +30,7 @@ namespace Fases
 			std::cerr << "ERRO: pFundo nao retornou um chao!" << std::endl;
 
 		criarObstaculos();
-		//criarInimigos();
+		criarInimigos();
 	}
 
 	FasePrimeira::~FasePrimeira()
@@ -59,7 +59,8 @@ namespace Fases
 
 	void FasePrimeira::criarInimigos()
 	{
-		//criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
+		criarTengus(); // está na classe base, já que a fase 2 também terá Tengus.
+
 		criarSamurais();
 	}
 
@@ -88,7 +89,7 @@ namespace Fases
 			{
 				int correcao = 0;
 				do {
-					int posX = (300 + i * 800 + i * rand() % 1300) % fim_mapa + correcao;
+					int posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
 					float posY = pGG->getWindow()->getSize().y - alturaChao - pSam->getCorpo()->getSize().y;
 
 					if (pSam->getCorpo()) {
@@ -99,7 +100,7 @@ namespace Fases
 							pSam->getCorpo()->getPosition().y);
 					}
 					correcao += 20;
-				} while(GC->verificaColisaoEnteObstacs(pSam));
+				} while(GC->verificaColisaoEnteObstacs(pSam) || GC->verificaColisaoEnteInimgs(pSam));
 
 				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pSam));
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
@@ -118,7 +119,7 @@ namespace Fases
 	{
 		criarPlataformas();
 
-		//criarRedemoinhos();
+		criarRedemoinhos();
 	}
 
 	void FasePrimeira::criarRedemoinhos()
@@ -138,18 +139,23 @@ namespace Fases
 
 			if (pRed)
 			{
-				int posX = (300 + i * 800 + i * rand() % 1300) % fim_mapa;
-				float posY = ALTURA_TELA - alturaChao - pRed->getTam().y; 
-				if (pRed->getCorpo()) {
-					pRed->getCorpo()->setPosition(posX, posY);
-				}
-				if (pRed->getHitBox()) {
-					pRed->getHitBox()->setPosition(pRed->getCorpo()->getPosition().x + (pRed->getCorpo()->getSize().x / 2 - pRed->getHitBox()->getSize().x / 2),
-												   pRed->getCorpo()->getPosition().y);
-				}
+				int correcao = 0;
+				do {
+					int posX = (2500 + i * 5000 + i * rand() % 800 + correcao) % fim_mapa;
+					float posY = ALTURA_TELA - alturaChao - pRed->getTam().y;
+					if (pRed->getCorpo()) {
+						pRed->getCorpo()->setPosition(posX, posY);
+					}
+					if (pRed->getHitBox()) {
+						pRed->getHitBox()->setPosition(pRed->getCorpo()->getPosition().x + (pRed->getCorpo()->getSize().x / 2 - pRed->getHitBox()->getSize().x / 2),
+							pRed->getCorpo()->getPosition().y);
+					}
+
+					correcao += 20;
+				} while (GC->verificaColisaoEnteObstacs(pRed) || GC->verificaColisaoEnteInimgs(pRed));
+
 
 				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
-
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
 											static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
 				lista_ents.incluir(pEnt);
