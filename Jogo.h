@@ -22,6 +22,8 @@ class Jogo {
 		Gerenciadores::Gerenciador_Grafico* pGG;
 		Gerenciadores::Gerenciador_de_Eventos* pGE;
 		Fases::FasePrimeira* pFase1; //o jogador é criado na fase!
+
+		// Variaveis
 		Estado estado_atual;
 	
 

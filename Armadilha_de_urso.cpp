@@ -6,8 +6,7 @@ namespace Entidades {
 
 		Armadilha_de_urso::Armadilha_de_urso() :
 			Obstaculo(),
-			altura(60),
-			comprimento(60),
+			lado(60.0),
 			danosidade(2),	// Estou imaginando que cada vida tem uns 100
 			cooldown_atordoamento(3.0f),
 			timer(),
@@ -15,8 +14,8 @@ namespace Entidades {
 		{
 			intransponivel = false;
 			danoso = true;
-			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));
-			corpo->setPosition(400.0, ALTURA_TELA - 30 - altura);	// 35 é a altura desde a borda inferior da janela
+			corpo = new sf::RectangleShape(sf::Vector2f(lado, lado));
+			corpo->setPosition(400.0, ALTURA_TELA - 30 - lado);	// 35 é a altura desde a borda inferior da janela
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 30.0f, corpo->getSize().y));
 			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
@@ -26,8 +25,7 @@ namespace Entidades {
 		}
 
 		Armadilha_de_urso::~Armadilha_de_urso() {
-			altura = -1;
-			comprimento = -1;
+			lado = -1.0;
 			danosidade = -1;
 			danoso = false;
 			cooldown_atordoamento = 0.0;

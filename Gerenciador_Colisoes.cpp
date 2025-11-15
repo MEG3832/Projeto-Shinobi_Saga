@@ -4,13 +4,13 @@ namespace Gerenciadores {
 
 	Gerenciador_Colisoes* Gerenciador_Colisoes::pColisoes = nullptr;
 
-	Gerenciador_Colisoes::Gerenciador_Colisoes(sf::RectangleShape* piso) :
+	Gerenciador_Colisoes::Gerenciador_Colisoes() :
 		LIs(),
 		LOs(),
 		LPs(),
-		pJog1(nullptr)
-	{
-	}
+		pJog1(nullptr),
+		altura_chao(0.0)
+	{}
 
 	Gerenciador_Colisoes::~Gerenciador_Colisoes() {
 		pJog1 = nullptr;
@@ -22,7 +22,7 @@ namespace Gerenciadores {
 
 	Gerenciador_Colisoes* Gerenciador_Colisoes::getGerenciadorColisoes() {
 		if (!pColisoes) {
-			pColisoes = new Gerenciador_Colisoes(nullptr);
+			pColisoes = new Gerenciador_Colisoes();
 		}
 
 		return pColisoes;

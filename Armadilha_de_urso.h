@@ -8,8 +8,7 @@ namespace Entidades {
 		class Armadilha_de_urso :  public Obstaculo
 		{
 		private:
-			int altura;
-			int comprimento;
+			float lado;
 			short int danosidade;
 			float cooldown_atordoamento;
 			float dt;

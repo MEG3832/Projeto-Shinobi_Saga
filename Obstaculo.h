@@ -8,6 +8,8 @@ namespace Entidades {
 		class Obstaculo : public Entidade
 		{
 			protected:
+
+				// Variaveis
 				bool danoso;
 
 			public:

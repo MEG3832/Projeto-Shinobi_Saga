@@ -9,9 +9,10 @@ namespace Entidades {
 		class Redemoinho : public Obstaculo
 		{
 			private:
-				int altura;
-				float largura;
+				float raio;
 				float danosidade;
+
+				// Variaveis
 				bool dano_unico;
 
 			public:
