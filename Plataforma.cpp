@@ -7,8 +7,7 @@ namespace Entidades {
 		Plataforma::Plataforma() :
 			Obstaculo(),
 			altura(55),
-			comprimento(120),
-			//comprimento(180),
+			comprimento(180),
 			//textura(pGG->carregarTextura("Imagens/Obstaculos/Plataforma_DarkForest.png")),
 			textura(pGG->carregarTextura("Imagens/Obstaculos/Plataforma_Village.png"))
 		{

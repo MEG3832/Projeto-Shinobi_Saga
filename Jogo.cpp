@@ -4,19 +4,9 @@
 Jogo::Jogo() :
     pGG(pGG->getGerenciadorGrafico()),
     pGE(pGE->getGerenciadorEventos()),
-    pFase1(nullptr)
+    pFase1(nullptr),
     menu(),
-    GG(GG->getGerenciadorGrafico()),
-    fundo(),    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
-    pJog1(),
-    GE(GE->getGerenciadorEventos()),
-    plataforma(),
-    redemoinho(),
-    armadilha_de_urso(),
-    inimigo(&pJog1, 50.0),
-    GC(GC->getGerenciadorColisoes()),
-    lista_ents(),
-    fase(1)
+    fase(0)
 {
     srand(time(0));
 
@@ -40,6 +30,8 @@ Jogo::Jogo() :
     
     pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
 
+    menu.setJogo(this);
+
 }
 
 Jogo::~Jogo()
@@ -60,22 +52,36 @@ void Jogo::criarFase()
 
 void Jogo::executar()
 {
-    while (pGG->verificaJanelaAberta())
-    {
-        if (pGE) {
-            pGE->executar();
-        }
-    
-        // Limpa a tela
-        pGG->limpaJanela();
+    if (pGG) {
+        menu.executar();
 
-        //executa a lógica da fase 
-        //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
-        if (pFase1)
+        while (pGG->verificaJanelaAberta())
         {
-            pFase1->executar();
-        }
 
-        pGG->mostrarEntes();
+            if (pGE) {
+                pGE->executar();
+            }
+
+            // Limpa a tela
+            pGG->limpaJanela();
+
+            //executa a lógica da fase 
+            //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
+            if (1 == fase) {
+                if (pFase1)
+                {
+                    pFase1->executar();
+                }
+            }
+
+            pGG->mostrarEntes();
+        }
     }
+    else {
+        std::cerr << "ERRO: Nao eh possivel executar o jogo pois o Gerenciador Grafico eh NULL" << std::endl;
+    }
+}
+
+void Jogo::setFase(int num) {
+    fase = num;
 }

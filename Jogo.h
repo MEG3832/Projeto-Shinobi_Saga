@@ -1,49 +1,3 @@
-/*#pragma once
-// No momento, o jogo desenha 4 retangulos moveis e o fundo
-#include "Fundo.h"
-#include "ListaEntidades.h"
-#include "Gerenciador_de_Eventos.h"
-#include "Gerenciador_Colisoes.h"
-#include "Plataforma.h"
-#include "Redemoinho.h"
-#include "Armadilha_de_urso.h"
-#include "Tengu.h"
-#include "Samurai_Inimigo.h"
-#include "Menu.h"
-
-class Jogo {
-	private:
-		Menu menu;
-		Gerenciadores::Gerenciador_Grafico* GG;	// Singelton
-		Parallax::Fundo fundo;
-		Entidades::Personagens::Jogador pJog1;
-		Gerenciadores::Gerenciador_de_Eventos* GE;	// Singleton
-		Entidades::Obstaculos::Plataforma plataforma;
-		Entidades::Obstaculos::Redemoinho redemoinho;
-		Entidades::Obstaculos::Armadilha_de_urso armadilha_de_urso;
-		Entidades::Personagens::Samurai_Inimigo inimigo; //teste tengu
-		Entidades::Projetil projetil;
-		Gerenciadores::Gerenciador_Colisoes* GC;	// Um para jogador, que tal?
-		Listas::ListaEntidades lista_ents;
-		int fase;
-
-	public:
-		Jogo();
-		~Jogo();
-
-		// Inicializacoes
-		void inicializar();
-		void inicializarGC();
-		void inicializaListaEntidades();
-		void inicializarListaInimigos();
-		void inicializarListaObtaculos();
-		void inicializarListaProjeteis();
-		void inicializaFundo();
-		void setFase(int num);
-
-		void executar();
-};
-*/
 #pragma once
 
 #include "Gerenciador_Grafico.h"
@@ -51,17 +5,21 @@ class Jogo {
 #include "Fase.h"
 #include "FasePrimeira.h"
 #include "Ente.h"
+#include "Menu.h"
 
 
 class Jogo {
 private:
+	Menu menu;
 	Gerenciadores::Gerenciador_Grafico* pGG;
 	Gerenciadores::Gerenciador_de_Eventos* pGE;
 	Fases::FasePrimeira* pFase1; //o jogador é criado na fase!
+	int fase;
 
 public:
 	Jogo();
 	~Jogo();
 	void criarFase();
 	void executar();
+	void setFase(int num);
 };

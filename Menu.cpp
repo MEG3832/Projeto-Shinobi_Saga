@@ -37,22 +37,27 @@ void Menu::executar() {
 				desenharTexto();
 				GG->mostrarEntes();	// Display
 				if (executa) {
-					if (1 == selecionado) {
-						pJog->setFase(1);
-						parar = true;
+					if (pJog) {
+						if (1 == selecionado) {
+							pJog->setFase(1);
+							parar = true;
+						}
+						if (2 == selecionado) {
+							pJog->setFase(2);
+							parar = false;
+							// Mudar para fase2.executar()
+						}
+						if (3 == selecionado) {
+							parar = false;
+							// Mudar para o salvar da lista de entidades
+						}
+						if (4 == selecionado) {
+							parar = true;
+							exit(1);
+						}
 					}
-					if (2 == selecionado) {
-						pJog->setFase(2);
-						parar = false;
-						// Mudar para fase2.executar()
-					}
-					if (3 == selecionado) {
-						parar = false;
-						// Mudar para o salvar da lista de entidades
-					}
-					if (4 == selecionado) {
-						parar = true;
-						exit(1);
+					else {
+						std::cerr << "ERRO: Nao eh possivel executar o comando pois o jogo eh NULL" << std::endl;
 					}
 				}
 
