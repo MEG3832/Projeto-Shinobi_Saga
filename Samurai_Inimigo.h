@@ -18,6 +18,7 @@ namespace Entidades {
 
 			// (re)implementação dos métodos virtuais da base
 			void mover();
+			void salvar();
 			void danificar(Jogador* pJ); // dano no jogador
 			void inicializaAnimacoes();
 			void diminuiVida(int dano);

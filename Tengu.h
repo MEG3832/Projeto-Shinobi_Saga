@@ -24,6 +24,7 @@ namespace Entidades
 			void perseguir(Jogador* pJ);
 			void atacar(Jogador* pJ); //implementa a investida do tengu
 			void mover();
+			void salvar();
 			void inicializaAnimacoes();
 
 			// Sobrescreve 'diminuiVida' para aumentar a maldade

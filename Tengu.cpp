@@ -38,13 +38,13 @@ namespace Entidades
 
 		void Tengu::diminuiVida(int dano)
 		{
-			if (atordoado || estaMorto) {
+			if (FERIDO == estado_atual || MORRENDO == estado_atual) {
 				return;
 			}
 
 			Inimigo::diminuiVida(dano); // Chama a base para perder vida
 
-			if (!estaMorto) {
+			if (MORRENDO == estado_atual) {
 				nivel_maldade++; // Aumenta o nível de maldade
 				std::cout << "Tengu enfurecido! Nivel de maldade: " << nivel_maldade << std::endl;
 			}
@@ -72,7 +72,7 @@ namespace Entidades
 				Inimigo::executar();
 
 				// Só move se não estiver morto nem atordoado
-				if (!estaMorto && !atordoado) {
+				if (MORRENDO != estado_atual && FERIDO != estado_atual) {
 					mover();
 				}
 			}
@@ -227,6 +227,10 @@ namespace Entidades
 			{
 				std::cout << "ponteiro de jogador nulo!" << std::endl;
 			}
+		}
+
+		void Tengu::salvar() {
+			return;
 		}
 	}
 }

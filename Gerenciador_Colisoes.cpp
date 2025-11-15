@@ -150,7 +150,7 @@ namespace Gerenciadores {
 	void Gerenciador_Colisoes::tratarColisoesJogsInimgs() {
 		for (int i = 0; i < (int)LIs.size(); i++) {
 
-			if (LIs[i] && !LIs[i]->getEstaMorto()) {
+			if (LIs[i] && !LIs[i]->getMorto()) {
 
 				if (pJog1->getAtacando()) {
 
@@ -165,7 +165,7 @@ namespace Gerenciadores {
 						static_cast<Entidades::Personagens::Personagem*>(
 							static_cast<Entidades::Personagens::Inimigo*>(LIs[i])))))) {
 
-					if (!pJog1->getAtacando() && !LIs[i]->getAtordoado()) {
+					if (!pJog1->getAtacando() && !LIs[i]->getFerido()) {
 						pJog1->colidir(LIs[i]);
 					}
 
@@ -290,7 +290,7 @@ namespace Gerenciadores {
 			Entidades::Personagens::Inimigo* pInimigo = LIs[i];
 
 			// ignora inimigos nulos ou que já estão mortos
-			if (!pInimigo || pInimigo->getEstaMorto()) {
+			if (!pInimigo || pInimigo->getMorto()) {
 				continue;
 			}
 
@@ -490,7 +490,7 @@ namespace Gerenciadores {
 			Entidades::Personagens::Inimigo* pInimigo = LIs[i];
 
 			// ignora inimigos nulos ou que já estão mortos
-			if (!pInimigo || pInimigo->getEstaMorto()) {
+			if (!pInimigo || pInimigo->getMorto()) {
 				continue;
 			}	
 
@@ -513,7 +513,7 @@ namespace Gerenciadores {
 			Entidades::Personagens::Inimigo* pInimigo1 = LIs[i];
 
 			// ignora inimigos nulos ou que já estão mortos
-			if (!pInimigo1 || pInimigo1->getEstaMorto()) {
+			if (!pInimigo1 || pInimigo1->getMorto()) {
 				continue;
 			}
 
@@ -522,7 +522,7 @@ namespace Gerenciadores {
 				Entidades::Personagens::Inimigo* pInimigo2 = LIs[j];
 
 				// ignora inimigos nulos ou que já estão mortos
-				if (!pInimigo2 || pInimigo2->getEstaMorto()) {
+				if (!pInimigo2 || pInimigo2->getMorto()) {
 					continue;
 				}
 

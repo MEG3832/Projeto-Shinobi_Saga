@@ -46,12 +46,12 @@ namespace Entidades {
 			direcao(0.0, 0.0)
 		{
 
-			dano = 25;
+			dano = 200;
 
 			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
-			num_vidas = 100;
+			num_vidas = 10000;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 125.0, corpo->getSize().y));

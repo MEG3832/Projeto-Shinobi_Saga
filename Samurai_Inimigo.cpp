@@ -40,6 +40,10 @@ namespace Entidades {
 			Inimigo::perambular(); //ele só perambula!
 		}
 
+		void Samurai_Inimigo::salvar() {
+			return;
+		}
+
 		void Samurai_Inimigo::danificar(Jogador* pJ)
 		{
 			if (pJ)
@@ -68,7 +72,7 @@ namespace Entidades {
 		void Samurai_Inimigo::diminuiVida(int dano)
 		{
 			// 1. Checa se já está atordoado (lógica da base)
-			if (atordoado || estaMorto) {
+			if (FERIDO == estado_atual || MORRENDO == estado_atual) {
 				return;
 			}
 

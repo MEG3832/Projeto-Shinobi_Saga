@@ -9,15 +9,12 @@ namespace Entidades {
 			Personagem(),
 			nivel_maldade(1),
 			jogAlvo(pJ),
-			paraEsq(true),
 			cooldownAtaque(3.0f),
 			relogioAtaque(),
-			andando(false),
 			relogioAndar(),
 			tempoAndar(3.0),
-			atordoado(false),
 			cooldownAtordoado(0.5f), // Valor padrão
-			estaMorto(false)
+			estado_atual(PARADO)
 		{
 			//corpo é feito nas classes folha
 			veloc.x = 0.05f;
@@ -30,7 +27,7 @@ namespace Entidades {
 			veloc = sf::Vector2f(0.0f, 0.0f);
 			jogAlvo = nullptr;
 			cooldownAtaque = 0.0;
-			andando = false;
+			estado_atual = PARADO;
 			tempoAndar = 0;
 		}
 
@@ -42,14 +39,14 @@ namespace Entidades {
 
 			//analisamos o estado do inimigo.
 			
-			if (estaMorto) {
+			if (MORRENDO == estado_atual) {
 				animador->atualizarAnimInim(paraEsq, true, "Derrotado");
 				return;
 			}
 
-			if (atordoado) {
+			if (FERIDO == estado_atual) {
 				if (relogioAtordoado.getElapsedTime().asSeconds() >= cooldownAtordoado) {
-					atordoado = false;
+					estado_atual = PARADO;
 					relogioAndar.restart();
 				}
 				else {
@@ -57,21 +54,16 @@ namespace Entidades {
 				}
 			}
 
-			if (!atordoado) {
+			if (FERIDO != estado_atual) {
 
 				mover();
 			}
 		}
 
-		void Inimigo::setNoChao()
-		{
-			veloc.y = 0.0f;
-		}
-
 		void Inimigo::diminuiVida(int dano)
 		{
 			//não toma dano se já estiver atordoado ou morto
-			if (atordoado || estaMorto) {
+			if (FERIDO == estado_atual || MORRENDO == estado_atual) {
 				return;
 			}
 
@@ -103,14 +95,13 @@ namespace Entidades {
 
 			// verifica o resultado do ataque
 			if (getVida() <= 0) {
-				estaMorto = true;
-				atordoado = false; // Morte é mais importante que atordoamento
+				estado_atual = MORRENDO;
 				setIntransponivel(false); // Inimigo morto pode ser atravessado
 				std::cout << "Inimigo morreu!" << std::endl;
 			}
 			else {
 				// Se tomou dano mas não morreu, fica atordoado
-				atordoado = true;
+				estado_atual = FERIDO;
 				relogioAtordoado.restart();
 				std::cout << "Inimigo tomou " << dano << " de dano. Vida: " << getVida() << std::endl;
 			}
@@ -172,11 +163,18 @@ namespace Entidades {
 			if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
 			{
 				relogioAndar.restart();
-				andando = !andando;
+
+				if (ANDANDO == estado_atual) {
+					estado_atual = PARADO;
+				}
+				else {
+					estado_atual = ANDANDO;
+				}
+
 				paraEsq = (rand() % 2 == 0);
 			}
 
-			if (andando)
+			if (ANDANDO == estado_atual)
 			{
 				if (paraEsq) {
 					corpo->move(-veloc.x, 0.0f);
@@ -195,29 +193,26 @@ namespace Entidades {
 			}
 		}
 
-
-		void Inimigo::salvar() {
-			return;
-		}
-
-		void Inimigo::mover() {
-			return;
-		}
-
-		void Inimigo::inicializaAnimacoes() {
-			return;
-		}
-
 		void Inimigo::morrer() {
-			return;
+			estado_atual = MORRENDO;
 		}
 
 		bool Inimigo::getFerido() {
-			return true;
+			if (FERIDO == estado_atual) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 		bool Inimigo::getMorto() {
-			return true;
+			if (MORRENDO == estado_atual) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 	}

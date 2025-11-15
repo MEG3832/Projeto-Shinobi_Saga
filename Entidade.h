@@ -28,6 +28,7 @@ namespace Entidades {
 		sf::Vector2f getPos(); // Isso estah inutil, posso tirar? Assim como o atributo posição
 		void setAnimador(sf::RectangleShape* body);
 		bool getIntransponivel();
+		void setIntransponivel(bool intangivel);
 		void sofrerGravidade();
 		//...
 

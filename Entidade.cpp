@@ -31,6 +31,10 @@ namespace Entidades {
 		return intransponivel;
 	}
 
+	void Entidade::setIntransponivel(bool intangivel) {
+		intransponivel = intangivel;
+	}
+
 	void Entidade::sofrerGravidade() {
 		veloc.y += GRAVIDADE;
 		corpo->move(0.0, veloc.y);
