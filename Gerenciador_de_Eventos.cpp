@@ -40,7 +40,7 @@ namespace Gerenciadores {
 		sf::Vector2f direcaoInput(0.0f, 0.0f); //resetamos a "direção" para zero (jogador parado) a cada iteração do loop do jogo
 											   //para que a função mover funcione corretamente quanto ao knockback, msm qnd ele nn estiver se movendo
 
-		if (!pJogador->getAtacando() && !pJogador->morto() && !pJogador->getFerido()) {
+		if (!pJogador->getAtacando() && !pJogador->getMorto() && !pJogador->getFerido()) {
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {

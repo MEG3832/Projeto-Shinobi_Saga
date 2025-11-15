@@ -208,6 +208,18 @@ namespace Entidades {
 			return;
 		}
 
+		void Inimigo::morrer() {
+			return;
+		}
+
+		bool Inimigo::getFerido() {
+			return true;
+		}
+
+		bool Inimigo::getMorto() {
+			return true;
+		}
+
 	}
 
 }

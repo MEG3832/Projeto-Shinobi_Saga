@@ -31,7 +31,7 @@ void Menu::executar() {
 			if (GE) {
 				executa = false;
 				GG->limpaJanela();
-				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 0.008, GG->getCamera().getCenter().y));	// "Anda"
+				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
 				GE->executarMenu(this);	// Verifica teclas apertadas
 				fundo.executar();	// Imprime as camadas
 				desenharTexto();
@@ -74,16 +74,16 @@ void Menu::executar() {
 
 void Menu::inicializaFundo() {
 	// As velocidades dão o efeito parallax
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada3.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0000001f, "Imagens/JapanVillage/Camada4.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.002f, "Imagens/JapanVillage/Camada5.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.08f, "Imagens/JapanVillage/Camada6.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.6f, "Imagens/JapanVillage/Camada8.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize()), 0.0000005f, "Imagens/JapanVillage/Camada9.png");
-	fundo.addCamada(sf::Vector2f(GG->getWindow()->getSize().x,80.0f));	// Chao
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.00000000001f, "Imagens/JapanVillage/Camada3.png");
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000000001f, "Imagens/JapanVillage/Camada4.png");
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000000001f, "Imagens/JapanVillage/Camada5.png");
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada6.png");
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.15f, "Imagens/JapanVillage/Camada8.png");
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada9.png");
+	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize().x, 80.0f));	// Chao
 }
 
 void Menu::inicializaTexto() {

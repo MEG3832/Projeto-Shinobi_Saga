@@ -5,16 +5,19 @@ namespace Entidades {
 
 	namespace Personagens {
 
-		Jogador::Jogador(const sf::Vector2f pos, int ident) :
+		Jogador::Jogador(int ident) :
 			Personagem(),
+			cooldown_ataque(0.08),
+			cooldown_pulo(0.16),
+			cooldown_dano(0.2),
+			velPulo(-12),
+			hitboxAtaque(new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f))),
 			velocKnockBack(0.0, 0.0),
 			pontos(0),
 			id(ident),
-			direcao(0.0, 0.0),
-			pulando(false),
-			atordoado(false),
-			correndo(false),
-			atacando(false)
+			estado_atual(PARADO),
+			direcao(0.0, 0.0)
+			
 		{
 			dano = 25;
 
@@ -24,39 +27,23 @@ namespace Entidades {
 			num_vidas = 100;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
-			corpo->setPosition(0.0f, 0.0f);
-
-			//essa é a hitbox do corpo do jogador!
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-								corpo->getPosition().y);
-
-			// essa é a hitbox de ataque!
-			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f));
-			hitboxAtaqueAtiva = false;	// Não precisa disso se já tem a flag atacando
-
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 125.0, corpo->getSize().y));
 
 			inicializaAnimacoes();
 		}
 
 		Jogador::Jogador() :
 			Personagem(),
+			cooldown_ataque(0.08),
+			cooldown_pulo(0.16),
+			cooldown_dano(0.2),
+			velPulo(-12),
+			hitboxAtaque(new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f))),
 			velocKnockBack(0.0, 0.0),
 			pontos(0),
 			id(1),
-			direcao(0.0, 0.0),
-			pulando(false),
-			atordoado(false),
-			correndo(false),
-			atacando(false),
-			trocaPunho(false),
-			parado(true),
-			noChao(true),
-			cooldown_ataque(0.10),
-			cooldown_pulo(0.16),
-			cooldown_dano(0.2),
-			preparandoPulo(false),
-			velPulo(-12)
+			estado_atual(PARADO),
+			direcao(0.0, 0.0)
 		{
 
 			dano = 25;
@@ -64,17 +51,10 @@ namespace Entidades {
 			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
-			num_vidas = 1000;
+			num_vidas = 100;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
-
-			//essa é a hitbox do corpo do jogador!
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 125.0, corpo->getSize().y));
-
-			// essa é a hitbox de ataque!
-			hitboxAtaque = new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f));
-			hitboxAtaque->setFillColor(sf::Color(255, 0, 0, 0)); //tirar depois, é só pra conseguir visualizar o hitbox de ataque
-			hitboxAtaqueAtiva = false;
 
 
 			inicializaAnimacoes();
@@ -82,13 +62,21 @@ namespace Entidades {
 
 		Jogador::~Jogador()
 		{
-			veloc.x = 0;
-			veloc.y = 0;
-			pontos = -1;
+			cooldown_ataque = 0.0;
+			cooldown_pulo = 0.0;
+			cooldown_dano = 0.0;
+			velPulo = 0.0;
+			if (hitboxAtaque) {
+				delete hitboxAtaque;
+			}
+			hitboxAtaque = nullptr;
+			velocKnockBack.x = 0.0;
+			velocKnockBack.y = 0.0;
+			pontos = 0;
 			id = 0;
-			direcao = sf::Vector2f(0.0, 0.0);
-			paraEsq = false;
-			pulando = false;
+			estado_atual = PARADO;
+			direcao.x = 0.0;
+			direcao.y = 0.0;
 		}
 
 		void Jogador::colidir(Inimigo* pIn) {
@@ -108,8 +96,8 @@ namespace Entidades {
 		}
 
 		void Jogador::mover() {
-			if (!atordoado) {
-				if (!preparandoPulo) {
+			if (ATORDOADO != estado_atual) {
+				if (PREPARANDO_PULO != estado_atual) {
 					//primeiro "calculamos" a velocidade e depois a aplicamos no movimento...
 
 					sf::Vector2f velocFinal(0.0, 0.0);
@@ -131,9 +119,19 @@ namespace Entidades {
 					velocFinal.x += velocKnockBack.x;
 					velocFinal.y += velocKnockBack.y;
 
-					corpo->move(velocFinal);
-					hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-										corpo->getPosition().y);
+					if(corpo) {
+						corpo->move(velocFinal);
+					}
+					else {
+						std::cerr << "ERRO: Nao eh possivel mover o corpo pois ele eh NULL" << std::endl;
+					}
+					
+					if (hitBox) {
+						hitBox->move(velocFinal);
+					}
+					else {
+						std::cerr << "ERRO: Nao eh possivel mover o corpo pois ele eh NULL" << std::endl;
+					}
 
 					//aplicamos um "atrito" aqui! (valor menor que 1, portanto, irá diminuir a cada chamada do mover)
 
@@ -164,25 +162,27 @@ namespace Entidades {
 		{
 			setAnimador(corpo);
 
-			//Animações em loop
+			if (animador) {
 
-			animador->addAnimacao("Imagens/Shinobi/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Shinobi/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Shinobi/Run.png", "Correndo", 8, 0.1, sf::Vector2f(1.0, 1.0));
+				//Animações em loop
 
-			//Animações de pulo
+				animador->addAnimacao("Imagens/Shinobi/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Shinobi/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Shinobi/Run.png", "Correndo", 8, 0.10, sf::Vector2f(1.0, 1.0));
 
-			animador->addAnimacao("Imagens/Shinobi/Jump.png", "Subindo", 12, cooldown_pulo, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Shinobi/Jump.png", "Descendo", 10, 0.15, sf::Vector2f(1.0, 1.0));
+				//Animações que só devem rodar uma vez
 
-			//Animações que só devem rodar uma vez
-
-			animador->addAnimacao("Imagens/Shinobi/Attack_1.png", "Ataque1", 5, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Shinobi/Dead.png", "Derrotado", 4, 0.45, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Shinobi/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
-			animador->addAnimacao("Imagens/Shinobi/Shield.png", "Protegendo", 4, 0.10, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Shinobi/Jump.png", "Subindo", 12, cooldown_pulo, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Shinobi/Attack_1.png", "Ataque1", 5, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+				//animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+				//animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Shinobi/Dead.png", "Derrotado", 4, 0.45, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Shinobi/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Shinobi/Shield.png", "Protegendo", 4, 0.10, sf::Vector2f(1.0, 1.0));
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel inicializar a animacao pois o animado eh NULL" << std::endl;
+			}
 
 		}
 
@@ -196,116 +196,135 @@ namespace Entidades {
 				paraEsq = false;
 			}
 
-			if (morrendo) {	// Prioridade, por isso estah aqui (estah no personagem)
-				animador->atualizarAnimJog(false, false, paraEsq, true, "Derrotado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
-			}
-			else {	// Segunda prioridade eh o ferimento (que estah no personagem)
-				if (ferido && dt < 3 * cooldown_dano) {	// Para a animacao e volta ao normal quando os 3 frames foram desenhados
+			if (animador) {
+				// Atualizacoes segundo o aestado atual
+				if (MORRENDO == estado_atual) {	// Prioridade, por isso estah aqui (estah no personagem)
+					animador->atualizarAnimJog(false, false, paraEsq, true, "Derrotado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+				}
+
+				else if (FERIDO == estado_atual && dt < 3 * cooldown_dano) {	// Para a animacao e volta ao normal quando os 3 frames foram desenhados
 					animador->atualizarAnimJog(false, false, paraEsq, true, "Ferido");
 					dt = timer.getElapsedTime().asSeconds();
 				}
-				else {	// Terceira prioridade eh o ataque (da pra jogar tudo no personagem)
-					ferido = false;
 
-					if (atacando && dt < 4 * cooldown_ataque) {	// Para a animacao e volta ao normal quando os 4 frames foram desenhados
-						hitboxAtaqueAtiva = true;
-						atualizarHitboxAtaque(); // posiciona a hitbox de ataque
+				else if (FERIDO == estado_atual && dt >= 3 * cooldown_dano) {
+					estado_atual = PARADO;
+				}
 
-						if (!trocaPunho) {
-							animador->atualizarAnimJog(false, false, paraEsq, false, "Ataque1");
-							dt = timer.getElapsedTime().asSeconds();
-						}
-						else {
-							animador->atualizarAnimJog(false, false, paraEsq, false, "Ataque2");
-							dt = timer.getElapsedTime().asSeconds();
-						}
+				else if (ATACANDO == estado_atual && dt < 4 * cooldown_ataque) {
+					atualizarHitboxAtaque(); // posiciona a hitbox de ataque
+
+					animador->atualizarAnimJog(false, false, paraEsq, false, "Ataque1");
+					dt = timer.getElapsedTime().asSeconds();
+				}
+
+				else if (ATACANDO == estado_atual && dt >= 4 * cooldown_ataque) {
+					estado_atual = PARADO;
+				}
+
+				else if (PREPARANDO_PULO == estado_atual || PULANDO == estado_atual) {	// Quarta prioridade eh o salto	
+					dt = timer.getElapsedTime().asSeconds();
+					if (dt >= 3 * cooldown_pulo && PREPARANDO_PULO == estado_atual) {	// Espera os 3 frames pois eh o agachamento da animacao do pulo
+						estado_atual = PULANDO;
+						veloc.y = velPulo;	// Velocidade inicial do salto
 					}
+					animador->atualizarAnimJog(false, false, paraEsq, true, "Subindo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+				}
+
+				else if (DEFENDENDO == estado_atual) {	// Quinta prioridade eh a defesa
+					animador->atualizarAnimJog(false, false, paraEsq, false, "Protegendo");
+				}
+
+				// Caminhada, corrida e parado
+				else if (direcao.x == 0 && direcao.y == 0) {
+					animador->atualizarAnimJog(false, false, paraEsq, false, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+				}
+
+				else if (direcao.x != 0 && direcao.y == 0) {
+
+					if (CORRENDO == estado_atual) {
+						animador->atualizarAnimJog(false, false, paraEsq, false, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+					}
+
 					else {
-						if (atacando) {
-							trocaPunho = !trocaPunho;
-						}
-						hitboxAtaqueAtiva = false;
-						atacando = false;
-
-						if (preparandoPulo || pulando) {	// Quarta prioridade eh o salto	
-							dt = timer.getElapsedTime().asSeconds();
-							if (dt >= 3 * cooldown_pulo && preparandoPulo) {	// Espera os 3 frames pois eh o agachamento da animacao do pulo
-								preparandoPulo = false;	// Agachamento
-								pulando = true;
-								veloc.y = velPulo;	// Velocidade inicial do salto
-							}
-							animador->atualizarAnimJog(false, false, paraEsq, true, "Subindo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
-						}
-
-						else if (defendendo) {	// Quinta prioridade eh a defesa
-							animador->atualizarAnimJog(false, false, paraEsq, false, "Protegendo");
-						}
-
-						// Caminhada, corrida e parado
-						else if (direcao.x == 0 && direcao.y == 0) {
-							animador->atualizarAnimJog(false, false, paraEsq, false, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
-						}
-						else if (direcao.x != 0 && direcao.y == 0) {
-							if (correndo) {
-								animador->atualizarAnimJog(false, false, paraEsq, false, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
-							}
-							else {
-								animador->atualizarAnimJog(false, false, paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
-							}
-						}
+						animador->atualizarAnimJog(false, false, paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 					}
 				}
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel atualizar a animacao pois o animador eh NULL" << std::endl;
 			}
 		}
 
 		void Jogador::atualizarHitboxAtaque() {
-			if (paraEsq) {
-				// posiciona à esquerda do jogador
-				hitboxAtaque->setPosition(
-					corpo->getPosition().x + 42.0f,
-					corpo->getPosition().y + 35.0f
-				);
+			if (corpo) {
+				if (hitboxAtaque) {
+					if (paraEsq) {
+						// posiciona à esquerda do jogador
+						hitboxAtaque->setPosition(
+							corpo->getPosition().x + 42.0f,
+							corpo->getPosition().y + 35.0f
+						);
+					}
+					else {
+						// posiciona à direita do jogador
+						hitboxAtaque->setPosition(
+							corpo->getPosition().x + corpo->getSize().x - 75.0f,
+							corpo->getPosition().y + 35.0f
+						);
+					}
+				}
+				else {
+					std::cerr << "ERRO: Nao eh possivel atualizar a hit box de ataque pois ela eh NULL" << std::endl;
+				}
 			}
 			else {
-				// posiciona à direita do jogador
-				hitboxAtaque->setPosition(
-					corpo->getPosition().x + corpo->getSize().x - 75.0f,
-					corpo->getPosition().y + 35.0f
-				);
+				std::cerr << "ERRO: Nao eh possivel atualizar a hit box de ataque pois o corpo eh NULL" << std::endl;
 			}
 		}
 
 		void Jogador::setAtordoado(bool atordoar) {
-			atordoado = atordoar;
+			if(atordoar) {
+				estado_atual = ATORDOADO;
+			}
+			else {
+				estado_atual = PARADO;
+			}
+
 		}
 
 		void Jogador::correr(bool correr) {
-			correndo = correr;
-			if (correr) {
-				veloc.x = 7.0f;
-			}
-			else {
-				veloc.x = 5.0f;
+			if (PULANDO != estado_atual) {
+				if (correr) {
+					estado_atual = CORRENDO;
+					veloc.x = 7.0f;
+				}
+				else {
+					estado_atual = PARADO;
+					veloc.x = 5.0f;
+				}
 			}
 		}
 
 		void Jogador::atacar() {
 			timer.restart();
 			dt = 0;
-			atacando = true;
-			pulando = false;
-			preparandoPulo = false;
-			correndo = false;
+			estado_atual = ATACANDO;
 
 		}
 
 		bool Jogador::getAtacando() {
-			return atacando;
+			if (ATACANDO == estado_atual) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 		void Jogador::pular() {
-			if (!pulando && !preparandoPulo) {
-				preparandoPulo = true;
+			if (PULANDO != estado_atual && PREPARANDO_PULO != estado_atual) {
+				estado_atual = PREPARANDO_PULO;
 				timer.restart();
 				dt = 0;
 			}
@@ -313,29 +332,39 @@ namespace Entidades {
 
 		// Zera tudo relacionado ao movimento vertical e aplica a forca normal
 		void Jogador::setNoChao() {
-			pulando = false;
 			veloc.y = 0.0;
+			if (PULANDO == estado_atual) {
+				estado_atual = PARADO;
+			}
 		}
 
 		bool Jogador::getSubindo() {	// Usado no Gerenciador de Eventos
-			return pulando;
-		}
-
-		bool Jogador::morto() {	// Usado no Gerenciador de Eventos
-			return morrendo;
+			if (PULANDO == estado_atual) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 		void Jogador::setDefesa(bool defender) {
-			defendendo = defender;
+			if (defender) {
+				estado_atual = DEFENDENDO;
+			}
 		}
 
 		bool Jogador::protegendo() {
-			return defendendo;
+			if (DEFENDENDO == estado_atual) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		
 		void Jogador::diminuiVida(float dano) {
-			if (!morrendo) {
-				if (!defendendo) {
+			if (MORRENDO != estado_atual) {
+				if (DEFENDENDO != estado_atual) {
 					if (num_vidas - dano < 0) {
 						num_vidas -= num_vidas;
 					}
@@ -346,7 +375,7 @@ namespace Entidades {
 						}
 					}
 					if (0 == num_vidas) {
-						morrendo = true;
+						estado_atual = MORRENDO;
 					}
 				}
 			}
@@ -366,11 +395,44 @@ namespace Entidades {
 					}
 					corpo->move(dx, 0.0);
 					hitBox->move(dx, 0.0);
+
+					estado_atual = FERIDO;
+					timer.restart();
+					dt = 0.0;
+				}
+				else {
+					std::cerr << "ERRO: Nao eh possivel ferir pois o hit box eh NULL" << std::endl;
 				}
 			}
-			ferido = true;
-			timer.restart();
-			dt = 0.0;
+			else {
+				std::cerr << "ERRO: Nao eh possivel ferir pois o corpo eh NULL" << std::endl;
+			}
+		}
+
+		sf::RectangleShape* Jogador::getHitboxAtaque() const {
+			return hitboxAtaque;
+		}
+
+		void Jogador::morrer() {
+			estado_atual = MORRENDO;
+		}
+
+		bool Jogador::getFerido() {
+			if (FERIDO == estado_atual) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+
+		bool Jogador::getMorto() {
+			if (MORRENDO == estado_atual) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 
 	}

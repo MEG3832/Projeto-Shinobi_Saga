@@ -152,7 +152,7 @@ namespace Gerenciadores {
 
 			if (LIs[i] && !LIs[i]->getEstaMorto()) {
 
-				if (pJog1->getHitboxAtaqueAtiva()) {
+				if (pJog1->getAtacando()) {
 
 					if (verificaColisao(pJog1->getHitboxAtaque(), LIs[i]->getHitBox())) {
 						LIs[i]->diminuiVida(pJog1->getDano());

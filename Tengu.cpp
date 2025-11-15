@@ -68,7 +68,7 @@ namespace Entidades
 
 		void Tengu::executar()
 		{
-			if (!jogAlvo->morto()) {
+			if (!jogAlvo->getMorto()) {
 				Inimigo::executar();
 
 				// Só move se não estiver morto nem atordoado

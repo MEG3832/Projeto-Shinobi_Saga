@@ -12,12 +12,9 @@ namespace Entidades {
 
 		protected:
 
-			int id;
 			int num_vidas;
 			float dano;
-			bool morrendo;
 			bool paraEsq;
-			bool ferido;
 			float dt;
 			sf::Clock timer;
 
@@ -33,9 +30,11 @@ namespace Entidades {
 			virtual void salvar() = 0;
 			virtual void mover() = 0;
 			virtual void inicializaAnimacoes() = 0;
-			void diminuiVida(float dano);
+			void diminuiVida(float dano);	// Fazer virtual
 			int getVida();
-			bool getFerido();
+			virtual void morrer() = 0;	// Essas 3 funções são virtuais puras pois todos os personagens se ferem e morrem
+			virtual bool getFerido() = 0;
+			virtual bool getMorto() = 0;
 			virtual void setNoChao();
 
 			//virtual int getNumVidas();

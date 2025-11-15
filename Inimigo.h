@@ -68,6 +68,9 @@ namespace Entidades {
 				virtual void setIntransponivel(bool val) { intransponivel = val; }
 				void setNoChao();
 				virtual void diminuiVida(int dano); //para diminuir a vida do inimigo!
+				void morrer();
+				bool getFerido();
+				bool getMorto();
 
 		};
 

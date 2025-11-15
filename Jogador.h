@@ -14,60 +14,63 @@ namespace Entidades {
 		{
 		protected:
 
-			int pontos;
-			bool pulando;
-			bool atordoado;
-			bool correndo;
-			bool atacando;
-			bool trocaPunho;
-			bool parado;
-			bool defendendo;
-			bool preparandoPulo;
-			bool noChao;
+			enum Estado {
+				PARADO,	// E andando
+				CORRENDO,
+				ANDANDO,
+				ATACANDO,
+				DEFENDENDO,
+				PULANDO,	
+				ATORDOADO,	// Não testei
+				PREPARANDO_PULO,
+				FERIDO,
+				MORRENDO
+			};
+
 			float cooldown_ataque;
 			float cooldown_pulo;
 			float cooldown_dano;
 			float velPulo;
-
-			//irão tratar da alteração do hitbox do jogador quando estiver atacando...
-			sf::RectangleShape* hitboxAtaque; // hitbox específica para ataques
-			bool hitboxAtaqueAtiva;
-
-
+			sf::RectangleShape* hitboxAtaque;
 			sf::Vector2f velocKnockBack;
+
+			// Variaveis
+			int pontos;
 			int id; // 1 ou 2
+			Estado estado_atual;
 			sf::Vector2f direcao;
 
 		public:
 
-			Jogador(const sf::Vector2f pos, const int ident = 1); //com parâmetro
+			Jogador(const int ident); //com parâmetro
 			Jogador(); // sem parâmetro
 			~Jogador();
 			void colidir(Inimigo* pIn);
-			//void atacar();
-			void executar();
-			void salvar();
-			void mover(); //nota! o método mover lida com toda a parte do "knockBack" causado pelo inimigo
 			void setVelKnockBack(sf::Vector2f velKB);
 			void setDirecao(sf::Vector2f dir);
-			void inicializaAnimacoes();
-			void atualizaAnimacao();
-			void setAtordoado(bool atordoar);
+			void atualizaAnimacao();	// Fazer virtual em Personagem
+			void setAtordoado(bool atordoar); // Fazer virtual em Personagem
 			void correr(bool correr);
 			void atacar();
 			bool getAtacando();
 			void pular();
-			void setNoChao();
 			bool getSubindo();
-			bool morto();
 			void setDefesa(bool defender);
 			bool protegendo();
-			void diminuiVida(float dano);
+			void diminuiVida(float dano);	// Fazer virtual em Personagem
 			void ferir();
-
 			void atualizarHitboxAtaque();
-			sf::RectangleShape* getHitboxAtaque() const { return hitboxAtaque; }
-			bool getHitboxAtaqueAtiva() const { return hitboxAtaqueAtiva; }
+			sf::RectangleShape* getHitboxAtaque() const;
+
+			// Reimplementacao
+			void executar();
+			void salvar();
+			void mover(); //nota! o método mover lida com toda a parte do "knockBack" causado pelo inimigo
+			void inicializaAnimacoes();
+			void setNoChao();
+			void morrer();
+			bool getFerido();
+			bool getMorto();
 
 		};
 
