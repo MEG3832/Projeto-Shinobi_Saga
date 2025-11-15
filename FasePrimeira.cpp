@@ -13,21 +13,15 @@ namespace Fases
 		maxSamurais(8),
 		maxRedemoinhos(8)
 	{
+		altura_chao = 80.0;	// Medi olhando e testando
+
 		fim_mapa = 10000;
 
 		criarCenario();
 
-		sf::RectangleShape* pChao = pFundo->getChao();
-
-		if (pChao) {
-			GC->setChao(pChao);
-
-			pJog->getCorpo()->setPosition(100.0f, ALTURA_TELA - pChao->getSize().y - pJog->getTam().y);
-			pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
-											pJog->getCorpo()->getPosition().y);
-		}
-		else
-			std::cerr << "ERRO: pFundo nao retornou um chao!" << std::endl;
+		pJog->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog->getTam().y);
+		pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
+										pJog->getCorpo()->getPosition().y);
 
 		criarObstaculos();
 		criarInimigos();
@@ -54,7 +48,6 @@ namespace Fases
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.3f, "Imagens/JapanVillage/Camada8.png");
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada9.png");
-		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize().x, 80.0f));	// Chao
 	}
 
 	void FasePrimeira::criarInimigos()
@@ -66,9 +59,6 @@ namespace Fases
 
 	void FasePrimeira::criarSamurais()
 	{
-
-		sf::RectangleShape* pChao = pFundo->getChao();
-		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
 
 		const int min_samurais = 3;
 		
@@ -90,7 +80,7 @@ namespace Fases
 				int correcao = 0;
 				do {
 					int posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
-					float posY = pGG->getWindow()->getSize().y - alturaChao - pSam->getCorpo()->getSize().y;
+					float posY = pGG->getWindow()->getSize().y - altura_chao - pSam->getCorpo()->getSize().y;
 
 					if (pSam->getCorpo()) {
 						pSam->getCorpo()->setPosition(posX, posY);
@@ -124,8 +114,6 @@ namespace Fases
 
 	void FasePrimeira::criarRedemoinhos()
 	{
-		sf::RectangleShape* pChao = pFundo->getChao();
-		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
 
 		const int min_red = 3;
 
@@ -142,7 +130,7 @@ namespace Fases
 				int correcao = 0;
 				do {
 					int posX = (2500 + i * 5000 + i * rand() % 800 + correcao) % fim_mapa;
-					float posY = ALTURA_TELA - alturaChao - pRed->getTam().y;
+					float posY = ALTURA_TELA - altura_chao - pRed->getTam().y;
 					if (pRed->getCorpo()) {
 						pRed->getCorpo()->setPosition(posX, posY);
 					}

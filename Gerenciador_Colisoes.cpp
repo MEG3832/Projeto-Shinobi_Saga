@@ -8,13 +8,16 @@ namespace Gerenciadores {
 		LIs(),
 		LOs(),
 		LPs(),
-		pJog1(nullptr),
-		chao(piso)
+		pJog1(nullptr)
 	{
 	}
 
 	Gerenciador_Colisoes::~Gerenciador_Colisoes() {
 		pJog1 = nullptr;
+		// Esse clear basta?
+		LIs.clear();
+		LOs.clear();
+		LPs.clear();
 	}
 
 	Gerenciador_Colisoes* Gerenciador_Colisoes::getGerenciadorColisoes() {
@@ -128,59 +131,57 @@ namespace Gerenciadores {
 
 	const bool Gerenciador_Colisoes::verificaColisaoChao(Entidades::Entidade* pe) const {
 		if (pe) {
-			if (chao) {
-				if (pe->getCorpo()->getPosition().y + pe->getCorpo()->getSize().y >= ALTURA_TELA - chao->getSize().y) {
-					return true;
-				}
-				else {
-					return false;
-				}
+			if (pe->getCorpo()->getPosition().y + pe->getCorpo()->getSize().y >= ALTURA_TELA - altura_chao) {
+				return true;
 			}
 			else {
-				std::cout << "ERRO: Nao foi possivel calcular a colisao pois ente 2 eh NULL" << std::endl;
 				return false;
 			}
 		}
 		else {
-			std::cout << "ERRO: Nao foi possivel calcular a colisao pois ente 1 eh NULL" << std::endl;
+			std::cout << "ERRO: Nao foi possivel calcular a colisao pois ente 2 eh NULL" << std::endl;
 			return false;
 		}
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesJogsInimgs() {
-		for (int i = 0; i < (int)LIs.size(); i++) {
 
-			if (LIs[i] && !LIs[i]->getMorto()) {
+		if (!pJog1->getMorto()) {
 
-				if (pJog1->getAtacando()) {
+			for (int i = 0; i < (int)LIs.size(); i++) {
 
-					if (verificaColisao(pJog1->getHitboxAtaque(), LIs[i]->getHitBox())) {
-						LIs[i]->diminuiVida(pJog1->getDano());
-					}
-				}
+				if (LIs[i] && !LIs[i]->getMorto()) {
 
-				if (verificaColisao((static_cast<Entidades::Entidade*>(
-					static_cast<Entidades::Personagens::Personagem*>(pJog1))),
-					(static_cast<Entidades::Entidade*>(
-						static_cast<Entidades::Personagens::Personagem*>(
-							static_cast<Entidades::Personagens::Inimigo*>(LIs[i])))))) {
+					if (pJog1->getAtacando()) {
 
-					if (!pJog1->getAtacando() && !LIs[i]->getFerido()) {
-						pJog1->colidir(LIs[i]);
+						if (verificaColisao(pJog1->getHitboxAtaque(), LIs[i]->getHitBox())) {
+							LIs[i]->diminuiVida(pJog1->getDano());
+						}
 					}
 
-					if (LIs[i]->getIntransponivel()) {
-						reposicionar(pJog1->getHitBox(), LIs[i]->getHitBox());
-						if (pJog1->getCorpo()) {
+					if (verificaColisao((static_cast<Entidades::Entidade*>(
+									 	 static_cast<Entidades::Personagens::Personagem*>(pJog1))),
+										(static_cast<Entidades::Entidade*>(
+										 static_cast<Entidades::Personagens::Personagem*>(
+										 static_cast<Entidades::Personagens::Inimigo*>(LIs[i])))))) {
 
-							pJog1->getCorpo()->setPosition(
-								pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
-								pJog1->getHitBox()->getPosition().y);
-						}
-						else {
-							std::cerr << "ERRO: nao eh possivel reposicionar pois o corpo eh NULL" << std::endl;
+						if (!pJog1->getAtacando() && !LIs[i]->getFerido()) {
+							pJog1->colidir(LIs[i]);
 						}
 
+						if (LIs[i]->getIntransponivel()) {
+							reposicionar(pJog1->getHitBox(), LIs[i]->getHitBox());
+							if (pJog1->getCorpo()) {
+
+								pJog1->getCorpo()->setPosition(
+									pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
+									pJog1->getHitBox()->getPosition().y);
+							}
+							else {
+								std::cerr << "ERRO: nao eh possivel reposicionar pois o corpo eh NULL" << std::endl;
+							}
+
+						}
 					}
 				}
 			}
@@ -196,9 +197,8 @@ namespace Gerenciadores {
 				Entidades::Entidade* pO = static_cast<Entidades::Entidade*>(*it);
 
 				if (verificaColisao(static_cast<Entidades::Entidade*>(
-
-					static_cast<Entidades::Personagens::Personagem*>(pJog1)),
-					(static_cast<Entidades::Entidade*>(pO)))) {
+									static_cast<Entidades::Personagens::Personagem*>(pJog1)),
+								(static_cast<Entidades::Entidade*>(pO)))) {
 
 					if ((*it)->getIntransponivel()) {
 						reposicionar(pJog1->getHitBox(), pO->getHitBox());
@@ -242,34 +242,25 @@ namespace Gerenciadores {
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesJogsChao() {
-		if (chao) {
-			if (verificaColisaoChao(pJog1)) {
-				reposicionar(pJog1->getHitBox(), chao);
-				pJog1->setNoChao();
-				if (pJog1->getCorpo()) {
-					pJog1->getCorpo()->setPosition(pJog1->getCorpo()->getPosition().x,
-						pJog1->getHitBox()->getPosition().y);
-				}
-				else {
-					std::cerr << "ERRO: nao eh possivel reposicionar pois o corpo eh NULL" << std::endl;
-				}
+		if (verificaColisaoChao(pJog1)) {
+			reposicionar(pJog1->getHitBox());
+			pJog1->setNoChao();
+			if (pJog1->getCorpo()) {
+				pJog1->getCorpo()->setPosition(pJog1->getCorpo()->getPosition().x,
+												pJog1->getHitBox()->getPosition().y);
 			}
-		}
-		else {
-			std::cerr << "ERRO: nao eh possivel calcular a colisao pois o chao eh NULL" << std::endl;
+			else {
+				std::cerr << "ERRO: nao eh possivel reposicionar pois o corpo eh NULL" << std::endl;
+			}
 		}
 	}
 
 	void Gerenciador_Colisoes::tratarColisoesInimigosChao() {
-		if (!chao) {
-			std::cerr << "ERRO: nao eh possivel calcular a colisao (Inimigos-Chao) pois o chao eh NULL" << std::endl;
-			return;
-		}
 
 		for (int i = 0; i < (int)LIs.size(); i++) {
 			if (LIs[i]) {
 				if (verificaColisaoChao(LIs[i])) {
-					reposicionar(LIs[i]->getHitBox(), chao);
+					reposicionar(LIs[i]->getHitBox());
 					LIs[i]->setNoChao();
 
 					if (LIs[i]->getCorpo()) {
@@ -363,16 +354,11 @@ namespace Gerenciadores {
 					ds.y += distanciaMinima.y;
 				}
 
-				if (c2 == chao) {
-					c1->move(0.0f, ds.y);
+				if (abs(ds.x) < abs(ds.y)) {
+					c1->move(ds.x, 0.0f);
 				}
 				else {
-					if (abs(ds.x) < abs(ds.y)) {
-						c1->move(ds.x, 0.0f);
-					}
-					else {
-						c1->move(0.0f, ds.y);
-					}
+					c1->move(0.0f, ds.y);
 				}
 			}
 			else {
@@ -384,12 +370,16 @@ namespace Gerenciadores {
 		}
 	}
 
-	void Gerenciador_Colisoes::tratarColisoesObstacsChao() {
-		if (!chao) {
-			std::cerr << "ERRO: nao eh possivel calcular a colisao (Inimigos-Chao) pois o chao eh NULL" << std::endl;
-			return;
-		}
+	void Gerenciador_Colisoes::reposicionar(sf::RectangleShape* c1) {
+		sf::Vector2f pos = c1->getPosition();
+		sf::Vector2f tam = c1->getSize();
 
+		float dy = (ALTURA_TELA - altura_chao) - (pos.y + tam.y);
+
+		c1->move(0.0f, dy);
+	}
+
+	void Gerenciador_Colisoes::tratarColisoesObstacsChao() {
 
 		std::list<Entidades::Obstaculos::Obstaculo*>::iterator it_obs = LOs.begin();
 		for (it_obs = LOs.begin(); it_obs != LOs.end(); it_obs++) {
@@ -402,7 +392,7 @@ namespace Gerenciadores {
 					static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo));
 
 				if (verificaColisaoChao(pObstaculo)) {
-					reposicionar(pObstaculo->getHitBox(), chao);
+					reposicionar(pObstaculo->getHitBox());
 
 					if (pObstaculo->getCorpo()) {
 						pObstaculo->getCorpo()->setPosition(
@@ -413,10 +403,6 @@ namespace Gerenciadores {
 				}
 			}
 		}
-	}
-
-	void Gerenciador_Colisoes::setChao(sf::RectangleShape* piso) {
-		chao = piso;
 	}
 
 	void Gerenciador_Colisoes::tratarColisaoObstacsObstacs() {
@@ -551,5 +537,9 @@ namespace Gerenciadores {
 				}
 			}
 		}
+	}
+
+	void Gerenciador_Colisoes::setAlturaChao(int altura) {
+		altura_chao = altura;
 	}
 }

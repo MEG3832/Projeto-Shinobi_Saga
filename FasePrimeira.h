@@ -17,12 +17,10 @@ namespace Fases {
 		FasePrimeira();
 		~FasePrimeira();
 
-		//reimplementação dos métodos virtuais puros:
+		// Reimplementacoes
 		void criarCenario();
 		void criarInimigos();
 		void criarObstaculos();
-
-		// ---- //
 
 		void criarSamurais(); //inimigo exclusivo da fase 1!
 		void criarRedemoinhos(); //obstáculo exclusivo da fase 1!

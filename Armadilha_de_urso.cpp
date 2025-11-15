@@ -9,7 +9,7 @@ namespace Entidades {
 			altura(60),
 			comprimento(60),
 			danosidade(2),	// Estou imaginando que cada vida tem uns 100
-			cooldown(3.0f),
+			cooldown_atordoamento(3.0f),
 			timer(),
 			dt(0.0f)
 		{
@@ -30,6 +30,7 @@ namespace Entidades {
 			comprimento = -1;
 			danosidade = -1;
 			danoso = false;
+			cooldown_atordoamento = 0.0;
 		}
 
 		void Armadilha_de_urso::executar() {
@@ -37,7 +38,7 @@ namespace Entidades {
 		}
 
 		void Armadilha_de_urso::obstaculizar(Personagens::Jogador* pJ) {
-			if (dt < cooldown) {
+			if (dt < cooldown_atordoamento) {
 				if (danoso) {
 					if (pJ) {
 						pJ->setAtordoado(true);

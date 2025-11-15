@@ -11,19 +11,24 @@ namespace Entidades {
 			int altura;
 			int comprimento;
 			short int danosidade;
-			float cooldown;
-			sf::Clock timer;
+			float cooldown_atordoamento;
 			float dt;
+
+			// Variaveis
+			sf::Clock timer;
 
 		public:
 			Armadilha_de_urso();
 			~Armadilha_de_urso();
+			
+			void inicializaAnimacoes();
+			void salvarDataBuffer();
+
+			// Reimplementacoes
 			void executar();
 			void obstaculizar(Personagens::Jogador* pJ);
 			void salvar();
-			void inicializaAnimacoes();
 			void atualizaAnimacao();
-			void salvarDataBuffer();
 		};
 
 	}

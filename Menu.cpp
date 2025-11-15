@@ -83,7 +83,6 @@ void Menu::inicializaFundo() {
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.15f, "Imagens/JapanVillage/Camada8.png");
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada9.png");
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize().x, 80.0f));	// Chao
 }
 
 void Menu::inicializaTexto() {

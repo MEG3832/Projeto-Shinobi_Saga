@@ -23,19 +23,6 @@ namespace Parallax {
 		fundoAuxiliar.setPosition(tam.x, 0.0f);
 	}
 
-	Fundo::Camada::Camada(sf::Vector2f tam, float vel) :
-		tam(tam),
-		dimensao(0, 0, 0, 0),
-		vel(vel)
-	{
-		// Dá o tamanho do fundo, sua posição inicial e seta a sua textura
-		fundo.setSize(tam);
-		fundo.setPosition(0.0f, pGG->getWindow()->getSize().y - tam.y);
-
-		fundoAuxiliar.setSize(tam);
-		fundoAuxiliar.setPosition(tam.x, pGG->getWindow()->getSize().y - tam.y);
-	}
-
 	Fundo::Camada::~Camada()
 	{}
 
@@ -93,10 +80,6 @@ namespace Parallax {
 		}
 	}
 
-	sf::RectangleShape* Fundo::Camada::getChao() {
-		return &fundo;
-	}
-
 	Fundo::Fundo() :
 		Ente(),
 		posAnteriorCamera(0, 0)
@@ -151,7 +134,7 @@ namespace Parallax {
 	}
 
 	void Fundo::desenhar() {	// Dá pra adicionar iterator aqui (padrão de projeto)
-		for (int i = 0; i < (int)camadas.size() - 1; i++) {	// -1 Pois o ultimo eh o hitbox do chao, que nao deve ser desenhado
+		for (int i = 0; i < (int)camadas.size(); i++) {
 			if (camadas[i]) {
 				if (pGG) {
 					camadas[i]->desenharCamada(pGG->getWindow());
@@ -166,32 +149,12 @@ namespace Parallax {
 
 	void Fundo::addCamada(const sf::Vector2f tam, const float vel, const char* caminhoTextura) {
 		if (pGG) {
-			Camada* camada = nullptr;
-			if (caminhoTextura) {
-				camada = new Camada(tam, pGG->carregarTextura(caminhoTextura), vel);
-			}
-			else {
-				camada = new Camada(tam, vel);
-			}
+			Camada* camada = new Camada(tam, pGG->carregarTextura(caminhoTextura), vel);
 
 			camadas.push_back(camada);
 		}
 		else {
 			std::cerr << "ERRO: Nao eh possivel adicionar a cmamada pois o Gerenciador Grafico eh NULL" << std::endl;
-		}
-	}
-
-	sf::RectangleShape* Fundo::getChao() {
-		if (!camadas.empty()) {
-			if (camadas.back()) {
-				return camadas.back()->getChao();
-			}
-			else {
-				std::cerr << "ERRO: Nao eh possivel retornar o chao pois ele eh NULL" << std::endl;
-			}
-		}
-		else {
-			std::cerr << "ERRO: Nao eh possivel retornar o chao pois a lista de camadas estah vazia" << std::endl;
 		}
 	}
 

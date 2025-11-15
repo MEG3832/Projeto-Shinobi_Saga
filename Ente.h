@@ -3,7 +3,6 @@
 class Ente
 {
 	protected:
-		int id;
 		static Gerenciadores::Gerenciador_Grafico* pGG;
 		sf::RectangleShape* corpo;
 		sf::RectangleShape* hitBox;
@@ -11,12 +10,16 @@ class Ente
 	public:
 		Ente();
 		virtual ~Ente();
-		void desenhar();	// Não sei se podia fazer isso, mas deixei desenhar() como virtual para o Fundo
-		virtual void executar() = 0;
-		sf::Vector2f getTam();
+
+		void desenhar();
+		sf::Vector2f getTam();	// Nao usei, posso tirar? corpo->getSize() eh equivalente
 		sf::RectangleShape* getCorpo();
 		sf::RectangleShape* getHitBox();
 
+		// Reimplementacoes
+		virtual void executar() = 0;
+
+		// Estaticas
 		static void setGG(Gerenciadores::Gerenciador_Grafico* pG);
 };
 

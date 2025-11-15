@@ -7,35 +7,28 @@ void Ente::setGG(Gerenciadores::Gerenciador_Grafico* pG) {	// Não utilizamos
 }
 
 Ente::Ente() :
-	id(0),
 	corpo(nullptr),
 	hitBox(nullptr)
 {}
 
 Ente::~Ente() // Como o Gerenciador Gráfico não é criado aqui, não podemos deletá-lo em Ente
 {
-	if(corpo) {
+	if (corpo) {
 		delete corpo;
+		corpo = nullptr;
 	}
-	corpo = nullptr;
 
 	if (hitBox) {
 		delete hitBox;
+		hitBox = nullptr;
 	}
-	hitBox = nullptr;
 }
 
 void Ente::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enquanto não faz nada
 	pGG->desenharEnte(this);
-
-	/*teste
-	if (hitBox) {
-		hitBox->setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
-		pGG->desenharRect(*hitBox);
-	}*/
 }
 
-sf::Vector2f Ente::getTam() {
+sf::Vector2f Ente::getTam() {	// Nao estou usando, posso tirar? corpo->getSize() eh equivalente
 	if(corpo) {
 		return corpo->getSize();
 	}

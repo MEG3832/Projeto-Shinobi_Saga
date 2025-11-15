@@ -9,7 +9,8 @@ namespace Fases
 		GC(GC->getGerenciadorColisoes()),
 		pJog(nullptr),
 		pFundo(nullptr),
-		fim_mapa(0)
+		fim_mapa(0),
+		altura_chao(0.0)
 	{
 		pJog = new Entidades::Personagens::Jogador(); //cria o jogador
 
@@ -17,6 +18,7 @@ namespace Fases
 		lista_ents.incluir(pEnt);
 
 		GC->setJogador(pJog); //por enquanto, só o jogador é setado no gerenc. de colisões
+		GC->setAlturaChao(80);	// Determinado olhando a sprite do fundo
 
 		pFundo = new Parallax::Fundo(); //cria o fundo
 
@@ -57,8 +59,6 @@ namespace Fases
 
 	void Fase::criarTengus()
 	{
-		sf::RectangleShape* pChao = pFundo->getChao();
-		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
 
 		const int min_tengus = 3;
 
@@ -75,7 +75,7 @@ namespace Fases
 
 				do {
 					int posX = (1000 + i * 4000 + i * rand() % 1000 + correcao) % fim_mapa;
-					int posY = pGG->getWindow()->getSize().y - alturaChao - pTengu->getCorpo()->getSize().y;
+					int posY = pGG->getWindow()->getSize().y - altura_chao - pTengu->getCorpo()->getSize().y;
 
 					if (pTengu->getCorpo()) {
 						pTengu->getCorpo()->setPosition(posX, posY);
@@ -104,9 +104,6 @@ namespace Fases
 
 	void Fase::criarPlataformas()
 	{
-		
-		sf::RectangleShape* pChao = pFundo->getChao();
-		float alturaChao = pChao ? pChao->getSize().y : 80.0f;
 
 		const int min_plataf = 3;
 
@@ -123,7 +120,7 @@ namespace Fases
 
 				do {
 					int posX = (300 + i * 4500 + i * rand() % 1500 + correcao) % fim_mapa;
-					int posY = ALTURA_TELA - alturaChao - pPlataf->getTam().y -
+					int posY = ALTURA_TELA - altura_chao - pPlataf->getTam().y -
 						(rand() % 10 + 160);
 
 					if (pPlataf->getCorpo()) {
@@ -148,6 +145,10 @@ namespace Fases
 
 		}
 
+	}
+
+	Entidades::Personagens::Jogador* Fase::getJogador() {
+		return pJog;
 	}
 
 

@@ -12,21 +12,24 @@ namespace Fases {
 	class Fase:public Ente
 	{
 	private:
+
 		int maxTengus;
 		int maxPlataf;
 		
-	protected:
-		int fim_mapa;	// Teste de tamanho
 
 	protected:
+
+		float altura_chao;
+		int fim_mapa;	// Teste de tamanho
 
 		Listas::ListaEntidades lista_ents;
 		Gerenciadores::Gerenciador_Colisoes* GC; //n está exatamente de acordo com o diagrama, mas é para seguir o modelo do singleton
 		Entidades::Personagens::Jogador* pJog;
-
 		Parallax::Fundo* pFundo;
 
-		//serão reimplementados da FasePrimeira e na FaseSegunda
+	protected :
+
+		// Reimplementacoes
 		virtual void criarInimigos() = 0;
 		virtual void criarObstaculos() = 0;
 		virtual void criarCenario() = 0;
@@ -40,8 +43,7 @@ namespace Fases {
 		virtual void executar(); // ->percorre a lista de entidades...
 		void criarTengus(); //inimigos em comum nas duas fases.
 		void criarPlataformas(); //obstáculo em comum nas duas fases.
-
-		Entidades::Personagens::Jogador* getJogador() { return pJog; }
+		Entidades::Personagens::Jogador* getJogador();
 
 	/*protected:
 
