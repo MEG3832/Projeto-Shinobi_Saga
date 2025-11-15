@@ -6,7 +6,7 @@ Jogo::Jogo() :
     pGE(pGE->getGerenciadorEventos()),
     pFase1(nullptr),
     menu(),
-    fase(0)
+    estado_atual(MENU_PRINCIPAL)
 {
     srand(time(0));
 
@@ -41,19 +41,27 @@ Jogo::~Jogo()
         delete pFase1;
         pFase1 = nullptr;
     }
+    if (pGG) {
+        delete pGG;
+        pGG = nullptr;
+    }
+    if (pGE) {
+        delete pGE;
+        pGE = nullptr;
+    }
 }
 
 void Jogo::criarFase()
 {
-    // Cria a primeira fase
-   // o construtor de FasePrimeira vai criar o cenário, inimigos, etc.
     pFase1 = new Fases::FasePrimeira();
 }
 
 void Jogo::executar()
 {
     if (pGG) {
-        menu.executar();
+        if (MENU_PRINCIPAL == estado_atual) {
+            menu.executar();
+        }
 
         while (pGG->verificaJanelaAberta())
         {
@@ -67,10 +75,14 @@ void Jogo::executar()
 
             //executa a lógica da fase 
             //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
-            if (1 == fase) {
+            if (FASE1 == estado_atual) {
                 if (pFase1)
                 {
                     pFase1->executar();
+                }
+
+                else {
+                    std::cerr << "ERRO: Nao eh possivel executar a primeira fase pois ela eh NULL" << std::endl;
                 }
             }
 
@@ -83,5 +95,10 @@ void Jogo::executar()
 }
 
 void Jogo::setFase(int num) {
-    fase = num;
+    if (1 == num) {
+        estado_atual = FASE1;
+    }
+    else if (2 == num) {
+        estado_atual = FASE2;
+    }
 }

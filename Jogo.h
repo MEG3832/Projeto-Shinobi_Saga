@@ -9,17 +9,26 @@
 
 
 class Jogo {
-private:
-	Menu menu;
-	Gerenciadores::Gerenciador_Grafico* pGG;
-	Gerenciadores::Gerenciador_de_Eventos* pGE;
-	Fases::FasePrimeira* pFase1; //o jogador é criado na fase!
-	int fase;
+	private:
 
-public:
-	Jogo();
-	~Jogo();
-	void criarFase();
-	void executar();
-	void setFase(int num);
+		enum Estado {
+			MENU_PRINCIPAL,
+			MENU_PAUSA,
+			FASE1,
+			FASE2
+		};
+
+		Menu menu;
+		Gerenciadores::Gerenciador_Grafico* pGG;
+		Gerenciadores::Gerenciador_de_Eventos* pGE;
+		Fases::FasePrimeira* pFase1; //o jogador é criado na fase!
+		Estado estado_atual;
+	
+
+	public:
+		Jogo();
+		~Jogo();
+		void criarFase();
+		void executar();
+		void setFase(int num);
 };
