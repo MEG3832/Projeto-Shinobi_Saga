@@ -73,7 +73,7 @@ namespace Animadores {
 
 	}
 
-	/*void Animacao::atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico)
+	void Animacao::atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico)
 	{
 		if(corpo) {
 			float dt = clock.getElapsedTime().asSeconds();
@@ -94,7 +94,7 @@ namespace Animadores {
 		else {
 			std::cout << "ERRO: nao eh possivel atualizar a animacao do projetil pois o corpo eh NULL" << std::endl;
 		}
-	}*/
+	}
 
 	void Animacao::addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale)
 	{

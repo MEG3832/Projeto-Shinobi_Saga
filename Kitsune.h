@@ -1,21 +1,21 @@
 #pragma once
-#include "Projetil.h"
+//#include "Projetil.h"
 #include "Inimigo.h"
 #include "ListaEntidades.h"
 
 namespace Entidades
 {
+	class Projetil; //forward declaration!
+
 	namespace Personagens
 	{
+		
 		class Kitsune : public Inimigo
 		{
 			private:
 
 				float raio_ativacao;
-				float tempo_cooldown;
-				std::vector<Projetil*> projeteis;
-				static const int qnt_projeteis = 5;
-				sf::Clock relogio;
+				Projetil* pProjetil;
 
 			public:
 
@@ -27,9 +27,9 @@ namespace Entidades
 				void danificar(Jogador* pJ); // dano no jogador
 				void inicializaAnimacoes();
 
-				void criaProjetil(); //cria o projétil. joga na lista de entidades e no set do gerenciador de colisões
+				//Projetil* criaProjetil(); //cria o projétil. joga na lista de entidades e no set do gerenciador de colisões
+				void setProjetil(Projetil* pProj);
 				void atiraProjetil(); //analisa o tempo de cooldown e o raio de ativação e daí cria o projétil
-				void inicializaAnimProjetil();
 
 				void executar();
 

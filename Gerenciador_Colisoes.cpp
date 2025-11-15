@@ -219,6 +219,10 @@ namespace Gerenciadores {
 				if (verificaColisao(static_cast<Entidades::Entidade*>(
 					static_cast<Entidades::Personagens::Personagem*>(pJog1)),
 					(static_cast<Entidades::Entidade*>(pP)))) {
+					//adicionei isso:
+
+					(*it)->danificar(pJog1);
+
 					if ((*it)->getIntransponivel()) {
 						reposicionar(pJog1->getCorpo(), pP->getCorpo());
 					}

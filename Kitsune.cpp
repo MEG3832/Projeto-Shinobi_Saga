@@ -1,15 +1,15 @@
 #include "Kitsune.h"
+#include "Projetil.h"
 
 namespace Entidades
 {
 	namespace Personagens
 	{
 		Kitsune::Kitsune(Jogador* pJ) :
-			Inimigo(pJ),
-			pProjetil(nullptr)
+			Inimigo(pJ)
 		{
-			raio_ativacao = 50.0f;
-			tempo_cooldown = 5.0f;
+			raio_ativacao = 250.0f;
+			cooldownAtaque = 5.0f;
 			nivel_maldade = 1; // nível de maldade base
 			paraEsq = true;
 			veloc = sf::Vector2f(0.03f, 0.05f);
@@ -22,7 +22,7 @@ namespace Entidades
 			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
 			//corpo->setPosition(pos); //posicao??
 
-			corpo->setPosition(300.0f, ALTURA_TELA - 50 - corpo->getSize().y);
+			corpo->setPosition(300.0f, ALTURA_TELA - 100 - corpo->getSize().y);
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 75, corpo->getSize().y));
 			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
@@ -30,8 +30,6 @@ namespace Entidades
 
 			setAnimador(corpo);
 			inicializaAnimacoes();
-
-			pProjetil->setAnimador(pProjetil->getCorpo());
 		}
 
 		Kitsune::~Kitsune()
@@ -39,17 +37,127 @@ namespace Entidades
 			pProjetil = nullptr;
 		}
 
-		void Kitsune::mover()
+
+		void Kitsune::executar()
 		{
-			Inimigo::perambular(); //posso fazer isso, né?
+			Inimigo::executar(); //verificar se basta isso...
 		}
 
-		void Kitsune::criaProjetil()
+
+		void Kitsune::mover()
 		{
-			Projetil* pProj = new Entidades::Projetil();
+			if (jogAlvo)
+			{
+				//posição em x
+				float posJog_X = jogAlvo->getPos().x + jogAlvo->getTam().x / 2;
+				float posInim_X = this->getPos().x + this->getTam().x / 2;
+
+				float distHorizontal = abs(posJog_X - posInim_X);
+
+				//posição em y
+
+				float posJog_Y = jogAlvo->getPos().y + jogAlvo->getTam().y / 2;
+				float posInim_Y = this->getPos().y + this->getTam().y / 2;
+
+				float distVertical = abs(posJog_Y - posInim_Y);
+
+				float raio_vertical = this->getTam().y / 2;
+
+				if (distHorizontal <= raio_ativacao && distVertical <= raio_vertical)
+				{
+					//a kitsune para 
+					veloc.x = 0.0f;
+					veloc.y = 0.0f;
+
+					//verifica em que lado o jogador está...
+
+					if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
+					{
+						paraEsq = true;
+
+					}
+
+					else //jogador está à direita do inimigo
+					{
+						paraEsq = false;
+
+					}
+
+					if (pProjetil && relogioAtaque.getElapsedTime().asSeconds() >= cooldownAtaque && !pProjetil->getEstadoProj())
+					{
+						animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
+
+						if (animador->getImgAtual("Ataque3") == 6) //se chegou no último frame, pode atacar!
+						{
+							//... e então atira
+							atiraProjetil();
+						}
+					}
+					else
+					{
+						animador->atualizarAnimInim(paraEsq, false, "Parado");
+					}
+
+				}
+
+				else
+					perambular();
+			}
+
+			else
+				std::cout << "ponteiro do jogador eh nulo!" << std::endl;
+		}
+
+		void Kitsune::atiraProjetil()
+		{
+			relogioAtaque.restart();
+
+			pProjetil->setEstadoProj(true);
+
+			if (paraEsq) {
+				pProjetil->getCorpo()->setPosition(this->getPos().x - 70.0f, this->getPos().y + 75.0f); //centralizo o projétil bem na frente da kitsune
+				pProjetil->setVelocidade(sf::Vector2f(-10.0f, -10.0f));
+			}
+			else {
+
+				pProjetil->getCorpo()->setPosition(this->getPos().x + 70.0f, this->getPos().y + 75.0f);
+				pProjetil->setVelocidade(sf::Vector2f(10.0f, -10.0f));
+			}
+
+		}
+
+		/*Projetil* Kitsune::criaProjetil() // ->colocar isso na fase segunda mesmo! daí passamos o Projetil 
+		{
+			Projetil* pProj = new Entidades::Projetil(this);
+
+			if (paraEsq)
+			{
+				pProj->getCorpo()->setPosition(this->getPos().x - 70.0f, this->getPos().y + 75.0f); //centralizo o projétil bem na frente da kitsune
+				pProj->setVelocidade(sf::Vector2f(-10.0f, -10.0f));
+			}
+				
+			else
+			{
+				pProj->getCorpo()->setPosition(this->getPos().x + 70.0f, this->getPos().y + 75.0f);
+				pProj->setVelocidade(sf::Vector2f(10.0f, -10.0f));
+			}
+				
+
+			//pProj->setEstadoProj(true);
+
+			
+
+			//preciso incluir esse projétil tanto na lista de entidades como no set do gerenciador de colisões... mas como?
 
 
+		}*/
 
+		void Kitsune::setProjetil(Projetil* pProj)
+		{
+			if (pProj)
+				pProjetil = pProj;
+			else
+				std::cout << "ponteiro do projetil eh nulo!" << std::endl;
 		}
 
 		void Kitsune::inicializaAnimacoes()
@@ -58,8 +166,8 @@ namespace Entidades
 
 				//Animações em loop
 
-				animador->addAnimacao("Imagens/Kitsune/Idle.png", "Parado", 5, 0.20f, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Kitsune/Walk.png", "Andando", 9, 0.20f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Kitsune/Idle.png", "Parado", 8, 0.20f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Kitsune/Walk.png", "Andando", 8, 0.20f, sf::Vector2f(1.0, 1.0));
 
 
 				//Animações que só devem rodar uma vez
@@ -73,9 +181,10 @@ namespace Entidades
 				std::cout << "ponteiro de animacao nulo!" << std::endl;
 		}
 
-		void Kitsune::inicializaAnimProjetil()
+		void Kitsune::danificar(Jogador* pJ)
 		{
-			//if(pProjetil->)
+			return;
 		}
+
 	}
 }

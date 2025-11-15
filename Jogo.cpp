@@ -9,11 +9,14 @@ Jogo::Jogo() :
     plataforma(),
     redemoinho(),
     armadilha_de_urso(),
-    inimigo(&pJog1, 50.0),
+    inimigo(&pJog1),
+    projetil(&inimigo),
     GC(GC->getGerenciadorColisoes()),
     lista_ents(),
     fase(1)
 {
+    inimigo.setProjetil(&projetil);
+
     GE->setJogador(&pJog1);
 
     inicializar();
@@ -47,11 +50,11 @@ void Jogo::inicializarGC() {
 
     GC->setChao(fundo.getChao());
 
-    //inicializarListaInimigos();
+    inicializarListaInimigos();
 
-    inicializarListaObtaculos();
+    //inicializarListaObtaculos();
 
-    //inicializarListaProjeteis();
+    inicializarListaProjeteis();
 }
 
 void Jogo::inicializaListaEntidades() {
@@ -63,8 +66,10 @@ void Jogo::inicializaListaEntidades() {
                        static_cast<Entidades::Personagens::Personagem*>(&pJog1)));
     //lista_ents.incluir(static_cast<Entidades::Entidade*>(
     //                   static_cast<Entidades::Obstaculos::Obstaculo*>(&armadilha_de_urso)));
-    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //                   static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+                       static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
+    lista_ents.incluir(static_cast<Entidades::Entidade*>(
+        static_cast<Entidades::Projetil*>(&projetil)));
 }
 
 void Jogo::inicializarListaInimigos() {
@@ -78,7 +83,7 @@ void Jogo::inicializarListaObtaculos() {
 }
 
 void Jogo::inicializarListaProjeteis() {
-    //GC->incluirProjetil(&projetil);
+    GC->incluirProjetil(&projetil);
 }
 
 void Jogo::executar() { // Desenha 4 retangulos e o fundo
@@ -96,6 +101,7 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
 
                 pJog1.sofrerGravidade();    // Queria colocar na lista
 
+
                 GC->executar();
 
                 lista_ents.percorrer();
@@ -106,6 +112,21 @@ void Jogo::executar() { // Desenha 4 retangulos e o fundo
                 fundo.executar();
 
                 lista_ents.desenharEntidades();
+
+                sf::RectangleShape* corpoProj = projetil.getHitBox();
+                sf::RectangleShape* corpoinim = inimigo.getHitBox();
+
+                sf::RectangleShape debugHitbox = *corpoProj;
+                sf::RectangleShape debugHitbox2 = *corpoinim;
+
+                debugHitbox.setTexture(nullptr);
+                debugHitbox.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+
+                debugHitbox2.setTexture(nullptr);
+                debugHitbox2.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+
+                GG->getWindow()->draw(debugHitbox);
+                GG->getWindow()->draw(debugHitbox2);
 
                 //teste
                 /*sf::RectangleShape* corpoJogador = pJog1.getHitBox();
