@@ -6,29 +6,29 @@ namespace Entidades {
 
 		Samurai_Inimigo::Samurai_Inimigo(Jogador* pJ, float resist) :
 			Inimigo(pJ),
-			timer(),
 			cooldownEmpurrao(4.0f),
+			timer(),
+			resistencia(resist),
 			empurra(true)
 		{
-			resistencia = resist;
 			nivel_maldade = 1; // nível de maldade base
 			paraEsq = true;
 			veloc = sf::Vector2f(0.5f, 0.0f);
 			tempoAndar = 0.5f;
-
 			num_vidas = 100;
-
 			cooldownAtordoado = 1.0f;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(200.0f, 200.0f));
-
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 145, corpo->getSize().y));
 
-			setAnimador(corpo);
 			inicializaAnimacoes();
 		}
 
-		Samurai_Inimigo::~Samurai_Inimigo() {}
+		Samurai_Inimigo::~Samurai_Inimigo() {
+			cooldownEmpurrao = 0.0;
+			resistencia = 0.0;
+			empurra = false;
+		}
 
 		void Samurai_Inimigo::executar()
 		{
@@ -60,12 +60,10 @@ namespace Entidades {
 					empurra = true;
 					timer.restart();
 				}
-
-				std::cout << "Samurai causou " << dano_calculado << " de dano! Vida do Jogador: " << pJ->getVida() << std::endl;
 			}
 			else
 			{
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
+				std::cout << "ERRO: Nao eh possivel danificar o jogador pois o ponteiro para ele eh NULL" << std::endl;
 			}
 		}
 
@@ -84,13 +82,20 @@ namespace Entidades {
 				dano_reduzido = dano; //para evitar divisão por zero
 			}
 
-			std::cout << "Samurai tomou " << dano_reduzido << " de dano (original: " << dano << ")" << std::endl;
-
 			Inimigo::diminuiVida(dano_reduzido);
 		}
 
 		void Samurai_Inimigo::inicializaAnimacoes()
 		{
+			if (corpo) {
+				setAnimador(corpo);
+			}
+
+			else {
+				std::cerr << "ERRO: nao eh possivel inicializar o animador pois o corpo eh NULL" << std::endl;
+			}
+
+
 			if (animador) {
 
 				//Animações em loop
@@ -98,7 +103,6 @@ namespace Entidades {
 				animador->addAnimacao("Imagens/Samurai_Inimigo/Idle.png", "Parado", 5, 0.20f, sf::Vector2f(1.0, 1.0));
 				animador->addAnimacao("Imagens/Samurai_Inimigo/Walk.png", "Andando", 9, 0.20f, sf::Vector2f(1.0, 1.0));
 				animador->addAnimacao("Imagens/Samurai_Inimigo/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(1.0, 1.0));
-
 
 
 				//Animações que só devem rodar uma vez

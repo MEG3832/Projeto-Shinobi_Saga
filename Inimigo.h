@@ -20,12 +20,12 @@ namespace Entidades {
 					MORRENDO
 				};
 
-				Jogador* jogAlvo;	// Eh uma variavel?
 				float cooldownAtaque;
 				float tempoAndar;
 				float cooldownAtordoado; //p/ duração da animação "Ferido"
 
 				// Variaveis
+				Jogador* jogAlvo;	// Eh uma variavel?
 				sf::Clock relogioAtaque; //mede o cooldown
 				sf::Clock relogioAndar;
 				sf::Clock relogioAtordoado; //mede o cooldown

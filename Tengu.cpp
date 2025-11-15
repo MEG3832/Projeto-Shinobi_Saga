@@ -11,44 +11,21 @@ namespace Entidades
 		{
 			paraEsq = true;
 			nivel_maldade = 1;
-			veloc.x = 0.5f; // Velocidade específica
-			tempoAndar = 2.5f; // Tempo de "perambular" específico
-
+			veloc = sf::Vector2f(0.5, 0.0);
 			num_vidas = 200;
 
 			cooldownAtordoado = 2.0f;
-
-			//faz o corpo:
+			tempoAndar = 2.5f; // Tempo de "perambular" específico
 
 			corpo = new sf::RectangleShape(sf::Vector2f(180.0f, 160.0f));
-
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 80.0, corpo->getSize().y));
 
-
-			//cuida da animação:
-
-			setAnimador(corpo);
 			inicializaAnimacoes();
 		}
 
 		Tengu::~Tengu()
 		{
-
-		}
-
-		void Tengu::diminuiVida(int dano)
-		{
-			if (FERIDO == estado_atual || MORRENDO == estado_atual) {
-				return;
-			}
-
-			Inimigo::diminuiVida(dano); // Chama a base para perder vida
-
-			if (MORRENDO == estado_atual) {
-				nivel_maldade++; // Aumenta o nível de maldade
-				std::cout << "Tengu enfurecido! Nivel de maldade: " << nivel_maldade << std::endl;
-			}
-
+			raio_perseg = 0.0;
 		}
 
 		void Tengu::danificar(Jogador* pJ)
@@ -71,7 +48,6 @@ namespace Entidades
 			if (!jogAlvo->getMorto()) {
 				Inimigo::executar();
 
-				// Só move se não estiver morto nem atordoado
 				if (MORRENDO != estado_atual && FERIDO != estado_atual) {
 					mover();
 				}
@@ -82,104 +58,139 @@ namespace Entidades
 		{
 			if (pJ) {
 
-				float posJog_X = pJ->getHitBox()->getPosition().x + pJ->getHitBox()->getSize().x / 2;
-				float posInim_X = hitBox->getPosition().x + hitBox->getSize().x / 2;
+				if (pJ->getHitBox()) {
+
+					if (corpo) {
+
+						if (hitBox) {
+
+							float posJog_X = pJ->getHitBox()->getPosition().x + pJ->getHitBox()->getSize().x / 2;
+							float posInim_X = hitBox->getPosition().x + hitBox->getSize().x / 2;
 
 
-				float distanciaCentros = abs(posJog_X - posInim_X);
-				float distanciaAtaque = abs((pJ->getHitBox()->getSize().x / 2) + hitBox->getSize().x / 2) + 39.0f; //ajuste da distancia por testes
+							float distanciaCentros = abs(posJog_X - posInim_X);
+							float distanciaAtaque = abs((pJ->getHitBox()->getSize().x / 2) + hitBox->getSize().x / 2) + 39.0f; //ajuste da distancia por testes
 
-				if (distanciaCentros <= raio_perseg && distanciaCentros > distanciaAtaque)
-				{
-					if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
-					{
-						paraEsq = true;
-						animador->atualizarAnimInim(paraEsq, false, "Correndo");
-						corpo->move(-veloc.x, 0.0f);
-						hitBox->move(-veloc.x, 0.0f);
+							if (distanciaCentros <= raio_perseg && distanciaCentros > distanciaAtaque)
+							{
+								if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
+								{
+									paraEsq = true;
+									animador->atualizarAnimInim(paraEsq, false, "Correndo");
+									corpo->move(-veloc.x, 0.0f);
+									hitBox->move(-veloc.x, 0.0f);
 
-					}
+								}
 
-					else if (posJog_X > posInim_X) //jogador está à direita do inimigo
-					{
-						paraEsq = false;
-						animador->atualizarAnimInim(paraEsq, false, "Correndo");
-						corpo->move(veloc.x, 0.0f);
-						hitBox->move(veloc.x, 0.0f);
+								else if (posJog_X > posInim_X) //jogador está à direita do inimigo
+								{
+									paraEsq = false;
+									animador->atualizarAnimInim(paraEsq, false, "Correndo");
+									corpo->move(veloc.x, 0.0f);
+									hitBox->move(veloc.x, 0.0f);
 
-					}
+								}
 
+							}
 
-				}
+							else if (distanciaCentros <= distanciaAtaque) //entrou na área de ataque!
+							{
+								if (relogioAtaque.getElapsedTime().asSeconds() >= cooldownAtaque)
+								{
+									animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
 
-				else if (distanciaCentros <= distanciaAtaque) //entrou na área de ataque!
-				{
-					if (relogioAtaque.getElapsedTime().asSeconds() >= cooldownAtaque)
-					{
-						animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
+									if (animador->getImgAtual("Ataque3") == 2) //se chegou no último frame, pode atacar!
+									{
+										atacar(pJ);
+									}
+								}
+								else
+								{
+									animador->atualizarAnimInim(paraEsq, false, "Parado");
+								}
+							}
+						}
 
-						if (animador->getImgAtual("Ataque3") == 2) //se chegou no último frame, pode atacar!
-						{
-							atacar(pJ);
+						else {
+							std::cerr << "ERRO: Nao eh possivel perseguir o jogador pois o hit box do inimigo eh NULL" << std::endl;
 						}
 					}
-					else
-					{
-						animador->atualizarAnimInim(paraEsq, false, "Parado");
+
+					else {
+						std::cerr << "ERRO: Nao eh possivel perseguir o jogador pois o corpo do inimigo eh NULL" << std::endl;
 					}
+				}
+
+				else {
+					std::cerr << "ERRO: Nao eh possivel perseguir o jogador pois o hit box dele eh NULL" << std::endl;
 				}
 
 			}
 
-			else
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
+			else {
+				std::cout << "ERRO: Nao eh possivel perseguir o jogador pois o ponteiro dele eh NULL" << std::endl;
+			}
 		}
 
 		void Tengu::atacar(Jogador* pJ)
 		{
 
 			if (pJ)
-			{
-				float dt = relogioAtaque.getElapsedTime().asSeconds();
+			{ 
+				if (corpo) {
 
-				if (dt >= cooldownAtaque)
-				{
-					relogioAtaque.restart();
+					if (hitBox) {
 
-					if (paraEsq)
-					{
-						float investida = -40.0f;
-						corpo->move(investida, 0.0f);
-						hitBox->move(investida, 0.0f);
+						float dt = relogioAtaque.getElapsedTime().asSeconds();
+
+						if (dt >= cooldownAtaque)
+						{
+							relogioAtaque.restart();
+
+							if (paraEsq)
+							{
+								float investida = -40.0f;
+								corpo->move(investida, 0.0f);
+								hitBox->move(investida, 0.0f);
+							}
+
+							else
+							{
+								float investida = 40.0f;
+								corpo->move(investida, 0.0f);
+								hitBox->move(investida, 0.0f);
+							}
+
+						}
 					}
 
-					else
-					{
-						float investida = 40.0f;
-						corpo->move(investida, 0.0f);
-						hitBox->move(investida, 0.0f);
+					else {
+						std::cerr << "ERRO: Nao eh possivel atacar ojogador pois o hit box do inimigo eh NULL" << std::endl;
 					}
+				}
 
+				else {
+					std::cerr << "ERRO: Nao eh possivel atacar ojogador pois o corpo do inimigo eh NULL" << std::endl;
 				}
 
 			}
 
 			else
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
+				std::cout << "ERRO: Nao eh possivel atacar o jogador pois o ponteiro dele eh NULL" << std::endl;
 		}
 
 
 		void Tengu::inicializaAnimacoes()
 		{
-			if (animador) {
+			setAnimador(corpo);
 
+			if (animador) {
 
 				//Animações em loop
 
 				animador->addAnimacao("Imagens/Tengu/Idle.png", "Parado", 6, 0.20f, sf::Vector2f(1.0, 1.0));
 				animador->addAnimacao("Imagens/Tengu/Walk.png", "Andando", 8, 0.20f, sf::Vector2f(1.0, 1.0));
 				animador->addAnimacao("Imagens/Tengu/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(1.0, 1.0));
-
 
 
 				//Animações que só devem rodar uma vez
@@ -192,7 +203,7 @@ namespace Entidades
 			}
 
 			else
-				std::cout << "ponteiro de animacao nulo!" << std::endl;
+				std::cout << "ERRO: Nao eh possivel inicializar a animacao pois o animador eh NULL" << std::endl;
 		}
 
 
@@ -200,32 +211,53 @@ namespace Entidades
 		{
 			if (jogAlvo) {
 
-				//posição em x
-				float posJog_X = jogAlvo->getPos().x + jogAlvo->getTam().x / 2;
-				float posInim_X = this->getPos().x + this->getTam().x / 2;
+				if (jogAlvo->getCorpo()) {
+					 
+					if (corpo) {
 
-				float distHorizontal = abs(posJog_X - posInim_X);
+						if (hitBox) {
 
-				//posição em y
+							//posição em x
+							float posJog_X = jogAlvo->getCorpo()->getPosition().x + jogAlvo->getCorpo()->getSize().x / 2;
+							float posInim_X = corpo->getPosition().x + corpo->getSize().x / 2;
 
-				float posJog_Y = jogAlvo->getPos().y + jogAlvo->getTam().y / 2;
-				float posInim_Y = this->getPos().y + this->getTam().y / 2;
+							float distHorizontal = abs(posJog_X - posInim_X);
 
-				float distVertical = abs(posJog_Y - posInim_Y); // verificamos em y para evitar a perseguição sem sentido se o jogador estiver mto acima ou abaixo do inimigo
+							//posição em y
 
-				float raio_vertical = this->getTam().y / 2; //esse seria o "raio_perseg" na vertical...
+							float posJog_Y = jogAlvo->getCorpo()->getPosition().y + jogAlvo->getCorpo()->getSize().y / 2;
+							float posInim_Y = corpo->getPosition().y + corpo->getSize().y / 2;
 
-				if (distHorizontal <= raio_perseg && distVertical <= raio_vertical)
-					perseguir(jogAlvo);
+							float distVertical = abs(posJog_Y - posInim_Y); // verificamos em y para evitar a perseguição sem sentido se o jogador estiver mto acima ou abaixo do inimigo
 
-				else
-					perambular();
+							float raio_vertical = corpo->getSize().y / 2; //esse seria o "raio_perseg" na vertical...
+
+							if (distHorizontal <= raio_perseg && distVertical <= raio_vertical)
+								perseguir(jogAlvo);
+
+							else
+								perambular();
+						}
+
+						else {
+							std::cout << "ERRO: Nao eh possivel mover o tengu pois o hit box dele eh NULL" << std::endl;
+						}
+					}
+
+					else {
+						std::cout << "ERRO: Nao eh possivel mover o tengu pois o corpo dele eh NULL" << std::endl;
+					}
+				}
+
+				else {
+					std::cout << "ERRO: Nao eh possivel mover o tengu pois o ponteiro do jogador eh NULL" << std::endl;
+				}
 
 			}
 
 			else
 			{
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
+				std::cout << "ERRO: Nao eh possivel mover o tengu pois o ponteiro para jogador eh NULL" << std::endl;
 			}
 		}
 

@@ -7,28 +7,29 @@ namespace Entidades {
 
 		Inimigo::Inimigo(Jogador* pJ) :
 			Personagem(),
-			nivel_maldade(1),
-			jogAlvo(pJ),
 			cooldownAtaque(3.0f),
-			relogioAtaque(),
-			relogioAndar(),
 			tempoAndar(3.0),
 			cooldownAtordoado(0.5f), // Valor padrão
+			nivel_maldade(1),
+			jogAlvo(pJ),
+			relogioAndar(),
+			relogioAtaque(),
+			relogioAtordoado(),
 			estado_atual(PARADO)
 		{
 			//corpo é feito nas classes folha
-			veloc.x = 0.05f;
-			veloc.y = 0.0f;
+			veloc = sf::Vector2f(0.5, 0.0);
 		}
 
 		Inimigo::~Inimigo() {
 
 			nivel_maldade = -1;
-			veloc = sf::Vector2f(0.0f, 0.0f);
+			veloc = sf::Vector2f(0.0, 0.0);
 			jogAlvo = nullptr;
 			cooldownAtaque = 0.0;
+			tempoAndar = 0.0;
+			cooldownAtordoado = 0.0;
 			estado_atual = PARADO;
-			tempoAndar = 0;
 		}
 
 		void Inimigo::salvarDataBuffer() {
@@ -36,74 +37,79 @@ namespace Entidades {
 		}
 
 		void Inimigo::executar() {
+			if (animador) {
 
-			//analisamos o estado do inimigo.
-			
-			if (MORRENDO == estado_atual) {
-				animador->atualizarAnimInim(paraEsq, true, "Derrotado");
-				return;
-			}
-
-			if (FERIDO == estado_atual) {
-				if (relogioAtordoado.getElapsedTime().asSeconds() >= cooldownAtordoado) {
-					estado_atual = PARADO;
-					relogioAndar.restart();
+				if (MORRENDO == estado_atual) {
+					animador->atualizarAnimInim(paraEsq, true, "Derrotado");
 				}
+
+				else if (FERIDO == estado_atual) {
+					if (relogioAtordoado.getElapsedTime().asSeconds() >= cooldownAtordoado) {
+						estado_atual = PARADO;
+						relogioAndar.restart();
+					}
+					else {
+						animador->atualizarAnimInim(paraEsq, true, "Ferido");
+					}
+				}
+
 				else {
-					animador->atualizarAnimInim(paraEsq, true, "Ferido");
+					mover();
 				}
 			}
-
-			if (FERIDO != estado_atual) {
-
-				mover();
+			else {
+				std::cerr << "ERRO: Nao eh possivel excutar o inimigo pois o animador eh NULL" << std::endl;
 			}
 		}
 
 		void Inimigo::diminuiVida(int dano)
 		{
-			//não toma dano se já estiver atordoado ou morto
-			if (FERIDO == estado_atual || MORRENDO == estado_atual) {
-				return;
-			}
+			if (corpo) {
+				//não toma dano se já estiver atordoado ou morto
+				if (FERIDO != estado_atual && MORRENDO != estado_atual) {
 
-			// não faz nada se o dano for 0 ou negativo
-			if (dano <= 0) {
-				return;
-			}
+					// não faz nada se o dano for 0 ou negativo
+					if (dano <= 0) {
+						return;
+					}
 
-			// Na verdade precisa adaptar para o caso em que quem estah atacando eh o outro jogador e nao o alvo
-			if (jogAlvo) {
-				if (corpo) {
-					if (jogAlvo->getCorpo()->getPosition().x < corpo->getPosition().x) {
-						paraEsq = true;
+					// Na verdade precisa adaptar para o caso em que quem estah atacando eh o outro jogador e nao o alvo
+					if (jogAlvo) {
+						if (corpo) {
+							if (jogAlvo->getCorpo()->getPosition().x < corpo->getPosition().x) {
+								paraEsq = true;
+							}
+							else
+							{
+								paraEsq = false;
+							}
+						}
+						else {
+							std::cerr << "ERRO: nao eh possivel virar o inimigo pois o corpo dele eh NULL" << std::endl;
+						}
 					}
-					else
-					{
-						paraEsq = false;
+					else {
+						std::cerr << "ERRO: nao eh possivel virar o inimigo pois o jogador alvo eh NULL" << std::endl;
 					}
-				}
-				else {
-					std::cerr << "ERRO: nao eh possivel virar o inimigo pois o corpo dele eh NULL" << std::endl;
+
+					Personagem::diminuiVida(dano); // aplica o dano (da classe Personagem)
+
+					// verifica o resultado do ataque
+					if (getVida() <= 0) {
+						estado_atual = MORRENDO;
+						setIntransponivel(false); // Inimigo morto pode ser atravessado
+						std::cout << "Inimigo morreu!" << std::endl;
+					}
+					else {
+						// Se tomou dano mas não morreu, fica atordoado
+						estado_atual = FERIDO;
+						relogioAtordoado.restart();
+						std::cout << "Inimigo tomou " << dano << " de dano. Vida: " << getVida() << std::endl;
+					}
 				}
 			}
 			else {
-				std::cerr << "ERRO: nao eh possivel virar o inimigo pois o jogador alvo eh NULL" << std::endl;
-			}
-
-			Personagem::diminuiVida(dano); // aplica o dano (da classe Personagem)
-
-			// verifica o resultado do ataque
-			if (getVida() <= 0) {
-				estado_atual = MORRENDO;
-				setIntransponivel(false); // Inimigo morto pode ser atravessado
-				std::cout << "Inimigo morreu!" << std::endl;
-			}
-			else {
-				// Se tomou dano mas não morreu, fica atordoado
-				estado_atual = FERIDO;
-				relogioAtordoado.restart();
-				std::cout << "Inimigo tomou " << dano << " de dano. Vida: " << getVida() << std::endl;
+				std::cerr << "ERRO: Nao eh possivel diminuir a vida do inimigo pois seu corpo eh NULL" << std::endl;
 			}
 		}
 
@@ -118,7 +124,7 @@ namespace Entidades {
 
 			else
 			{
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
+				std::cout << "ERRO: Nao eh possivel danificar o jogador pois ele eh NULL" << std::endl;
 			}
 
 		}
@@ -133,63 +139,96 @@ namespace Entidades {
 
 			if (pJ) {
 
-				//calcula os centros do inimigo e do jogador
+				if (corpo) {
 
-				sf::Vector2f centroJog = pJ->getPos() + (pJ->getTam()) / 2.0f;
-				sf::Vector2f centroInim = this->getPos() + (this->getTam()) / 2.0f;
+					if (pJ->getCorpo()) {
+						//calcula os centros do inimigo e do jogador
 
-				sf::Vector2f vetor = centroJog - centroInim; //nessa ordem!
+						sf::Vector2f centroJog = pJ->getCorpo()->getPosition() + (pJ->getTam()) / 2.0f;
+						sf::Vector2f centroInim = corpo->getPosition() + (corpo->getSize()) / 2.0f;
 
-				//normalizamos o vetor... e para isso, calculamos seu módulo
+						sf::Vector2f vetor = centroJog - centroInim; //nessa ordem!
 
-				float modulo = std::sqrt(vetor.x * vetor.x + vetor.y * vetor.y);
+						//normalizamos o vetor... e para isso, calculamos seu módulo
 
-				if(modulo!=0)
-					vetor = vetor / modulo; //agora o vetor é um vetor normalizado!
+						float modulo = std::sqrt(vetor.x * vetor.x + vetor.y * vetor.y);
 
-				vetor *= força_empurrao;
+						if (modulo != 0)
+							vetor = vetor / modulo; //agora o vetor é um vetor normalizado!
 
-				pJ->setVelKnockBack(vetor);
+						vetor *= força_empurrao;
+
+						pJ->setVelKnockBack(vetor);
+					}
+
+					else {
+						std::cout << "ERRO: NAO eh possivel empurrar o jogador pois o corpo do dele eh NULL" << std::endl;
+					}
+				}
+
+				else {
+					std::cout << "ERRO: NAO eh possivel empurrar o jogador pois o corpo do inimigo eh NULL" << std::endl;
+				}
 
 			}
 
 			else
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
+				std::cout << "ERRO: NAO eh possivel empurrar o jogador pois ele eh NULL" << std::endl;
 
 		}
 
 		void Inimigo::perambular()
 		{
-			if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
-			{
-				relogioAndar.restart();
+			if (corpo) {
 
-				if (ANDANDO == estado_atual) {
-					estado_atual = PARADO;
+				if (hitBox) {
+
+					if (animador) {
+
+						if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
+						{
+							relogioAndar.restart();
+
+							if (ANDANDO == estado_atual) {
+								estado_atual = PARADO;
+							}
+							else {
+								estado_atual = ANDANDO;
+							}
+
+							paraEsq = (rand() % 2 == 0);
+						}
+
+						if (ANDANDO == estado_atual)
+						{
+							if (paraEsq) {
+								corpo->move(-veloc.x, 0.0f);
+								hitBox->move(-veloc.x - 0.5f, 0.0f);
+							}
+							else {
+								corpo->move(veloc.x, 0.0f);
+								hitBox->move(veloc.x, 0.0f);
+							}
+
+							animador->atualizarAnimInim(paraEsq, false, "Andando");
+						}
+						else
+						{
+							animador->atualizarAnimInim(paraEsq, false, "Parado");
+						}
+					}
+
+					else {
+						std::cout << "ERRO: NAO eh possivel perambular pois o animador do inimigo eh NULL" << std::endl;
+					}
 				}
+
 				else {
-					estado_atual = ANDANDO;
+					std::cout << "ERRO: NAO eh possivel perambular pois o hit box do inimigo eh NULL" << std::endl;
 				}
-
-				paraEsq = (rand() % 2 == 0);
 			}
-
-			if (ANDANDO == estado_atual)
-			{
-				if (paraEsq) {
-					corpo->move(-veloc.x, 0.0f);
-					hitBox->move(-veloc.x - 0.5f, 0.0f);
-				}
-				else {
-					corpo->move(veloc.x, 0.0f);
-					hitBox->move(veloc.x, 0.0f);
-				}
-
-				animador->atualizarAnimInim(paraEsq, false, "Andando");
-			}
-			else
-			{
-				animador->atualizarAnimInim(paraEsq, false, "Parado");
+			else {
+				std::cout << "ERRO: NAO eh possivel perambular pois o corpo do inimigo eh NULL" << std::endl;
 			}
 		}
 

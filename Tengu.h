@@ -10,26 +10,23 @@ namespace Entidades
 
 		class Tengu : public Inimigo
 		{
-		//private:
+			private:
 
-			float raio_perseg;
+				float raio_perseg;
 
+			public:
 
-		public:
+				Tengu(Jogador* pJ);
+				~Tengu();
+				void atacar(Jogador* pJ); //implementa a investida do tengu
 
-			Tengu(Jogador* pJ);
-			~Tengu();
-			void executar();
-			void danificar(Jogador* pJ);
-			void perseguir(Jogador* pJ);
-			void atacar(Jogador* pJ); //implementa a investida do tengu
-			void mover();
-			void salvar();
-			void inicializaAnimacoes();
-
-			// Sobrescreve 'diminuiVida' para aumentar a maldade
-			void diminuiVida(int dano); // Dano recebido pelo Tengu
-			//void salvar();
+				// Reimplementacoes
+				void executar();
+				void danificar(Jogador* pJ);
+				void perseguir(Jogador* pJ);
+				void mover();
+				void salvar();
+				void inicializaAnimacoes();
 
 		};
 

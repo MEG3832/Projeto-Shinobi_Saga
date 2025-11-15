@@ -7,25 +7,25 @@ namespace Entidades {
 		class Samurai_Inimigo : public Inimigo
 		{
 		private:
-			float resistencia;
-			sf::Clock timer;
 			float cooldownEmpurrao;
+			
+			// Variaveis
+			sf::Clock timer;
+			float resistencia;
 			bool empurra;
 
 		public:
 			Samurai_Inimigo(Jogador* pJ, float resist);
 			~Samurai_Inimigo();
+			void executar();
 
-			// (re)implementação dos métodos virtuais da base
+			// Reimplementacao
 			void mover();
 			void salvar();
 			void danificar(Jogador* pJ); // dano no jogador
 			void inicializaAnimacoes();
 			void diminuiVida(int dano);
 
-			//void empurrar(Jogador* pJ); -> igual ao da base
-
-			void executar();
 		};
 	}
 }
