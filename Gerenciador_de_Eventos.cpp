@@ -35,6 +35,8 @@ namespace Gerenciadores {
 	* Pular - W
 	* Andar para a direita - D
 	* Andar para a esquerda - E
+	* Sair - Esc
+	* Pause - P
 	*/
 
 	void Gerenciador_de_Eventos::verificaTeclaPressionada() {

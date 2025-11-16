@@ -7,6 +7,7 @@ Jogo::Jogo() :
     pFase1(nullptr),
     menu(),
     menu_fase(),
+    menu_pause(),
     estado_atual(MENU_PRINCIPAL),
     estado_anterior(MENU_PRINCIPAL)
 {
@@ -36,6 +37,7 @@ Jogo::Jogo() :
 
     menu.setJogo(this);
     menu_fase.setJogo(this);
+    menu_pause.setJogo(this);
 
 }
 
@@ -75,6 +77,10 @@ void Jogo::executar()
                 menu_fase.executar();
             }
 
+            else if (MENU_PAUSE == estado_atual) {
+                menu_pause.executar();
+            }
+
             else if (FASE1 == estado_atual) {
                 if (pFase1)
                 {
@@ -109,7 +115,13 @@ void Jogo::setEstadoMenuFases() {
 }
 
 void Jogo::setEstadoMenuPause() {
-    std::cout << "pause" << std::endl;
+    estado_anterior = estado_atual;
+    estado_atual = MENU_PAUSE;
+}
+
+void Jogo::setEstadoMenuPrincipal() {
+    estado_anterior = estado_atual;
+    estado_atual = MENU_PRINCIPAL;
 }
 
 void Jogo::voltarEstado() {

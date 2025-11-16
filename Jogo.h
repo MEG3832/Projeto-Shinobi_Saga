@@ -7,6 +7,7 @@
 #include "Ente.h"
 #include "Menu.h"
 #include "Menu_Fase.h"
+#include "Menu_Pause.h"
 
 
 class Jogo {
@@ -22,6 +23,7 @@ class Jogo {
 
 		Menu menu;
 		Menu_Fase menu_fase;
+		Menu_Pause menu_pause;
 		Gerenciadores::Gerenciador_Grafico* pGG;
 		Gerenciadores::Gerenciador_de_Eventos* pGE;
 		Fases::FasePrimeira* pFase1; //o jogador é criado na fase!
@@ -39,5 +41,6 @@ class Jogo {
 		void setFase(int num);
 		void setEstadoMenuFases();
 		void setEstadoMenuPause();
+		void setEstadoMenuPrincipal();
 		void voltarEstado();
 };

@@ -150,6 +150,7 @@
     <ClInclude Include="ListaEntidades.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Menu_Fase.h" />
+    <ClInclude Include="Menu_Pause.h" />
     <ClInclude Include="Obstaculo.h" />
     <ClInclude Include="Personagem.h" />
     <ClInclude Include="Plataforma.h" />
@@ -178,6 +179,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Menu_Fase.cpp" />
+    <ClCompile Include="Menu_Pause.cpp" />
     <ClCompile Include="Obstaculo.cpp" />
     <ClCompile Include="Personagem.cpp" />
     <ClCompile Include="Plataforma.cpp" />

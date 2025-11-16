@@ -79,6 +79,9 @@
     <ClCompile Include="Menu_Fase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Menu_Pause.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animacao.h">
@@ -163,6 +166,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu_Fase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu_Pause.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
