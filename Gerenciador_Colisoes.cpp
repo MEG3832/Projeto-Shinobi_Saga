@@ -226,10 +226,19 @@ namespace Gerenciadores {
 		std::set<Entidades::Projetil*>::iterator it = LPs.begin();
 		for (it = LPs.begin(); it != LPs.end(); it++) {
 			if (*it) {
+
+				if (!(*it)->getEstadoProj()) {
+					continue; // ignora este projétil, já que ele está inativo.
+				}
+
 				Entidades::Entidade* pP = static_cast<Entidades::Entidade*>(*it);
 				if (verificaColisao(static_cast<Entidades::Entidade*>(
 					static_cast<Entidades::Personagens::Personagem*>(pJog1)),
 					(static_cast<Entidades::Entidade*>(pP)))) {
+					//adicionei isso:
+
+					(*it)->danificar(pJog1);
+
 					if ((*it)->getIntransponivel()) {
 						reposicionar(pJog1->getCorpo(), pP->getCorpo());
 					}

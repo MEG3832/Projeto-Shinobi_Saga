@@ -1,5 +1,15 @@
 #pragma once
 #include "Entidade.h"
+#include "Jogador.h"
+//#include "Kitsune.h"
+
+namespace Entidades
+{
+	namespace Personagens
+	{
+		class Kitsune; // forward declaration
+	}
+}
 
 namespace Entidades {
 
@@ -7,12 +17,19 @@ namespace Entidades {
 	{
 	protected:
 		bool ativo;
+		Personagens::Kitsune* pKitsune;
 
 	public:
-		Projetil();
+		Projetil(Personagens::Kitsune* pKits);
 		~Projetil();
+		void setEstadoProj(bool estado);
+		bool getEstadoProj();
+		void setVelocidade(sf::Vector2f vel);
+		void danificar(Personagens::Jogador* pJ);
 		void executar();
 		void salvar();
+
+		void inicializaAnimacoes();
 	};
 
 }
