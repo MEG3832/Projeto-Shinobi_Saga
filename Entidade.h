@@ -34,18 +34,6 @@ namespace Entidades {
 			virtual void executar() = 0;
 			virtual void salvar() = 0;
 
-<<<<<<< HEAD
-=======
-		Entidade();
-		virtual ~Entidade();
-		virtual void executar() = 0;
-		virtual void salvar() = 0;
-		sf::Vector2f getPos();
-		void setAnimador(sf::RectangleShape* body);
-		Animadores::Animacao* getAnimador();
-		bool getIntransponivel();
-		void sofrerGravidade();
->>>>>>> chefao
 
 	};
 

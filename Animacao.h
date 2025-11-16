@@ -17,22 +17,14 @@ namespace Animadores {
 
 		public:
 
-<<<<<<< HEAD
 			Animacao(sf::RectangleShape* body);
 			~Animacao();
 
-			void atualizarAnimJog(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
-			void atualizarAnimInim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
-			//void atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico);
-			void addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale);
-			const int getImgAtual(std::string nomeAnimacao);
-=======
 		void atualizarAnimJog(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
 		void atualizarAnimInim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
 		void atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico);
 		void addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale);
 		const int getImgAtual(std::string nomeAnimacao);
->>>>>>> chefao
 
 	};
 

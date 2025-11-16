@@ -6,28 +6,9 @@ Jogo::Jogo() :
     pGE(pGE->getGerenciadorEventos()),
     pFase1(nullptr),
     menu(),
-<<<<<<< HEAD
     estado_atual(MENU_PRINCIPAL)
 {
     srand(time(0));
-=======
-    GG(GG->getGerenciadorGrafico()),
-    fundo(),    // O Gerenciador Gráfico é setado na construtora de Ente pelo padrão singleton
-    pJog1(),
-    GE(GE->getGerenciadorEventos()),
-    plataforma(),
-    redemoinho(),
-    armadilha_de_urso(),
-    inimigo(&pJog1),
-    projetil(&inimigo),
-    GC(GC->getGerenciadorColisoes()),
-    lista_ents(),
-    fase(1)
-{
-    inimigo.setProjetil(&projetil);
-
-    GE->setJogador(&pJog1);
->>>>>>> chefao
 
     if (!pGG)
     {
@@ -51,9 +32,15 @@ Jogo::Jogo() :
 
     menu.setJogo(this);
 
+    //GC->setChao(fundo.getChao());
+
+    //inicializarListaInimigos();
+
+    //inicializarListaObtaculos();
+
+    //inicializarListaProjeteis();
 }
 
-<<<<<<< HEAD
 Jogo::~Jogo()
 {
     // Limpa a fase (que limpa suas listas, etc.)
@@ -74,33 +61,6 @@ Jogo::~Jogo()
 void Jogo::criarFase()
 {
     pFase1 = new Fases::FasePrimeira();
-=======
-void Jogo::inicializarGC() {
-    GC->setJogador(&pJog1);
-
-    GC->setChao(fundo.getChao());
-
-    inicializarListaInimigos();
-
-    //inicializarListaObtaculos();
-
-    inicializarListaProjeteis();
-}
-
-void Jogo::inicializaListaEntidades() {
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-                      static_cast<Entidades::Obstaculos::Obstaculo*>(&plataforma)));
-    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //                   static_cast<Entidades::Obstaculos::Obstaculo*>(&redemoinho)));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-                       static_cast<Entidades::Personagens::Personagem*>(&pJog1)));
-    //lista_ents.incluir(static_cast<Entidades::Entidade*>(
-    //                   static_cast<Entidades::Obstaculos::Obstaculo*>(&armadilha_de_urso)));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-                       static_cast<Entidades::Personagens::Personagem*>(&inimigo)));
-    lista_ents.incluir(static_cast<Entidades::Entidade*>(
-        static_cast<Entidades::Projetil*>(&projetil)));
->>>>>>> chefao
 }
 
 void Jogo::executar()
@@ -110,91 +70,22 @@ void Jogo::executar()
             menu.executar();
         }
 
-<<<<<<< HEAD
         while (pGG->verificaJanelaAberta())
         {
 
             if (pGE) {
                 pGE->executar();
             }
-=======
-void Jogo::inicializarListaObtaculos() {
-    //GC->incluirObstaculo(&plataforma);
-    //GC->incluirObstaculo(&redemoinho);
-    //GC->incluirObstaculo(&armadilha_de_urso);
-}
-
-void Jogo::inicializarListaProjeteis() {
-    GC->incluirProjetil(&projetil);
-}
->>>>>>> chefao
 
             // Limpa a tela
             pGG->limpaJanela();
 
-<<<<<<< HEAD
             //executa a lógica da fase 
             //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
             if (FASE1 == estado_atual) {
                 if (pFase1)
                 {
                     pFase1->executar();
-=======
-                GG->limpaJanela();
-
-                // Atualizar a câmera aqui, passando como parâmetro a posição do personagem
-                GG->atualizaCamera(pJog1.getPos());
-
-                pJog1.sofrerGravidade();    // Queria colocar na lista
-
-
-                GC->executar();
-
-                lista_ents.percorrer();
-
-                GC->executar();
-
-                // O executar do fundo vai desenhar cada uma de suas camada na posição correta, segundo a posição da câmera
-                fundo.executar();
-
-                lista_ents.desenharEntidades();
-
-                sf::RectangleShape* corpoProj = projetil.getHitBox();
-                sf::RectangleShape* corpoinim = inimigo.getHitBox();
-
-                sf::RectangleShape debugHitbox = *corpoProj;
-                sf::RectangleShape debugHitbox2 = *corpoinim;
-
-                debugHitbox.setTexture(nullptr);
-                debugHitbox.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
-
-                debugHitbox2.setTexture(nullptr);
-                debugHitbox2.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
-
-                GG->getWindow()->draw(debugHitbox);
-                GG->getWindow()->draw(debugHitbox2);
-
-                //teste
-                /*sf::RectangleShape* corpoJogador = pJog1.getHitBox();
-                sf::RectangleShape* corpoInim = inimigo.getHitBox();
-
-                sf::RectangleShape debugHitbox = *corpoJogador;
-                sf::RectangleShape debugHitbox2 = *corpoInim;
-
-                debugHitbox.setTexture(nullptr);
-                debugHitbox.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
-
-                debugHitbox2.setTexture(nullptr);
-                debugHitbox2.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
-
-                GG->getWindow()->draw(debugHitbox);
-                GG->getWindow()->draw(debugHitbox2);
-
-                if (pJog1.getHitboxAtaqueAtiva()) {
-                    sf::RectangleShape debugAtaque = *pJog1.getHitboxAtaque();
-                    debugAtaque.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho transparente
-                    GG->getWindow()->draw(debugAtaque);
->>>>>>> chefao
                 }
 
                 else {
