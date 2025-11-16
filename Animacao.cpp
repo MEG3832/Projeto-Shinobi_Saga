@@ -86,6 +86,8 @@ namespace Animadores {
 
 			img->atualizarFrameProjetil(indoParaEsq, dt);
 
+			if (img->getImgAtual() == 4)
+				img->resetar(); //para o projétil, não usarmos o resto das imagens da sprite, então resetamos...
 
 			corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
 			corpo->setTexture(img->getTextura());

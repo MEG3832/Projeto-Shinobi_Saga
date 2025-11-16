@@ -77,7 +77,7 @@ void Jogo::inicializarListaInimigos() {
 }
 
 void Jogo::inicializarListaObtaculos() {
-    GC->incluirObstaculo(&plataforma);
+    //GC->incluirObstaculo(&plataforma);
     //GC->incluirObstaculo(&redemoinho);
     //GC->incluirObstaculo(&armadilha_de_urso);
 }

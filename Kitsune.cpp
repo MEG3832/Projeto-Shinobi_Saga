@@ -9,7 +9,7 @@ namespace Entidades
 			Inimigo(pJ)
 		{
 			raio_ativacao = 250.0f;
-			cooldownAtaque = 5.0f;
+			cooldownAtaque = 3.0f;
 			nivel_maldade = 1; // nível de maldade base
 			paraEsq = true;
 			veloc = sf::Vector2f(0.03f, 0.05f);
@@ -65,10 +65,6 @@ namespace Entidades
 
 				if (distHorizontal <= raio_ativacao && distVertical <= raio_vertical)
 				{
-					//a kitsune para 
-					veloc.x = 0.0f;
-					veloc.y = 0.0f;
-
 					//verifica em que lado o jogador está...
 
 					if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
@@ -89,7 +85,6 @@ namespace Entidades
 
 						if (animador->getImgAtual("Ataque3") == 6) //se chegou no último frame, pode atacar!
 						{
-							//... e então atira
 							atiraProjetil();
 						}
 					}
@@ -112,16 +107,16 @@ namespace Entidades
 		{
 			relogioAtaque.restart();
 
-			pProjetil->setEstadoProj(true);
+			pProjetil->setEstadoProj(true); //apenas setamos o estado do projétil, já que o que será feito (dependendo do estado dele), será tratado no executar do projétil.
 
 			if (paraEsq) {
-				pProjetil->getCorpo()->setPosition(this->getPos().x - 70.0f, this->getPos().y + 75.0f); //centralizo o projétil bem na frente da kitsune
-				pProjetil->setVelocidade(sf::Vector2f(-10.0f, -10.0f));
+				pProjetil->getCorpo()->setPosition(this->getPos().x, this->getPos().y + 75.0f); //centralizo o projétil bem na frente da kitsune
+				pProjetil->setVelocidade(sf::Vector2f(-0.05f, 0.0f));
 			}
 			else {
 
-				pProjetil->getCorpo()->setPosition(this->getPos().x + 70.0f, this->getPos().y + 75.0f);
-				pProjetil->setVelocidade(sf::Vector2f(10.0f, -10.0f));
+				pProjetil->getCorpo()->setPosition(this->getPos().x, this->getPos().y + 75.0f);
+				pProjetil->setVelocidade(sf::Vector2f(0.05f, 0.0f));
 			}
 
 		}

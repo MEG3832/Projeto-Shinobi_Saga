@@ -11,9 +11,8 @@ namespace Entidades {
 	{
 		corpo = new sf::RectangleShape(sf::Vector2f(30.0f, 45.0f));
 		corpo->setPosition(pKitsune->getPos());	// seta a posicao do projetil igual a posicao da kitsune....
-		//corpo->setFillColor(sf::Color::Yellow);	// Pintando de vermelho só pra ficar visivel
 
-		hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 75, corpo->getSize().y));
+		hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize()));
 		hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
 			corpo->getPosition().y);
 
@@ -61,7 +60,9 @@ namespace Entidades {
 		//verifica o estado do projétil.
 
 		if (ativo)
-		{ 
+		{
+			corpo->setFillColor(sf::Color::White); // deixa o projétil "visível" (cor branca para aparecer a textura)
+
 			if (veloc.x < 0) // se a velocidade de x dele é negativa, então é porque ele foi ativado para a esquerda
 			{
 				animador->atualizarAnimProjetil(true, "Fogo");
@@ -70,26 +71,32 @@ namespace Entidades {
 			else
 				animador->atualizarAnimProjetil(false, "Fogo");
 
-			if (animador->getImgAtual("Fogo") == 4) //toca animacao antes de fazer ele se mover...
-			{
-				corpo->move(veloc);
-				hitBox->setPosition(corpo->getPosition());
+			
+			corpo->move(veloc);
+			hitBox->setPosition(corpo->getPosition());
 
-				float pos_x = corpo->getPosition().x;
-				if (pos_x < 0.0f || pos_x > pGG->getWindow()->getSize().x)
-				{
-					setEstadoProj(false);
-				}
+			// pega o retângulo do projétil
+			sf::FloatRect projetilBounds = corpo->getGlobalBounds();
+
+			// pega o retângulo da câmera (View)
+			sf::View camera = pGG->getWindow()->getView();
+			sf::FloatRect cameraBounds(camera.getCenter() - camera.getSize() / 2.f, camera.getSize());
+
+			// verifica se o projétil NÃO está mais tocando a câmera
+			if (!cameraBounds.intersects(projetilBounds))
+			{
+				setEstadoProj(false);
+			}
 
 				//a "desativação" do projétil quando atinge o jogador já eh tratada na colisão (dê uma olhada em danificar, o método anterior!)
-			}
 
 		}
 
 		else
 		{
-			corpo->setPosition(pKitsune->getPos());
-			hitBox->setPosition(pKitsune->getPos());
+			corpo->setFillColor(sf::Color::Transparent); //cor "invisível"
+			corpo->setPosition(pKitsune->getPos().x + 50.0f, pKitsune->getPos().y + 75.0f); //projétil fica mais retraído, mais próximo da kitsune
+			hitBox->setPosition(corpo->getPosition());
 		}
 
 
