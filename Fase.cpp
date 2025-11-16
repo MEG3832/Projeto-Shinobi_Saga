@@ -7,6 +7,7 @@ namespace Fases
 		maxPlataf(8),
 		lista_ents(),
 		GC(GC->getGerenciadorColisoes()),
+		GE(GE->getGerenciadorEventos()),
 		pJog(nullptr),
 		pFundo(nullptr),
 		fim_mapa(0),
@@ -36,14 +37,28 @@ namespace Fases
 
 	void Fase::executar()
 	{
-			GC->executar();
+			pGG->limpaJanela();
+
+			if (GE) {
+				GE->executar();
+			}
+			else {
+				std::cerr << "Nao eh possivel executar o Gerenciador de Eventos pois ele eh NULL" << std::endl;
+			}
+
+			if (GC) {
+				GC->executar();
+			}
+			else {
+				std::cerr << "Nao eh possivel executar o Gerenciador de Colisoes pois ele eh NULL" << std::endl;
+			}
 
 			lista_ents.percorrer();
 
 			lista_ents.aplicarGravidade();
 
 			if (pJog) {
-				Ente::pGG->atualizaCamera(pJog->getPos());
+				pGG->atualizaCamera(pJog->getPos());
 			}
 			
 			if (pFundo)
@@ -51,10 +66,12 @@ namespace Fases
 
 			lista_ents.desenharEntidades();
 
-			//teste
+			//teste (o ideal eh colocar uma parede invisivel)
 			if (pJog->getCorpo()->getPosition().x >= fim_mapa) {
 				std::cout << "fim!!" << std::endl;
 			}
+
+			pGG->mostrarEntes();
 	}
 
 	void Fase::criarTengus()

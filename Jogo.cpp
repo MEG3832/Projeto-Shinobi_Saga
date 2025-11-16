@@ -26,6 +26,8 @@ Jogo::Jogo() :
 
     pGG->getWindow()->setFramerateLimit(60);
 
+    pGE->setJogo(this);
+
     Ente::setGG(pGG);
 
     criarFase();
@@ -73,16 +75,7 @@ void Jogo::executar()
                 menu_fase.executar();
             }
 
-            if (pGE) {
-                pGE->executar();
-            }
-
-            // Limpa a tela
-            pGG->limpaJanela();
-
-            //executa a lógica da fase 
-            //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
-            if (FASE1 == estado_atual) {
+            else if (FASE1 == estado_atual) {
                 if (pFase1)
                 {
                     pFase1->executar();
@@ -92,8 +85,6 @@ void Jogo::executar()
                     std::cerr << "ERRO: Nao eh possivel executar a primeira fase pois ela eh NULL" << std::endl;
                 }
             }
-
-            pGG->mostrarEntes();
         }
     }
     else {
@@ -115,6 +106,10 @@ void Jogo::setFase(int num) {
 void Jogo::setEstadoMenuFases() {
     estado_anterior = estado_atual;
     estado_atual = MENU_FASE;
+}
+
+void Jogo::setEstadoMenuPause() {
+    std::cout << "pause" << std::endl;
 }
 
 void Jogo::voltarEstado() {

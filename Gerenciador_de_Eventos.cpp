@@ -1,5 +1,6 @@
 #include "Gerenciador_de_Eventos.h"
 #include "Menu.h"
+#include "Jogo.h"
 
 namespace Gerenciadores {
 
@@ -7,7 +8,8 @@ namespace Gerenciadores {
 
 	Gerenciador_de_Eventos::Gerenciador_de_Eventos() :
 		pGrafico(pGrafico->getGerenciadorGrafico()),
-		pJogador(new Entidades::Personagens::Jogador())
+		pJogador(new Entidades::Personagens::Jogador()),
+		pJogo(nullptr)
 	{}
 
 	Gerenciador_de_Eventos::~Gerenciador_de_Eventos() {
@@ -40,55 +42,79 @@ namespace Gerenciadores {
 		sf::Vector2f direcaoInput(0.0f, 0.0f); //resetamos a "direção" para zero (jogador parado) a cada iteração do loop do jogo
 											   //para que a função mover funcione corretamente quanto ao knockback, msm qnd ele nn estiver se movendo
 
-		if (!pJogador->getAtacando() && !pJogador->getMorto() && !pJogador->getFerido()) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {
-					pJogador->correr(true);
-				}
-				else {
-					pJogador->correr(false);
-				}
+		if (pJogador) {
 
-				direcaoInput.x += 1.0f;
-			}
+			if (!pJogador->getAtacando() && !pJogador->getMorto() && !pJogador->getFerido()) {
 
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {
-					pJogador->correr(true);
-				}
-				else {
-					pJogador->correr(false);
-				}
-
-				direcaoInput.x -= 1.0f;
-			}
-			
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-			{
-				pJogador->atacar();
-			}
-
-			else if (!pJogador->getSubindo()) {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 				{
-					direcaoInput.y -= 1.0f;
-					pJogador->pular();
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {
+						pJogador->correr(true);
+					}
+					else {
+						pJogador->correr(false);
+					}
+
+					direcaoInput.x += 1.0f;
 				}
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-					pJogador->setDefesa(true);
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+				{
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {
+						pJogador->correr(true);
+					}
+					else {
+						pJogador->correr(false);
+					}
+
+					direcaoInput.x -= 1.0f;
 				}
-				else {
-					pJogador->setDefesa(false);
+
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+				{
+					pJogador->atacar();
+				}
+
+				else if (!pJogador->getSubindo()) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+					{
+						direcaoInput.y -= 1.0f;
+						pJogador->pular();
+					}
+
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+						pJogador->setDefesa(true);
+					}
+					else {
+						pJogador->setDefesa(false);
+					}
 				}
 			}
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			pGrafico->fecharJanela();
+
+		else {
+			std::cerr << "ERRO: Nao eh possivel atualizar o moviemnto do jogador pois o ponteiro dele eh NULL" << std::endl;
 		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			if (pGrafico) {
+				pGrafico->fecharJanela();
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel fechar a janela pois o Gerenciador Grafico eh NULL" << std::endl;
+			}
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+			if (pJogo) {
+				pJogo->setEstadoMenuPause();
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel pausar pois o Jogo eh NULL" << std::endl;
+			}
+		}
+
 	
 		pJogador->setDirecao(direcaoInput);
 	}
@@ -144,4 +170,7 @@ namespace Gerenciadores {
 		}
 	}
 
+	void Gerenciador_de_Eventos::setJogo(Jogo* pJ) {
+		pJogo = pJ;
+	}
 }

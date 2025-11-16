@@ -14,7 +14,7 @@ class Jogo {
 
 		enum Estado {
 			MENU_PRINCIPAL,
-			MENU_PAUSA,
+			MENU_PAUSE,
 			MENU_FASE,
 			FASE1,
 			FASE2
@@ -38,5 +38,6 @@ class Jogo {
 		void executar();
 		void setFase(int num);
 		void setEstadoMenuFases();
+		void setEstadoMenuPause();
 		void voltarEstado();
 };

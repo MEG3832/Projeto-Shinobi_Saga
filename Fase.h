@@ -1,6 +1,7 @@
 #pragma once
 #include "ListaEntidades.h"
 #include "Gerenciador_Colisoes.h"
+#include "Gerenciador_de_Eventos.h"
 #include "Jogador.h"
 #include "Tengu.h"
 #include "Plataforma.h"
@@ -24,6 +25,7 @@ namespace Fases {
 
 		Listas::ListaEntidades lista_ents;
 		Gerenciadores::Gerenciador_Colisoes* GC; //n está exatamente de acordo com o diagrama, mas é para seguir o modelo do singleton
+		Gerenciadores::Gerenciador_de_Eventos* GE; 
 		Entidades::Personagens::Jogador* pJog;
 		Parallax::Fundo* pFundo;
 
