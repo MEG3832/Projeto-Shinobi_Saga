@@ -1,51 +1,37 @@
-#include "Menu.h"
-#include "Jogo.h"
 #include "Menu_Fase.h"
+#include "Jogo.h"
 
-Menu::Menu() :
-	Ente(),
-	pJog(nullptr),
-	GG(GG->getGerenciadorGrafico()),
-	GE(GE->getGerenciadorEventos()),
-	fundo(),
-	fonte(),
-	texto(),
-	selecionado(1),
-	executa(false),
-	parar(false)
+Menu_Fase::Menu_Fase() :
+	Menu()
 {
 	inicializaFundo();
 	inicializaTexto();
 }
 
-Menu::~Menu() {
-	pJog = nullptr;
-	GG = nullptr;
-	GE = nullptr;
-	selecionado = -1;
-	executa = false;
-}
+Menu_Fase::~Menu_Fase() 
+{}
 
-void Menu::executar() {
+void Menu_Fase::executar() {
 	while (!parar) {
 		if (GG) {
 			if (GE) {
 				executa = false;
 				GG->limpaJanela();
 				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
-				GE->executarMenu(this);	// Verifica teclas apertadas
+				GE->executarMenu(static_cast<Menu*>(this));	// Verifica teclas apertadas
 				fundo.executar();	// Imprime as camadas
 				desenharTexto();
 				GG->mostrarEntes();	// Display
 				if (executa) {
 					if (pJog) {
 						if (1 == selecionado) {
-							pJog->setEstadoMenuFases();
+							pJog->setFase(1);
 							parar = true;
 						}
 						if (2 == selecionado) {
+							pJog->setFase(2);
 							parar = false;
-							// Salvar
+							// Mudar para fase2.executar()
 						}
 						if (3 == selecionado) {
 							parar = true;
@@ -68,8 +54,8 @@ void Menu::executar() {
 	}
 }
 
-void Menu::inicializaFundo() {
-	// As velocidades dão o efeito parallax
+void Menu_Fase::inicializaFundo() {
+	// Pensei de fazer um rand com esse fundo e o fundo da fase 2
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.00000000001f, "Imagens/JapanVillage/Camada3.png");
@@ -81,7 +67,7 @@ void Menu::inicializaFundo() {
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada9.png");
 }
 
-void Menu::inicializaTexto() {
+void Menu_Fase::inicializaTexto() {
 	texto.clear();
 	fonte.loadFromFile("Fonte/superstar_memesbruh03.ttf");
 
@@ -94,58 +80,18 @@ void Menu::inicializaTexto() {
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 150);
 	temp.setFont(fonte);
 	texto.push_back(temp);
-	
+
 
 	temp.setCharacterSize(30);
-	temp.setString("Selecionar Fase");
+	temp.setString("Fase 1");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
 	texto.push_back(temp);
 
-	temp.setString("Salvar Jogo");
+	temp.setString("Fase 2");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
 	texto.push_back(temp);
 
 	temp.setString("Sair");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
 	texto.push_back(temp);
-}
-
-void Menu::desenharTexto() {
-	if (GG) {
-		for (int i = 0; i < (int)texto.size(); i++) {
-			texto[i].setPosition(GG->getCamera().getCenter().x - texto[i].getLocalBounds().width / 2, texto[i].getPosition().y);
-			if (i == selecionado) {
-				texto[i].setFillColor(sf::Color(sf::Color(99, 162, 121)));
-			}
-			else {
-				texto[i].setFillColor(sf::Color(sf::Color::White));
-			}
-			GG->desenharTexto(texto[i]);
-		}
-	}
-	else {
-		std::cout << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
-	}
-}
-
-void Menu::operator++() {
-	selecionado = (selecionado + 1) % (int)texto.size();
-	if (0 == selecionado) {
-		selecionado = 1;
-	}
-}
-
-void Menu::operator--() {
-	if (1 == selecionado) {
-		selecionado = (int)texto.size();
-	}
-	selecionado--;
-}
-
-void Menu::selecionar() {
-	executa = true;
-}
-
-void Menu::setJogo(Jogo* jogo) {
-	pJog = jogo;
 }

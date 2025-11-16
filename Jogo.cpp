@@ -6,6 +6,7 @@ Jogo::Jogo() :
     pGE(pGE->getGerenciadorEventos()),
     pFase1(nullptr),
     menu(),
+    menu_fase(),
     estado_atual(MENU_PRINCIPAL)
 {
     srand(time(0));
@@ -31,6 +32,7 @@ Jogo::Jogo() :
     pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
 
     menu.setJogo(this);
+    menu_fase.setJogo(this);
 
 }
 
@@ -59,12 +61,16 @@ void Jogo::criarFase()
 void Jogo::executar()
 {
     if (pGG) {
-        if (MENU_PRINCIPAL == estado_atual) {
-            menu.executar();
-        }
 
         while (pGG->verificaJanelaAberta())
         {
+            if (MENU_PRINCIPAL == estado_atual) {
+                menu.executar();
+            }
+
+            else if (MENU_FASE == estado_atual) {
+                menu_fase.executar();
+            }
 
             if (pGE) {
                 pGE->executar();
@@ -101,4 +107,8 @@ void Jogo::setFase(int num) {
     else if (2 == num) {
         estado_atual = FASE2;
     }
+}
+
+void Jogo::setEstadoMenuFases() {
+    estado_atual = MENU_FASE;
 }

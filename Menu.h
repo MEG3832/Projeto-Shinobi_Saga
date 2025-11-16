@@ -4,10 +4,11 @@
 #include "Gerenciador_Grafico.h"
 #include "Gerenciador_de_Eventos.h"
 class Jogo;
+class Menu_Fase;
 
 	class Menu : public Ente
 	{
-		private:
+		protected:	// Mudei, pode?
 			Jogo* pJog;
 			Gerenciadores::Gerenciador_Grafico* GG;
 			Gerenciadores::Gerenciador_de_Eventos* GE;
@@ -22,7 +23,7 @@ class Jogo;
 			Menu();
 			~Menu();
 			void executar();
-			void inicializaFundo();	// Inicializa com o Japan Village
+			void inicializaFundo();	// Pensei em fazer um rand com os fundos de ambas as telas
 			void inicializaTexto();
 			void desenharTexto();
 			void operator++();
