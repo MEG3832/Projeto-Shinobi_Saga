@@ -9,10 +9,11 @@ namespace Animadores {
 		private:
 
 			std::map<std::string, Imagem*> mapImagens; //mapa de texturas... relaciona estado (idle, walk, run...) com Imagem
+			sf::Clock clock;
+			sf::RectangleShape* corpo; //**
 
 			// Variaveis
-			sf::RectangleShape* corpo; //**
-			sf::Clock clock;
+			float dt;
 			std::string estadoAtual; //guarda qual estado o personagem está: parado, andando, correndo, etc...
 
 		public:

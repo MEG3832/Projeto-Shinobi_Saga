@@ -95,7 +95,10 @@ namespace Entidades
 
 							else if (distanciaCentros <= distanciaAtaque) //entrou na área de ataque!
 							{
-								if (relogioAtaque.getElapsedTime().asSeconds() >= cooldownAtaque)
+								dt_ataque += relogioAtaque.getElapsedTime().asSeconds();
+								relogioAtaque.restart();
+
+								if (dt_ataque >= cooldownAtaque)
 								{
 									animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
 
@@ -141,10 +144,12 @@ namespace Entidades
 
 					if (hitBox) {
 
-						float dt = relogioAtaque.getElapsedTime().asSeconds();
+						dt_ataque += relogioAtaque.getElapsedTime().asSeconds();
+						relogioAtaque.restart();
 
-						if (dt >= cooldownAtaque)
+						if (dt_ataque >= cooldownAtaque)
 						{
+							dt_ataque = 0.0;
 							relogioAtaque.restart();
 
 							if (paraEsq)

@@ -33,10 +33,12 @@ namespace Entidades {
 				float velPulo;
 				sf::RectangleShape* hitboxAtaque;
 				sf::Vector2f velocKnockBack;
+				sf::Clock timer;
 
 				// Variaveis
 				int pontos;
 				int id; // 1 ou 2
+				float dt;
 				Estado estado_atual;
 				sf::Vector2f direcao;
 

@@ -29,6 +29,8 @@ namespace Entidades {
 			danosidade = -1;
 			danoso = false;
 			cooldown_atordoamento = 0.0;
+			timer.restart();
+			dt = 0.0;
 		}
 
 		void Armadilha_de_urso::executar() {
@@ -47,10 +49,12 @@ namespace Entidades {
 					}
 
 					danoso = false;
+					dt = 0.0;
 					timer.restart();
 				}
 				else {
-					dt = timer.getElapsedTime().asSeconds();
+					dt += timer.getElapsedTime().asSeconds();
+					timer.restart();
 				}
 			}
 			else {

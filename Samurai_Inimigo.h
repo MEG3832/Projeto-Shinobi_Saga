@@ -8,9 +8,10 @@ namespace Entidades {
 		{
 		private:
 			float cooldownEmpurrao;
+			sf::Clock timer;
 			
 			// Variaveis
-			sf::Clock timer;
+			float dt;
 			float resistencia;
 			bool empurra;
 

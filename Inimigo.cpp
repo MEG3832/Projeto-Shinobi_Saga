@@ -15,7 +15,10 @@ namespace Entidades {
 			relogioAndar(),
 			relogioAtaque(),
 			relogioAtordoado(),
-			estado_atual(PARADO)
+			estado_atual(PARADO),
+			dt_ataque(0.0),
+			dt_andar(0.0),
+			dt_atordoamento(0.0)
 		{
 			//corpo é feito nas classes folha
 			veloc = sf::Vector2f(0.5, 0.0);
@@ -29,6 +32,12 @@ namespace Entidades {
 			cooldownAtaque = 0.0;
 			tempoAndar = 0.0;
 			cooldownAtordoado = 0.0;
+			dt_ataque = 0.0;
+			dt_andar = 0.0;
+			dt_atordoamento = 0.0;
+			relogioAndar.restart();
+			relogioAtordoado.restart();
+			relogioAtaque.restart();
 			estado_atual = PARADO;
 		}
 
@@ -44,8 +53,13 @@ namespace Entidades {
 				}
 
 				else if (FERIDO == estado_atual) {
-					if (relogioAtordoado.getElapsedTime().asSeconds() >= cooldownAtordoado) {
+
+					dt_atordoamento += relogioAtordoado.getElapsedTime().asSeconds();
+					relogioAtordoado.restart();
+
+					if (dt_atordoamento >= cooldownAtordoado) {
 						estado_atual = PARADO;
+						dt_andar = 0.0;
 						relogioAndar.restart();
 					}
 					else {
@@ -103,6 +117,7 @@ namespace Entidades {
 					else {
 						// Se tomou dano mas não morreu, fica atordoado
 						estado_atual = FERIDO;
+						dt_atordoamento = 0.0;
 						relogioAtordoado.restart();
 						std::cout << "Inimigo tomou " << dano << " de dano. Vida: " << getVida() << std::endl;
 					}
@@ -185,8 +200,12 @@ namespace Entidades {
 
 					if (animador) {
 
-						if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
+						dt_andar += relogioAndar.getElapsedTime().asSeconds();
+						relogioAndar.restart();
+
+						if (dt_andar >= tempoAndar)
 						{
+							dt_andar = 0.0;
 							relogioAndar.restart();
 
 							if (ANDANDO == estado_atual) {

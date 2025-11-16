@@ -23,13 +23,16 @@ namespace Entidades {
 				float cooldownAtaque;
 				float tempoAndar;
 				float cooldownAtordoado; //p/ duração da animação "Ferido"
+				sf::Clock relogioAtaque; 
+				sf::Clock relogioAndar;
+				sf::Clock relogioAtordoado; 
 
 				// Variaveis
-				Jogador* jogAlvo;	// Eh uma variavel?
-				sf::Clock relogioAtaque; //mede o cooldown
-				sf::Clock relogioAndar;
-				sf::Clock relogioAtordoado; //mede o cooldown
 				int nivel_maldade;
+				float dt_ataque;
+				float dt_andar;
+				float dt_atordoamento;
+				Jogador* jogAlvo;	// Eh uma variavel?
 				Estado estado_atual;
 
 				void perambular();

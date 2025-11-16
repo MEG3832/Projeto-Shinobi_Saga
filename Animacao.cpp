@@ -6,6 +6,7 @@ namespace Animadores {
 		corpo(body),
 		mapImagens(),
 		clock(),
+		dt(0.0),
 		estadoAtual("")
 	{
 	}
@@ -23,7 +24,7 @@ namespace Animadores {
 				mapImagens[estadoAtual]->resetar();
 			}
 
-			float dt = clock.getElapsedTime().asSeconds();
+			dt = clock.getElapsedTime().asSeconds();
 			clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
 
 			Imagem* img = mapImagens[estadoAtual];
@@ -52,7 +53,7 @@ namespace Animadores {
 				mapImagens[estadoAtual]->resetar();
 			}
 
-			float dt = clock.getElapsedTime().asSeconds();
+			dt = clock.getElapsedTime().asSeconds();
 			clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
 
 			Imagem* img = mapImagens[estadoAtual];

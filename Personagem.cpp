@@ -8,9 +8,7 @@ namespace Entidades {
 			Entidade(),
 			num_vidas(0),
 			dano(-1),
-			paraEsq(false),
-			dt(0),
-			timer()
+			paraEsq(false)
 		{}
 
 		Personagem::~Personagem()

@@ -12,10 +12,7 @@ namespace Entidades {
 
 		protected:
 
-			float dt;
-
 			// Variaveis
-			sf::Clock timer;
 			int num_vidas;
 			float dano;
 			bool paraEsq;

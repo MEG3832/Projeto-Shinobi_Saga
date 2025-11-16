@@ -11,10 +11,10 @@ namespace Entidades {
 			float lado;
 			short int danosidade;
 			float cooldown_atordoamento;
-			float dt;
-
-			// Variaveis
 			sf::Clock timer;
+			
+			// Variaveis
+			float dt;	// Nao testei essa mudanca do dt
 
 		public:
 			Armadilha_de_urso();

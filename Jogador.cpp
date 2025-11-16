@@ -16,10 +16,12 @@ namespace Entidades {
 			pontos(0),
 			id(ident),
 			estado_atual(PARADO),
-			direcao(0.0, 0.0)
+			direcao(0.0, 0.0),
+			timer(),
+			dt(0.0)
 			
 		{
-			dano = 25;
+			dano = 200;
 
 			veloc.x = 5.0f;
 			veloc.y = 0.00;
@@ -43,7 +45,9 @@ namespace Entidades {
 			pontos(0),
 			id(1),
 			estado_atual(PARADO),
-			direcao(0.0, 0.0)
+			direcao(0.0, 0.0),
+			timer(),
+			dt()
 		{
 
 			dano = 200;
@@ -204,7 +208,8 @@ namespace Entidades {
 
 				else if (FERIDO == estado_atual && dt < 3 * cooldown_dano) {	// Para a animacao e volta ao normal quando os 3 frames foram desenhados
 					animador->atualizarAnimJog(false, false, paraEsq, true, "Ferido");
-					dt = timer.getElapsedTime().asSeconds();
+					dt += timer.getElapsedTime().asSeconds();
+					timer.restart();	// Dei restar pra poder congelar o tempo no save
 				}
 
 				else if (FERIDO == estado_atual && dt >= 3 * cooldown_dano) {
@@ -215,7 +220,8 @@ namespace Entidades {
 					atualizarHitboxAtaque(); // posiciona a hitbox de ataque
 
 					animador->atualizarAnimJog(false, false, paraEsq, false, "Ataque1");
-					dt = timer.getElapsedTime().asSeconds();
+					dt += timer.getElapsedTime().asSeconds();
+					timer.restart();
 				}
 
 				else if (ATACANDO == estado_atual && dt >= 4 * cooldown_ataque) {
@@ -223,7 +229,10 @@ namespace Entidades {
 				}
 
 				else if (PREPARANDO_PULO == estado_atual || PULANDO == estado_atual) {	// Quarta prioridade eh o salto	
-					dt = timer.getElapsedTime().asSeconds();
+
+					dt += timer.getElapsedTime().asSeconds();
+					timer.restart();
+
 					if (dt >= 3 * cooldown_pulo && PREPARANDO_PULO == estado_atual) {	// Espera os 3 frames pois eh o agachamento da animacao do pulo
 						estado_atual = PULANDO;
 						veloc.y = velPulo;	// Velocidade inicial do salto
