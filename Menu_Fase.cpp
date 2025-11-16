@@ -12,6 +12,7 @@ Menu_Fase::~Menu_Fase()
 {}
 
 void Menu_Fase::executar() {
+	parar = false;
 	while (!parar) {
 		if (GG) {
 			if (GE) {
@@ -28,12 +29,16 @@ void Menu_Fase::executar() {
 							pJog->setFase(1);
 							parar = true;
 						}
-						if (2 == selecionado) {
+						else if (2 == selecionado) {
 							pJog->setFase(2);
 							parar = false;
 							// Mudar para fase2.executar()
 						}
-						if (3 == selecionado) {
+						else if (3 == selecionado) {
+							parar = true;
+							pJog->voltarEstado();
+						}
+						else if (4 == selecionado) {
 							parar = true;
 							exit(1);
 						}
@@ -91,7 +96,11 @@ void Menu_Fase::inicializaTexto() {
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
 	texto.push_back(temp);
 
-	temp.setString("Sair");
+	temp.setString("Voltar");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
+	texto.push_back(temp);
+
+	temp.setString("Sair");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
 	texto.push_back(temp);
 }

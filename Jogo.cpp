@@ -7,7 +7,8 @@ Jogo::Jogo() :
     pFase1(nullptr),
     menu(),
     menu_fase(),
-    estado_atual(MENU_PRINCIPAL)
+    estado_atual(MENU_PRINCIPAL),
+    estado_anterior(MENU_PRINCIPAL)
 {
     srand(time(0));
 
@@ -102,13 +103,20 @@ void Jogo::executar()
 
 void Jogo::setFase(int num) {
     if (1 == num) {
+        estado_anterior = estado_atual;
         estado_atual = FASE1;
     }
     else if (2 == num) {
+        estado_anterior = estado_atual;
         estado_atual = FASE2;
     }
 }
 
 void Jogo::setEstadoMenuFases() {
+    estado_anterior = estado_atual;
     estado_atual = MENU_FASE;
+}
+
+void Jogo::voltarEstado() {
+    estado_atual = estado_anterior;
 }

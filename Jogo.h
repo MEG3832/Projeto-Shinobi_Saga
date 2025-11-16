@@ -28,6 +28,7 @@ class Jogo {
 
 		// Variaveis
 		Estado estado_atual;
+		Estado estado_anterior;
 	
 
 	public:
@@ -37,4 +38,5 @@ class Jogo {
 		void executar();
 		void setFase(int num);
 		void setEstadoMenuFases();
+		void voltarEstado();
 };

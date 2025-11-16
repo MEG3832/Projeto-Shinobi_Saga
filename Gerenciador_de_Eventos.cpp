@@ -53,7 +53,7 @@ namespace Gerenciadores {
 				direcaoInput.x += 1.0f;
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 			{
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {
 					pJogador->correr(true);
@@ -65,12 +65,12 @@ namespace Gerenciadores {
 				direcaoInput.x -= 1.0f;
 			}
 			
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 			{
 				pJogador->atacar();
 			}
 
-			if (!pJogador->getSubindo()) {
+			else if (!pJogador->getSubindo()) {
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 				{
 					direcaoInput.y -= 1.0f;
@@ -85,7 +85,7 @@ namespace Gerenciadores {
 				}
 			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			pGrafico->fecharJanela();
 		}

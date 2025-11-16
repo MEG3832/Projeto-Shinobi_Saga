@@ -27,6 +27,7 @@ Menu::~Menu() {
 }
 
 void Menu::executar() {
+	parar = false;
 	while (!parar) {
 		if (GG) {
 			if (GE) {
