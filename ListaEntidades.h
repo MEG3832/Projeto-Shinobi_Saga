@@ -18,6 +18,7 @@ namespace Listas {
 			void percorrer();
 			void desenharEntidades();
 			const int getTam() const;
+			void salvar();
 	};
 
 }
