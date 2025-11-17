@@ -30,10 +30,14 @@ void Menu_Pause::executar() {
 							parar = true;
 						}
 						else if (2 == selecionado) {
+							pJog->salvar();
+							parar = false;
+						}
+						else if (3 == selecionado) {
 							pJog->voltarEstado();
 							parar = true;
 						}
-						else if (3 == selecionado) {
+						else if (4 == selecionado) {
 							parar = true;
 							exit(1);
 						}
@@ -87,11 +91,15 @@ void Menu_Pause::inicializaTexto() {
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
 	texto.push_back(temp);
 
-	temp.setString("Voltar");
+	temp.setString("Salvar Jogo");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
 	texto.push_back(temp);
 
-	temp.setString("Sair");
+	temp.setString("Voltar");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
+	texto.push_back(temp);
+
+	temp.setString("Sair");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
 	texto.push_back(temp);
 }

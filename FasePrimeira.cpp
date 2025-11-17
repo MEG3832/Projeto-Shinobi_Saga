@@ -19,7 +19,7 @@ namespace Fases
 
 		criarCenario();
 
-		pJog->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog->getTam().y);
+		pJog->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog->getTam().y);
 		pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
 										pJog->getCorpo()->getPosition().y);
 
@@ -153,5 +153,36 @@ namespace Fases
 				std::cout << "Não foi possível alocar o redemoinho!" << std::endl;
 
 		}
+	}
+
+	void FasePrimeira::salvar() {
+
+		/* Cria uma instância de ofstream (output file stream), usado para interagir com o arquivo no disco*/
+		std::ofstream ofs("testeSave.json");
+
+		/*Cria uma instância de JSON, que eh uma lista de pares de dados que serão salvos (chave - valor) */
+		nlohmann::json dadosParaSalvar = {
+			{"fase_atual", 1},
+			{"tempo_jogado", 180.0},
+			{"pontuacao", 200}
+		};
+
+		if (ofs.is_open()) {	// Verifica se o arquivo foi aberto
+			/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
+			ofs << dadosParaSalvar.dump(4);
+			ofs.close();	// Fecha o arquivo e para a escrita
+
+			std::cout << "Jogo salvo em : " << "testeSave.json" << std::endl;
+		}
+		else {
+			std::cerr << "ERRO: Nao foi possivel abrir o arquivo para salvar." << std::endl;
+		}
+	}
+
+	void FasePrimeira::carregar(const nlohmann::json& j) {
+		float tempo_jogado = j.at("tempo_jogado").get<float>();
+		float pontuacao = j.at("pontuacao").get<float>();
+
+		std::cout << tempo_jogado << "  " << pontuacao << std::endl;
 	}
 }

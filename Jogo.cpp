@@ -1,5 +1,4 @@
 #include "Jogo.h"
-#include <SFML/Graphics.hpp>
 
 Jogo::Jogo() :
     pGG(pGG->getGerenciadorGrafico()),
@@ -126,4 +125,67 @@ void Jogo::setEstadoMenuPrincipal() {
 
 void Jogo::voltarEstado() {
     estado_atual = estado_anterior;
+}
+
+void Jogo::salvar() {
+    if (FASE1 == estado_anterior) {
+        if (pFase1) {
+            pFase1->salvar();
+        }
+        else {
+            std::cerr << "ERRO: Nao eh possivel salvar pois o ponteiro para a fase 1 eh NULL" << std::endl;
+        }
+    }
+    /*else if (FASE2 == estado_anterior) {
+        if (pFase2) {
+            pFase2->salvar();
+        }
+        else {
+            std::cerr << "ERRO: Nao eh possivel salvar pois o ponteiro para a fase 2 eh NULL" << std::endl;
+        }
+    }*/
+}
+
+void Jogo::carregar() {
+
+    /* Cria uma instancia de iftream (input file stream), usado para ler o arquivo no disco*/
+    std::ifstream ifs("testeSave.json");
+
+    if (ifs.is_open()) {	// Verifica se estah aberto
+        try {
+
+            /* Faz o parse, ou seja, lê todos os dados do fluxo ifs, transformando-os em um objeto JSON na memoria*/
+            nlohmann::json j = nlohmann::json::parse(ifs);
+            ifs.close();	// Fecha o arquivo e para a leitura e analise
+
+            std::cout << "Jogo carregado de: " << "testeSave.json" << std::endl << std::endl;
+            /* Acessar o valor associado a chave "fase_atual", transformando-a em um int*/
+            int fase = j.at("fase_atual").get<int>();
+            
+
+            if (1 == fase) {
+                if (pFase1) {
+                    pFase1->carregar(j);
+                }
+                else {
+                    std::cerr << "ERRO: Nao eh possivel carrgar pois o ponteiro para a fase 1 eh NULL" << std::endl;
+                }
+            }
+            /*else if (2 == fase) {
+                if (pFase2) {
+                    pFase2->carregar(j);
+                }
+                else {
+                    std::cerr << "ERRO: Nao eh possivel carregar pois o ponteiro para a fase 2 eh NULL" << std::endl;
+                }
+            }*/
+        }
+        catch (const nlohmann::json::parse_error& e) {	// Catch acontece com o erro específico de parsing. O erro eh capturado e armazenado na variavel e
+            /* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+            std::cerr << "ERRO: Falha ao analisar o JSON do arquivo. Motivo: " << e.what() << std::endl;
+        }
+    }
+    else {
+        std::cerr << "ERRO: Nao foi possivel abrir o arquivo para carregar." << std::endl;
+    }
 }

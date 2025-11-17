@@ -46,7 +46,7 @@ void Menu::executar() {
 						}
 						if (2 == selecionado) {
 							parar = false;
-							// Salvar
+							pJog->carregar();
 						}
 						if (3 == selecionado) {
 							parar = true;
@@ -98,11 +98,12 @@ void Menu::inicializaTexto() {
 	
 
 	temp.setCharacterSize(30);
+
 	temp.setString("Selecionar Fase");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
 	texto.push_back(temp);
 
-	temp.setString("Salvar Jogo");
+	temp.setString("Carregar Jogo");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
 	texto.push_back(temp);
 

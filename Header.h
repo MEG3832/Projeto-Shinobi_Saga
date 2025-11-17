@@ -5,6 +5,10 @@
 #define GRAVIDADE 0.3
 
 #include <iostream>
+#include <fstream>
+#include <string>
+#include "json.hpp"
+#include "json_fwd.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>

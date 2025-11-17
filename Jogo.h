@@ -43,4 +43,6 @@ class Jogo {
 		void setEstadoMenuPause();
 		void setEstadoMenuPrincipal();
 		void voltarEstado();
+		void salvar();
+		void carregar();
 };
