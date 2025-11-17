@@ -148,6 +148,8 @@ void Jogo::salvar() {
 
 void Jogo::carregar() {
 
+    int fase = 0;
+
     /* Cria uma instancia de iftream (input file stream), usado para ler o arquivo no disco*/
     std::ifstream ifs("testeSave.json");
 
@@ -160,7 +162,13 @@ void Jogo::carregar() {
 
             std::cout << "Jogo carregado de: " << "testeSave.json" << std::endl << std::endl;
             /* Acessar o valor associado a chave "fase_atual", transformando-a em um int*/
-            int fase = j.at("fase_atual").get<int>();
+            try {
+                fase = j.at("fase_atual").get<int>();
+
+            }
+            catch (const nlohmann::json::out_of_range& e) {
+                std::cerr << "ERRO: Chave 'fase_atual' ausente." << e.what() << std::endl;
+            }
             
 
             if (1 == fase) {

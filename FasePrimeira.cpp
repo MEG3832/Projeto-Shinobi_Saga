@@ -161,11 +161,38 @@ namespace Fases
 		std::ofstream ofs("testeSave.json");
 
 		/*Cria uma instância de JSON, que eh uma lista de pares de dados que serão salvos (chave - valor) */
-		nlohmann::json dadosParaSalvar = {
-			{"fase_atual", 1},
-			{"tempo_jogado", 180.0},
-			{"pontuacao", 200}
-		};
+		nlohmann::json lista_plataformas = nlohmann::json::array();
+
+		lista_plataformas.push_back({
+			{"id", 1},
+			{"pos_x", 500.0},
+			{"pos_y", 300.0},
+		});
+
+		lista_plataformas.push_back({
+			{"id", 2},
+			{"pos_x", 800.0},
+			{"pos_y", 150.0},
+		});
+
+		nlohmann::json lista_samurais = nlohmann::json::array();
+
+		lista_samurais.push_back({
+			{"nivel_maldade", 1},
+			{"pos_x", 500.0},
+			{"pos_y", 300.0},
+		});
+
+		lista_samurais.push_back({
+			{"nivel_maldade", 2},
+			{"pos_x", 800.0},
+			{"pos_y", 150.0},
+		});
+
+		nlohmann::json dadosParaSalvar;
+		dadosParaSalvar["fase_atual"] = 1;
+		dadosParaSalvar["obstaculos"] = lista_plataformas;
+		dadosParaSalvar["inimigos"] = lista_samurais;
 
 		if (ofs.is_open()) {	// Verifica se o arquivo foi aberto
 			/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
@@ -180,9 +207,25 @@ namespace Fases
 	}
 
 	void FasePrimeira::carregar(const nlohmann::json& j) {
-		float tempo_jogado = j.at("tempo_jogado").get<float>();
-		float pontuacao = j.at("pontuacao").get<float>();
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_plataformas = j.at("obstaculos");
 
-		std::cout << tempo_jogado << "  " << pontuacao << std::endl;
+			// Percorre cada elemento do array
+			for (const auto& plataforma_json : lista_plataformas) {
+
+				// Acessa os campos dentro de cada "plataforma"
+				int id = plataforma_json.at("id").get<int>();
+				float pos_x = plataforma_json.at("pos_x").get<float>();
+				float pos_y = plataforma_json.at("pos_y").get<float>();
+
+				std::cout << "[Plataforma ID " << id << "]: Posicao (" << pos_x << ", " << pos_y << ")" << std::endl;
+			}
+		}
+
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'obstaculos' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
 	}
 }
