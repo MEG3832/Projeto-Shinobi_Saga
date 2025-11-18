@@ -51,7 +51,7 @@ namespace Gerenciadores {
 
 		tratarColisoesInimigosObstacs();
 
-		tratarColisoesObstacsChao();
+		//tratarColisoesObstacsChao();
 
 		tratarColisaoObstacsObstacs();
 
@@ -432,9 +432,9 @@ namespace Gerenciadores {
 
 						// converte para Entidade* para usar a função de verificação
 						Entidades::Entidade* pE_Obstaculo1 = static_cast<Entidades::Entidade*>(
-							static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo1));
+															 static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo1));
 						Entidades::Entidade* pE_Obstaculo2 = static_cast<Entidades::Entidade*>(
-							static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo2));
+															 static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo2));
 
 						if (verificaColisao(pE_Obstaculo1, pE_Obstaculo2)) {
 							reposicionar(pObstaculo1->getHitBox(), pObstaculo2->getHitBox());

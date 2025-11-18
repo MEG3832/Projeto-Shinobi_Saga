@@ -14,6 +14,7 @@ namespace Fases
 		maxRedemoinhos(8)
 	{
 		altura_chao = 80.0;	// Medi olhando e testando
+		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 
 		fim_mapa = 10000;
 

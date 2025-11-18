@@ -14,7 +14,7 @@ namespace Entidades {
 
 		hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize()));
 		hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-			corpo->getPosition().y);
+				corpo->getPosition().y);
 
 
 		setAnimador(corpo);
@@ -57,9 +57,6 @@ namespace Entidades {
 
 	void Projetil::executar() {
 
-			//float aceleracao = -GRAVIDADE;
-			//veloc.y += aceleracao;
-
 		//verifica o estado do projétil.
 
 		if (ativo)
@@ -74,6 +71,8 @@ namespace Entidades {
 			else
 				animador->atualizarAnimProjetil(false, "Fogo");
 
+			float aceleracao = -GRAVIDADE;
+			veloc.y += aceleracao;
 			
 			corpo->move(veloc);
 			hitBox->setPosition(corpo->getPosition());
@@ -92,7 +91,6 @@ namespace Entidades {
 			}
 
 			//a "desativação" do projétil quando atinge o jogador já eh tratada na colisão (dê uma olhada em danificar, o método anterior!)
-
 		}
 
 		else
@@ -102,7 +100,7 @@ namespace Entidades {
 			hitBox->setPosition(corpo->getPosition());
 		}
 
-
+		
 	}
 
 	void Projetil::salvar() {

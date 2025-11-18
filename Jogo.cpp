@@ -5,7 +5,7 @@ Jogo::Jogo() :
     pGG(pGG->getGerenciadorGrafico()),
     pGE(pGE->getGerenciadorEventos()),
     pFase1(nullptr),
-    //pFase2(nullptr),
+    pFase2(nullptr),
     menu(),
     estado_atual(MENU_PRINCIPAL)
 {
@@ -26,11 +26,6 @@ Jogo::Jogo() :
     pGG->getWindow()->setFramerateLimit(60);
 
     Ente::setGG(pGG);
-
-    criarFases();
-    
-    //pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
-    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
 
     menu.setJogo(this);
 
@@ -53,12 +48,6 @@ Jogo::~Jogo()
     }
 }
 
-void Jogo::criarFases()
-{
-    pFase1 = new Fases::FasePrimeira();
-    //pFase2 = new Fases::FaseSegunda();
-}
-
 void Jogo::executar()
 {
     if (pGG) {
@@ -79,26 +68,42 @@ void Jogo::executar()
             //executa a lógica da fase 
             //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
             if (FASE1 == estado_atual) {
+                if (pFase2) {
+                    delete pFase2;
+                    pFase2 = nullptr;
+                }
+                if (!pFase1) {
+                    pFase1 = new Fases::FasePrimeira();
+                    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
+                }
+
                 if (pFase1)
                 {
                     pFase1->executar();
                 }
-
                 else {
                     std::cerr << "ERRO: Nao eh possivel executar a primeira fase pois ela eh NULL" << std::endl;
                 }
             }
 
-            /*if (FASE2 == estado_atual) {
+            if (FASE2 == estado_atual) {
+                if (pFase1) {
+                    delete pFase1;
+                    pFase1 = nullptr;
+                }
+                if (!pFase2) {
+                    pFase2 = new Fases::FaseSegunda();
+                    pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
+                }
+
                 if (pFase2)
                 {
                     pFase2->executar();
                 }
-
                 else {
-                    std::cerr << "ERRO: Nao eh possivel executar a primeira fase pois ela eh NULL" << std::endl;
+                    std::cerr << "ERRO: Nao eh possivel executar a segunda fase pois ela eh NULL" << std::endl;
                 }
-            }*/
+            }
 
             pGG->mostrarEntes();
         }

@@ -15,11 +15,8 @@ namespace Entidades {
 			intransponivel = false;
 			danoso = true;
 			corpo = new sf::RectangleShape(sf::Vector2f(lado, lado));
-			corpo->setPosition(400.0, ALTURA_TELA - 30 - lado);	// 35 é a altura desde a borda inferior da janela
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 30.0f, corpo->getSize().y));
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-								corpo->getPosition().y);
 
 			inicializaAnimacoes();
 		}
@@ -33,7 +30,10 @@ namespace Entidades {
 
 		void Armadilha_de_urso::executar() {
 
-			atualizaAnimacao();
+			if (!danoso) {
+				atualizaAnimacao();
+			}
+
 			sofrerContraForca();
 		}
 
@@ -63,7 +63,6 @@ namespace Entidades {
 					std::cerr << "ERRO: nao eh possivel atordoar pois o jogador eh NULL" << std::endl;
 				}
 			}
-			atualizaAnimacao();
 		}
 
 		void Armadilha_de_urso::salvar() {
@@ -83,12 +82,12 @@ namespace Entidades {
 		}
 
 		void Armadilha_de_urso::atualizaAnimacao() {
-			if (animador) {
-				animador->atualizarAnimJog(false, false, false, true, "ataque");
-			}
-			else {
-				std::cerr << "Nao eh possivel atualizar a animacao pois o animador eh NULL" << std::endl;
-			}
+				if (animador) {
+					animador->atualizarAnimJog(false, false, false, true, "ataque");
+				}
+				else {
+					std::cerr << "Nao eh possivel atualizar a animacao pois o animador eh NULL" << std::endl;
+				}
 		}
 
 		void salvarDataBuffer() {

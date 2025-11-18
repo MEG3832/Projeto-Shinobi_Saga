@@ -23,7 +23,7 @@ class Jogo {
 		Gerenciadores::Gerenciador_Grafico* pGG;
 		Gerenciadores::Gerenciador_de_Eventos* pGE;
 		Fases::FasePrimeira* pFase1; 
-		//Fases::FaseSegunda* pFase2; //o jogador é criado na fase!
+		Fases::FaseSegunda* pFase2; //o jogador é criado na fase!
 
 
 		// Variaveis
@@ -33,7 +33,6 @@ class Jogo {
 	public:
 		Jogo();
 		~Jogo();
-		void criarFases();
 		void executar();
 		void setFase(int num);
 };

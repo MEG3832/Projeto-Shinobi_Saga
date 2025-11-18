@@ -110,13 +110,13 @@ namespace Entidades
 			pProjetil->setEstadoProj(true); //apenas setamos o estado do projétil, já que o que será feito (dependendo do estado dele), será tratado no executar do projétil.
 
 			if (paraEsq) {
-				pProjetil->getCorpo()->setPosition(this->getPos().x, this->getPos().y + 75.0f); //centralizo o projétil bem na frente da kitsune
-				pProjetil->setVelocidade(sf::Vector2f(-0.05f, 0.0f));
+				pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 75.0f); //centralizo o projétil bem na frente da kitsune
+				pProjetil->setVelocidade(sf::Vector2f(-1.0f, 0.0f));
 			}
 			else {
 
-				pProjetil->getCorpo()->setPosition(this->getPos().x + this->getTam().x / 2, this->getPos().y + 75.0f);
-				pProjetil->setVelocidade(sf::Vector2f(0.05f, 0.0f));
+				pProjetil->getCorpo()->setPosition(corpo->getPosition().x + corpo->getSize().x / 2, corpo->getPosition().y + 75.0f);
+				pProjetil->setVelocidade(sf::Vector2f(1.0f, 0.0f));
 			}
 
 		}

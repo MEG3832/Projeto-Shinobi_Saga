@@ -20,9 +20,11 @@ namespace Fases
 
 		criarCenario();
 
+		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
+
 		pJog->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog->getTam().y);
 		pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
-			pJog->getCorpo()->getPosition().y);
+										pJog->getCorpo()->getPosition().y);
 
 		criarObstaculos();
 		criarInimigos();
@@ -146,13 +148,13 @@ namespace Fases
 				int correcao = 0;
 				do {
 					int posX = (2500 + i * 5000 + i * rand() % 800 + correcao) % fim_mapa;
-					float posY = ALTURA_TELA - altura_chao - pArmad->getTam().y;
+					float posY = ALTURA_TELA - 30 - pArmad->getTam().y;
 					if (pArmad->getCorpo()) {
 						pArmad->getCorpo()->setPosition(posX, posY);
 					}
 					if (pArmad->getHitBox()) {
 						pArmad->getHitBox()->setPosition(pArmad->getCorpo()->getPosition().x + (pArmad->getCorpo()->getSize().x / 2 - pArmad->getHitBox()->getSize().x / 2),
-							pArmad->getCorpo()->getPosition().y);
+														 pArmad->getCorpo()->getPosition().y);
 					}
 
 					correcao += 20;
