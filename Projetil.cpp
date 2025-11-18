@@ -57,6 +57,9 @@ namespace Entidades {
 
 	void Projetil::executar() {
 
+			//float aceleracao = -GRAVIDADE;
+			//veloc.y += aceleracao;
+
 		//verifica o estado do projétil.
 
 		if (ativo)
@@ -88,7 +91,7 @@ namespace Entidades {
 				setEstadoProj(false);
 			}
 
-				//a "desativação" do projétil quando atinge o jogador já eh tratada na colisão (dê uma olhada em danificar, o método anterior!)
+			//a "desativação" do projétil quando atinge o jogador já eh tratada na colisão (dê uma olhada em danificar, o método anterior!)
 
 		}
 

@@ -36,7 +36,6 @@ namespace Fases
 		// pFundo foi criado no construtor de Fase.
 		// Apenas adicionamos as camadas.
 
-		// Exemplo de camadas para Fase 1:
 		// (tam, vel, caminhoTextura)
 
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");

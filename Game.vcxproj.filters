@@ -76,6 +76,7 @@
     <ClCompile Include="Samurai_Inimigo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FaseSegunda.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animacao.h">
@@ -159,6 +160,7 @@
     <ClInclude Include="Samurai_Inimigo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FaseSegunda.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Camada1.png">

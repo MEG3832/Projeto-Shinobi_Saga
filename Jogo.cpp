@@ -4,7 +4,7 @@
 Jogo::Jogo() :
     pGG(pGG->getGerenciadorGrafico()),
     pGE(pGE->getGerenciadorEventos()),
-    pFase1(nullptr),
+    pFase2(nullptr),
     menu(),
     estado_atual(MENU_PRINCIPAL)
 {
@@ -28,7 +28,7 @@ Jogo::Jogo() :
 
     criarFase();
     
-    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
+    pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
 
     menu.setJogo(this);
 
@@ -44,9 +44,9 @@ Jogo::Jogo() :
 Jogo::~Jogo()
 {
     // Limpa a fase (que limpa suas listas, etc.)
-    if (pFase1) {
-        delete pFase1;
-        pFase1 = nullptr;
+    if (pFase2) {
+        delete pFase2;
+        pFase2 = nullptr;
     }
     if (pGG) {
         delete pGG;
@@ -60,7 +60,7 @@ Jogo::~Jogo()
 
 void Jogo::criarFase()
 {
-    pFase1 = new Fases::FasePrimeira();
+    pFase2 = new Fases::FaseSegunda();
 }
 
 void Jogo::executar()
@@ -83,9 +83,9 @@ void Jogo::executar()
             //executa a lógica da fase 
             //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
             if (FASE1 == estado_atual) {
-                if (pFase1)
+                if (pFase2)
                 {
-                    pFase1->executar();
+                    pFase2->executar();
                 }
 
                 else {

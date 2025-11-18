@@ -121,31 +121,10 @@ namespace Entidades
 
 		}
 
-		/*Projetil* Kitsune::criaProjetil() // ->colocar isso na fase segunda mesmo! daí passamos o Projetil 
+		void Kitsune::salvar()
 		{
-			Projetil* pProj = new Entidades::Projetil(this);
-
-			if (paraEsq)
-			{
-				pProj->getCorpo()->setPosition(this->getPos().x - 70.0f, this->getPos().y + 75.0f); //centralizo o projétil bem na frente da kitsune
-				pProj->setVelocidade(sf::Vector2f(-10.0f, -10.0f));
-			}
-				
-			else
-			{
-				pProj->getCorpo()->setPosition(this->getPos().x + 70.0f, this->getPos().y + 75.0f);
-				pProj->setVelocidade(sf::Vector2f(10.0f, -10.0f));
-			}
-				
-
-			//pProj->setEstadoProj(true);
-
-			
-
-			//preciso incluir esse projétil tanto na lista de entidades como no set do gerenciador de colisões... mas como?
-
-
-		}*/
+			return;
+		}
 
 		void Kitsune::setProjetil(Projetil* pProj)
 		{

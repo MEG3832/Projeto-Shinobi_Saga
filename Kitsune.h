@@ -23,6 +23,7 @@ namespace Entidades
 				~Kitsune();
 
 				void mover();
+				void salvar();
 				//void movimento_atq(); //movimento que a kitsune faz enquanto joga os projéteis (ir pra frente e pra trás) ??
 				void danificar(Jogador* pJ); // dano no jogador
 				void inicializaAnimacoes();
