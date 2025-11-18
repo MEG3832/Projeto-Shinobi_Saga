@@ -32,7 +32,9 @@ namespace Entidades {
 		}
 
 		void Armadilha_de_urso::executar() {
-			return;
+
+			atualizaAnimacao();
+			sofrerContraForca();
 		}
 
 		void Armadilha_de_urso::obstaculizar(Personagens::Jogador* pJ) {

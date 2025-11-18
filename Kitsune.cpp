@@ -115,7 +115,7 @@ namespace Entidades
 			}
 			else {
 
-				pProjetil->getCorpo()->setPosition(this->getPos().x, this->getPos().y + 75.0f);
+				pProjetil->getCorpo()->setPosition(this->getPos().x + this->getTam().x / 2, this->getPos().y + 75.0f);
 				pProjetil->setVelocidade(sf::Vector2f(0.05f, 0.0f));
 			}
 
