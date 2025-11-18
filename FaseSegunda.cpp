@@ -14,13 +14,13 @@ namespace Fases
 		maxKitsunes(8),
 		maxArmadilhas(8)
 	{
-		altura_chao = 80.0;	// Medi olhando e testando
+		altura_chao = 50.0;	// Medi olhando e testando
 
 		fim_mapa = 10000;
 
 		criarCenario();
 
-		pJog->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog->getTam().y);
+		pJog->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog->getTam().y);
 		pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
 			pJog->getCorpo()->getPosition().y);
 

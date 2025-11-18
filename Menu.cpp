@@ -44,8 +44,7 @@ void Menu::executar() {
 						}
 						if (2 == selecionado) {
 							pJog->setFase(2);
-							parar = false;
-							// Mudar para fase2.executar()
+							parar = true;
 						}
 						if (3 == selecionado) {
 							parar = false;
@@ -53,7 +52,7 @@ void Menu::executar() {
 						}
 						if (4 == selecionado) {
 							parar = true;
-							exit(1);
+							exit(0);
 						}
 					}
 					else {
