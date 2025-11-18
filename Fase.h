@@ -16,12 +16,16 @@ namespace Fases {
 
 		int maxTengus;
 		int maxPlataf;
-		
+		int qnt_tengus;
+		int qnt_plataf;
+
 
 	protected:
 
 		float altura_chao;
 		int fim_mapa;	// Teste de tamanho
+
+		nlohmann::json buffer_fase;
 
 		Listas::ListaEntidades lista_ents;
 		Gerenciadores::Gerenciador_Colisoes* GC; //n está exatamente de acordo com o diagrama, mas é para seguir o modelo do singleton
@@ -35,6 +39,10 @@ namespace Fases {
 		virtual void criarInimigos() = 0;
 		virtual void criarObstaculos() = 0;
 		virtual void criarCenario() = 0;
+		virtual void salvar() = 0;
+		void carregar(const nlohmann::json& j);
+		void carregarTengus();
+		void carregarPlataf();
 
 
 	public:
@@ -45,6 +53,7 @@ namespace Fases {
 		virtual void executar(); // ->percorre a lista de entidades...
 		void criarTengus(); //inimigos em comum nas duas fases.
 		void criarPlataformas(); //obstáculo em comum nas duas fases.
+		virtual void salvarDataBuffer();
 		Entidades::Personagens::Jogador* getJogador();
 
 	/*protected:

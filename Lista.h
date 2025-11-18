@@ -18,7 +18,7 @@ namespace Listas {
 
 				public:
 					Elemento() : pProx(nullptr), pInfo(nullptr) {}
-					~Elemento() { pProx = nullptr; pInfo = nullptr; }
+					~Elemento() { pProx = nullptr; delete pInfo;  pInfo = nullptr; }	// Esta certo deletar a informacao do elemento?
 					void setInfo(TE* pt) { pInfo = pt; }
 					void setProximo(Elemento<TE>* pE = nullptr) { pProx = pE; }
 					Elemento<TE>* getProximo() const { return pProx; }

@@ -45,8 +45,8 @@ void Menu::executar() {
 							parar = true;
 						}
 						if (2 == selecionado) {
-							parar = false;
 							pJog->carregar();
+							parar = true;
 						}
 						if (3 == selecionado) {
 							parar = true;

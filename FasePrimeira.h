@@ -11,6 +11,8 @@ namespace Fases {
 
 		const int maxSamurais;
 		const int maxRedemoinhos;
+		int qnt_samurais;
+		int qnt_redemoinhos;
 
 	public:
 
@@ -25,7 +27,11 @@ namespace Fases {
 		void criarSamurais(); //inimigo exclusivo da fase 1!
 		void criarRedemoinhos(); //obstáculo exclusivo da fase 1!
 
+		void carregarSamurais();
+		void carregarRedemoinhos();
+
 		void salvar();
+		void salvarDataBuffer();
 		void carregar(const nlohmann::json& j);
 	};
 

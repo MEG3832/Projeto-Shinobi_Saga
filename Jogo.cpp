@@ -151,7 +151,7 @@ void Jogo::carregar() {
     int fase = 0;
 
     /* Cria uma instancia de iftream (input file stream), usado para ler o arquivo no disco*/
-    std::ifstream ifs("testeSave.json");
+    std::ifstream ifs("arquivo_fase.json");
 
     if (ifs.is_open()) {	// Verifica se estah aberto
         try {
@@ -160,20 +160,21 @@ void Jogo::carregar() {
             nlohmann::json j = nlohmann::json::parse(ifs);
             ifs.close();	// Fecha o arquivo e para a leitura e analise
 
-            std::cout << "Jogo carregado de: " << "testeSave.json" << std::endl << std::endl;
+            std::cout << "Jogo carregado de: " << "arquivo_fase.json" << std::endl << std::endl;
             /* Acessar o valor associado a chave "fase_atual", transformando-a em um int*/
             try {
-                fase = j.at("fase_atual").get<int>();
+                fase = j.at("fase").get<int>();
 
             }
             catch (const nlohmann::json::out_of_range& e) {
-                std::cerr << "ERRO: Chave 'fase_atual' ausente." << e.what() << std::endl;
+                std::cerr << "ERRO: Chave 'fase' ausente." << e.what() << std::endl;
             }
             
 
             if (1 == fase) {
                 if (pFase1) {
                     pFase1->carregar(j);
+                    estado_atual = FASE1;
                 }
                 else {
                     std::cerr << "ERRO: Nao eh possivel carrgar pois o ponteiro para a fase 1 eh NULL" << std::endl;

@@ -542,4 +542,10 @@ namespace Gerenciadores {
 	void Gerenciador_Colisoes::setAlturaChao(int altura) {
 		altura_chao = altura;
 	}
+
+	void Gerenciador_Colisoes::limparListas() {
+		LIs.clear();
+		LOs.clear();
+		LPs.clear();
+	}
 }

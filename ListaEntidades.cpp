@@ -27,6 +27,10 @@ namespace Listas {
 		}
 	}
 
+	void ListaEntidades::limpar() {
+		LEs.limpar();
+	}
+
 	void ListaEntidades::percorrer() {
 		for (int i = 0; i < LEs.getTam(); i++) {
 			if (LEs[i]) {

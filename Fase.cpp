@@ -5,13 +5,16 @@ namespace Fases
 	Fase::Fase() :
 		maxTengus(5),
 		maxPlataf(8),
+		qnt_tengus(0),
+		qnt_plataf(0),
 		lista_ents(),
 		GC(GC->getGerenciadorColisoes()),
 		GE(GE->getGerenciadorEventos()),
 		pJog(nullptr),
 		pFundo(nullptr),
 		fim_mapa(0),
-		altura_chao(0.0)
+		altura_chao(0.0),
+		buffer_fase({})
 	{
 		pJog = new Entidades::Personagens::Jogador(); //cria o jogador
 
@@ -79,9 +82,9 @@ namespace Fases
 
 		const int min_tengus = 3;
 
-		int qnt_inim = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
+		qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
 
-		for (int i = 0; i < qnt_inim; i++)
+		for (int i = 0; i < qnt_tengus; i++)
 		{
 			Entidades::Personagens::Tengu* pTengu;
 			pTengu = new Entidades::Personagens::Tengu(pJog); //temos que passar o endereço do jogador aqui...
@@ -124,7 +127,7 @@ namespace Fases
 
 		const int min_plataf = 3;
 
-		int qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
+		qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_plataf; i++)
 		{
@@ -162,6 +165,95 @@ namespace Fases
 
 		}
 
+	}
+
+	void Fase::carregarTengus() {
+		for (int i = 0; i < qnt_tengus; i++)
+		{
+			Entidades::Personagens::Tengu* pTengu;
+			pTengu = new Entidades::Personagens::Tengu(pJog); //temos que passar o endereço do jogador aqui...
+
+			if (pTengu)
+			{
+				int correcao = 0;
+
+				do {
+					int posX = (1000 + i * 4000 + i * rand() % 1000 + correcao) % fim_mapa;
+					int posY = pGG->getWindow()->getSize().y - altura_chao - pTengu->getCorpo()->getSize().y;
+
+					if (pTengu->getCorpo()) {
+						pTengu->getCorpo()->setPosition(posX, posY);
+					}
+					if (pTengu->getHitBox()) {
+						pTengu->getHitBox()->setPosition(pTengu->getCorpo()->getPosition().x + (pTengu->getCorpo()->getSize().x / 2 - pTengu->getHitBox()->getSize().x / 2),
+							pTengu->getCorpo()->getPosition().y);
+					}
+
+					correcao += 20;
+				} while (GC->verificaColisaoEnteObstacs(pTengu) || GC->verificaColisaoEnteInimgs(pTengu));
+
+				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+					static_cast<Entidades::Personagens::Personagem*>(
+						static_cast<Entidades::Personagens::Inimigo*>(pTengu)));
+				lista_ents.incluir(pEnt);
+			}
+
+			else
+				std::cout << "Não foi possível alocar o Tengu!" << std::endl;
+
+		}
+	}
+
+	void Fase::carregarPlataf() {
+		for (int i = 0; i < qnt_plataf; i++)
+		{
+			Entidades::Obstaculos::Plataforma* pPlataf;
+			pPlataf = new Entidades::Obstaculos::Plataforma();
+
+			if (pPlataf)
+			{
+				int correcao = 0;
+
+				do {
+					int posX = (300 + i * 4500 + i * rand() % 1500 + correcao) % fim_mapa;
+					int posY = ALTURA_TELA - altura_chao - pPlataf->getTam().y -
+						(rand() % 10 + 160);
+
+					if (pPlataf->getCorpo()) {
+						pPlataf->getCorpo()->setPosition(posX, posY);
+					}
+					if (pPlataf->getHitBox()) {
+						pPlataf->getHitBox()->setPosition(pPlataf->getCorpo()->getPosition().x + (pPlataf->getCorpo()->getSize().x / 2 - pPlataf->getHitBox()->getSize().x / 2),
+							pPlataf->getCorpo()->getPosition().y);
+					}
+
+					correcao += 20;
+				} while (GC->verificaColisaoEnteObstacs(pPlataf) || GC->verificaColisaoEnteInimgs(pPlataf));
+
+				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+					static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+				lista_ents.incluir(pEnt);
+			}
+
+			else
+				std::cout << "Não foi possível alocar a plataforma!" << std::endl;
+
+		}
+	}
+
+	void Fase::salvarDataBuffer() {
+		buffer_fase["qnt_tengus"] = qnt_tengus;
+		buffer_fase["qnt_plataf"] = qnt_plataf;
+	}
+
+	void Fase::carregar(const nlohmann::json& j) {
+		qnt_tengus = j.at("qnt_tengus").get<int>();
+		qnt_plataf = j.at("qnt_plataf").get<int>();
+
+		carregarTengus();
+		carregarPlataf();
 	}
 
 	Entidades::Personagens::Jogador* Fase::getJogador() {
