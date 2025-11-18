@@ -19,12 +19,12 @@ namespace Entidades
 
 			cooldownAtordoado = 1.0f;
 
-			corpo = new sf::RectangleShape(sf::Vector2f(140.0f, 150.0f));
+			corpo = new sf::RectangleShape(sf::Vector2f(170.0f, 180.0f));
 			//corpo->setPosition(pos); //posicao??
 
 			corpo->setPosition(300.0f, ALTURA_TELA - 100 - corpo->getSize().y);
 
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 75, corpo->getSize().y));
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 120.0f, corpo->getSize().y));
 			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
 				corpo->getPosition().y);
 
@@ -41,6 +41,16 @@ namespace Entidades
 		void Kitsune::executar()
 		{
 			Inimigo::executar(); //verificar se basta isso...
+
+			sf::RectangleShape* corpoinim = this->getHitBox();
+
+			sf::RectangleShape debugHitbox2 = *corpoinim;
+
+			debugHitbox2.setTexture(nullptr);
+			debugHitbox2.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
+
+			pGG->getWindow()->draw(debugHitbox2);
+
 		}
 
 
@@ -111,12 +121,12 @@ namespace Entidades
 
 			if (paraEsq) {
 				pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 75.0f); //centralizo o projétil bem na frente da kitsune
-				pProjetil->setVelocidade(sf::Vector2f(-1.0f, 0.0f));
+				pProjetil->setVelocidade(sf::Vector2f(-3.0f, 0.0f));
 			}
 			else {
 
 				pProjetil->getCorpo()->setPosition(corpo->getPosition().x + corpo->getSize().x / 2, corpo->getPosition().y + 75.0f);
-				pProjetil->setVelocidade(sf::Vector2f(1.0f, 0.0f));
+				pProjetil->setVelocidade(sf::Vector2f(3.0f, 0.0f));
 			}
 
 		}
@@ -157,7 +167,16 @@ namespace Entidades
 
 		void Kitsune::danificar(Jogador* pJ)
 		{
-			return;
+			if (pJ)
+			{
+				int dano_causado = 200;
+				pJ->diminuiVida(dano_causado);
+				empurrar(pJ); // Chama o empurrão (pode ser o base 'Inimigo::empurrar')
+			}
+			else
+			{
+				std::cout << "ponteiro de jogador nulo!" << std::endl;
+			}
 		}
 
 	}
