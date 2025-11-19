@@ -70,9 +70,6 @@ namespace Entidades {
 
 			else
 				animador->atualizarAnimProjetil(false, "Fogo");
-
-			float aceleracao = -GRAVIDADE;
-			veloc.y += aceleracao;
 			
 			corpo->move(veloc);
 			hitBox->setPosition(corpo->getPosition());
@@ -96,11 +93,12 @@ namespace Entidades {
 		else
 		{
 			corpo->setFillColor(sf::Color::Transparent); //cor "invisível"
-			corpo->setPosition(pKitsune->getPos().x + 50.0f, pKitsune->getPos().y + 75.0f); //projétil fica mais retraído, mais próximo da kitsune
+			corpo->setPosition(pKitsune->getPos().x + 70.0f, pKitsune->getPos().y + 75.0f); //projétil fica mais retraído, mais próximo da kitsune
 			hitBox->setPosition(corpo->getPosition());
 		}
 
-		
+		float aceleracao = -GRAVIDADE;
+		veloc.y += aceleracao;
 	}
 
 	void Projetil::salvar() {
