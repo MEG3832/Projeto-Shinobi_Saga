@@ -14,6 +14,7 @@ namespace Fases
 		maxRedemoinhos(8)
 	{
 		altura_chao = 80.0;	// Medi olhando e testando
+		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 
 		fim_mapa = 10000;
 
@@ -44,7 +45,6 @@ namespace Fases
 		// pFundo foi criado no construtor de Fase.
 		// Apenas adicionamos as camadas.
 
-		// Exemplo de camadas para Fase 1:
 		// (tam, vel, caminhoTextura)
 
 		pFundo->addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");

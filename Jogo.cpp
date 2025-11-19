@@ -4,6 +4,7 @@ Jogo::Jogo() :
     pGG(pGG->getGerenciadorGrafico()),
     pGE(pGE->getGerenciadorEventos()),
     pFase1(nullptr),
+    pFase2(nullptr),
     menu(),
     menu_fase(),
     menu_pause(),
@@ -39,10 +40,10 @@ Jogo::Jogo() :
 Jogo::~Jogo()
 {
     // Limpa a fase (que limpa suas listas, etc.)
-    if (pFase1) {
-        delete pFase1;
-        pFase1 = nullptr;
-    }
+    /*if (pFase2) {
+        delete pFase2;
+        pFase2 = nullptr;
+    }*/
     if (pGG) {
         delete pGG;
         pGG = nullptr;
@@ -76,14 +77,16 @@ void Jogo::executar()
                 menu_fase.executar();
             }
 
-            else if (MENU_PAUSE == estado_atual) {
-                menu_pause.executar();
-            }
+            //executa a lógica da fase 
+            //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
+            if (FASE1 == estado_atual) {
+                if (pFase1)
+                {
+                    pFase1->executar();
+                }
 
-            else if (FASE1 == estado_atual) {
-                if (!pFase1) {
-                    pFase1 = new Fases::FasePrimeira();
-                    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
+                else {
+                    std::cerr << "ERRO: Nao eh possivel executar a primeira fase pois ela eh NULL" << std::endl;
                 }
 
                 pFase1->executar();

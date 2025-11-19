@@ -20,7 +20,6 @@ namespace Fases
 		lista_ents.incluir(pEnt);
 
 		GC->setJogador(pJog); //por enquanto, só o jogador é setado no gerenc. de colisões
-		GC->setAlturaChao(80);	// Determinado olhando a sprite do fundo
 
 		pFundo = new Parallax::Fundo(); //cria o fundo
 

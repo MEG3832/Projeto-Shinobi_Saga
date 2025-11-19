@@ -51,7 +51,7 @@ namespace Gerenciadores {
 
 		tratarColisoesInimigosObstacs();
 
-		tratarColisoesObstacsChao();
+		//tratarColisoesObstacsChao();
 
 		tratarColisaoObstacsObstacs();
 
@@ -226,12 +226,29 @@ namespace Gerenciadores {
 		std::set<Entidades::Projetil*>::iterator it = LPs.begin();
 		for (it = LPs.begin(); it != LPs.end(); it++) {
 			if (*it) {
+
+				if (!(*it)->getEstadoProj()) {
+					continue; // ignora este projétil, já que ele está inativo.
+				}
+
 				Entidades::Entidade* pP = static_cast<Entidades::Entidade*>(*it);
 				if (verificaColisao(static_cast<Entidades::Entidade*>(
 					static_cast<Entidades::Personagens::Personagem*>(pJog1)),
 					(static_cast<Entidades::Entidade*>(pP)))) {
+
+					(*it)->danificar(pJog1);
+
 					if ((*it)->getIntransponivel()) {
-						reposicionar(pJog1->getCorpo(), pP->getCorpo());
+						reposicionar(pJog1->getHitBox(), pP->getHitBox());
+
+						if (pJog1->getCorpo()) {
+							pJog1->getCorpo()->setPosition(
+								pJog1->getHitBox()->getPosition().x - (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
+								pJog1->getHitBox()->getPosition().y);
+						}
+						else {
+							std::cerr << "ERRO: nao eh possivel reposicionar pois o corpo eh NULL" << std::endl;
+						}
 					}
 				}
 			}
@@ -423,9 +440,9 @@ namespace Gerenciadores {
 
 						// converte para Entidade* para usar a função de verificação
 						Entidades::Entidade* pE_Obstaculo1 = static_cast<Entidades::Entidade*>(
-							static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo1));
+															 static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo1));
 						Entidades::Entidade* pE_Obstaculo2 = static_cast<Entidades::Entidade*>(
-							static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo2));
+															 static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo2));
 
 						if (verificaColisao(pE_Obstaculo1, pE_Obstaculo2)) {
 							reposicionar(pObstaculo1->getHitBox(), pObstaculo2->getHitBox());

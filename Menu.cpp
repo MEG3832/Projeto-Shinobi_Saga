@@ -47,10 +47,11 @@ void Menu::executar() {
 						if (2 == selecionado) {
 							pJog->carregar();
 							parar = true;
+							// Mudar para fase2.executar()
 						}
 						if (3 == selecionado) {
 							parar = true;
-							exit(1);
+							exit(0);
 						}
 					}
 					else {

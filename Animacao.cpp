@@ -74,7 +74,7 @@ namespace Animadores {
 
 	}
 
-	/*void Animacao::atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico)
+	void Animacao::atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico)
 	{
 		if(corpo) {
 			float dt = clock.getElapsedTime().asSeconds();
@@ -87,6 +87,8 @@ namespace Animadores {
 
 			img->atualizarFrameProjetil(indoParaEsq, dt);
 
+			if (img->getImgAtual() == 4)
+				img->resetar(); //para o projétil, não usarmos o resto das imagens da sprite, então resetamos...
 
 			corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
 			corpo->setTexture(img->getTextura());
@@ -95,7 +97,7 @@ namespace Animadores {
 		else {
 			std::cout << "ERRO: nao eh possivel atualizar a animacao do projetil pois o corpo eh NULL" << std::endl;
 		}
-	}*/
+	}
 
 	void Animacao::addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale)
 	{

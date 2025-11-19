@@ -65,6 +65,11 @@ namespace Entidades {
 		animador = new Animadores::Animacao(body);
 	}
 
+	//Animadores::Animacao* Entidade::getAnimador()
+	//{
+		//return animador;
+	//}
+
 	bool Entidade::getIntransponivel() {
 		return intransponivel;
 	}

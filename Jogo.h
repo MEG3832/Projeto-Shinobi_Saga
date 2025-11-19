@@ -4,6 +4,7 @@
 #include "Gerenciador_de_Eventos.h"
 #include "Fase.h"
 #include "FasePrimeira.h"
+#include "FaseSegunda.h"
 #include "Ente.h"
 #include "Menu.h"
 #include "Menu_Fase.h"
@@ -26,7 +27,9 @@ class Jogo {
 		Menu_Pause menu_pause;
 		Gerenciadores::Gerenciador_Grafico* pGG;
 		Gerenciadores::Gerenciador_de_Eventos* pGE;
-		Fases::FasePrimeira* pFase1; //o jogador é criado na fase!
+		Fases::FasePrimeira* pFase1; 
+		Fases::FaseSegunda* pFase2; //o jogador é criado na fase!
+
 
 		// Variaveis
 		Estado estado_atual;
