@@ -42,15 +42,6 @@ namespace Entidades
 		{
 			Inimigo::executar(); //verificar se basta isso...
 
-			sf::RectangleShape* corpoinim = this->getHitBox();
-
-			sf::RectangleShape debugHitbox2 = *corpoinim;
-
-			debugHitbox2.setTexture(nullptr);
-			debugHitbox2.setFillColor(sf::Color(255, 0, 0, 100)); // Vermelho, semi-transparente
-
-			pGG->getWindow()->draw(debugHitbox2);
-
 		}
 
 
