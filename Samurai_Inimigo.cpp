@@ -44,7 +44,27 @@ namespace Entidades {
 		}
 
 		void Samurai_Inimigo::salvar() {
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_samurais.push_back(buffer);
+		}
+
+		void Samurai_Inimigo::salvarDataBuffer(nlohmann::json& buffer) {
+			Inimigo::salvarDataBuffer(buffer);
+
+			buffer["dt"] = dt;
+			buffer["resistencia"] = resistencia;
+			buffer["empurra"] = empurra;
+		}
+
+		void Samurai_Inimigo::carregar(const nlohmann::json& j) {
+			dt = j.at("dt").get<float>();
+			resistencia = j.at("resistencia").get<float>();
+			empurra = j.at("empurra").get<bool>();
+
+			Inimigo::carregar(j);
 		}
 
 		void Samurai_Inimigo::danificar(Jogador* pJ)

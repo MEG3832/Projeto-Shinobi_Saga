@@ -5,6 +5,7 @@ namespace Entidades {
 	nlohmann::json Entidade::buffer_plataformas = nlohmann::json::array();
 	nlohmann::json Entidade::buffer_redemoinhos = nlohmann::json::array();
 	nlohmann::json Entidade::buffer_tengus = nlohmann::json::array();
+	nlohmann::json Entidade::buffer_samurais = nlohmann::json::array();
 
 	nlohmann::json Entidade::getArrayPlataformas() {
 		return buffer_plataformas;
@@ -16,6 +17,10 @@ namespace Entidades {
 
 	nlohmann::json Entidade::getArrayTengus() {
 		return buffer_tengus;
+	}
+
+	nlohmann::json Entidade::getArraySamurais() {
+		return buffer_samurais;
 	}
 
 	//Criar o corpo aqui já, na construtora de Entidade

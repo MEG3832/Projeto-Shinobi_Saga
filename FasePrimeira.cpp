@@ -157,45 +157,27 @@ namespace Fases
 		}
 	}
 
-	void FasePrimeira::carregarSamurais() {
-		for (int i = 0; i < qnt_samurais; i++)
-		{
-			//calcula uma resistência aleatória (float) entre 1.0 e 2.0
-			float min_res = 1.0f; //o samurai vai receber um dano normal
-			float max_res = 2.0f; //o samurai vai receber um dano pela metade.
-			float rand_percent = (float)rand() / (float)RAND_MAX; //essa divisão resulta em um valor no intervalo [0.0 , 1.0]
-			float resistencia_aleatoria = min_res + rand_percent * (max_res - min_res);
+	void FasePrimeira::carregarSamurais(const nlohmann::json& j) {
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_samurais = j.at("Samurais");
 
-			Entidades::Personagens::Samurai_Inimigo* pSam;
-			pSam = new Entidades::Personagens::Samurai_Inimigo(pJog, resistencia_aleatoria);
+			for (const auto& samurai_json : lista_samurais) {
+				Entidades::Personagens::Samurai_Inimigo* pSamurai;
+				pSamurai = new Entidades::Personagens::Samurai_Inimigo(pJog);
 
-			if (pSam)
-			{
-				int correcao = 0;
-				do {
-					int posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
-					float posY = pGG->getWindow()->getSize().y - altura_chao - pSam->getCorpo()->getSize().y;
+				pSamurai->carregar(samurai_json);
 
-					if (pSam->getCorpo()) {
-						pSam->getCorpo()->setPosition(posX, posY);
-					}
-					if (pSam->getHitBox()) {
-						pSam->getHitBox()->setPosition(pSam->getCorpo()->getPosition().x + (pSam->getCorpo()->getSize().x / 2 - pSam->getHitBox()->getSize().x / 2),
-							pSam->getCorpo()->getPosition().y);
-					}
-					correcao += 20;
-				} while (GC->verificaColisaoEnteObstacs(pSam) || GC->verificaColisaoEnteInimgs(pSam));
-
-				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pSam));
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-					static_cast<Entidades::Personagens::Personagem*>(
-						static_cast<Entidades::Personagens::Inimigo*>(pSam)));
+				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pSamurai));
+				Entidades::Entidade* pEnt = (static_cast<Entidades::Entidade*>(
+											 static_cast<Entidades::Personagens::Personagem*>(
+											 static_cast<Entidades::Personagens::Inimigo*>(pSamurai))));
 				lista_ents.incluir(pEnt);
 			}
-
-			else
-				std::cout << "Não foi possível alocar o Samurai Inimigo!" << std::endl;
-
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Samurais' ou alguma chave interna esta faltando." << e.what() << std::endl;
 		}
 	}
 
@@ -243,6 +225,7 @@ namespace Fases
 		buffer_fase["Plataformas"] = Entidades::Entidade::getArrayPlataformas();
 		buffer_fase["Redemoinhos"] = Entidades::Entidade::getArrayRedemoinhos();
 		buffer_fase["Tengus"] = Entidades::Entidade::getArrayTengus();
+		buffer_fase["Samurais"] = Entidades::Entidade::getArraySamurais();
 
 		if (arquivo_fase.is_open()) {	// Verifica se o arquivo foi aberto
 			/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
@@ -275,7 +258,7 @@ namespace Fases
 			qnt_samurais = j.at("qnt_samurais").get<int>();
 			qnt_redemoinhos = j.at("qnt_redemoinhos").get<int>();
 
-			//carregarSamurais();
+			carregarSamurais(j);
 			carregarRedemoinhos(j);
 		}
 
