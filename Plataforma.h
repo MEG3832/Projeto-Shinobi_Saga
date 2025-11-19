@@ -8,7 +8,7 @@ namespace Entidades {
 
 		class Plataforma : public Obstaculo
 		{
-			private:
+			private:	// Tirar altura e comprimento e colocar um atributo que individualize 
 				int altura;
 				int comprimento;
 				sf::Texture textura;
@@ -19,6 +19,7 @@ namespace Entidades {
 				void executar();
 				void obstaculizar(Personagens::Jogador* p);
 				void salvar();
+				void salvarDataBuffer(nlohmann::json& buffer);
 		};
 
 	}

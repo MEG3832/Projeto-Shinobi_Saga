@@ -28,7 +28,7 @@ namespace Fases {
 		void criarRedemoinhos(); //obstáculo exclusivo da fase 1!
 
 		void carregarSamurais();
-		void carregarRedemoinhos();
+		void carregarRedemoinhos(const nlohmann::json& j);
 
 		void salvar();
 		void salvarDataBuffer();

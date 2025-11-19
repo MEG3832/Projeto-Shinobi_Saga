@@ -12,8 +12,11 @@ namespace Entidades {
 		Obstaculo::~Obstaculo() 
 		{}
 
-		void Obstaculo::salvarDataBuffer() {
-			return;
+		void Obstaculo::salvarDataBuffer(nlohmann::json& buffer) {
+
+			Entidade::salvarDataBuffer(buffer);
+
+			buffer["danoso"] = false;
 		}
 
 		void Obstaculo::sofrerContraForca() {

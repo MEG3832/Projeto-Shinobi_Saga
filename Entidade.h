@@ -7,9 +7,11 @@ namespace Entidades {
 
 	class Entidade :public Ente
 	{
-		protected:
+	protected:
 
-			//ostream buffer; ->implementar
+			static nlohmann::json buffer_plataformas;
+			static nlohmann::json buffer_redemoinhos;
+
 			sf::Vector2f pos;	// Nao estou usando, pois corpo->getPosition() eh equivalente
 
 			// Variavies
@@ -17,7 +19,7 @@ namespace Entidades {
 			Animadores::Animacao* animador;
 			bool intransponivel;
 
-			//void salvarDataBuffer(); ->implementar
+			void salvarDataBuffer(nlohmann::json& buffer);
 
 		public:
 
@@ -29,6 +31,9 @@ namespace Entidades {
 			void setIntransponivel(bool intangivel);
 			void sofrerGravidade();
 			sf::Vector2f getPos(); // Nao usei, posso tirar? corpo->getPosition() eh equivalente
+
+			static nlohmann::json getArrayPlataformas();
+			static nlohmann::json getArrayRedemoinhos();
 
 			// Abstratas
 			virtual void executar() = 0;

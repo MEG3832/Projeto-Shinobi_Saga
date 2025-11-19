@@ -23,6 +23,8 @@ namespace Entidades {
 				void salvar();
 				void inicializaAnimacoes();
 				void atualizaAnimacao();
+
+				void salvarDataBuffer(nlohmann::json& buffer);
 		};
 
 	}

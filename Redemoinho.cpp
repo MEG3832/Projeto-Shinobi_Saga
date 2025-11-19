@@ -29,7 +29,7 @@ namespace Entidades {
 
 		void Redemoinho::executar() {
 			atualizaAnimacao();
-			if (animador->getImgAtual("ataque") < 5 || animador->getImgAtual("ataque") > 10) {
+			if (animador->getImgAtual() < 5 || animador->getImgAtual() > 10) {
 				dano_unico = true;
 				danoso = false;
 			}
@@ -54,7 +54,19 @@ namespace Entidades {
 		}
 
 		void Redemoinho::salvar() {
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_redemoinhos.push_back(buffer);
+		}
+
+		void Redemoinho::salvarDataBuffer(nlohmann::json& buffer) {
+			Obstaculo::salvarDataBuffer(buffer);
+
+			buffer["raio"] = raio;
+			buffer["danosidade"] = danosidade;
+			buffer["dano_unico"] = dano_unico;
 		}
 
 		void Redemoinho::inicializaAnimacoes() {

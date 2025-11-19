@@ -40,8 +40,18 @@ namespace Entidades {
 			}
 		}
 
-		void Plataforma::salvar() {
-			return;
+		void Plataforma::salvar() {	// Estou querendo tirar essa função pois salvarDataBuffer eh equivalente no que eu quero fazer
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+		
+			buffer_plataformas.push_back(buffer);
+		}
+
+		void Plataforma::salvarDataBuffer(nlohmann::json& buffer) {
+			Obstaculo::salvarDataBuffer(buffer);
+
+			// Nao ha nada especifico da plataforma pra salvar. Da ate pra tirar esse altura e comprimento, ja que o corpo tem size
 		}
 
 	}

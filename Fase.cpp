@@ -205,42 +205,45 @@ namespace Fases
 		}
 	}
 
-	void Fase::carregarPlataf() {
-		for (int i = 0; i < qnt_plataf; i++)
-		{
-			Entidades::Obstaculos::Plataforma* pPlataf;
-			pPlataf = new Entidades::Obstaculos::Plataforma();
+	void Fase::carregarPlataf(const nlohmann::json& j) {
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_plataformas = j.at("Plataformas");
 
-			if (pPlataf)
-			{
-				int correcao = 0;
+			for (const auto& plataforma_json : lista_plataformas) {
+				Entidades::Obstaculos::Plataforma* pPlataf;
+				pPlataf = new Entidades::Obstaculos::Plataforma();
 
-				do {
-					int posX = (300 + i * 4500 + i * rand() % 1500 + correcao) % fim_mapa;
-					int posY = ALTURA_TELA - altura_chao - pPlataf->getTam().y -
-						(rand() % 10 + 160);
+				float posX = plataforma_json.at("posX").get<float>();
+				float posY = plataforma_json.at("posY").get<float>();
 
-					if (pPlataf->getCorpo()) {
-						pPlataf->getCorpo()->setPosition(posX, posY);
-					}
-					if (pPlataf->getHitBox()) {
-						pPlataf->getHitBox()->setPosition(pPlataf->getCorpo()->getPosition().x + (pPlataf->getCorpo()->getSize().x / 2 - pPlataf->getHitBox()->getSize().x / 2),
-							pPlataf->getCorpo()->getPosition().y);
-					}
+				if (pPlataf->getCorpo()) {
+					pPlataf->getCorpo()->setPosition(posX, posY);
+				}
+				else {
+					std::cerr << "ERRO: Nao eh possivel setar a posicao da plataforma pois seu corpo eh NULL" << std::endl;
+				}
 
-					correcao += 20;
-				} while (GC->verificaColisaoEnteObstacs(pPlataf) || GC->verificaColisaoEnteInimgs(pPlataf));
+				if (pPlataf->getHitBox()) {
+					pPlataf->getHitBox()->setPosition(pPlataf->getCorpo()->getPosition().x + (pPlataf->getCorpo()->getSize().x / 2 - pPlataf->getHitBox()->getSize().x / 2),
+						pPlataf->getCorpo()->getPosition().y);
+				}
+				else {
+					std::cerr << "ERRO: Nao eh possivel setar a posicao da plataforma pois seu hit box eh NULL" << std::endl;
+				}
+
 
 				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-					static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
 				lista_ents.incluir(pEnt);
 			}
-
-			else
-				std::cout << "Não foi possível alocar a plataforma!" << std::endl;
-
 		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array Plataformas' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+
 	}
 
 	void Fase::salvarDataBuffer() {
@@ -252,8 +255,8 @@ namespace Fases
 		qnt_tengus = j.at("qnt_tengus").get<int>();
 		qnt_plataf = j.at("qnt_plataf").get<int>();
 
-		carregarTengus();
-		carregarPlataf();
+		//carregarTengus();
+		carregarPlataf(j);
 	}
 
 	Entidades::Personagens::Jogador* Fase::getJogador() {

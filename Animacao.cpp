@@ -103,7 +103,15 @@ namespace Animadores {
 		mapImagens.insert({ nomeAnimacao, img });
 	}
 
-	const int Animacao::getImgAtual(std::string nomeAnimacao) {
-		return mapImagens[nomeAnimacao]->getImgAtual();
+	const int Animacao::getImgAtual() {
+		return mapImagens[estadoAtual]->getImgAtual();
+	}
+
+	const float Animacao::getTempoTotal() {
+		return mapImagens[estadoAtual]->getTempoTotal();
+	}
+
+	const std::string Animacao::getEstadoAtual() {
+		return estadoAtual;
 	}
 }

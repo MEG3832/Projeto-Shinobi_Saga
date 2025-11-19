@@ -199,40 +199,46 @@ namespace Fases
 		}
 	}
 
-	void FasePrimeira::carregarRedemoinhos() {
-		for (int i = 0; i < qnt_redemoinhos; i++)
-		{
-			Entidades::Obstaculos::Redemoinho* pRed;
-			pRed = new Entidades::Obstaculos::Redemoinho();
+	void FasePrimeira::carregarRedemoinhos(const nlohmann::json& j) {
 
-			if (pRed)
-			{
-				int correcao = 0;
-				do {
-					int posX = (2500 + i * 5000 + i * rand() % 800 + correcao) % fim_mapa;
-					float posY = ALTURA_TELA - altura_chao - pRed->getTam().y;
-					if (pRed->getCorpo()) {
-						pRed->getCorpo()->setPosition(posX, posY);
-					}
-					if (pRed->getHitBox()) {
-						pRed->getHitBox()->setPosition(pRed->getCorpo()->getPosition().x + (pRed->getCorpo()->getSize().x / 2 - pRed->getHitBox()->getSize().x / 2),
-							pRed->getCorpo()->getPosition().y);
-					}
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_redemoinhos = j.at("Redemoinhos");
 
-					correcao += 20;
-				} while (GC->verificaColisaoEnteObstacs(pRed) || GC->verificaColisaoEnteInimgs(pRed));
+			for (const auto& redemoinho_json : lista_redemoinhos) {
+				Entidades::Obstaculos::Redemoinho* pRed;
+				pRed = new Entidades::Obstaculos::Redemoinho();
+
+				float posX = redemoinho_json.at("posX").get<float>();
+				float posY = redemoinho_json.at("posY").get<float>();
+
+				if (pRed->getCorpo()) {
+					pRed->getCorpo()->setPosition(posX, posY);
+				}
+				else {
+					std::cerr << "ERRO: Nao eh possivel setar a posicao da plataforma pois seu corpo eh NULL" << std::endl;
+				}
+
+				if (pRed->getHitBox()) {
+					pRed->getHitBox()->setPosition(pRed->getCorpo()->getPosition().x + (pRed->getCorpo()->getSize().x / 2 - pRed->getHitBox()->getSize().x / 2),
+												   pRed->getCorpo()->getPosition().y);
+				}
+				else {
+					std::cerr << "ERRO: Nao eh possivel setar a posicao da plataforma pois seu hit box eh NULL" << std::endl;
+				}
 
 
 				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-					static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
 				lista_ents.incluir(pEnt);
 			}
-
-			else
-				std::cout << "Não foi possível alocar o redemoinho!" << std::endl;
-
 		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Redemoinhos' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+
 	}
 
 	void FasePrimeira::salvarDataBuffer() {
@@ -250,6 +256,10 @@ namespace Fases
 
 		std::ofstream arquivo_fase("arquivo_fase.json");
 
+		lista_ents.salvar();
+		buffer_fase["Plataformas"] = Entidades::Entidade::getArrayPlataformas();
+		buffer_fase["Redemoinhos"] = Entidades::Entidade::getArrayRedemoinhos();
+
 		if (arquivo_fase.is_open()) {	// Verifica se o arquivo foi aberto
 			/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
 			arquivo_fase << buffer_fase.dump(4);
@@ -260,8 +270,6 @@ namespace Fases
 		else {
 			std::cerr << "ERRO: Nao foi possivel abrir o arquivo da fase 1 para salvar." << std::endl;
 		}
-
-		//lista_ents.salvar();
 	}
 
 	void FasePrimeira::carregar(const nlohmann::json& j) {
@@ -283,8 +291,8 @@ namespace Fases
 			qnt_samurais = j.at("qnt_samurais").get<int>();
 			qnt_redemoinhos = j.at("qnt_redemoinhos").get<int>();
 
-			carregarSamurais();
-			carregarRedemoinhos();
+			//carregarSamurais();
+			carregarRedemoinhos(j);
 		}
 
 		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/

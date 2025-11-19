@@ -21,7 +21,7 @@ namespace Entidades {
 			~Armadilha_de_urso();
 			
 			void inicializaAnimacoes();
-			void salvarDataBuffer();
+			void salvarDataBuffer(const nlohmann::json& j);
 
 			// Reimplementacoes
 			void executar();

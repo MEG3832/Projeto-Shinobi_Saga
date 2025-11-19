@@ -93,7 +93,7 @@ namespace Entidades {
 			}
 		}
 
-		void salvarDataBuffer() {
+		void salvarDataBuffer(const nlohmann::json& j) {
 			return;
 		}
 

@@ -1,7 +1,77 @@
 {
+    "Plataformas": [
+        {
+            "danoso": false,
+            "intransponivel": true,
+            "posX": 300.0,
+            "posY": 302.0,
+            "velocX": 0.0,
+            "velocY": -1.1920929132713809e-08
+        },
+        {
+            "danoso": false,
+            "intransponivel": true,
+            "posX": 4901.0,
+            "posY": 297.0,
+            "velocX": 0.0,
+            "velocY": -1.1920929132713809e-08
+        },
+        {
+            "danoso": false,
+            "intransponivel": true,
+            "posX": 750.0,
+            "posY": 303.0,
+            "velocX": 0.0,
+            "velocY": -1.1920929132713809e-08
+        }
+    ],
+    "Redemoinhos": [
+        {
+            "EstadoAtual_animacao": "ataque",
+            "ImagemAtual_animacao": 8,
+            "TempoTotal_animacao": 0.10082200169563293,
+            "dano_unico": true,
+            "danosidade": 20.0,
+            "danoso": false,
+            "intransponivel": false,
+            "posX": 2500.0,
+            "posY": 400.0,
+            "raio": 120.0,
+            "velocX": 0.0,
+            "velocY": -1.1920929132713809e-08
+        },
+        {
+            "EstadoAtual_animacao": "ataque",
+            "ImagemAtual_animacao": 8,
+            "TempoTotal_animacao": 0.10082100331783295,
+            "dano_unico": true,
+            "danosidade": 20.0,
+            "danoso": false,
+            "intransponivel": false,
+            "posX": 7763.0,
+            "posY": 400.0,
+            "raio": 120.0,
+            "velocX": 0.0,
+            "velocY": -1.1920929132713809e-08
+        },
+        {
+            "EstadoAtual_animacao": "ataque",
+            "ImagemAtual_animacao": 8,
+            "TempoTotal_animacao": 0.10082200169563293,
+            "dano_unico": true,
+            "danosidade": 20.0,
+            "danoso": false,
+            "intransponivel": false,
+            "posX": 3054.0,
+            "posY": 400.0,
+            "raio": 120.0,
+            "velocX": 0.0,
+            "velocY": -1.1920929132713809e-08
+        }
+    ],
     "fase": 1,
-    "qnt_plataf": 6,
-    "qnt_redemoinhos": 7,
-    "qnt_samurais": 6,
+    "qnt_plataf": 3,
+    "qnt_redemoinhos": 3,
+    "qnt_samurais": 7,
     "qnt_tengus": 4
 }

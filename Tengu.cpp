@@ -102,7 +102,7 @@ namespace Entidades
 								{
 									animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
 
-									if (animador->getImgAtual("Ataque3") == 2) //se chegou no último frame, pode atacar!
+									if (animador->getImgAtual() == 2) //se chegou no último frame, pode atacar!
 									{
 										atacar(pJ);
 									}
