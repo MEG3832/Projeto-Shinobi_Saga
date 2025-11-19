@@ -41,7 +41,7 @@ namespace Fases {
 		virtual void criarCenario() = 0;
 		virtual void salvar() = 0;
 		void carregar(const nlohmann::json& j);
-		void carregarTengus();
+		void carregarTengus(const nlohmann::json& j);
 		void carregarPlataf(const nlohmann::json& j);
 
 

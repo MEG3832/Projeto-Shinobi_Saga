@@ -20,6 +20,7 @@ namespace Entidades {
 				void obstaculizar(Personagens::Jogador* p);
 				void salvar();
 				void salvarDataBuffer(nlohmann::json& buffer);
+				void carregar(const nlohmann::json& j);
 		};
 
 	}

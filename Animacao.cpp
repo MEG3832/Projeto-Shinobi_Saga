@@ -114,4 +114,16 @@ namespace Animadores {
 	const std::string Animacao::getEstadoAtual() {
 		return estadoAtual;
 	}
+
+	void Animacao::setImgAtual(int ia) {
+		mapImagens[estadoAtual]->setImgAtual(ia);
+	}
+
+	void Animacao::setTempoTotal(float tt) {
+		mapImagens[estadoAtual]->setTempoTotal(tt);
+	}
+
+	void Animacao::setEstadoAtual(std::string ea) {
+		estadoAtual = ea;
+	}
 }

@@ -88,6 +88,17 @@ namespace Entidades {
 			}
 		}
 
+		void Redemoinho::carregar(const nlohmann::json& j) {
+			try {
+				dano_unico = j.at("dano_unico").get<bool>();
+			}
+			catch (const nlohmann::json::out_of_range& e) {
+				std::cerr << "ERRO: Chave 'dano_unico' ausente." << e.what() << std::endl;
+			}
+
+			Obstaculo::carregar(j);
+		}
+
 	}
 
 }

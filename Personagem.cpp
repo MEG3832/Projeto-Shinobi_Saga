@@ -38,6 +38,27 @@ namespace Entidades {
 			return dano;
 		}
 
+		void Personagem::salvarDataBuffer(nlohmann::json& buffer) {
+			Entidade::salvarDataBuffer(buffer);
+
+			buffer["num_vidas"] = num_vidas;
+			buffer["dano"] = dano;
+			buffer["paraEsq"] = paraEsq;
+		}
+
+		void Personagem::carregar(const nlohmann::json& j) {
+			try {
+				num_vidas = j.at("num_vidas").get<int>();
+				dano = j.at("dano").get<float>();
+				paraEsq = j.at("paraEsq").get<bool>();
+			}
+			catch (const nlohmann::json::out_of_range& e) {
+				std::cerr << "ERRO: Alguma das chaves estah ausente." << e.what() << std::endl;
+			}
+
+			Entidade::carregar(j);
+		}
+
 		void Personagem::setNoChao() {
 			veloc.y = 0.0f;
 		}

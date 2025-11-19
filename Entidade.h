@@ -11,6 +11,7 @@ namespace Entidades {
 
 			static nlohmann::json buffer_plataformas;
 			static nlohmann::json buffer_redemoinhos;
+			static nlohmann::json buffer_tengus;
 
 			sf::Vector2f pos;	// Nao estou usando, pois corpo->getPosition() eh equivalente
 
@@ -19,6 +20,7 @@ namespace Entidades {
 			Animadores::Animacao* animador;
 			bool intransponivel;
 
+			void carregar(const nlohmann::json& j);
 			void salvarDataBuffer(nlohmann::json& buffer);
 
 		public:
@@ -34,6 +36,7 @@ namespace Entidades {
 
 			static nlohmann::json getArrayPlataformas();
 			static nlohmann::json getArrayRedemoinhos();
+			static nlohmann::json getArrayTengus();
 
 			// Abstratas
 			virtual void executar() = 0;

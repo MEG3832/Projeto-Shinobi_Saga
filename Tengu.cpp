@@ -267,7 +267,25 @@ namespace Entidades
 		}
 
 		void Tengu::salvar() {
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_tengus.push_back(buffer);
 		}
+
+		void Tengu::salvarDataBuffer(nlohmann::json& buffer) {
+			Inimigo::salvarDataBuffer(buffer);
+
+			buffer["raio_perseg"] = raio_perseg;
+		}
+
+		void Tengu::carregar(const nlohmann::json& j) {
+			raio_perseg = j.at("raio_perseg").get<float>();
+
+			Inimigo::carregar(j);
+		}
+
+
 	}
 }

@@ -25,6 +25,7 @@ namespace Entidades {
 				void atualizaAnimacao();
 
 				void salvarDataBuffer(nlohmann::json& buffer);
+				void carregar(const nlohmann::json& j);
 		};
 
 	}

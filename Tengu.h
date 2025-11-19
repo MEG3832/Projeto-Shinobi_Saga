@@ -16,7 +16,7 @@ namespace Entidades
 
 			public:
 
-				Tengu(Jogador* pJ);
+				Tengu(Jogador* pJ = nullptr);
 				~Tengu();
 				void atacar(Jogador* pJ); //implementa a investida do tengu
 
@@ -26,6 +26,8 @@ namespace Entidades
 				void perseguir(Jogador* pJ);
 				void mover();
 				void salvar();
+				void salvarDataBuffer(nlohmann::json& buffer);
+				void carregar(const nlohmann::json& j);
 				void inicializaAnimacoes();
 
 		};

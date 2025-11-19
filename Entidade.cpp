@@ -4,6 +4,7 @@ namespace Entidades {
 
 	nlohmann::json Entidade::buffer_plataformas = nlohmann::json::array();
 	nlohmann::json Entidade::buffer_redemoinhos = nlohmann::json::array();
+	nlohmann::json Entidade::buffer_tengus = nlohmann::json::array();
 
 	nlohmann::json Entidade::getArrayPlataformas() {
 		return buffer_plataformas;
@@ -11,6 +12,10 @@ namespace Entidades {
 
 	nlohmann::json Entidade::getArrayRedemoinhos() {
 		return buffer_redemoinhos;
+	}
+
+	nlohmann::json Entidade::getArrayTengus() {
+		return buffer_tengus;
 	}
 
 	//Criar o corpo aqui já, na construtora de Entidade
@@ -52,6 +57,33 @@ namespace Entidades {
 		veloc.y += GRAVIDADE;
 		corpo->move(0.0, veloc.y);
 		hitBox->move(0.0, veloc.y);
+	}
+
+	void Entidade::carregar(const nlohmann::json& j) {
+		try {
+			if (corpo) {
+				corpo->setPosition(j.at("posX").get<float>(), j.at("posY").get<float>());
+			}
+			if (hitBox) {
+				hitBox->setPosition(j.at("posX").get<float>(), j.at("posY").get<float>());
+			}
+			// Nao vou fazer com size pois todo corpo tem um temanho setado na construtora
+
+			veloc.x = j.at("velocX").get<float>();
+			veloc.y = j.at("velocY").get<float>();
+
+			if (animador) {
+				animador->setEstadoAtual(j.at("EstadoAtual_animacao").get<std::string>());
+				animador->setImgAtual(j.at("ImagemAtual_animacao").get<int>());
+				animador->setTempoTotal(j.at("TempoTotal_animacao").get<float>());
+			}
+
+			intransponivel = j.at("intransponivel").get<int>();
+			
+		}
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: Alguma das chaves estah ausente." << e.what() << std::endl;
+		}
 	}
 
 	void Entidade::salvarDataBuffer(nlohmann::json& buffer) {

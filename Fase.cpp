@@ -167,41 +167,27 @@ namespace Fases
 
 	}
 
-	void Fase::carregarTengus() {
-		for (int i = 0; i < qnt_tengus; i++)
-		{
-			Entidades::Personagens::Tengu* pTengu;
-			pTengu = new Entidades::Personagens::Tengu(pJog); //temos que passar o endereço do jogador aqui...
+	void Fase::carregarTengus(const nlohmann::json& j) {
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_tengus = j.at("Tengus");
 
-			if (pTengu)
-			{
-				int correcao = 0;
+			for (const auto& tengu_json : lista_tengus) {
+				Entidades::Personagens::Inimigo* pTengu;
+				pTengu = new Entidades::Personagens::Tengu(pJog);
 
-				do {
-					int posX = (1000 + i * 4000 + i * rand() % 1000 + correcao) % fim_mapa;
-					int posY = pGG->getWindow()->getSize().y - altura_chao - pTengu->getCorpo()->getSize().y;
-
-					if (pTengu->getCorpo()) {
-						pTengu->getCorpo()->setPosition(posX, posY);
-					}
-					if (pTengu->getHitBox()) {
-						pTengu->getHitBox()->setPosition(pTengu->getCorpo()->getPosition().x + (pTengu->getCorpo()->getSize().x / 2 - pTengu->getHitBox()->getSize().x / 2),
-							pTengu->getCorpo()->getPosition().y);
-					}
-
-					correcao += 20;
-				} while (GC->verificaColisaoEnteObstacs(pTengu) || GC->verificaColisaoEnteInimgs(pTengu));
+				pTengu->carregar(tengu_json);
 
 				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-					static_cast<Entidades::Personagens::Personagem*>(
-						static_cast<Entidades::Personagens::Inimigo*>(pTengu)));
+				Entidades::Entidade* pEnt  = (static_cast<Entidades::Entidade*>(
+											  static_cast<Entidades::Personagens::Personagem*>(
+											  static_cast<Entidades::Personagens::Inimigo*>(pTengu))));
 				lista_ents.incluir(pEnt);
 			}
-
-			else
-				std::cout << "Não foi possível alocar o Tengu!" << std::endl;
-
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Tengus' ou alguma chave interna esta faltando." << e.what() << std::endl;
 		}
 	}
 
@@ -211,37 +197,20 @@ namespace Fases
 			const nlohmann::json& lista_plataformas = j.at("Plataformas");
 
 			for (const auto& plataforma_json : lista_plataformas) {
-				Entidades::Obstaculos::Plataforma* pPlataf;
-				pPlataf = new Entidades::Obstaculos::Plataforma();
+				Entidades::Obstaculos::Plataforma* pPlatf;
+				pPlatf = new Entidades::Obstaculos::Plataforma();
 
-				float posX = plataforma_json.at("posX").get<float>();
-				float posY = plataforma_json.at("posY").get<float>();
+				pPlatf->carregar(plataforma_json);
 
-				if (pPlataf->getCorpo()) {
-					pPlataf->getCorpo()->setPosition(posX, posY);
-				}
-				else {
-					std::cerr << "ERRO: Nao eh possivel setar a posicao da plataforma pois seu corpo eh NULL" << std::endl;
-				}
-
-				if (pPlataf->getHitBox()) {
-					pPlataf->getHitBox()->setPosition(pPlataf->getCorpo()->getPosition().x + (pPlataf->getCorpo()->getSize().x / 2 - pPlataf->getHitBox()->getSize().x / 2),
-						pPlataf->getCorpo()->getPosition().y);
-				}
-				else {
-					std::cerr << "ERRO: Nao eh possivel setar a posicao da plataforma pois seu hit box eh NULL" << std::endl;
-				}
-
-
-				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlatf));
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-											static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pPlatf));
 				lista_ents.incluir(pEnt);
 			}
 		}
 		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
 		catch (const nlohmann::json::out_of_range& e) {
-			std::cerr << "ERRO: O array Plataformas' ou alguma chave interna esta faltando." << e.what() << std::endl;
+			std::cerr << "ERRO: O array 'Plataformas' ou alguma chave interna esta faltando." << e.what() << std::endl;
 		}
 
 	}
@@ -255,7 +224,7 @@ namespace Fases
 		qnt_tengus = j.at("qnt_tengus").get<int>();
 		qnt_plataf = j.at("qnt_plataf").get<int>();
 
-		//carregarTengus();
+		carregarTengus(j);
 		carregarPlataf(j);
 	}
 

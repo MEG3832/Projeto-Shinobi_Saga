@@ -27,7 +27,8 @@ namespace Entidades {
 			int getVida();
 			virtual void setNoChao();
 			int getDano();
-			void salvarDataBuffer(const nlohmann::json& j);
+			void salvarDataBuffer(nlohmann::json& buffer);
+			void carregar(const nlohmann::json& j);
 
 			// Abstratas
 			virtual void executar() = 0;

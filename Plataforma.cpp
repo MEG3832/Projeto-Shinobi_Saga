@@ -54,6 +54,11 @@ namespace Entidades {
 			// Nao ha nada especifico da plataforma pra salvar. Da ate pra tirar esse altura e comprimento, ja que o corpo tem size
 		}
 
+		void Plataforma::carregar(const nlohmann::json& j) {
+			// Ainda nao tem nada
+			Obstaculo::carregar(j);
+		}
+
 	}
 
 }

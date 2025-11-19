@@ -26,13 +26,13 @@ namespace Entidades {
 				sf::Clock relogioAtaque; 
 				sf::Clock relogioAndar;
 				sf::Clock relogioAtordoado; 
+				Jogador* jogAlvo;	// Eh uma variavel?
 
 				// Variaveis
 				int nivel_maldade;
 				float dt_ataque;
 				float dt_andar;
 				float dt_atordoamento;
-				Jogador* jogAlvo;	// Eh uma variavel?
 				Estado estado_atual;
 
 				void perambular();
@@ -43,7 +43,8 @@ namespace Entidades {
 
 				Inimigo(Jogador* pJ);
 				virtual ~Inimigo(); //destrutora virtual **
-				void salvarDataBuffer();
+				void salvarDataBuffer(nlohmann::json& buffer);
+				void carregar(const nlohmann::json& buffer);
 				
 				// Metodos virtuais puros
 				virtual void executar() = 0;

@@ -209,24 +209,7 @@ namespace Fases
 				Entidades::Obstaculos::Redemoinho* pRed;
 				pRed = new Entidades::Obstaculos::Redemoinho();
 
-				float posX = redemoinho_json.at("posX").get<float>();
-				float posY = redemoinho_json.at("posY").get<float>();
-
-				if (pRed->getCorpo()) {
-					pRed->getCorpo()->setPosition(posX, posY);
-				}
-				else {
-					std::cerr << "ERRO: Nao eh possivel setar a posicao da plataforma pois seu corpo eh NULL" << std::endl;
-				}
-
-				if (pRed->getHitBox()) {
-					pRed->getHitBox()->setPosition(pRed->getCorpo()->getPosition().x + (pRed->getCorpo()->getSize().x / 2 - pRed->getHitBox()->getSize().x / 2),
-												   pRed->getCorpo()->getPosition().y);
-				}
-				else {
-					std::cerr << "ERRO: Nao eh possivel setar a posicao da plataforma pois seu hit box eh NULL" << std::endl;
-				}
-
+				pRed->carregar(redemoinho_json);
 
 				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
@@ -259,6 +242,7 @@ namespace Fases
 		lista_ents.salvar();
 		buffer_fase["Plataformas"] = Entidades::Entidade::getArrayPlataformas();
 		buffer_fase["Redemoinhos"] = Entidades::Entidade::getArrayRedemoinhos();
+		buffer_fase["Tengus"] = Entidades::Entidade::getArrayTengus();
 
 		if (arquivo_fase.is_open()) {	// Verifica se o arquivo foi aberto
 			/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/

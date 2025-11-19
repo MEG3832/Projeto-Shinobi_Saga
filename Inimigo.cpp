@@ -41,8 +41,29 @@ namespace Entidades {
 			estado_atual = PARADO;
 		}
 
-		void Inimigo::salvarDataBuffer() {
-			return;
+		void Inimigo::salvarDataBuffer(nlohmann::json& buffer) {
+			Personagem::salvarDataBuffer(buffer);
+
+			buffer["nivel_maldade"] = nivel_maldade;
+			buffer["dt_ataque"] = dt_ataque;
+			buffer["dt_andar"] = dt_andar;
+			buffer["dt_atordoamento"] = dt_atordoamento;
+			buffer["estado_atual"] = estado_atual;
+		}
+
+		void Inimigo::carregar(const nlohmann::json& j) {
+			try {
+				nivel_maldade = j.at("nivel_maldade").get<int>();
+				dt_ataque = j.at("dt_ataque").get<float>();
+				dt_andar = j.at("dt_andar").get<float>();
+				dt_atordoamento = j.at("dt_atordoamento").get<float>();
+				estado_atual = static_cast<Entidades::Personagens::Inimigo::Estado>(j.at("estado_atual").get<int>());
+			}
+			catch (const nlohmann::json::out_of_range& e) {
+				std::cerr << "ERRO: Alguma das chaves estah ausente." << e.what() << std::endl;
+			}
+
+			Personagem::carregar(j);
 		}
 
 		void Inimigo::executar() {
