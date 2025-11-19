@@ -16,8 +16,6 @@ namespace Fases {
 
 		int maxTengus;
 		int maxPlataf;
-		int qnt_tengus;
-		int qnt_plataf;
 
 
 	protected:
@@ -40,9 +38,6 @@ namespace Fases {
 		virtual void criarObstaculos() = 0;
 		virtual void criarCenario() = 0;
 		virtual void salvar() = 0;
-		void carregar(const nlohmann::json& j);
-		void carregarTengus(const nlohmann::json& j);
-		void carregarPlataf(const nlohmann::json& j);
 
 
 	public:
@@ -53,7 +48,10 @@ namespace Fases {
 		virtual void executar(); // ->percorre a lista de entidades...
 		void criarTengus(); //inimigos em comum nas duas fases.
 		void criarPlataformas(); //obstáculo em comum nas duas fases.
-		virtual void salvarDataBuffer();
+		void carregar(const nlohmann::json& j);
+		void carregarTengus(const nlohmann::json& j);
+		void carregarPlataf(const nlohmann::json& j);
+		void carregarJogadores(const nlohmann::json& j);
 		Entidades::Personagens::Jogador* getJogador();
 
 	/*protected:

@@ -96,7 +96,41 @@ namespace Entidades {
 
 		void Jogador::salvar()
 		{
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_jogadores.push_back(buffer);
+		}
+
+		void Jogador::salvarDataBuffer(nlohmann::json& buffer) {
+
+			Personagem::salvarDataBuffer(buffer);
+
+			buffer["pontos"] = pontos;
+			buffer["id"] = id;
+			buffer["dt"] = dt;
+			buffer["estado_atual"] = estado_atual;
+			buffer["direcaoX"] = direcao.x;
+			buffer["direcaoY"] = direcao.y;
+			buffer["velocKnockBackX"] = velocKnockBack.x;
+			buffer["velocKnockBackY"] = velocKnockBack.y;
+		}
+
+		void Jogador::carregar(const nlohmann::json& j) {
+
+			pontos = j.at("pontos").get<int>();
+			id = j.at("id").get<int>();
+			dt = j.at("dt").get<float>();
+			estado_atual = static_cast<Entidades::Personagens::Jogador::Estado>(j.at("estado_atual").get<int>());
+			direcao.x = j.at("direcaoX").get<float>();
+			direcao.y = j.at("direcaoY").get<float>();
+			velocKnockBack.x = j.at("velocKnockBackX").get<float>();
+			velocKnockBack.y = j.at("velocKnockBackY").get<float>();
+
+			timer.restart();
+
+			Personagem::carregar(j);
 		}
 
 		void Jogador::mover() {

@@ -30,10 +30,6 @@ Jogo::Jogo() :
 
     Ente::setGG(pGG);
 
-    criarFase();
-    
-    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
-
     menu.setJogo(this);
     menu_fase.setJogo(this);
     menu_pause.setJogo(this);
@@ -57,11 +53,6 @@ Jogo::~Jogo()
     }
 }
 
-void Jogo::criarFase()
-{
-    pFase1 = new Fases::FasePrimeira();
-}
-
 void Jogo::executar()
 {
     if (pGG) {
@@ -69,6 +60,15 @@ void Jogo::executar()
         while (pGG->verificaJanelaAberta())
         {
             if (MENU_PRINCIPAL == estado_atual) {
+                if (pFase1) {
+                    delete pFase1;
+                    pFase1 = nullptr;
+                }
+                /*if (pFase2) {
+                    delete pFase2;
+                    pFase2 = nullptr;
+                }*/
+
                 menu.executar();
             }
 
@@ -81,14 +81,12 @@ void Jogo::executar()
             }
 
             else if (FASE1 == estado_atual) {
-                if (pFase1)
-                {
-                    pFase1->executar();
+                if (!pFase1) {
+                    pFase1 = new Fases::FasePrimeira();
+                    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
                 }
 
-                else {
-                    std::cerr << "ERRO: Nao eh possivel executar a primeira fase pois ela eh NULL" << std::endl;
-                }
+                pFase1->executar();
             }
         }
     }
@@ -144,6 +142,9 @@ void Jogo::salvar() {
             std::cerr << "ERRO: Nao eh possivel salvar pois o ponteiro para a fase 2 eh NULL" << std::endl;
         }
     }*/
+
+    Entidades::Entidade::limparBuffers();
+
 }
 
 void Jogo::carregar() {
@@ -172,13 +173,13 @@ void Jogo::carregar() {
             
 
             if (1 == fase) {
-                if (pFase1) {
-                    pFase1->carregar(j);
-                    estado_atual = FASE1;
-                }
-                else {
-                    std::cerr << "ERRO: Nao eh possivel carrgar pois o ponteiro para a fase 1 eh NULL" << std::endl;
-                }
+                pFase1 = new Fases::FasePrimeira();
+
+                pFase1->carregar(j);
+
+                pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
+
+                estado_atual = FASE1;
             }
             /*else if (2 == fase) {
                 if (pFase2) {
@@ -188,6 +189,8 @@ void Jogo::carregar() {
                     std::cerr << "ERRO: Nao eh possivel carregar pois o ponteiro para a fase 2 eh NULL" << std::endl;
                 }
             }*/
+
+            Entidades::Entidade::limparBuffers();
         }
         catch (const nlohmann::json::parse_error& e) {	// Catch acontece com o erro específico de parsing. O erro eh capturado e armazenado na variavel e
             /* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/

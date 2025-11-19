@@ -11,8 +11,6 @@ namespace Fases {
 
 		const int maxSamurais;
 		const int maxRedemoinhos;
-		int qnt_samurais;
-		int qnt_redemoinhos;
 
 	public:
 

@@ -5,8 +5,6 @@ namespace Fases
 	Fase::Fase() :
 		maxTengus(5),
 		maxPlataf(8),
-		qnt_tengus(0),
-		qnt_plataf(0),
 		lista_ents(),
 		GC(GC->getGerenciadorColisoes()),
 		GE(GE->getGerenciadorEventos()),
@@ -82,7 +80,7 @@ namespace Fases
 
 		const int min_tengus = 3;
 
-		qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
+		int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_tengus; i++)
 		{
@@ -127,7 +125,7 @@ namespace Fases
 
 		const int min_plataf = 3;
 
-		qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
+		int qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_plataf; i++)
 		{
@@ -215,17 +213,37 @@ namespace Fases
 
 	}
 
-	void Fase::salvarDataBuffer() {
-		buffer_fase["qnt_tengus"] = qnt_tengus;
-		buffer_fase["qnt_plataf"] = qnt_plataf;
+	// Esta funcionando pra um jogador
+	void Fase::carregarJogadores(const nlohmann::json& j) {
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_jogadores = j.at("Jogadores");
+
+			for (const auto& jogador_json : lista_jogadores) {
+				pJog = new Entidades::Personagens::Jogador();
+
+				pJog->carregar(jogador_json);
+
+				GC->setJogador(pJog);
+				GE->setJogador(pJog);
+
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Personagens::Personagem*>(pJog));
+				lista_ents.incluir(pEnt);
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Jogadores' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
 	}
 
 	void Fase::carregar(const nlohmann::json& j) {
-		qnt_tengus = j.at("qnt_tengus").get<int>();
-		qnt_plataf = j.at("qnt_plataf").get<int>();
 
+		carregarJogadores(j);
 		carregarTengus(j);
 		carregarPlataf(j);
+
 	}
 
 	Entidades::Personagens::Jogador* Fase::getJogador() {

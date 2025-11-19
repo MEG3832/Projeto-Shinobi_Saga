@@ -11,9 +11,7 @@ namespace Fases
 	FasePrimeira::FasePrimeira() :
 		Fase(),
 		maxSamurais(8),
-		maxRedemoinhos(8),
-		qnt_samurais(0),
-		qnt_redemoinhos(0)
+		maxRedemoinhos(8)
 	{
 		altura_chao = 80.0;	// Medi olhando e testando
 
@@ -31,7 +29,15 @@ namespace Fases
 
 	FasePrimeira::~FasePrimeira()
 	{
+		if (GC) {
+			GC->limparListas();
+			GC = nullptr;
+		}
 
+		if (pFundo) {
+			delete pFundo;
+			pFundo = nullptr;
+		}
 	}
 
 	void FasePrimeira::criarCenario() {
@@ -64,7 +70,7 @@ namespace Fases
 
 		const int min_samurais = 3;
 		
-		qnt_samurais = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
+		int qnt_samurais = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_samurais; i++)
 		{
@@ -119,7 +125,7 @@ namespace Fases
 
 		const int min_red = 3;
 
-		qnt_redemoinhos = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
+		int qnt_redemoinhos = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
 
 
 		for (int i = 0; i < qnt_redemoinhos; i++)
@@ -208,11 +214,7 @@ namespace Fases
 
 	void FasePrimeira::salvarDataBuffer() {
 
-		Fase::salvarDataBuffer();
-
 		buffer_fase["fase"] = 1;
-		buffer_fase["qnt_samurais"] = qnt_samurais;
-		buffer_fase["qnt_redemoinhos"] = qnt_redemoinhos;
 	}
 
 	void FasePrimeira::salvar() {
@@ -226,6 +228,7 @@ namespace Fases
 		buffer_fase["Redemoinhos"] = Entidades::Entidade::getArrayRedemoinhos();
 		buffer_fase["Tengus"] = Entidades::Entidade::getArrayTengus();
 		buffer_fase["Samurais"] = Entidades::Entidade::getArraySamurais();
+		buffer_fase["Jogadores"] = Entidades::Entidade::getArrayJogadores();
 
 		if (arquivo_fase.is_open()) {	// Verifica se o arquivo foi aberto
 			/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
@@ -244,19 +247,7 @@ namespace Fases
 			lista_ents.limpar();
 			GC->limparListas();
 
-			pJog = new Entidades::Personagens::Jogador(); //cria o jogador
-			pJog->getCorpo()->setPosition(0.0, ALTURA_TELA - pJog->getCorpo()->getSize().y - altura_chao);
-
-			Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pJog); //coloca o jogador na lista de entidades
-			lista_ents.incluir(pEnt);
-
-			GC->setJogador(pJog); //por enquanto, só o jogador é setado no gerenc. de colisões
-			GE->setJogador(pJog); 
-
 			Fase::carregar(j);
-
-			qnt_samurais = j.at("qnt_samurais").get<int>();
-			qnt_redemoinhos = j.at("qnt_redemoinhos").get<int>();
 
 			carregarSamurais(j);
 			carregarRedemoinhos(j);

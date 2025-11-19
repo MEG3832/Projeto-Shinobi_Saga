@@ -36,7 +36,6 @@ class Jogo {
 	public:
 		Jogo();
 		~Jogo();
-		void criarFase();
 		void executar();
 		void setFase(int num);
 		void setEstadoMenuFases();

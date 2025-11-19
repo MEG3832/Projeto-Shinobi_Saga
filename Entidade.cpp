@@ -6,6 +6,7 @@ namespace Entidades {
 	nlohmann::json Entidade::buffer_redemoinhos = nlohmann::json::array();
 	nlohmann::json Entidade::buffer_tengus = nlohmann::json::array();
 	nlohmann::json Entidade::buffer_samurais = nlohmann::json::array();
+	nlohmann::json Entidade::buffer_jogadores = nlohmann::json::array();
 
 	nlohmann::json Entidade::getArrayPlataformas() {
 		return buffer_plataformas;
@@ -21,6 +22,20 @@ namespace Entidades {
 
 	nlohmann::json Entidade::getArraySamurais() {
 		return buffer_samurais;
+	}
+
+	nlohmann::json Entidade::getArrayJogadores() {
+		return buffer_jogadores;
+	}
+
+	void Entidade::limparBuffers() {
+
+		buffer_plataformas = {};
+		buffer_redemoinhos = {};
+		buffer_tengus = {};
+		buffer_samurais = {};
+		buffer_jogadores = {};
+
 	}
 
 	//Criar o corpo aqui já, na construtora de Entidade
@@ -70,7 +85,8 @@ namespace Entidades {
 				corpo->setPosition(j.at("posX").get<float>(), j.at("posY").get<float>());
 			}
 			if (hitBox) {
-				hitBox->setPosition(j.at("posX").get<float>(), j.at("posY").get<float>());
+				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+								    corpo->getPosition().y);
 			}
 			// Nao vou fazer com size pois todo corpo tem um temanho setado na construtora
 
