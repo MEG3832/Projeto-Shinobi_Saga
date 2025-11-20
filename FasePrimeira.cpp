@@ -115,7 +115,7 @@ namespace Fases
 
 	void FasePrimeira::criarObstaculos()
 	{
-		criarPlataformas();
+		criarPlataformas(1);	// Identifica que a textura usada eh da primeira fase
 
 		criarRedemoinhos();
 	}
@@ -247,7 +247,7 @@ namespace Fases
 			lista_ents.limpar();
 			GC->limparListas();
 
-			Fase::carregar(j);
+			Fase::carregar(j, 1);
 
 			carregarSamurais(j);
 			carregarRedemoinhos(j);

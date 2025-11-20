@@ -4,13 +4,19 @@ namespace Entidades {
 
 	namespace Obstaculos {
 
-		Plataforma::Plataforma() :
+		Plataforma::Plataforma(int id) :
 			Obstaculo(),
 			altura(55),
-			comprimento(180),
-			//textura(pGG->carregarTextura("Imagens/Obstaculos/Plataforma_DarkForest.png")),
-			textura(pGG->carregarTextura("Imagens/Obstaculos/Plataforma_Village.png"))
+			comprimento(180)
 		{
+			if (1 == id) {
+				textura = pGG->carregarTextura("Imagens/Obstaculos/Plataforma_Village.png");
+			}
+			else if (2 == id) {
+				textura = pGG->carregarTextura("Imagens/Obstaculos/Plataforma_DarkForest.png");
+			}
+
+
 			danoso = false;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));

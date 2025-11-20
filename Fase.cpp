@@ -119,7 +119,7 @@ namespace Fases
 
 	}
 
-	void Fase::criarPlataformas()
+	void Fase::criarPlataformas(int id)
 	{
 
 		const int min_plataf = 3;
@@ -129,7 +129,7 @@ namespace Fases
 		for (int i = 0; i < qnt_plataf; i++)
 		{
 			Entidades::Obstaculos::Plataforma* pPlataf;
-			pPlataf = new Entidades::Obstaculos::Plataforma();
+			pPlataf = new Entidades::Obstaculos::Plataforma(id);
 
 			if (pPlataf)
 			{ 
@@ -188,14 +188,14 @@ namespace Fases
 		}
 	}
 
-	void Fase::carregarPlataf(const nlohmann::json& j) {
+	void Fase::carregarPlataf(const nlohmann::json& j, int id) {
 		try {
 			// Obtém a referência para o array completo de "plataformas"
 			const nlohmann::json& lista_plataformas = j.at("Plataformas");
 
 			for (const auto& plataforma_json : lista_plataformas) {
 				Entidades::Obstaculos::Plataforma* pPlatf;
-				pPlatf = new Entidades::Obstaculos::Plataforma();
+				pPlatf = new Entidades::Obstaculos::Plataforma(id);
 
 				pPlatf->carregar(plataforma_json);
 
@@ -237,11 +237,11 @@ namespace Fases
 		}
 	}
 
-	void Fase::carregar(const nlohmann::json& j) {
+	void Fase::carregar(const nlohmann::json& j, int id) {
 
 		carregarJogadores(j);
 		carregarTengus(j);
-		carregarPlataf(j);
+		carregarPlataf(j, id);
 
 	}
 

@@ -7,8 +7,6 @@ class Menu_Fase : public Menu
 		Menu_Fase();
 		~Menu_Fase();
 		void executar();
-		void inicializaFundo();	// Pensei em fazer um rand com os fundos de ambas as telas de fundo das fases
 		void inicializaTexto();
-
 };
 

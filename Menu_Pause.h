@@ -7,7 +7,6 @@ class Menu_Pause : public Menu
 		Menu_Pause();
 		~Menu_Pause();
 		void executar();
-		void inicializaFundo();	// Pensei em fazer um rand com os fundos de ambas as telas de fundo das fases
 		void inicializaTexto();
 };
 

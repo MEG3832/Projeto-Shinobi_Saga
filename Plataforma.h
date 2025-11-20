@@ -14,7 +14,7 @@ namespace Entidades {
 				sf::Texture textura;
 
 			public:
-				Plataforma();
+				Plataforma(int id = 1);
 				~Plataforma();
 				void executar();
 				void obstaculizar(Personagens::Jogador* p);

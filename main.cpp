@@ -6,7 +6,9 @@
 // Colocar as equivalencias (setas de herança que indicam que algo realiza outro algo) no diagrama
 
 int main() {
+
 	Jogo jogo;
 	jogo.executar();
+
 	return 0;
 }

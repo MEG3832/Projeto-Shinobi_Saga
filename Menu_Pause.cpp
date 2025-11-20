@@ -27,7 +27,7 @@ void Menu_Pause::executar() {
 				if (executa) {
 					if (pJog) {
 						if (1 == selecionado) {
-							pJog->setEstadoMenuPrincipal();
+							pJog->voltarEstado();
 							parar = true;
 						}
 						else if (2 == selecionado) {
@@ -35,7 +35,7 @@ void Menu_Pause::executar() {
 							parar = false;
 						}
 						else if (3 == selecionado) {
-							pJog->voltarEstado();
+							pJog->setEstadoMenuPrincipal();
 							parar = true;
 						}
 						else if (4 == selecionado) {
@@ -59,19 +59,6 @@ void Menu_Pause::executar() {
 	}
 }
 
-void Menu_Pause::inicializaFundo() {
-	// Pensei de fazer um rand com esse fundo e o fundo da fase 2
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.00000000001f, "Imagens/JapanVillage/Camada3.png");
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000000001f, "Imagens/JapanVillage/Camada4.png");
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0000000001f, "Imagens/JapanVillage/Camada5.png");
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada6.png");
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.15f, "Imagens/JapanVillage/Camada8.png");
-	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada9.png");
-}
-
 void Menu_Pause::inicializaTexto() {
 	texto.clear();
 	fonte.loadFromFile("Fonte/superstar_memesbruh03.ttf");
@@ -88,7 +75,7 @@ void Menu_Pause::inicializaTexto() {
 
 
 	temp.setCharacterSize(30);
-	temp.setString("Menu Principal");
+	temp.setString("Voltar");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
 	texto.push_back(temp);
 
@@ -96,7 +83,7 @@ void Menu_Pause::inicializaTexto() {
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
 	texto.push_back(temp);
 
-	temp.setString("Voltar");
+	temp.setString("Menu Principal");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
 	texto.push_back(temp);
 

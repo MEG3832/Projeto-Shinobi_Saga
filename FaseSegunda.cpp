@@ -133,7 +133,7 @@ namespace Fases
 
 	void FaseSegunda::criarObstaculos()
 	{
-		criarPlataformas(); //está lá na classe base
+		criarPlataformas(2); // identifica que a textura usada eh a da segunda fase
 
 		criarArmadilhas();
 	}
@@ -294,7 +294,7 @@ namespace Fases
 			lista_ents.limpar();
 			GC->limparListas();
 
-			Fase::carregar(j);
+			Fase::carregar(j, 2);
 
 			carregarArmadilhas(j);
 			carregarKitsunes(j);

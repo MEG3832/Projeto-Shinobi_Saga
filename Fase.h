@@ -47,10 +47,10 @@ namespace Fases {
 
 		virtual void executar(); // ->percorre a lista de entidades...
 		void criarTengus(); //inimigos em comum nas duas fases.
-		void criarPlataformas(); //obstáculo em comum nas duas fases.
-		void carregar(const nlohmann::json& j);
+		void criarPlataformas(int id); //obstáculo em comum nas duas fases.
+		void carregar(const nlohmann::json& j, int id);
 		void carregarTengus(const nlohmann::json& j);
-		void carregarPlataf(const nlohmann::json& j);
+		void carregarPlataf(const nlohmann::json& j, int id);
 		void carregarJogadores(const nlohmann::json& j);
 		Entidades::Personagens::Jogador* getJogador();
 
