@@ -24,6 +24,8 @@ namespace Entidades
 
 				void mover();
 				void salvar();
+				void salvarDataBuffer(nlohmann::json& buffer);
+				void carregar(const nlohmann::json& j);
 				//void movimento_atq(); //movimento que a kitsune faz enquanto joga os projéteis (ir pra frente e pra trás) ??
 				void danificar(Jogador* pJ); // dano no jogador
 				void inicializaAnimacoes();

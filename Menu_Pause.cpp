@@ -12,6 +12,7 @@ Menu_Pause::~Menu_Pause()
 {}
 
 void Menu_Pause::executar() {
+	selecionado = 1;
 	parar = false;
 	while (!parar) {
 		if (GG) {

@@ -70,7 +70,25 @@ namespace Entidades {
 		}
 
 		void Armadilha_de_urso::salvar() {
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_armadilhas.push_back(buffer);
+		}
+
+		void Armadilha_de_urso::salvarDataBuffer(nlohmann::json& buffer) {
+
+			Obstaculo::salvarDataBuffer(buffer);
+
+			buffer["dt"] = dt;
+		}
+
+		void Armadilha_de_urso::carregar(const nlohmann::json& j) {
+			
+			dt = j.at("dt").get<float>();
+
+			Obstaculo::carregar(j);
 		}
 
 		void Armadilha_de_urso::inicializaAnimacoes() {
@@ -92,10 +110,6 @@ namespace Entidades {
 				else {
 					std::cerr << "Nao eh possivel atualizar a animacao pois o animador eh NULL" << std::endl;
 				}
-		}
-
-		void salvarDataBuffer(const nlohmann::json& j) {
-			return;
 		}
 
 	}

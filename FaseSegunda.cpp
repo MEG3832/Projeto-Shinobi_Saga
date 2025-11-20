@@ -32,7 +32,15 @@ namespace Fases
 
 	FaseSegunda::~FaseSegunda()
 	{
+		if (GC) {
+			GC->limparListas();
+			GC = nullptr;
+		}
 
+		if (pFundo) {
+			delete pFundo;
+			pFundo = nullptr;
+		}
 	}
 
 	void FaseSegunda::criarCenario() {
@@ -81,15 +89,15 @@ namespace Fases
 					}
 					if (pKits->getHitBox()) {
 						pKits->getHitBox()->setPosition(pKits->getCorpo()->getPosition().x + (pKits->getCorpo()->getSize().x / 2 - pKits->getHitBox()->getSize().x / 2),
-							pKits->getCorpo()->getPosition().y);
+														pKits->getCorpo()->getPosition().y);
 					}
 					correcao += 20;
 				} while (GC->verificaColisaoEnteObstacs(pKits) || GC->verificaColisaoEnteInimgs(pKits));
 
 				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pKits));
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-					static_cast<Entidades::Personagens::Personagem*>(
-						static_cast<Entidades::Personagens::Inimigo*>(pKits)));
+											static_cast<Entidades::Personagens::Personagem*>(
+											static_cast<Entidades::Personagens::Inimigo*>(pKits)));
 				lista_ents.incluir(pEnt);
 			}
 
@@ -170,6 +178,129 @@ namespace Fases
 			else
 				std::cout << "Não foi possível alocar a armadilha!" << std::endl;
 
+		}
+	}
+
+	Entidades::Projetil* FaseSegunda::carregarProjetil(const nlohmann::json& j, Entidades::Personagens::Kitsune* pKits, int i) {
+		try {
+			if (pKits) {
+				// Obtém a referência para o array completo de "plataformas"
+				const nlohmann::json& lista_projeteis = j.at("Projeteis");
+				const nlohmann::json& projetil_json = lista_projeteis.at(i);
+
+				Entidades::Projetil* pProj;
+				pProj = new Entidades::Projetil(pKits);
+
+				pProj->carregar(projetil_json);
+
+				GC->incluirProjetil(pProj);
+				Entidades::Entidade* pEnt = (static_cast<Entidades::Entidade*>(pProj));
+				lista_ents.incluir(pEnt);
+
+				return pProj;
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel carregar o projetil pois sua kitsune associada eh NULL" << std::endl;
+			}
+		}
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Projeteis' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+
+		return nullptr;
+	}
+
+	void FaseSegunda::carregarKitsunes(const nlohmann::json& j) {
+		try {
+			int i = 0;
+
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_kitsunes = j.at("Kitsunes");
+
+			for (const auto& kitsune_json : lista_kitsunes) {
+				Entidades::Personagens::Kitsune* pKits;
+				pKits = new Entidades::Personagens::Kitsune(pJog);
+
+				pKits->carregar(kitsune_json);
+
+				pKits->setProjetil(carregarProjetil(j, pKits, i++));
+
+				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pKits));
+				Entidades::Entidade* pEnt = (static_cast<Entidades::Entidade*>(
+											 static_cast<Entidades::Personagens::Personagem*>(
+						static_cast<Entidades::Personagens::Inimigo*>(pKits))));
+				lista_ents.incluir(pEnt);
+			}
+		}
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Kitsunes' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+	}
+
+	void FaseSegunda::carregarArmadilhas(const nlohmann::json& j) {
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_armadilhas = j.at("Armadilhas_de_urso");
+
+			for (const auto& armadilhas_json : lista_armadilhas) {
+				Entidades::Obstaculos::Armadilha_de_urso* pArmad;
+				pArmad = new Entidades::Obstaculos::Armadilha_de_urso();
+
+				pArmad->carregar(armadilhas_json);
+
+				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pArmad));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pArmad));
+				lista_ents.incluir(pEnt);
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Armadilhas_de_urso' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+	}
+
+	void FaseSegunda::salvar() {
+		salvarDataBuffer();
+
+		std::ofstream arquivo_fase("arquivo_fase.json");
+
+		lista_ents.salvar();
+		buffer_fase["Plataformas"] = Entidades::Entidade::getArrayPlataformas();
+		buffer_fase["Armadilhas_de_urso"] = Entidades::Entidade::getArrayArmadilhas();
+		buffer_fase["Tengus"] = Entidades::Entidade::getArrayTengus();
+		buffer_fase["Kitsunes"] = Entidades::Entidade::getArrayKitsunes();
+		buffer_fase["Projeteis"] = Entidades::Entidade::getArrayProjeteis();
+		buffer_fase["Jogadores"] = Entidades::Entidade::getArrayJogadores();
+
+		if (arquivo_fase.is_open()) {	// Verifica se o arquivo foi aberto
+			/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
+			arquivo_fase << buffer_fase.dump(4);
+			arquivo_fase.close();	// Fecha o arquivo e para a escrita
+
+			std::cout << "Fase 1 salva em : " << "arquivo_fase.json" << std::endl;
+		}
+		else {
+			std::cerr << "ERRO: Nao foi possivel abrir o arquivo da fase 2 para salvar." << std::endl;
+		}
+	}
+
+	void FaseSegunda::salvarDataBuffer() {
+		buffer_fase["fase"] = 2;
+	}
+
+	void FaseSegunda::carregar(const nlohmann::json& j) {
+		try {
+			lista_ents.limpar();
+			GC->limparListas();
+
+			Fase::carregar(j);
+
+			carregarArmadilhas(j);
+			carregarKitsunes(j);
+		}
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: Alguma chave interna esta faltando." << e.what() << std::endl;
 		}
 	}
 }

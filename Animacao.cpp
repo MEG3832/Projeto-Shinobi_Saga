@@ -77,7 +77,13 @@ namespace Animadores {
 	void Animacao::atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico)
 	{
 		if(corpo) {
-			float dt = clock.getElapsedTime().asSeconds();
+			if (estadoAtual != estadoUnico) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
+			{
+				estadoAtual = estadoUnico;
+				mapImagens[estadoAtual]->resetar();
+			}
+
+			dt = clock.getElapsedTime().asSeconds();
 			clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
 
 			Imagem* img = mapImagens[estadoUnico];
@@ -106,11 +112,23 @@ namespace Animadores {
 	}
 
 	const int Animacao::getImgAtual() {
-		return mapImagens[estadoAtual]->getImgAtual();
+		if (mapImagens[estadoAtual]) {
+			return mapImagens[estadoAtual]->getImgAtual();
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel retornar a imagem atual pois a imagem eh NULL" << std::endl;
+			return -1;
+		}
 	}
 
 	const float Animacao::getTempoTotal() {
-		return mapImagens[estadoAtual]->getTempoTotal();
+		if (mapImagens[estadoAtual]) {
+			return mapImagens[estadoAtual]->getTempoTotal();
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel retornar o tempo total pois a imagem eh NULL" << std::endl;
+			return -1.0;
+		}
 	}
 
 	const std::string Animacao::getEstadoAtual() {

@@ -15,9 +15,7 @@ namespace Gerenciadores {
 	Gerenciador_Colisoes::~Gerenciador_Colisoes() {
 		pJog1 = nullptr;
 		// Esse clear basta?
-		LIs.clear();
-		LOs.clear();
-		LPs.clear();
+		limparListas();
 	}
 
 	Gerenciador_Colisoes* Gerenciador_Colisoes::getGerenciadorColisoes() {

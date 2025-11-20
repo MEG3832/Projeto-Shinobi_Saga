@@ -12,6 +12,7 @@ Menu_Fase::~Menu_Fase()
 {}
 
 void Menu_Fase::executar() {
+	selecionado = 1;
 	parar = false;
 	while (!parar) {
 		if (GG) {
@@ -31,7 +32,7 @@ void Menu_Fase::executar() {
 						}
 						else if (2 == selecionado) {
 							pJog->setFase(2);
-							parar = false;
+							parar = true;
 							// Mudar para fase2.executar()
 						}
 						else if (3 == selecionado) {

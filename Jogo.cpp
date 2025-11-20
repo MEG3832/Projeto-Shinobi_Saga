@@ -65,10 +65,10 @@ void Jogo::executar()
                     delete pFase1;
                     pFase1 = nullptr;
                 }
-                /*if (pFase2) {
+                if (pFase2) {
                     delete pFase2;
                     pFase2 = nullptr;
-                }*/
+                }
 
                 menu.executar();
             }
@@ -77,19 +77,46 @@ void Jogo::executar()
                 menu_fase.executar();
             }
 
-            //executa a lógica da fase 
-            //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
-            if (FASE1 == estado_atual) {
+            else if (MENU_PAUSE == estado_atual) {
+                menu_pause.executar();
+            }
+
+            else if (FASE1 == estado_atual) {
+                if (pFase2) {
+                    delete pFase2;
+                    pFase2 = nullptr;
+                }
+                if (!pFase1) {
+                    pFase1 = new Fases::FasePrimeira();
+                    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
+                }
+
                 if (pFase1)
                 {
                     pFase1->executar();
                 }
-
                 else {
                     std::cerr << "ERRO: Nao eh possivel executar a primeira fase pois ela eh NULL" << std::endl;
                 }
+            }
 
-                pFase1->executar();
+            else if (FASE2 == estado_atual) {
+                if (pFase1) {
+                    delete pFase1;
+                    pFase1 = nullptr;
+                }
+                if (!pFase2) {
+                    pFase2 = new Fases::FaseSegunda();
+                    pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
+                }
+
+                if (pFase2)
+                {
+                    pFase2->executar();
+                }
+                else {
+                    std::cerr << "ERRO: Nao eh possivel executar a segunda fase pois ela eh NULL" << std::endl;
+                }
             }
         }
     }
@@ -137,14 +164,14 @@ void Jogo::salvar() {
             std::cerr << "ERRO: Nao eh possivel salvar pois o ponteiro para a fase 1 eh NULL" << std::endl;
         }
     }
-    /*else if (FASE2 == estado_anterior) {
+    else if (FASE2 == estado_anterior) {
         if (pFase2) {
             pFase2->salvar();
         }
         else {
             std::cerr << "ERRO: Nao eh possivel salvar pois o ponteiro para a fase 2 eh NULL" << std::endl;
         }
-    }*/
+    }
 
     Entidades::Entidade::limparBuffers();
 
@@ -184,14 +211,15 @@ void Jogo::carregar() {
 
                 estado_atual = FASE1;
             }
-            /*else if (2 == fase) {
-                if (pFase2) {
-                    pFase2->carregar(j);
-                }
-                else {
-                    std::cerr << "ERRO: Nao eh possivel carregar pois o ponteiro para a fase 2 eh NULL" << std::endl;
-                }
-            }*/
+            else if (2 == fase) {
+                pFase2 = new Fases::FaseSegunda();
+
+                pFase2->carregar(j);
+           
+                pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
+
+                estado_atual = FASE2;
+            }
 
             Entidades::Entidade::limparBuffers();
         }

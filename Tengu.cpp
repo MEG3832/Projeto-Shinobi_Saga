@@ -275,6 +275,7 @@ namespace Entidades
 		}
 
 		void Tengu::salvarDataBuffer(nlohmann::json& buffer) {
+
 			Inimigo::salvarDataBuffer(buffer);
 
 			buffer["raio_perseg"] = raio_perseg;

@@ -9,12 +9,12 @@ namespace Entidades {
 		pKitsune(pKits),
 		ativo(false)
 	{
-		corpo = new sf::RectangleShape(sf::Vector2f(30.0f, 45.0f));
+		corpo = new sf::RectangleShape(sf::Vector2f(90.0f, 90.0f));
 		corpo->setPosition(pKitsune->getPos());	// seta a posicao do projetil igual a posicao da kitsune....
 
 		hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize()));
 		hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-				corpo->getPosition().y);
+							corpo->getPosition().y);
 
 
 		setAnimador(corpo);
@@ -97,12 +97,31 @@ namespace Entidades {
 			hitBox->setPosition(corpo->getPosition());
 		}
 
-		float aceleracao = -GRAVIDADE;
-		veloc.y += aceleracao;
+		// Sofrer contra-forca
+		veloc.y = 0;
+		veloc.y -= GRAVIDADE;
 	}
 
 	void Projetil::salvar() {
-		return;
+		nlohmann::json buffer = {};
+
+		salvarDataBuffer(buffer);
+
+		buffer_projeteis.push_back(buffer);
+	}
+
+	void Projetil::salvarDataBuffer(nlohmann::json& buffer) {
+
+		Entidade::salvarDataBuffer(buffer);
+
+		buffer["ativo"] = ativo;
+	}
+
+	void Projetil::carregar(const nlohmann::json& j) {
+
+		ativo = j.at("ativo").get<bool>();
+
+		Entidade::carregar(j);
 	}
 
 	void Projetil::inicializaAnimacoes()
@@ -110,6 +129,8 @@ namespace Entidades {
 		//a animação do projétil só vai rodar uma vez.
 
 		animador->addAnimacao("Imagens/Projetil_Fogo/Fire_2.png", "Fogo", 11, 0.1f, sf::Vector2f(1.0, 1.0));
+
+		animador->atualizarAnimProjetil(false, "Fogo");
 	}
 
 }

@@ -84,7 +84,7 @@ namespace Entidades
 					{
 						animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
 
-						if (animador->getImgAtual("Ataque3") == 6) //se chegou no último frame, pode atacar!
+						if (animador->getImgAtual() == 6) //se chegou no último frame, pode atacar!
 						{
 							atiraProjetil();
 						}
@@ -111,12 +111,12 @@ namespace Entidades
 			pProjetil->setEstadoProj(true); //apenas setamos o estado do projétil, já que o que será feito (dependendo do estado dele), será tratado no executar do projétil.
 
 			if (paraEsq) {
-				pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 75.0f); //centralizo o projétil bem na frente da kitsune
+				pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 25.0); //centralizo o projétil bem na frente da kitsune
 				pProjetil->setVelocidade(sf::Vector2f(-3.0f, 0.0f));
 			}
 			else {
 
-				pProjetil->getCorpo()->setPosition(corpo->getPosition().x + corpo->getSize().x / 2, corpo->getPosition().y + 75.0f);
+				pProjetil->getCorpo()->setPosition(corpo->getPosition().x + corpo->getSize().x / 2, corpo->getPosition().y + 25.0f);
 				pProjetil->setVelocidade(sf::Vector2f(3.0f, 0.0f));
 			}
 
@@ -124,7 +124,25 @@ namespace Entidades
 
 		void Kitsune::salvar()
 		{
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_kitsunes.push_back(buffer);
+		}
+
+		void Kitsune::salvarDataBuffer(nlohmann::json& buffer) {
+
+			Inimigo::salvarDataBuffer(buffer);
+
+			buffer["raio_ativacao"] = raio_ativacao;
+		}
+
+		void Kitsune::carregar(const nlohmann::json& j) {
+
+			raio_ativacao = j.at("raio_ativacao").get<float>();
+
+			Inimigo::carregar(j);
 		}
 
 		void Kitsune::setProjetil(Projetil* pProj)

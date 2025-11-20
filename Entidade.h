@@ -13,6 +13,9 @@ namespace Entidades {
 			static nlohmann::json buffer_redemoinhos;
 			static nlohmann::json buffer_tengus;
 			static nlohmann::json buffer_samurais;
+			static nlohmann::json buffer_armadilhas;
+			static nlohmann::json buffer_kitsunes;
+			static nlohmann::json buffer_projeteis;
 			static nlohmann::json buffer_jogadores;
 
 			sf::Vector2f pos;	// Nao estou usando, pois corpo->getPosition() eh equivalente
@@ -40,6 +43,9 @@ namespace Entidades {
 			static nlohmann::json getArrayRedemoinhos();
 			static nlohmann::json getArrayTengus();
 			static nlohmann::json getArraySamurais();
+			static nlohmann::json getArrayArmadilhas();
+			static nlohmann::json getArrayKitsunes();
+			static nlohmann::json getArrayProjeteis();
 			static nlohmann::json getArrayJogadores();
 			static void limparBuffers();
 

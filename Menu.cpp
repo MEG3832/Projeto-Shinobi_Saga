@@ -27,6 +27,7 @@ Menu::~Menu() {
 }
 
 void Menu::executar() {
+	selecionado = 1;
 	parar = false;
 	while (!parar) {
 		if (GG) {

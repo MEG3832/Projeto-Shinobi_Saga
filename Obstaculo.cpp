@@ -16,7 +16,7 @@ namespace Entidades {
 
 			Entidade::salvarDataBuffer(buffer);
 
-			buffer["danoso"] = false;
+			buffer["danoso"] = danoso;
 		}
 
 		void Obstaculo::carregar(const nlohmann::json& j) {

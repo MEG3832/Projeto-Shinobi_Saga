@@ -82,6 +82,9 @@
     <ClCompile Include="Menu_Pause.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FaseSegunda.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animacao.h">
@@ -175,6 +178,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="json_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FaseSegunda.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

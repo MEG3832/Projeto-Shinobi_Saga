@@ -6,6 +6,9 @@ namespace Entidades {
 	nlohmann::json Entidade::buffer_redemoinhos = nlohmann::json::array();
 	nlohmann::json Entidade::buffer_tengus = nlohmann::json::array();
 	nlohmann::json Entidade::buffer_samurais = nlohmann::json::array();
+	nlohmann::json Entidade::buffer_kitsunes = nlohmann::json::array();
+	nlohmann::json Entidade::buffer_armadilhas = nlohmann::json::array();
+	nlohmann::json Entidade::buffer_projeteis = nlohmann::json::array();
 	nlohmann::json Entidade::buffer_jogadores = nlohmann::json::array();
 
 	nlohmann::json Entidade::getArrayPlataformas() {
@@ -24,6 +27,18 @@ namespace Entidades {
 		return buffer_samurais;
 	}
 
+	nlohmann::json Entidade::getArrayArmadilhas() {
+		return buffer_armadilhas;
+	}
+
+	nlohmann::json Entidade::getArrayKitsunes() {
+		return buffer_kitsunes;
+	}
+
+	nlohmann::json Entidade::getArrayProjeteis() {
+		return buffer_projeteis;
+	}
+
 	nlohmann::json Entidade::getArrayJogadores() {
 		return buffer_jogadores;
 	}
@@ -34,6 +49,9 @@ namespace Entidades {
 		buffer_redemoinhos = {};
 		buffer_tengus = {};
 		buffer_samurais = {};
+		buffer_armadilhas = {};
+		buffer_kitsunes = {};
+		buffer_projeteis = {};
 		buffer_jogadores = {};
 
 	}
@@ -62,7 +80,9 @@ namespace Entidades {
 	}
 
 	void Entidade::setAnimador(sf::RectangleShape* body) {
-		animador = new Animadores::Animacao(body);
+		if (!animador) {
+			animador = new Animadores::Animacao(body);
+		}
 	}
 
 	//Animadores::Animacao* Entidade::getAnimador()

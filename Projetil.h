@@ -1,7 +1,6 @@
 #pragma once
-#include "Entidade.h"
 #include "Jogador.h"
-//#include "Kitsune.h"
+#include "Kitsune.h"
 
 namespace Entidades
 {
@@ -16,8 +15,12 @@ namespace Entidades {
 	class Projetil : public Entidade
 	{
 	protected:
-		bool ativo;
+
 		Personagens::Kitsune* pKitsune;
+
+		// Variaveis
+		bool ativo;
+
 
 	public:
 		Projetil(Personagens::Kitsune* pKits);
@@ -28,6 +31,8 @@ namespace Entidades {
 		void danificar(Personagens::Jogador* pJ);
 		void executar();
 		void salvar();
+		void salvarDataBuffer(nlohmann::json& buffer);
+		void carregar(const nlohmann::json& j);
 
 		void inicializaAnimacoes();
 	};
