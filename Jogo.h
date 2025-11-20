@@ -38,9 +38,7 @@ class Jogo {
 		Jogo();
 		~Jogo();
 		void executar();
-		void setFase(int num);
-		void setEstadoMenuPause();
-		void setEstadoMenuPrincipal();
+		void setEstado(int num);
 		void voltarEstado();
-		void carregar();
+		void setFase(Fases::FasePrimeira* pF1, Fases::FaseSegunda* pF2);
 };

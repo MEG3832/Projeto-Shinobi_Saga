@@ -1,5 +1,7 @@
 #pragma once
 #include "Menu.h"
+#include "FasePrimeira.h"
+#include "FaseSegunda.h"
 
 class Menu_Principal : public Menu
 {
@@ -24,7 +26,9 @@ class Menu_Principal : public Menu
 
 		void executa_Principal();
 		void executa_SelecaoFase();
-		void executa_SelecaoMultiplayer();
+		//void executa_SelecaoMultiplayer();
+
+		void carregar();
 
 
 	public:

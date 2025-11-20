@@ -43,7 +43,7 @@ void Menu_Pause::executar() {
 							parar = false;
 						}
 						else if (3 == selecionado) {
-							pJog->setEstadoMenuPrincipal();
+							pJog->setEstado(0);	// o corresponde ao menu principal no enum do jogo
 							parar = true;
 						}
 						else if (4 == selecionado) {

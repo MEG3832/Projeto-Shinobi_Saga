@@ -110,7 +110,7 @@ namespace Gerenciadores {
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 			if (pJogo) {
-				pJogo->setEstadoMenuPause();
+				pJogo->setEstado(1);	// No jogo, 1 indica o estado pause
 			}
 			else {
 				std::cerr << "ERRO: Nao eh possivel pausar pois o Jogo eh NULL" << std::endl;

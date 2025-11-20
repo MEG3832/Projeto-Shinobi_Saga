@@ -10,7 +10,7 @@ Jogo::Jogo() :
     estado_atual(MENU_PRINCIPAL),
     estado_anterior(MENU_PRINCIPAL)
 {
-    srand(time(0));
+    srand((unsigned int)time(0));
 
     if (!pGG)
     {
@@ -38,10 +38,16 @@ Jogo::Jogo() :
 Jogo::~Jogo()
 {
     // Limpa a fase (que limpa suas listas, etc.)
-    /*if (pFase2) {
+    if (pFase1) {
+        delete pFase1;
+        pFase1 = nullptr;
+    }
+
+    if (pFase2) {
         delete pFase2;
         pFase2 = nullptr;
-    }*/
+    }
+
     if (pGG) {
         delete pGG;
         pGG = nullptr;
@@ -123,87 +129,25 @@ void Jogo::executar()
     }
 }
 
-void Jogo::setFase(int num) {
-    if (1 == num) {
-        estado_anterior = estado_atual;
-        estado_atual = FASE1;
+void Jogo::setEstado(int num) {
+    estado_atual = static_cast<Estado>(num);
+    if (FASE1 == estado_atual) {
+        if (pFase1) {
+            menu_pause.setFase(pFase1);
+        }
     }
-    else if (2 == num) {
-        estado_anterior = estado_atual;
-        estado_atual = FASE2;
+    else if (FASE2 == estado_atual) {
+        if (pFase2) {
+            menu_pause.setFase(pFase2);
+        }
     }
-}
-
-void Jogo::setEstadoMenuPause() {
-    estado_anterior = estado_atual;
-    estado_atual = MENU_PAUSE;
-}
-
-void Jogo::setEstadoMenuPrincipal() {
-    estado_anterior = estado_atual;
-    estado_atual = MENU_PRINCIPAL;
 }
 
 void Jogo::voltarEstado() {
     estado_atual = estado_anterior;
 }
 
-void Jogo::carregar() {
-
-    int fase = 0;
-
-    /* Cria uma instancia de iftream (input file stream), usado para ler o arquivo no disco*/
-    std::ifstream ifs("arquivo_fase.json");
-
-    if (ifs.is_open()) {	// Verifica se estah aberto
-        try {
-
-            /* Faz o parse, ou seja, lê todos os dados do fluxo ifs, transformando-os em um objeto JSON na memoria*/
-            nlohmann::json j = nlohmann::json::parse(ifs);
-            ifs.close();	// Fecha o arquivo e para a leitura e analise
-
-            std::cout << "Jogo carregado de: " << "arquivo_fase.json" << std::endl << std::endl;
-            /* Acessar o valor associado a chave "fase_atual", transformando-a em um int*/
-            try {
-                fase = j.at("fase").get<int>();
-
-            }
-            catch (const nlohmann::json::out_of_range& e) {
-                std::cerr << "ERRO: Chave 'fase' ausente." << e.what() << std::endl;
-            }
-            
-
-            if (1 == fase) {
-                pFase1 = new Fases::FasePrimeira();
-
-                pFase1->carregar(j);
-
-                menu_pause.setFase(pFase1);
-
-                pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
-
-                estado_atual = FASE1;
-            }
-            else if (2 == fase) {
-                pFase2 = new Fases::FaseSegunda();
-
-                pFase2->carregar(j);
-
-                menu_pause.setFase(pFase2);
-           
-                pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
-
-                estado_atual = FASE2;
-            }
-
-            Entidades::Entidade::limparBuffers();
-        }
-        catch (const nlohmann::json::parse_error& e) {	// Catch acontece com o erro específico de parsing. O erro eh capturado e armazenado na variavel e
-            /* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
-            std::cerr << "ERRO: Falha ao analisar o JSON do arquivo. Motivo: " << e.what() << std::endl;
-        }
-    }
-    else {
-        std::cerr << "ERRO: Nao foi possivel abrir o arquivo para carregar." << std::endl;
-    }
+void Jogo::setFase(Fases::FasePrimeira* pF1, Fases::FaseSegunda* pF2) {
+    pFase1 = pF1;
+    pFase2 = pF2;
 }
