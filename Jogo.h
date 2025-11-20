@@ -8,6 +8,7 @@
 #include "Ente.h"
 #include "Menu_Principal.h"
 #include "Menu_Pause.h"
+#include "Menu_Salvamento_Ranking.h"
 
 
 class Jogo {
@@ -16,13 +17,15 @@ class Jogo {
 		enum Estado {
 			MENU_PRINCIPAL,
 			MENU_PAUSE,
-			MENU_RANKING,
+			MENU_SALVAMENTO_RANKING,
 			FASE1,
-			FASE2
+			FASE2,
+			MENU_COLOCACAO,
 		};
 
 		Menu_Principal menu_principal;
 		Menu_Pause menu_pause;
+		Menu_Salvamento_Ranking menu_save_rank;
 		Gerenciadores::Gerenciador_Grafico* pGG;
 		Gerenciadores::Gerenciador_de_Eventos* pGE;
 		Fases::FasePrimeira* pFase1; 

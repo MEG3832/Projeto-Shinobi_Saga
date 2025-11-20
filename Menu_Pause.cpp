@@ -3,6 +3,7 @@
 
 Menu_Pause::Menu_Pause() :
 	Menu(),
+	titulo(),
 	pFase(nullptr)
 {
 	inicializaFundo();
@@ -24,14 +25,15 @@ void Menu_Pause::executar() {
 				GE->executarMenu(static_cast<Menu*>(this));	// Verifica teclas apertadas
 				fundo.executar();	// Imprime as camadas
 				desenharTexto();
+				Menu::desenharTexto();
 				GG->mostrarEntes();	// Display
 				if (executa) {
 					if (pJog) {
-						if (1 == selecionado) {
+						if (0 == selecionado) {
 							pJog->voltarEstado();
 							parar = true;
 						}
-						else if (2 == selecionado) {
+						else if (1 == selecionado) {
 							if (pFase) {
 								pFase->salvar();
 								Entidades::Entidade::limparBuffers();
@@ -42,11 +44,11 @@ void Menu_Pause::executar() {
 
 							parar = false;
 						}
-						else if (3 == selecionado) {
+						else if (2 == selecionado) {
 							pJog->setEstado(0);	// o corresponde ao menu principal no enum do jogo
 							parar = true;
 						}
-						else if (4 == selecionado) {
+						else if (3 == selecionado) {
 							parar = true;
 							exit(1);
 						}
@@ -69,20 +71,20 @@ void Menu_Pause::executar() {
 
 void Menu_Pause::inicializaTexto() {
 	texto.clear();
-	fonte.loadFromFile("Fonte/superstar_memesbruh03.ttf");
+
+	titulo.setString("NOME DO JOGO");
+	titulo.setCharacterSize(85);
+	titulo.setFillColor(sf::Color(sf::Color::White));
+	titulo.setOutlineColor(sf::Color::Black);
+	titulo.setOutlineThickness(3);
+	titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 150);
+	titulo.setFont(fonte);
+
 
 	sf::Text temp;
-	temp.setString("NOME DO JOGO");
-	temp.setCharacterSize(85);
-	temp.setFillColor(sf::Color(sf::Color::White));
-	temp.setOutlineColor(sf::Color::Black);
-	temp.setOutlineThickness(3);
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 150);
-	temp.setFont(fonte);
-	texto.push_back(temp);
-
 
 	temp.setCharacterSize(30);
+
 	temp.setString("Voltar");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
 	texto.push_back(temp);
@@ -98,6 +100,16 @@ void Menu_Pause::inicializaTexto() {
 	temp.setString("Sair");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
 	texto.push_back(temp);
+}
+
+void Menu_Pause::desenharTexto() {
+	if (pGG) {
+		titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, titulo.getPosition().y);
+		pGG->desenharTexto(titulo);
+	}
+	else {
+		std::cout << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
+	}
 }
 
 void Menu_Pause::setFase(Fases::Fase* pF) {

@@ -1,5 +1,6 @@
 #include "Gerenciador_de_Eventos.h"
 #include "Menu.h"
+#include "Menu_Salvamento_Ranking.h"
 #include "Jogo.h"
 
 namespace Gerenciadores {
@@ -154,13 +155,31 @@ namespace Gerenciadores {
 		}
 	}
 
+	void Gerenciador_de_Eventos::executarMenuSave(Menu_Salvamento_Ranking* pMenu) {
+		if (pGrafico) {
+			sf::Event evento;
+			while (pGrafico->getWindow()->pollEvent(evento)) {
+				if (evento.type == sf::Event::Closed) {
+					pGrafico->fecharJanela();
+				}
+				else if (evento.type == sf::Event::KeyPressed) {
+					verificaTeclaPressionadaMenuSave(pMenu, evento.key.code);
+				}
+			}
+		}
+		else {
+			std::cerr << "ERRO: Gerenciador Grafico eh NULL" << std::endl;
+		}
+	}
+
 	void Gerenciador_de_Eventos::verificaTeclaPressionadaMenu(Menu* pMenu, sf::Keyboard::Key tecla) {
 		if (pMenu) {
-			if (sf::Keyboard::S == tecla)
+
+			if (sf::Keyboard::Down == tecla)
 			{
 				pMenu->operator++();
 			}
-			else if (sf::Keyboard::W == tecla) {
+			else if (sf::Keyboard::Up == tecla) {
 				pMenu->operator--();
 			}
 			else if (sf::Keyboard::Enter == tecla) {
@@ -169,6 +188,35 @@ namespace Gerenciadores {
 		}
 		else {
 			std::cerr << "ERRO: Nao eh possivel mover a selecao pois o Menu eh NULL" << std::endl;
+		}
+	}
+
+	void Gerenciador_de_Eventos::verificaTeclaPressionadaMenuSave(Menu_Salvamento_Ranking* pMenu, sf::Keyboard::Key tecla) {
+		if (pMenu) {
+			if (tecla >= 0 && tecla <= 25) {	// Baseia-se no event.kay.code e na tabela ASCII
+				char c = tecla + 65;
+				pMenu->addCaractere(c);
+			}
+			else if (sf::Keyboard::Space == tecla) {
+				pMenu->addCaractere(' ');
+			}
+			else if (sf::Keyboard::BackSpace == tecla) {
+				pMenu->removeCaractere();
+			}
+
+			else if (sf::Keyboard::Down == tecla)
+			{
+				pMenu->operator++();
+			}
+			else if (sf::Keyboard::Up == tecla) {
+				pMenu->operator--();
+			}
+			else if (sf::Keyboard::Enter == tecla) {
+				pMenu->selecionar();
+			}
+		}
+		else {
+			std::cerr << "ERRO: Nao eh possivel escrever o nome do jogador pois o Menu eh NULL" << std::endl;
 		}
 	}
 

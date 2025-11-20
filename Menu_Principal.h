@@ -16,12 +16,14 @@ class Menu_Principal : public Menu
 		std::vector<sf::Text> texto_principal;
 		std::vector<sf::Text> texto_selecaoFase;
 		std::vector<sf::Text> texto_selecaoMultiplayer;
+		sf::Text titulo;
 		Estado estado_atual;
 
 		void inicializaTexto();
 		void inicializaTexto_SelecaoFase();
 		void inicializaTexto_SelecaoMultiplayer();
 		void inicializaTexto_Principal();
+		void desenharTexto();
 		void copiarVetores(std::vector<sf::Text> origem, std::vector<sf::Text>* destino);
 
 		void executa_Principal();

@@ -7,6 +7,7 @@ Jogo::Jogo() :
     pFase2(nullptr),
     menu_principal(),
     menu_pause(),
+    menu_save_rank(),
     estado_atual(MENU_PRINCIPAL),
     estado_anterior(MENU_PRINCIPAL)
 {
@@ -83,6 +84,10 @@ void Jogo::executar()
                 menu_pause.executar();
             }
 
+            else if (MENU_SALVAMENTO_RANKING == estado_atual) {
+                menu_save_rank.executar();
+            }
+
             else if (FASE1 == estado_atual) {
                 if (pFase2) {
                     delete pFase2;
@@ -130,6 +135,7 @@ void Jogo::executar()
 }
 
 void Jogo::setEstado(int num) {
+    estado_anterior = estado_atual;
     estado_atual = static_cast<Estado>(num);
     if (FASE1 == estado_atual) {
         if (pFase1) {

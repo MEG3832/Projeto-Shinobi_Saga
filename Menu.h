@@ -22,6 +22,7 @@ class Menu : public Ente
 		// Abstratas
 		virtual void inicializaTexto() = 0;
 		virtual void executar() = 0;
+
 		void inicializaFundo();	// Pensei em fazer um rand com os fundos de ambas as telas
 		void desenharTexto();
 

@@ -61,13 +61,10 @@ void Menu::desenharTexto() {
 
 void Menu::operator++() {
 	selecionado = (selecionado + 1) % (int)texto.size();
-	if (0 == selecionado) {
-		selecionado = 1;
-	}
 }
 
 void Menu::operator--() {
-	if (1 == selecionado) {
+	if (0 == selecionado) {
 		selecionado = (int)texto.size();
 	}
 	selecionado--;
