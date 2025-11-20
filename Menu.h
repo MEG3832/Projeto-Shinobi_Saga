@@ -6,29 +6,34 @@
 class Jogo;
 class Menu_Fase;
 
-	class Menu : public Ente
-	{
-		protected:	// Mudei, pode?
-			Jogo* pJog;
-			Gerenciadores::Gerenciador_Grafico* GG;
-			Gerenciadores::Gerenciador_de_Eventos* GE;
-			Parallax::Fundo fundo;
-			sf::Font fonte;
-			std::vector<sf::Text> texto;
-			int selecionado;
-			bool executa;
-			bool parar;
+class Menu : public Ente
+{
+	protected:
+		Jogo* pJog;
+		Gerenciadores::Gerenciador_Grafico* GG;
+		Gerenciadores::Gerenciador_de_Eventos* GE;
+		sf::Font fonte;
+		std::vector<sf::Text> texto;
+		int selecionado;
+		bool parar;
+		bool executa;
+		Parallax::Fundo fundo;
 
-		public:
-			Menu();
-			~Menu();
-			void executar();
-			void inicializaFundo();	// Pensei em fazer um rand com os fundos de ambas as telas
-			void inicializaTexto();
-			void desenharTexto();
-			void operator++();
-			void operator--();
-			void selecionar();
-			void setJogo(Jogo* jogo);
-	};
+		// Abstratas
+		virtual void inicializaTexto() = 0;
+		virtual void executar() = 0;
+		void inicializaFundo();	// Pensei em fazer um rand com os fundos de ambas as telas
+		void desenharTexto();
+
+	public:
+		Menu();
+		~Menu();
+
+		void selecionar();
+		void setJogo(Jogo* jogo);
+
+		// Sobre cargas 
+		void operator++();
+		void operator--();
+};
 

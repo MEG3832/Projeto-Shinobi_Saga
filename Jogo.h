@@ -6,8 +6,7 @@
 #include "FasePrimeira.h"
 #include "FaseSegunda.h"
 #include "Ente.h"
-#include "Menu.h"
-#include "Menu_Fase.h"
+#include "Menu_Principal.h"
 #include "Menu_Pause.h"
 
 
@@ -17,13 +16,12 @@ class Jogo {
 		enum Estado {
 			MENU_PRINCIPAL,
 			MENU_PAUSE,
-			MENU_FASE,
+			MENU_RANKING,
 			FASE1,
 			FASE2
 		};
 
-		Menu menu;
-		Menu_Fase menu_fase;
+		Menu_Principal menu_principal;
 		Menu_Pause menu_pause;
 		Gerenciadores::Gerenciador_Grafico* pGG;
 		Gerenciadores::Gerenciador_de_Eventos* pGE;
@@ -41,10 +39,8 @@ class Jogo {
 		~Jogo();
 		void executar();
 		void setFase(int num);
-		void setEstadoMenuFases();
 		void setEstadoMenuPause();
 		void setEstadoMenuPrincipal();
 		void voltarEstado();
-		void salvar();
 		void carregar();
 };

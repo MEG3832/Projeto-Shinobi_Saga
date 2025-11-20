@@ -76,13 +76,13 @@
     <ClCompile Include="Samurai_Inimigo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Menu_Fase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Menu_Pause.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FaseSegunda.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_Principal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -168,9 +168,6 @@
     <ClInclude Include="Samurai_Inimigo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu_Fase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Menu_Pause.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -181,6 +178,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FaseSegunda.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu_Principal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

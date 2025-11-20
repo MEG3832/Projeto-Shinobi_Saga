@@ -5,8 +5,7 @@ Jogo::Jogo() :
     pGE(pGE->getGerenciadorEventos()),
     pFase1(nullptr),
     pFase2(nullptr),
-    menu(),
-    menu_fase(),
+    menu_principal(),
     menu_pause(),
     estado_atual(MENU_PRINCIPAL),
     estado_anterior(MENU_PRINCIPAL)
@@ -31,8 +30,7 @@ Jogo::Jogo() :
 
     Ente::setGG(pGG);
 
-    menu.setJogo(this);
-    menu_fase.setJogo(this);
+    menu_principal.setJogo(this);
     menu_pause.setJogo(this);
 
 }
@@ -64,17 +62,15 @@ void Jogo::executar()
                 if (pFase1) {
                     delete pFase1;
                     pFase1 = nullptr;
+                    menu_pause.setFase(nullptr);
                 }
                 if (pFase2) {
                     delete pFase2;
                     pFase2 = nullptr;
+                    menu_pause.setFase(nullptr);
                 }
 
-                menu.executar();
-            }
-
-            else if (MENU_FASE == estado_atual) {
-                menu_fase.executar();
+                menu_principal.executar();
             }
 
             else if (MENU_PAUSE == estado_atual) {
@@ -89,6 +85,7 @@ void Jogo::executar()
                 if (!pFase1) {
                     pFase1 = new Fases::FasePrimeira();
                     pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
+                    menu_pause.setFase(pFase1);
                 }
 
                 if (pFase1)
@@ -108,6 +105,7 @@ void Jogo::executar()
                 if (!pFase2) {
                     pFase2 = new Fases::FaseSegunda();
                     pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
+                    menu_pause.setFase(pFase2);
                 }
 
                 if (pFase2)
@@ -136,11 +134,6 @@ void Jogo::setFase(int num) {
     }
 }
 
-void Jogo::setEstadoMenuFases() {
-    estado_anterior = estado_atual;
-    estado_atual = MENU_FASE;
-}
-
 void Jogo::setEstadoMenuPause() {
     estado_anterior = estado_atual;
     estado_atual = MENU_PAUSE;
@@ -153,28 +146,6 @@ void Jogo::setEstadoMenuPrincipal() {
 
 void Jogo::voltarEstado() {
     estado_atual = estado_anterior;
-}
-
-void Jogo::salvar() {
-    if (FASE1 == estado_anterior) {
-        if (pFase1) {
-            pFase1->salvar();
-        }
-        else {
-            std::cerr << "ERRO: Nao eh possivel salvar pois o ponteiro para a fase 1 eh NULL" << std::endl;
-        }
-    }
-    else if (FASE2 == estado_anterior) {
-        if (pFase2) {
-            pFase2->salvar();
-        }
-        else {
-            std::cerr << "ERRO: Nao eh possivel salvar pois o ponteiro para a fase 2 eh NULL" << std::endl;
-        }
-    }
-
-    Entidades::Entidade::limparBuffers();
-
 }
 
 void Jogo::carregar() {
@@ -207,6 +178,8 @@ void Jogo::carregar() {
 
                 pFase1->carregar(j);
 
+                menu_pause.setFase(pFase1);
+
                 pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
 
                 estado_atual = FASE1;
@@ -215,6 +188,8 @@ void Jogo::carregar() {
                 pFase2 = new Fases::FaseSegunda();
 
                 pFase2->carregar(j);
+
+                menu_pause.setFase(pFase2);
            
                 pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
 

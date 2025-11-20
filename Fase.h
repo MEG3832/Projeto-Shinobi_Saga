@@ -37,7 +37,6 @@ namespace Fases {
 		virtual void criarInimigos() = 0;
 		virtual void criarObstaculos() = 0;
 		virtual void criarCenario() = 0;
-		virtual void salvar() = 0;
 
 
 	public:
@@ -52,6 +51,7 @@ namespace Fases {
 		void carregarTengus(const nlohmann::json& j);
 		void carregarPlataf(const nlohmann::json& j, int id);
 		void carregarJogadores(const nlohmann::json& j);
+		virtual void salvar() = 0;
 		Entidades::Personagens::Jogador* getJogador();
 
 	/*protected:

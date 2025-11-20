@@ -2,7 +2,8 @@
 #include "Jogo.h"
 
 Menu_Pause::Menu_Pause() :
-	Menu()
+	Menu(),
+	pFase(nullptr)
 {
 	inicializaFundo();
 	inicializaTexto();
@@ -31,7 +32,14 @@ void Menu_Pause::executar() {
 							parar = true;
 						}
 						else if (2 == selecionado) {
-							pJog->salvar();
+							if (pFase) {
+								pFase->salvar();
+								Entidades::Entidade::limparBuffers();
+							}
+							else {
+								std::cerr << "ERRO: Nao eh possivel salvar a fase pois seu ponteiro eh NULL" << std::endl;
+							}
+
 							parar = false;
 						}
 						else if (3 == selecionado) {
@@ -90,4 +98,8 @@ void Menu_Pause::inicializaTexto() {
 	temp.setString("Sair");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
 	texto.push_back(temp);
+}
+
+void Menu_Pause::setFase(Fases::Fase* pF) {
+	pFase = pF;
 }
