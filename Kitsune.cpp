@@ -5,8 +5,8 @@ namespace Entidades
 {
 	namespace Personagens
 	{
-		Kitsune::Kitsune(Jogador* pJ) :
-			Inimigo(pJ)
+		Kitsune::Kitsune(Jogador* pJ1, Jogador* pJ2) :
+			Inimigo(pJ1, pJ2)
 		{
 			raio_ativacao = 250.0f;
 			cooldownAtaque = 3.0f;
@@ -40,7 +40,10 @@ namespace Entidades
 
 		void Kitsune::executar()
 		{
-			Inimigo::executar(); //verificar se basta isso...
+			atualizarAlvo();
+
+			if (jogAlvo && !jogAlvo->getMorto())
+				Inimigo::executar(); //verificar se basta isso...
 
 		}
 
@@ -168,6 +171,16 @@ namespace Entidades
 			{
 				std::cout << "ponteiro de jogador nulo!" << std::endl;
 			}
+		}
+
+		int Kitsune::getNvMaldade()
+		{
+			return nivel_maldade;
+		}
+
+		void Kitsune::aumentaNvMaldade()
+		{
+			nivel_maldade++;
 		}
 
 	}

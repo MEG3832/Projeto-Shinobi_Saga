@@ -8,8 +8,8 @@
 namespace Fases
 {
 
-	FasePrimeira::FasePrimeira() :
-		Fase(),
+	FasePrimeira::FasePrimeira(Entidades::Personagens::Jogador* pJog1) :
+		Fase(pJog1),
 		maxSamurais(8),
 		maxRedemoinhos(8)
 	{
@@ -20,9 +20,36 @@ namespace Fases
 
 		criarCenario();
 
-		pJog->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog->getTam().y);
-		pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
-										pJog->getCorpo()->getPosition().y);
+		pJog1->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);
+		pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
+										pJog1->getCorpo()->getPosition().y);
+
+		criarObstaculos();
+		criarInimigos();
+	}
+
+	FasePrimeira::FasePrimeira(Entidades::Personagens::Jogador* pJog1, Entidades::Personagens::Jogador* pJog2) :
+		Fase(pJog1,pJog2),
+		maxSamurais(8),
+		maxRedemoinhos(8)
+	{
+		altura_chao = 80.0;	// Medi olhando e testando
+		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
+
+		fim_mapa = 10000;
+
+		criarCenario();
+
+		//para o jogador 1
+		pJog1->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);
+		pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
+			pJog1->getCorpo()->getPosition().y);
+
+
+		//para o jogador 2
+		pJog2->getCorpo()->setPosition(60.0f, ALTURA_TELA - altura_chao - pJog2->getTam().y);
+		pJog2->getHitBox()->setPosition(pJog2->getCorpo()->getPosition().x + (pJog2->getCorpo()->getSize().x / 2 - pJog2->getHitBox()->getSize().x / 2),
+			pJog2->getCorpo()->getPosition().y);
 
 		criarObstaculos();
 		criarInimigos();
@@ -73,7 +100,7 @@ namespace Fases
 			float resistencia_aleatoria = min_res + rand_percent * (max_res - min_res);
 
 			Entidades::Personagens::Samurai_Inimigo* pSam;
-			pSam = new Entidades::Personagens::Samurai_Inimigo(pJog, resistencia_aleatoria); 
+			pSam = new Entidades::Personagens::Samurai_Inimigo(pJog1, pJog2, resistencia_aleatoria); 
 
 			if (pSam)
 			{

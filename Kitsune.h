@@ -19,7 +19,7 @@ namespace Entidades
 
 			public:
 
-				Kitsune(Jogador* pJ);
+				Kitsune(Jogador* pJ1, Jogador* pJ2 = nullptr);
 				~Kitsune();
 
 				void mover();
@@ -31,6 +31,8 @@ namespace Entidades
 				//Projetil* criaProjetil(); //cria o projétil. joga na lista de entidades e no set do gerenciador de colisões
 				void setProjetil(Projetil* pProj);
 				void atiraProjetil(); //analisa o tempo de cooldown e o raio de ativação e daí cria o projétil
+				int getNvMaldade(); // o projétil vai usá-lo para calcular o dano causado no jogador
+				void aumentaNvMaldade(); //também será usado pelo projétil, para que depois da sua colisão com o jogador, o nv de maldade da kitsune aumente em 1.
 
 				void executar();
 

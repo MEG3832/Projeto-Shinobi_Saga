@@ -6,13 +6,15 @@ namespace Gerenciadores {
 	Gerenciador_de_Eventos* Gerenciador_de_Eventos::pEventos = nullptr;
 
 	Gerenciador_de_Eventos::Gerenciador_de_Eventos() :
-		pGrafico(pGrafico->getGerenciadorGrafico()),
-		pJogador(new Entidades::Personagens::Jogador())
+		pJogador1(nullptr),
+		pJogador2(nullptr),
+		pGrafico(pGrafico->getGerenciadorGrafico())
 	{}
 
 	Gerenciador_de_Eventos::~Gerenciador_de_Eventos() {
 		pGrafico = nullptr;
-		pJogador = nullptr;
+		pJogador1 = nullptr;
+		pJogador2 = nullptr;
 	}
 
 	Gerenciador_de_Eventos* Gerenciador_de_Eventos::getGerenciadorEventos() {
@@ -23,16 +25,21 @@ namespace Gerenciadores {
 		return pEventos;
 	}
 
-	void Gerenciador_de_Eventos::setJogador(Entidades::Personagens::Jogador* pJogador) {
-		this->pJogador = pJogador;
+	void Gerenciador_de_Eventos::setJogador1(Entidades::Personagens::Jogador* pJogador) {
+		this->pJogador1 = pJogador;
 	}
 
-	/* TECLAS:
+	void Gerenciador_de_Eventos::setJogador2(Entidades::Personagens::Jogador* pJogador) {
+		this->pJogador2 = pJogador;
+	}
+
+	/* TECLAS (para o jogador 1):
 	* Atacar - Q
 	* Defender - S
 	* Pular - W
 	* Andar para a direita - D
-	* Andar para a esquerda - E
+	* Andar para a esquerda - A
+	* Correr - Left Shift
 	*/
 
 	void Gerenciador_de_Eventos::verificaTeclaPressionada() {
@@ -40,57 +47,141 @@ namespace Gerenciadores {
 		sf::Vector2f direcaoInput(0.0f, 0.0f); //resetamos a "direção" para zero (jogador parado) a cada iteração do loop do jogo
 											   //para que a função mover funcione corretamente quanto ao knockback, msm qnd ele nn estiver se movendo
 
-		if (!pJogador->getAtacando() && !pJogador->getMorto() && !pJogador->getFerido()) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {
-					pJogador->correr(true);
-				}
-				else {
-					pJogador->correr(false);
-				}
+		//verificação de teclas para o Jogador 1:
+		if (pJogador1) {
 
-				direcaoInput.x += 1.0f;
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			{
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador->getSubindo() && !pJogador->protegendo()) {
-					pJogador->correr(true);
-				}
-				else {
-					pJogador->correr(false);
-				}
-
-				direcaoInput.x -= 1.0f;
-			}
-			
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-			{
-				pJogador->atacar();
-			}
-
-			if (!pJogador->getSubindo()) {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+			if (!pJogador1->getAtacando() && !pJogador1->getMorto() && !pJogador1->getFerido()) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 				{
-					direcaoInput.y -= 1.0f;
-					pJogador->pular();
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador1->getSubindo() && !pJogador1->protegendo()) {
+						pJogador1->correr(true);
+					}
+					else {
+						pJogador1->correr(false);
+					}
+
+					direcaoInput.x += 1.0f;
 				}
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-					pJogador->setDefesa(true);
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+				{
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !pJogador1->getSubindo() && !pJogador1->protegendo()) {
+						pJogador1->correr(true);
+					}
+					else {
+						pJogador1->correr(false);
+					}
+
+					direcaoInput.x -= 1.0f;
 				}
-				else {
-					pJogador->setDefesa(false);
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+				{
+					pJogador1->atacar();
+				}
+
+				if (!pJogador1->getSubindo()) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+					{
+						direcaoInput.y -= 1.0f;
+						pJogador1->pular();
+					}
+
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+						pJogador1->setDefesa(true);
+					}
+					else {
+						pJogador1->setDefesa(false);
+					}
 				}
 			}
+
+			pJogador1->setDirecao(direcaoInput);
+
 		}
+
+		direcaoInput.x = 0.0f;
+		direcaoInput.y = 0.0f;
+
+		//--------------------------------//
+
+		/* TECLAS (para o jogador 2):
+		* Atacar - M
+		* Defender - setinha p/baixo
+		* Pular - setinha p/ cima
+		* Andar para a direita - setinha p/ direita
+		* Andar para a esquerda - setinha p/ esquerda
+		* Correr - N
+		*/
+
+
+		//verificação de teclas para o Jogador 2:
+
+		if (pJogador2) //primeiro vê se o jogador 2 existe...
+		{
+
+			if (!pJogador2->getAtacando() && !pJogador2->getMorto() && !pJogador2->getFerido()) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				{
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && !pJogador2->getSubindo() && !pJogador2->protegendo()) {
+						pJogador2->correr(true);
+					}
+					else {
+						pJogador2->correr(false);
+					}
+
+					direcaoInput.x += 1.0f;
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				{
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::N) && !pJogador2->getSubindo() && !pJogador2->protegendo()) {
+						pJogador2->correr(true);
+					}
+					else {
+						pJogador2->correr(false);
+					}
+
+					direcaoInput.x -= 1.0f;
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+				{
+					pJogador2->atacar();
+				}
+
+				if (!pJogador2->getSubindo()) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+					{
+						direcaoInput.y -= 1.0f;
+						pJogador2->pular();
+					}
+
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+						pJogador2->setDefesa(true);
+					}
+					else {
+						pJogador2->setDefesa(false);
+					}
+				}
+			}
+
+			pJogador2->setDirecao(direcaoInput);
+
+		}
+
+		else
+		{
+			std::cout << "Jogador 2 eh nulo!" << std::endl;
+		}
+
+		//apenas verifica se apertou o ESC:
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			pGrafico->fecharJanela();
 		}
-	
-		pJogador->setDirecao(direcaoInput);
+
+
 	}
 
 	// Verifica qual tecla está sendo pressionada e muda a diração do jogador segundo ela

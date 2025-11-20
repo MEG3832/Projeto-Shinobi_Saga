@@ -14,6 +14,7 @@ namespace Listas {
 			~ListaEntidades();
 			void incluir(Entidades::Entidade* pE);
 			void remover(Entidades::Entidade* pE);
+			void limpar();
 			void aplicarGravidade();
 			void percorrer();
 			void desenharEntidades();

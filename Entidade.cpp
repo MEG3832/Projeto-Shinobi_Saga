@@ -9,7 +9,13 @@ namespace Entidades {
 		intransponivel(true)
 	{}
 
-	Entidade::~Entidade() {}
+	Entidade::~Entidade()
+	{
+		if (animador) {
+			delete animador;
+			animador = nullptr;
+		}
+	}
 
 	sf::Vector2f Entidade::getPos() {	// Não é mais fácil retornar o position direto?
 		if(corpo) {

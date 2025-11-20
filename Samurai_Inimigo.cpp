@@ -4,8 +4,8 @@
 namespace Entidades {
 	namespace Personagens {
 
-		Samurai_Inimigo::Samurai_Inimigo(Jogador* pJ, float resist) :
-			Inimigo(pJ),
+		Samurai_Inimigo::Samurai_Inimigo(Jogador* pJ1, Jogador* pJ2, float resist) :
+			Inimigo(pJ1, pJ2),
 			cooldownEmpurrao(4.0f),
 			timer(),
 			resistencia(resist),
@@ -15,7 +15,7 @@ namespace Entidades {
 			paraEsq = true;
 			veloc = sf::Vector2f(0.5f, 0.0f);
 			tempoAndar = 0.5f;
-			num_vidas = 100;
+			num_vidas = 80;
 			cooldownAtordoado = 1.0f;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(200.0f, 200.0f));
@@ -48,7 +48,8 @@ namespace Entidades {
 		{
 			if (pJ)
 			{
-				int dano_calculado = nivel_maldade * 15; //dano base
+				int dano_calculado = nivel_maldade * 10; //dano base
+				nivel_maldade++; //aumentamos o nivel de maldade no mometo em que o jogador e o samurai entram em contato
 
 				if (empurra) {
 					pJ->diminuiVida(dano_calculado);
@@ -67,9 +68,8 @@ namespace Entidades {
 			}
 		}
 
-		void Samurai_Inimigo::diminuiVida(int dano)
+		void Samurai_Inimigo::diminuiVida(float dano)
 		{
-			// 1. Checa se já está atordoado (lógica da base)
 			if (FERIDO == estado_atual || MORRENDO == estado_atual) {
 				return;
 			}

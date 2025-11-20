@@ -6,6 +6,8 @@ Jogo::Jogo() :
     pGE(pGE->getGerenciadorEventos()),
     pFase1(nullptr),
     pFase2(nullptr),
+    pJog1(nullptr),
+    pJog2(nullptr),
     menu(),
     estado_atual(MENU_PRINCIPAL)
 {
@@ -33,11 +35,30 @@ Jogo::Jogo() :
 
 Jogo::~Jogo()
 {
-    // Limpa a fase (que limpa suas listas, etc.)
-    /*if (pFase2) {
+
+    // deleta as fases (se existirem)
+    if (pFase1)
+    {
+        delete pFase1;
+        pFase1 = nullptr;
+    }
+    if (pFase2)
+    {
         delete pFase2;
         pFase2 = nullptr;
-    }*/
+    }
+    // deleta os jogadores (O Jogo é o "dono" deles)
+    if (pJog1)
+    {
+        delete pJog1;
+        pJog1 = nullptr;
+    }
+    if (pJog2)
+    {
+        delete pJog2;
+        pJog2 = nullptr;
+    }
+    //deleta os gerenciadores...
     if (pGG) {
         delete pGG;
         pGG = nullptr;
@@ -68,13 +89,21 @@ void Jogo::executar()
             //executa a lógica da fase 
             //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
             if (FASE1 == estado_atual) {
+
                 if (pFase2) {
                     delete pFase2;
                     pFase2 = nullptr;
                 }
                 if (!pFase1) {
-                    pFase1 = new Fases::FasePrimeira();
-                    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
+
+                    pJog1 = new Entidades::Personagens::Jogador(1);
+
+                    //if(...) se escolheu jogar com 2 jogadores...
+                    pJog2 = new Entidades::Personagens::Jogador(2);
+
+                    pFase1 = new Fases::FasePrimeira(pJog1,pJog2);
+                    pGE->setJogador1(pJog1);
+                    pGE->setJogador2(pJog2);
                 }
 
                 if (pFase1)
@@ -92,8 +121,15 @@ void Jogo::executar()
                     pFase1 = nullptr;
                 }
                 if (!pFase2) {
-                    pFase2 = new Fases::FaseSegunda();
-                    pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
+
+                    pJog1 = new Entidades::Personagens::Jogador(1);
+
+                    //if(...) se escolheu jogar com 2 jogadores...
+                    pJog2 = new Entidades::Personagens::Jogador(2);
+
+                    pFase2 = new Fases::FaseSegunda(pJog1,pJog2);
+                    pGE->setJogador1(pJog1);
+                    pGE->setJogador2(pJog2);
                 }
 
                 if (pFase2)

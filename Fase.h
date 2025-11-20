@@ -24,7 +24,8 @@ namespace Fases {
 
 		Listas::ListaEntidades lista_ents;
 		Gerenciadores::Gerenciador_Colisoes* GC; //n está exatamente de acordo com o diagrama, mas é para seguir o modelo do singleton
-		Entidades::Personagens::Jogador* pJog;
+		Entidades::Personagens::Jogador* pJog1;
+		Entidades::Personagens::Jogador* pJog2;
 		Parallax::Fundo* pFundo;
 
 	protected :
@@ -37,24 +38,14 @@ namespace Fases {
 
 	public:
 
-		Fase(); //->cria os inimigos, obstáculos dinamicamente e põe da lista de entidades...
+		Fase(Entidades::Personagens::Jogador* pJog1); //->cria os inimigos, obstáculos dinamicamente e põe da lista de entidades...
+		Fase(Entidades::Personagens::Jogador* pJog1,Entidades::Personagens::Jogador* pJog2);
 		~Fase();
 
 		virtual void executar(); // ->percorre a lista de entidades...
 		void criarTengus(); //inimigos em comum nas duas fases.
 		void criarPlataformas(); //obstáculo em comum nas duas fases.
-		Entidades::Personagens::Jogador* getJogador();
-
-	/*protected:
-
-		//virtual void criarInimigos() = 0 ;
-		//virtual void criarObstaculos() = 0;
-
-		void criarCenario();
-		//void criarSamurais();
-		//void criarKitsunes();
-		
-	*/
+		//Entidades::Personagens::Jogador* getJogador();
 
 	};
 

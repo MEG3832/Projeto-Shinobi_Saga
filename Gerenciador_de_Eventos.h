@@ -9,7 +9,8 @@ namespace Gerenciadores {
 	{
 		private:
 			Gerenciador_Grafico* pGrafico;
-			Entidades::Personagens::Jogador* pJogador;
+			Entidades::Personagens::Jogador* pJogador1;
+			Entidades::Personagens::Jogador* pJogador2;
 
 			static Gerenciador_de_Eventos* pEventos;
 			Gerenciador_de_Eventos();
@@ -17,7 +18,8 @@ namespace Gerenciadores {
 		public:
 			~Gerenciador_de_Eventos();
 			static Gerenciador_de_Eventos* getGerenciadorEventos();
-			void setJogador(Entidades::Personagens::Jogador* pJogador);
+			void setJogador1(Entidades::Personagens::Jogador* pJogador);
+			void setJogador2(Entidades::Personagens::Jogador* pJogador);
 			void verificaTeclaPressionada();
 			void executar();
 			void executarMenu(Menu* pMenu);

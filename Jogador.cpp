@@ -24,15 +24,15 @@ namespace Entidades {
 			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
-			num_vidas = 100;
+			num_vidas = 250;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 125.0, corpo->getSize().y));
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
 
 			inicializaAnimacoes();
 		}
 
-		Jogador::Jogador() :
+		/*Jogador::Jogador() :
 			Personagem(),
 			cooldown_ataque(0.08),
 			cooldown_pulo(0.16),
@@ -54,11 +54,11 @@ namespace Entidades {
 			num_vidas = 10000;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 125.0, corpo->getSize().y));
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
 
 
 			inicializaAnimacoes();
-		}
+		}*/
 
 		Jogador::~Jogador()
 		{
@@ -164,21 +164,42 @@ namespace Entidades {
 
 			if (animador) {
 
-				//Animações em loop
+				if (id == 1) //settando as texturas para o jogador 1...
+				{
+					//Animações em loop
 
-				animador->addAnimacao("Imagens/Shinobi/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Shinobi/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Shinobi/Run.png", "Correndo", 8, 0.10, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Run.png", "Correndo", 8, 0.10, sf::Vector2f(1.0, 1.0));
 
-				//Animações que só devem rodar uma vez
+					//Animações que só devem rodar uma vez
 
-				animador->addAnimacao("Imagens/Shinobi/Jump.png", "Subindo", 12, cooldown_pulo, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Shinobi/Attack_1.png", "Ataque1", 5, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-				//animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-				//animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Shinobi/Dead.png", "Derrotado", 4, 0.45, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Shinobi/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Shinobi/Shield.png", "Protegendo", 4, 0.10, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Jump.png", "Subindo", 12, cooldown_pulo, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Attack_1.png", "Ataque1", 6, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+					//animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+					//animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Dead.png", "Derrotado", 3, 0.45, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Shield.png", "Protegendo", 2, 0.10, sf::Vector2f(1.0, 1.0));
+				}
+
+				if (id == 2) //settando as texturas para o jogador 2...
+				{
+					animador->addAnimacao("Imagens/Shinobi/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Shinobi/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Shinobi/Run.png", "Correndo", 8, 0.10, sf::Vector2f(1.0, 1.0));
+
+					//Animações que só devem rodar uma vez
+
+					animador->addAnimacao("Imagens/Shinobi/Jump.png", "Subindo", 12, cooldown_pulo, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Shinobi/Attack_1.png", "Ataque1", 5, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+					//animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
+					//animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Shinobi/Dead.png", "Derrotado", 4, 0.45, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Shinobi/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Shinobi/Shield.png", "Protegendo", 4, 0.10, sf::Vector2f(1.0, 1.0));
+				}
+
 			}
 			else {
 				std::cerr << "ERRO: Nao eh possivel inicializar a animacao pois o animado eh NULL" << std::endl;

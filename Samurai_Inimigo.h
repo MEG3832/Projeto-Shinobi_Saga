@@ -15,7 +15,7 @@ namespace Entidades {
 			bool empurra;
 
 		public:
-			Samurai_Inimigo(Jogador* pJ, float resist);
+			Samurai_Inimigo(Jogador* pJ1, Jogador* pJ2, float resist);
 			~Samurai_Inimigo();
 			void executar();
 
@@ -24,7 +24,7 @@ namespace Entidades {
 			void salvar();
 			void danificar(Jogador* pJ); // dano no jogador
 			void inicializaAnimacoes();
-			void diminuiVida(int dano);
+			void diminuiVida(float dano);
 
 		};
 	}

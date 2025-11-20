@@ -1,5 +1,6 @@
 #pragma once
 #include "Fase.h"
+#include "Jogador.h"
 
 namespace Fases {
 
@@ -14,7 +15,8 @@ namespace Fases {
 
 	public:
 
-		FasePrimeira();
+		FasePrimeira(Entidades::Personagens::Jogador* pJog1);
+		FasePrimeira(Entidades::Personagens::Jogador* pJog1, Entidades::Personagens::Jogador* pJog2);
 		~FasePrimeira();
 
 		// Reimplementacoes

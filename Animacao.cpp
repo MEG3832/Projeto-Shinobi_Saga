@@ -10,7 +10,19 @@ namespace Animadores {
 	{
 	}
 
-	Animacao::~Animacao() {}
+	Animacao::~Animacao()
+	{
+		//deletando as imagens do mapa...
+
+		std::map<std::string, Imagem*>::iterator it;
+
+		for (it = mapImagens.begin(); it != mapImagens.end(); it++)
+		{
+			delete it->second; // Acessa o valor (Imagem*) e deleta
+		}
+
+		mapImagens.clear();
+	}
 
 	//atualizar de inimigo e de projetil
 

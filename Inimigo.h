@@ -25,7 +25,6 @@ namespace Entidades {
 				float cooldownAtordoado; //p/ duração da animação "Ferido"
 
 				// Variaveis
-				Jogador* jogAlvo;	// Eh uma variavel?
 				sf::Clock relogioAtaque; //mede o cooldown
 				sf::Clock relogioAndar;
 				sf::Clock relogioAtordoado; //mede o cooldown
@@ -35,10 +34,16 @@ namespace Entidades {
 				void perambular();
 				virtual void empurrar(Jogador* pJ);
 
+				Jogador* pJogador1; // armazena referência fixa ao J1
+				Jogador* pJogador2; // armazena referência fixa ao J2 (pode ser nullptr)
+				Jogador* jogAlvo;   // o ponteiro que muda para onde aponta dependendo da distância
+
+				void atualizarAlvo(); // Nova função!
+
 
 			public:
 
-				Inimigo(Jogador* pJ);
+				Inimigo(Jogador* pJ1, Jogador* pJ2 = nullptr);
 				virtual ~Inimigo(); //destrutora virtual **
 				void salvarDataBuffer();
 				
@@ -50,6 +55,8 @@ namespace Entidades {
 				virtual void inicializaAnimacoes() = 0;
 
 				// Reimplementacoes
+
+				void setJogAlvo(Jogador* pJog);
 				virtual void diminuiVida(int dano); //para diminuir a vida do inimigo!
 				void morrer();
 				bool getFerido();

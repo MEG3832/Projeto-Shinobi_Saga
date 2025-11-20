@@ -5,13 +5,15 @@ namespace Entidades {
 
 	namespace Personagens {
 
-		Inimigo::Inimigo(Jogador* pJ) :
+		Inimigo::Inimigo(Jogador* pJ1, Jogador* pJ2) :
 			Personagem(),
+			pJogador1(pJ1),
+			pJogador2(pJ2),
+			jogAlvo(pJ1), // começa focando no 1 por padrão
 			cooldownAtaque(3.0f),
 			tempoAndar(3.0),
 			cooldownAtordoado(0.5f), // Valor padrão
 			nivel_maldade(1),
-			jogAlvo(pJ),
 			relogioAndar(),
 			relogioAtaque(),
 			relogioAtordoado(),
@@ -37,6 +39,9 @@ namespace Entidades {
 		}
 
 		void Inimigo::executar() {
+
+			atualizarAlvo();
+
 			if (animador) {
 
 				if (MORRENDO == estado_atual) {
@@ -59,6 +64,37 @@ namespace Entidades {
 			}
 			else {
 				std::cerr << "ERRO: Nao eh possivel excutar o inimigo pois o animador eh NULL" << std::endl;
+			}
+		}
+
+		void Inimigo::atualizarAlvo() {
+
+			float dist1 = 100000.0f; // valor muito alto inicial
+			float dist2 = 100000.0f;
+
+			// Calcula distância para Jogador 1 (se existir e estiver vivo)
+			if (pJogador1 && !pJogador1->getMorto() && pJogador1->getCorpo()) {
+				float dx = pJogador1->getCorpo()->getPosition().x - corpo->getPosition().x;
+				float dy = pJogador1->getCorpo()->getPosition().y - corpo->getPosition().y;
+				dist1 = std::sqrt(dx * dx + dy * dy);
+			}
+
+			// Calcula distância para Jogador 2 (se existir e estiver vivo)
+			if (pJogador2 && !pJogador2->getMorto() && pJogador2->getCorpo()) {
+				float dx = pJogador2->getCorpo()->getPosition().x - corpo->getPosition().x;
+				float dy = pJogador2->getCorpo()->getPosition().y - corpo->getPosition().y;
+				dist2 = std::sqrt(dx * dx + dy * dy);
+			}
+
+			// decide quem é o alvo
+			if (dist1 < dist2) {
+				jogAlvo = pJogador1;
+			}
+			else if (dist2 < dist1) {
+				jogAlvo = pJogador2;
+			}
+			else {
+				jogAlvo = nullptr; // ninguém por perto ou ambos mortos
 			}
 		}
 
@@ -111,22 +147,6 @@ namespace Entidades {
 			else {
 				std::cerr << "ERRO: Nao eh possivel diminuir a vida do inimigo pois seu corpo eh NULL" << std::endl;
 			}
-		}
-
-
-		void Inimigo::danificar(Jogador* pJ) { //é reimplementado nas folhas
-
-			if (pJ)
-			{
-				pJ->diminuiVida(nivel_maldade);
-				std::cout << pJ->getVida() << std::endl;
-			}
-
-			else
-			{
-				std::cout << "ERRO: Nao eh possivel danificar o jogador pois ele eh NULL" << std::endl;
-			}
-
 		}
 
 		void Inimigo::empurrar(Jogador* pJ) //empurrão base
@@ -230,6 +250,11 @@ namespace Entidades {
 			else {
 				std::cout << "ERRO: NAO eh possivel perambular pois o corpo do inimigo eh NULL" << std::endl;
 			}
+		}
+
+		void Inimigo::setJogAlvo(Jogador* pJog)
+		{
+			jogAlvo = pJog;
 		}
 
 		void Inimigo::morrer() {

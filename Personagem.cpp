@@ -16,8 +16,6 @@ namespace Entidades {
 		Personagem::~Personagem()
 		{
 			num_vidas = -1;
-			delete animador;
-			animador = nullptr;
 		}
 
 		void Personagem::diminuiVida(float dano) {

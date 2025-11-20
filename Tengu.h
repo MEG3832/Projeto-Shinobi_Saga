@@ -16,7 +16,7 @@ namespace Entidades
 
 			public:
 
-				Tengu(Jogador* pJ);
+				Tengu(Jogador* pJ1, Jogador* pJ2 = nullptr);
 				~Tengu();
 				void atacar(Jogador* pJ); //implementa a investida do tengu
 
@@ -27,6 +27,7 @@ namespace Entidades
 				void mover();
 				void salvar();
 				void inicializaAnimacoes();
+				void diminuiVida(int dano);
 
 		};
 

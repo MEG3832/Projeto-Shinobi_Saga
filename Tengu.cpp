@@ -5,14 +5,14 @@ namespace Entidades
 {
 	namespace Personagens
 	{
-		Tengu::Tengu(Jogador* pJ) :
-			Inimigo(pJ),
+		Tengu::Tengu(Jogador* pJ1, Jogador* pJ2) :
+			Inimigo(pJ1,pJ2),
 			raio_perseg(250.0f)
 		{
 			paraEsq = true;
 			nivel_maldade = 1;
 			veloc = sf::Vector2f(0.5, 0.0);
-			num_vidas = 200;
+			num_vidas = 100;
 
 			cooldownAtordoado = 2.0f;
 			tempoAndar = 2.5f; // Tempo de "perambular" específico
@@ -26,6 +26,21 @@ namespace Entidades
 		Tengu::~Tengu()
 		{
 			raio_perseg = 0.0;
+		}
+
+		void Tengu::diminuiVida(int dano)
+		{
+			if (FERIDO == estado_atual || MORRENDO == estado_atual) {
+				return;
+			}
+
+			Inimigo::diminuiVida(dano); // Chama a base para perder vida
+
+			if (!(MORRENDO == estado_atual)) {
+				nivel_maldade++; // Aumenta o nível de maldade
+				std::cout << "Tengu enfurecido! Nivel de maldade: " << nivel_maldade << std::endl;
+			}
+
 		}
 
 		void Tengu::danificar(Jogador* pJ)
@@ -45,12 +60,10 @@ namespace Entidades
 
 		void Tengu::executar()
 		{
-			if (!jogAlvo->getMorto()) {
-				Inimigo::executar();
+			atualizarAlvo();
 
-				if (MORRENDO != estado_atual && FERIDO != estado_atual) {
-					mover();
-				}
+			if (jogAlvo && !jogAlvo->getMorto()) {
+				Inimigo::executar();
 			}
 		}
 

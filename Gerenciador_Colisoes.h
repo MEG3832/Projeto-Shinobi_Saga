@@ -14,6 +14,7 @@ namespace Gerenciadores {
 			std::list<Entidades::Obstaculos::Obstaculo*> LOs;
 			std::set< Entidades::Projetil*> LPs;
 			Entidades::Personagens::Jogador* pJog1;
+			Entidades::Personagens::Jogador* pJog2;
 			float altura_chao;
 		
 			// Funções privadas de verificação de colisão
@@ -40,7 +41,8 @@ namespace Gerenciadores {
 			void incluirInimigo(Entidades::Personagens::Inimigo* pi);
 			void incluirObstaculo(Entidades::Obstaculos::Obstaculo* po);
 			void incluirProjetil(Entidades::Projetil* pj);
-			void setJogador(Entidades::Personagens::Jogador* pJog);
+			void setJogador1(Entidades::Personagens::Jogador* pJog1);
+			void setJogador2(Entidades::Personagens::Jogador* pJog2);
 			void reposicionar(sf::RectangleShape* c1, sf::RectangleShape* c2);
 			void reposicionar(sf::RectangleShape* c1);
 			bool verificaColisaoEnteObstacs(Entidades::Entidade* pE);

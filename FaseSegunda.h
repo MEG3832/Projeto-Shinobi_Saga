@@ -15,7 +15,8 @@ namespace Fases {
 
 	public:
 
-		FaseSegunda();
+		FaseSegunda(Entidades::Personagens::Jogador* pJog1);
+		FaseSegunda(Entidades::Personagens::Jogador* pJog1, Entidades::Personagens::Jogador* pJog2);
 		~FaseSegunda();
 
 		// Reimplementacoes

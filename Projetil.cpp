@@ -45,8 +45,9 @@ namespace Entidades {
 	void Projetil::danificar(Personagens::Jogador* pJ)
 	{
 		if (pJ && ativo) {
-			int dano_projetil = 20;
+			int dano_projetil = (pKitsune->getNvMaldade())*20;
 			pJ->diminuiVida(dano_projetil);
+			pKitsune->aumentaNvMaldade();
 
 			std::cout << "Projetil acertou! Vida Jogador: " << pJ->getVida() << std::endl;
 

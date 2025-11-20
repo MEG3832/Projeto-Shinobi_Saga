@@ -2,22 +2,47 @@
 
 namespace Fases
 {
-	Fase::Fase() :
+	Fase::Fase(Entidades::Personagens::Jogador* pJog1) :
+		pJog1(pJog1),
+		pJog2(nullptr),
 		maxTengus(5),
 		maxPlataf(8),
 		lista_ents(),
 		GC(GC->getGerenciadorColisoes()),
-		pJog(nullptr),
+		//pJog(nullptr),
 		pFundo(nullptr),
 		fim_mapa(0),
 		altura_chao(0.0)
 	{
-		pJog = new Entidades::Personagens::Jogador(); //cria o jogador
-
-		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pJog); //coloca o jogador na lista de entidades
+		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pJog1); //coloca o jogador na lista de entidades
 		lista_ents.incluir(pEnt);
 
-		GC->setJogador(pJog); //por enquanto, só o jogador é setado no gerenc. de colisões
+		GC->setJogador1(pJog1);
+		GC->setJogador2(nullptr);
+
+		pFundo = new Parallax::Fundo(); //cria o fundo
+
+	}
+
+	Fase::Fase(Entidades::Personagens::Jogador* pJog1, Entidades::Personagens::Jogador* pJog2) :
+		pJog1(pJog1),
+		pJog2(pJog2),
+		maxTengus(5),
+		maxPlataf(8),
+		lista_ents(),
+		GC(GC->getGerenciadorColisoes()),
+		//pJog(nullptr),
+		pFundo(nullptr),
+		fim_mapa(0),
+		altura_chao(0.0)
+	{
+		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pJog1); //coloca o jogador na lista de entidades
+		Entidades::Entidade* pEnt2 = static_cast<Entidades::Entidade*>(pJog2); //coloca o jogador na lista de entidades
+		lista_ents.incluir(pEnt);
+		lista_ents.incluir(pEnt2);
+
+		GC->setJogador1(pJog1);
+		GC->setJogador2(pJog2);
 
 		pFundo = new Parallax::Fundo(); //cria o fundo
 
@@ -25,11 +50,22 @@ namespace Fases
 
 	Fase::~Fase()
 	{
-		if (GC)
-		{
-			delete(GC);
-			GC = nullptr;
+		//retiramos os jogadores da lista para que eles não sejam destruídos quando a fase acabar...
+		if (pJog1) {
+			lista_ents.remover(static_cast<Entidades::Entidade*>(pJog1));
 		}
+		if (pJog2) {
+			lista_ents.remover(static_cast<Entidades::Entidade*>(pJog2));
+		}
+
+		lista_ents.limpar();
+
+		if (pFundo) {
+			delete pFundo;
+			pFundo = nullptr;
+		}
+
+		// não deletamos o GC aqui, pois ele é Singleton usado pelo Jogo inteiro.
 		//A lista de entidades já é limpada ao ser destruída (lista_ents é da classe Lista_Entidades, q possui uma Lista parametrizada com Entidades)
 	}
 
@@ -41,8 +77,9 @@ namespace Fases
 
 			lista_ents.aplicarGravidade();
 
-			if (pJog) {
-				Ente::pGG->atualizaCamera(pJog->getPos());
+			//a câmera centraliza no jogador 1...
+			if (pJog1) {
+				Ente::pGG->atualizaCamera(pJog1->getPos());
 			}
 			
 			if (pFundo)
@@ -50,8 +87,8 @@ namespace Fases
 
 			lista_ents.desenharEntidades();
 
-			//teste
-			if (pJog->getCorpo()->getPosition().x >= fim_mapa) {
+			//basta o primeiro jogador chegar no final...
+			if (pJog1->getCorpo()->getPosition().x >= fim_mapa) {
 				std::cout << "fim!!" << std::endl;
 			}
 	}
@@ -66,7 +103,7 @@ namespace Fases
 		for (int i = 0; i < qnt_inim; i++)
 		{
 			Entidades::Personagens::Tengu* pTengu;
-			pTengu = new Entidades::Personagens::Tengu(pJog); //temos que passar o endereço do jogador aqui...
+			pTengu = new Entidades::Personagens::Tengu(pJog1,pJog2); //temos que passar o endereço do jogador aqui...
 
 			if (pTengu)
 			{
@@ -146,9 +183,9 @@ namespace Fases
 
 	}
 
-	Entidades::Personagens::Jogador* Fase::getJogador() {
+	/*Entidades::Personagens::Jogador* Fase::getJogador() {
 		return pJog;
-	}
+	}*/
 
 
 }
