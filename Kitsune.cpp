@@ -12,14 +12,14 @@ namespace Entidades
 			cooldownAtaque = 3.0f;
 			nivel_maldade = 1; // nível de maldade base
 			paraEsq = true;
-			veloc = sf::Vector2f(0.03f, 0.05f);
+			veloc = sf::Vector2f(0.5f, 0.0f);
 			tempoAndar = 4.0f;
 
 			num_vidas = 250;
 
 			cooldownAtordoado = 1.0f;
 
-			corpo = new sf::RectangleShape(sf::Vector2f(170.0f, 180.0f));
+			corpo = new sf::RectangleShape(sf::Vector2f(170.0f, 150.0f));
 			//corpo->setPosition(pos); //posicao??
 
 			corpo->setPosition(300.0f, ALTURA_TELA - 100 - corpo->getSize().y);
@@ -151,7 +151,7 @@ namespace Entidades
 				//Animações que só devem rodar uma vez
 
 				animador->addAnimacao("Imagens/Kitsune/Attack_3.png", "Ataque3", 7, 0.1f, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Kitsune/Dead.png", "Derrotado", 10, 0.45f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Kitsune/Dead.png", "Derrotado", 10, 0.15f, sf::Vector2f(1.0, 1.0));
 				animador->addAnimacao("Imagens/Kitsune/Hurt.png", "Ferido", 2, 0.17f, sf::Vector2f(1.0, 1.0));
 
 			}
