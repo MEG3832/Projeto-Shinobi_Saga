@@ -8,6 +8,7 @@
 #include "Ente.h"
 #include "Menu_Principal.h"
 #include "Menu_Pause.h"
+#include "Menu_Colocacao.h"
 
 
 class Jogo {
@@ -23,6 +24,7 @@ class Jogo {
 
 		Menu_Principal menu_principal;
 		Menu_Pause menu_pause;
+		Menu_Colocacao menu_colocacao;
 		Gerenciadores::Gerenciador_Grafico* pGG;
 		Gerenciadores::Gerenciador_de_Eventos* pGE;
 		Gerenciadores::Gerenciador_Colisoes* pGC;

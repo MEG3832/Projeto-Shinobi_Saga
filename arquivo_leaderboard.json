@@ -1,16 +1,18 @@
-{
-    "nome": "MARIA EDUARDA",
-    "pontuacao": 0
-}{
-    "nome": "MARIA EDUARDA",
-    "pontuacao": 120
-}{
-    "nome": "MARIA EDUARDA",
-    "pontuacao": 0
-}{
-    "nome": "DUDA",
-    "pontuacao": 180
-}{
-    "nome": "DUDA",
-    "pontuacao": 440
-}
+[
+    {
+        "nome": "MARIA EDUARDA",
+        "pontuacao": 180
+    },
+    {
+        "nome": "DUDA",
+        "pontuacao": 140
+    },
+    {
+        "nome": "GRACIA",
+        "pontuacao": 480
+    },
+    {
+        "nome": "DUDAAAA",
+        "pontuacao": 340
+    }
+]

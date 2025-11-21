@@ -10,6 +10,7 @@ Jogo::Jogo() :
     pJog2(nullptr),
     menu_principal(),
     menu_pause(),
+    menu_colocacao(),
     estado_atual(MENU_PRINCIPAL),
     estado_anterior(MENU_PRINCIPAL)
 {
@@ -97,6 +98,11 @@ void Jogo::executar()
 
             else if (MENU_PAUSE == estado_atual) {
                 menu_pause.executar();
+            }
+
+            else if (MENU_COLOCACAO == estado_atual) {
+                menu_colocacao.carregar();
+                menu_colocacao.executar();
             }
 
             else if (FASE1 == estado_atual) {

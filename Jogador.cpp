@@ -66,8 +66,6 @@ namespace Entidades {
 
 		Jogador::~Jogador()
 		{
-			std::cout << "deletei o jogador" << std::endl;
-
 			cooldown_ataque = 0.0;
 			cooldown_pulo = 0.0;
 			cooldown_dano = 0.0;

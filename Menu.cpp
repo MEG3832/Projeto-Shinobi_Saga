@@ -26,7 +26,8 @@ Menu::Menu() :
 	texto(),
 	selecionado(1),
 	executa(false),
-	parar(false)
+	parar(false),
+	vel_fundo(1)
 {
 	fonte.loadFromFile("Fonte/superstar_memesbruh03.ttf");
 

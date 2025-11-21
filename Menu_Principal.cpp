@@ -29,11 +29,11 @@ void Menu_Principal::inicializaTexto_SelecaoFase() {
 	texto.clear();
 
 	titulo.setString("NOME DO JOGO");
-	titulo.setCharacterSize(60);
+	titulo.setCharacterSize(70);
 	titulo.setFillColor(sf::Color(sf::Color::White));
 	titulo.setOutlineColor(sf::Color::Black);
 	titulo.setOutlineThickness(3);
-	titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 150);
+	titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 160);
 	titulo.setFont(fonte);
 
 	sf::Text temp;
@@ -157,9 +157,9 @@ void Menu_Principal::executa_Principal() {
 							parar = true;
 						}
 						if (2 == selecionado) {
-							/*encerrar = true;
-							parar = true;
 							pJog->setEstado(2);	// Corresponde ao estado MENU_COLOCACAO no jogo*/
+							encerrar = true;
+							parar = true;
 						}
 						if (3 == selecionado) {
 							encerrar = true;

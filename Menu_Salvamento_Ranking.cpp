@@ -151,17 +151,37 @@ void Menu_Salvamento_Ranking::salvar() {
 		{"pontuacao", pontuacao}
 	};
 
-	std::ofstream arquivo_leaderboard("arquivo_leaderboard.json", std::ios::app);
+	// Vamos ler o arquivo já existente e adicionar mais um nome no array
+	nlohmann::json leaderboard_array = nlohmann::json::array(); // Array que vamos construir/manter
 
-	if (arquivo_leaderboard.is_open()) {	// Verifica se o arquivo foi aberto
-		/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
-		arquivo_leaderboard << buffer.dump(4);
-		arquivo_leaderboard.close();	// Fecha o arquivo e para a escrita
+	std::ifstream arquivo_leitura("arquivo_leaderboard.json");
 
-		std::cout << "Pontuacao salva em : " << "arquivo_leaderboard.json" << std::endl;
+	if (arquivo_leitura.is_open()) {
+		try {
+			// Tenta ler todo o conteúdo como um único array JSON válido
+			arquivo_leitura >> leaderboard_array;
+		}
+		catch (const nlohmann::json::parse_error& e) {
+
+			std::cerr << "ERRO: Arquivo malformado. Tentando leitura objeto a objeto." << std::endl;
+		}
+		arquivo_leitura.close();
+	}
+
+	// Faz um novo registo
+	leaderboard_array.push_back(buffer);
+
+	// Escreve o array completo de volta no arquivo
+	std::ofstream arquivo_escrita("arquivo_leaderboard.json");
+
+	if (arquivo_escrita.is_open()) {
+		arquivo_escrita << leaderboard_array.dump(4);
+		arquivo_escrita.close();
+
+		std::cout << "Pontuacao salva e arquivo reescrito como ARRAY JSON." << std::endl;
 	}
 	else {
-		std::cerr << "ERRO: Nao foi possivel abrir o arquivo para salvar a colocacao" << std::endl;
+		std::cerr << "ERRO: Nao foi possivel abrir o arquivo para ESCREVER a colocacao" << std::endl;
 	}
 }
 

@@ -20,6 +20,7 @@ class Menu : public Ente
 		bool parar;
 		bool executa;
 		Parallax::Fundo fundo;
+		float vel_fundo;
 
 		// Abstratas
 		virtual void inicializaTexto() = 0;
