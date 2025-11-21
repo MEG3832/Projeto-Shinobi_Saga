@@ -9,7 +9,9 @@ class Menu_Fase;
 class Menu : public Ente
 {
 	protected:
-		Jogo* pJog;
+		static Jogo* pJog;
+		static Entidades::Personagens::Jogador* pJog1;
+		static Entidades::Personagens::Jogador* pJog2;
 		Gerenciadores::Gerenciador_Grafico* GG;
 		Gerenciadores::Gerenciador_de_Eventos* GE;
 		sf::Font fonte;
@@ -31,7 +33,9 @@ class Menu : public Ente
 		~Menu();
 
 		void selecionar();
-		void setJogo(Jogo* jogo);
+		static void setJogo(Jogo* jogo);
+		static void setJogador1(Entidades::Personagens::Jogador* pJ);
+		static void setJogador2(Entidades::Personagens::Jogador* pJ);
 
 		// Sobre cargas 
 		void operator++();

@@ -131,16 +131,16 @@ namespace Entidades {
 
 					// verifica o resultado do ataque
 					if (getVida() <= 0) {
+						jogAlvo->aumentaPontuacao(20);	// Exemplo
 						estado_atual = MORRENDO;
 						setIntransponivel(false); // Inimigo morto pode ser atravessado
-						std::cout << "Inimigo morreu!" << std::endl;
+						std::cout << "Pontuacao: " << jogAlvo->getPontuacao() << std::endl;
 					}
 					else {
 						// Se tomou dano mas não morreu, fica atordoado
 						estado_atual = FERIDO;
 						dt_atordoamento = 0.0;
 						relogioAtordoado.restart();
-						std::cout << "Inimigo tomou " << dano << " de dano. Vida: " << getVida() << std::endl;
 					}
 				}
 			}

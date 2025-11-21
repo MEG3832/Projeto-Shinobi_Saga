@@ -478,6 +478,13 @@ namespace Entidades {
 			}
 		}
 
+		int Jogador::getPontuacao() {
+			return pontos;
+		}
+		void Jogador::aumentaPontuacao(int num) {
+			pontos += num;
+		}
+
 	}
 
 }

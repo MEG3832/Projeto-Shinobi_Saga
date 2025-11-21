@@ -54,7 +54,7 @@ namespace Entidades {
 				virtual void inicializaAnimacoes() = 0;
 
 				// Reimplementacoes
-				virtual void diminuiVida(int dano); //para diminuir a vida do inimigo!
+				virtual void diminuiVida(int dano); // A pontuacao do jogador esta aumentando com um valor estatico
 				void morrer();
 				bool getFerido();
 				bool getMorto();

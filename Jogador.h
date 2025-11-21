@@ -65,6 +65,8 @@ namespace Entidades {
 				sf::RectangleShape* getHitboxAtaque() const;
 				void salvarDataBuffer(nlohmann::json& buffer);
 				void carregar(const nlohmann::json& j);
+				int getPontuacao();
+				void aumentaPontuacao(int num);
 
 				// Reimplementacao
 				void executar();

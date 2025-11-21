@@ -5,8 +5,6 @@ class Menu_Salvamento_Ranking : public Menu
 {
 	private:
 
-		Entidades::Personagens::Jogador* pJog1;
-		Entidades::Personagens::Jogador* pJog2;
 		std::string nomeJog;
 		std::vector<sf::Text> texto_salvamento;
 

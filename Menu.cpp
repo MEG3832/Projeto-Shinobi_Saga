@@ -1,9 +1,24 @@
 #include "Menu.h"
 #include "Jogo.h"
 
+Jogo* Menu::pJog = nullptr;
+Entidades::Personagens::Jogador* Menu::pJog1 = nullptr;
+Entidades::Personagens::Jogador* Menu::pJog2 = nullptr;
+
+void Menu::setJogo(Jogo* jogo) {
+	pJog = jogo;
+}
+
+void Menu::setJogador1(Entidades::Personagens::Jogador* pJ) {
+	pJog1 = pJ;
+}
+
+void Menu::setJogador2(Entidades::Personagens::Jogador* pJ) {
+	pJog2 = pJ;
+}
+
 Menu::Menu() :
 	Ente(),
-	pJog(nullptr),
 	GG(GG->getGerenciadorGrafico()),
 	GE(GE->getGerenciadorEventos()),
 	fundo(),
@@ -72,8 +87,4 @@ void Menu::operator--() {
 
 void Menu::selecionar() {
 	executa = true;
-}
-
-void Menu::setJogo(Jogo* jogo) {
-	pJog = jogo;
 }

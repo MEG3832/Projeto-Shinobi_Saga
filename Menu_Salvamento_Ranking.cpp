@@ -3,8 +3,6 @@
 
 Menu_Salvamento_Ranking::Menu_Salvamento_Ranking() :
 	Menu(),
-	pJog1(nullptr),
-	pJog2(nullptr),
 	nomeJog(""),
 	texto_salvamento()
 {
@@ -12,8 +10,6 @@ Menu_Salvamento_Ranking::Menu_Salvamento_Ranking() :
 }
 
 Menu_Salvamento_Ranking::~Menu_Salvamento_Ranking() {
-	pJog1 = nullptr;
-	pJog2 = nullptr;
 	nomeJog = "";
 }
 
@@ -53,7 +49,7 @@ void Menu_Salvamento_Ranking::inicializaTexto() {
 }
 
 void Menu_Salvamento_Ranking::executar() {
-	selecionado = 1;
+	selecionado = 0;
 	parar = false;
 	while (!parar) {
 		if (GG) {
@@ -78,10 +74,8 @@ void Menu_Salvamento_Ranking::executar() {
 
 						if (0 == selecionado) {
 							salvar();
-							pJog->setEstado(5);	// 5 corresponde ao estado MENU_COLOCACAO
-							parar = false;
-							// parar = true quando tiver a colocacao
-							exit(0);
+							pJog->setEstado(0);	// 0 corresponde ao estado MENU_PRINCIPAL no jogo
+							parar = true;
 						}
 						else if (1 == selecionado) {	// Sair
 							parar = true;
@@ -123,9 +117,38 @@ void Menu_Salvamento_Ranking::addCaractere(const char c) {
 }
 
 void Menu_Salvamento_Ranking::removeCaractere() {
-	nomeJog.pop_back();
+	if ((int)nomeJog.size() > 0) {
+		nomeJog.pop_back();
+	}
 }
 
 void Menu_Salvamento_Ranking::salvar() {
 
+	int pontuacao = 0;
+
+	if (pJog1) {
+		pontuacao += pJog1->getPontuacao();
+	}
+	if (pJog2) {
+		pontuacao += pJog2->getPontuacao();
+	}
+
+	nlohmann::json buffer = {
+		{"nome", nomeJog},
+		{"pontuacao", pontuacao}
+	};
+
+	std::ofstream arquivo_leaderboard("arquivo_leaderboard.json", std::ios::app);
+
+	if (arquivo_leaderboard.is_open()) {	// Verifica se o arquivo foi aberto
+		/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
+		arquivo_leaderboard << buffer.dump(4);
+		arquivo_leaderboard.close();	// Fecha o arquivo e para a escrita
+
+		std::cout << "Pontuacao salva em : " << "arquivo_leaderboard.json" << std::endl;
+	}
+	else {
+		std::cerr << "ERRO: Nao foi possivel abrir o arquivo para salvar a colocacao" << std::endl;
+	}
 }
+

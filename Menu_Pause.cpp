@@ -14,7 +14,7 @@ Menu_Pause::~Menu_Pause()
 {}
 
 void Menu_Pause::executar() {
-	selecionado = 1;
+	selecionado = 0;
 	parar = false;
 	while (!parar) {
 		if (GG) {
@@ -84,6 +84,10 @@ void Menu_Pause::inicializaTexto() {
 	sf::Text temp;
 
 	temp.setCharacterSize(30);
+	temp.setFillColor(sf::Color(sf::Color::White));
+	temp.setOutlineColor(sf::Color::Black);
+	temp.setOutlineThickness(3);
+	temp.setFont(fonte);
 
 	temp.setString("Voltar");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);

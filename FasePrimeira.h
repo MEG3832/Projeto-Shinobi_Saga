@@ -14,7 +14,7 @@ namespace Fases {
 
 	public:
 
-		FasePrimeira();
+		FasePrimeira(Entidades::Personagens::Jogador* pJog1 = nullptr);
 		~FasePrimeira();
 
 		// Reimplementacoes

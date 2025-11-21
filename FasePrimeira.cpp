@@ -8,21 +8,33 @@
 namespace Fases
 {
 
-	FasePrimeira::FasePrimeira() :
-		Fase(),
+	FasePrimeira::FasePrimeira(Entidades::Personagens::Jogador* pJog1) :
+		Fase(pJog1),
 		maxSamurais(8),
 		maxRedemoinhos(8)
 	{
 		altura_chao = 80.0;	// Medi olhando e testando
 		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 
+		GC->setJogador(pJog1);
+
 		fim_mapa = 10000;
 
 		criarCenario();
 
-		pJog->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog->getTam().y);
-		pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
-										pJog->getCorpo()->getPosition().y);
+		if (pJog1) {
+			if (pJog1->getCorpo()) {
+				pJog1->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);
+				pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
+					pJog1->getCorpo()->getPosition().y);
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel setar a posicao inicial do jogador pois seu corpo eh NULL" << std::endl;
+			}
+		}
+		else {
+			std::cerr << "ERRO: Nao eh possivel setar a posicao inicial do jogador pois ele eh NULL" << std::endl;
+		}
 
 		criarObstaculos();
 		criarInimigos();
@@ -81,7 +93,7 @@ namespace Fases
 			float resistencia_aleatoria = min_res + rand_percent * (max_res - min_res);
 
 			Entidades::Personagens::Samurai_Inimigo* pSam;
-			pSam = new Entidades::Personagens::Samurai_Inimigo(pJog, resistencia_aleatoria); 
+			pSam = new Entidades::Personagens::Samurai_Inimigo(pJog1, resistencia_aleatoria); 
 
 			if (pSam)
 			{
@@ -170,7 +182,7 @@ namespace Fases
 
 			for (const auto& samurai_json : lista_samurais) {
 				Entidades::Personagens::Samurai_Inimigo* pSamurai;
-				pSamurai = new Entidades::Personagens::Samurai_Inimigo(pJog);
+				pSamurai = new Entidades::Personagens::Samurai_Inimigo(pJog1);
 
 				pSamurai->carregar(samurai_json);
 

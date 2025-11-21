@@ -7,6 +7,7 @@
 #include "Plataforma.h"
 #include "Fundo.h"
 #include "Ente.h"
+#include "Menu_Salvamento_Ranking.h"
 
 namespace Fases {
 
@@ -28,8 +29,10 @@ namespace Fases {
 		Listas::ListaEntidades lista_ents;
 		Gerenciadores::Gerenciador_Colisoes* GC; //n está exatamente de acordo com o diagrama, mas é para seguir o modelo do singleton
 		Gerenciadores::Gerenciador_de_Eventos* GE; 
-		Entidades::Personagens::Jogador* pJog;
+		Entidades::Personagens::Jogador* pJog1;
+		Entidades::Personagens::Jogador* pJog2;
 		Parallax::Fundo* pFundo;
+		Menu_Salvamento_Ranking menu_save_rank;
 
 	protected :
 
@@ -41,7 +44,7 @@ namespace Fases {
 
 	public:
 
-		Fase(); //->cria os inimigos, obstáculos dinamicamente e põe da lista de entidades...
+		Fase(Entidades::Personagens::Jogador* pJog1 = nullptr); //->cria os inimigos, obstáculos dinamicamente e põe da lista de entidades...
 		~Fase();
 
 		virtual void executar(); // ->percorre a lista de entidades...
@@ -52,18 +55,6 @@ namespace Fases {
 		void carregarPlataf(const nlohmann::json& j, int id);
 		void carregarJogadores(const nlohmann::json& j);
 		virtual void salvar() = 0;
-		Entidades::Personagens::Jogador* getJogador();
-
-	/*protected:
-
-		//virtual void criarInimigos() = 0 ;
-		//virtual void criarObstaculos() = 0;
-
-		void criarCenario();
-		//void criarSamurais();
-		//void criarKitsunes();
-		
-	*/
 
 	};
 

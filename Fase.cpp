@@ -2,36 +2,48 @@
 
 namespace Fases
 {
-	Fase::Fase() :
+	Fase::Fase(Entidades::Personagens::Jogador* pJog1) :
 		maxTengus(5),
 		maxPlataf(8),
 		lista_ents(),
 		GC(GC->getGerenciadorColisoes()),
 		GE(GE->getGerenciadorEventos()),
-		pJog(nullptr),
+		pJog1(pJog1),
+		pJog2(nullptr),
 		pFundo(nullptr),
 		fim_mapa(0),
 		altura_chao(0.0),
-		buffer_fase({})
+		buffer_fase({}),
+		menu_save_rank()
 	{
-		pJog = new Entidades::Personagens::Jogador(); //cria o jogador
-
-		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pJog); //coloca o jogador na lista de entidades
+		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+									static_cast<Entidades::Personagens::Personagem*>(pJog1));
 		lista_ents.incluir(pEnt);
 
-		GC->setJogador(pJog); //por enquanto, só o jogador é setado no gerenc. de colisões
+		GC->setJogador(pJog1); 
 
-		pFundo = new Parallax::Fundo(); //cria o fundo
+		pFundo = new Parallax::Fundo(); 
 
 	}
 
 	Fase::~Fase()
 	{
+		if (pJog1) {
+			lista_ents.remover(pJog1);
+			pJog1 = nullptr;
+		}
+
+		if (pJog2) {
+			lista_ents.remover(pJog1);
+			pJog2 = nullptr;
+		}
+
 		if (GC)
 		{
 			delete(GC);
 			GC = nullptr;
 		}
+
 		//A lista de entidades já é limpada ao ser destruída (lista_ents é da classe Lista_Entidades, q possui uma Lista parametrizada com Entidades)
 	}
 
@@ -57,8 +69,8 @@ namespace Fases
 
 			lista_ents.aplicarGravidade();
 
-			if (pJog) {
-				pGG->atualizaCamera(pJog->getPos());
+			if (pJog1) {
+				pGG->atualizaCamera(pJog1->getPos());
 			}
 			
 			if (pFundo)
@@ -67,8 +79,8 @@ namespace Fases
 			lista_ents.desenharEntidades();
 
 			//teste (o ideal eh colocar uma parede invisivel)
-			if (pJog->getCorpo()->getPosition().x >= fim_mapa) {
-				std::cout << "fim!!" << std::endl;
+			if (pJog1->getCorpo()->getPosition().x >= fim_mapa) {
+				menu_save_rank.executar();
 			}
 
 			pGG->mostrarEntes();
@@ -84,7 +96,7 @@ namespace Fases
 		for (int i = 0; i < qnt_tengus; i++)
 		{
 			Entidades::Personagens::Tengu* pTengu;
-			pTengu = new Entidades::Personagens::Tengu(pJog); //temos que passar o endereço do jogador aqui...
+			pTengu = new Entidades::Personagens::Tengu(pJog1); //temos que passar o endereço do jogador aqui...
 
 			if (pTengu)
 			{
@@ -171,7 +183,7 @@ namespace Fases
 
 			for (const auto& tengu_json : lista_tengus) {
 				Entidades::Personagens::Inimigo* pTengu;
-				pTengu = new Entidades::Personagens::Tengu(pJog);
+				pTengu = new Entidades::Personagens::Tengu(pJog1);
 
 				pTengu->carregar(tengu_json);
 
@@ -219,15 +231,15 @@ namespace Fases
 			const nlohmann::json& lista_jogadores = j.at("Jogadores");
 
 			for (const auto& jogador_json : lista_jogadores) {
-				pJog = new Entidades::Personagens::Jogador();
+				pJog1 = new Entidades::Personagens::Jogador();
 
-				pJog->carregar(jogador_json);
+				pJog1->carregar(jogador_json);
 
-				GC->setJogador(pJog);
-				GE->setJogador(pJog);
+				GC->setJogador(pJog1);
+				GE->setJogador(pJog1);
 
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-											static_cast<Entidades::Personagens::Personagem*>(pJog));
+											static_cast<Entidades::Personagens::Personagem*>(pJog1));
 				lista_ents.incluir(pEnt);
 			}
 		}
@@ -243,10 +255,6 @@ namespace Fases
 		carregarTengus(j);
 		carregarPlataf(j, id);
 
-	}
-
-	Entidades::Personagens::Jogador* Fase::getJogador() {
-		return pJog;
 	}
 
 

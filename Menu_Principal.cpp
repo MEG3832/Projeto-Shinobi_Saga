@@ -39,6 +39,10 @@ void Menu_Principal::inicializaTexto_SelecaoFase() {
 	sf::Text temp;
 
 	temp.setCharacterSize(30);
+	temp.setFillColor(sf::Color(sf::Color::White));
+	temp.setOutlineColor(sf::Color::Black);
+	temp.setOutlineThickness(3);
+	temp.setFont(fonte);
 
 	temp.setString("Fase 1");
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
@@ -128,7 +132,7 @@ void Menu_Principal::executar() {
 }
 
 void Menu_Principal::executa_Principal() {
-	selecionado = 1;
+	selecionado = 0;
 	bool encerrar = false;
 	while (!encerrar) {
 		if (GG) {
@@ -153,10 +157,9 @@ void Menu_Principal::executa_Principal() {
 							parar = true;
 						}
 						if (2 == selecionado) {
-							encerrar = true;
+							/*encerrar = true;
 							parar = true;
-							pJog->setEstado(2);	// Corresponde ao estado MENU_SALVAMENTO_RANKING no jogo
-							//pJog->setEstado(5);	// Corresponde ao estado MENU_COLOCACAO no jogo
+							pJog->setEstado(2);	// Corresponde ao estado MENU_COLOCACAO no jogo*/
 						}
 						if (3 == selecionado) {
 							encerrar = true;
@@ -258,24 +261,26 @@ void Menu_Principal::carregar() {
 
 
 			if (1 == fase) {
-				Fases::FasePrimeira* pFase1 = new Fases::FasePrimeira();
+				pJog1 = new Entidades::Personagens::Jogador();
+				GE->setJogador(pJog1);
+
+				Fases::FasePrimeira* pFase1 = new Fases::FasePrimeira(pJog1);
 
 				pFase1->carregar(j);
 
 				pJog->setFase(pFase1, nullptr);
 
-				GE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
-
 				pJog->setEstado(3);	// 3 indica o estado FASE1 do Jogo
 			}
 			else if (2 == fase) {
-				Fases::FaseSegunda* pFase2 = new Fases::FaseSegunda();
+				pJog1 = new Entidades::Personagens::Jogador();
+				GE->setJogador(pJog1);
+
+				Fases::FaseSegunda* pFase2 = new Fases::FaseSegunda(pJog1);
 
 				pFase2->carregar(j);
 
 				pJog->setFase(nullptr, pFase2);
-
-				GE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
 
 				pJog->setEstado(4);	// 4 indica o estado FASE2 do Jogo
 			}

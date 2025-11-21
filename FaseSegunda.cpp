@@ -9,22 +9,23 @@
 namespace Fases
 {
 
-	FaseSegunda::FaseSegunda() :
-		Fase(),
+	FaseSegunda::FaseSegunda(Entidades::Personagens::Jogador* pJog1) :
+		Fase(pJog1),
 		maxKitsunes(8),
 		maxArmadilhas(8)
 	{
 		altura_chao = 50.0;	// Medi olhando e testando
+		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
+
+		GC->setJogador(pJog1);
 
 		fim_mapa = 10000;
 
 		criarCenario();
 
-		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
-
-		pJog->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog->getTam().y);
-		pJog->getHitBox()->setPosition(pJog->getCorpo()->getPosition().x + (pJog->getCorpo()->getSize().x / 2 - pJog->getHitBox()->getSize().x / 2),
-										pJog->getCorpo()->getPosition().y);
+		pJog1->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);
+		pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
+										pJog1->getCorpo()->getPosition().y);
 
 		criarObstaculos();
 		criarInimigos();
@@ -72,7 +73,7 @@ namespace Fases
 		for (int i = 0; i < qnt_inim; i++)
 		{
 			Entidades::Personagens::Kitsune* pKits;
-			pKits = new Entidades::Personagens::Kitsune(pJog);
+			pKits = new Entidades::Personagens::Kitsune(pJog1);
 
 			if (pKits)
 			{
@@ -219,7 +220,7 @@ namespace Fases
 
 			for (const auto& kitsune_json : lista_kitsunes) {
 				Entidades::Personagens::Kitsune* pKits;
-				pKits = new Entidades::Personagens::Kitsune(pJog);
+				pKits = new Entidades::Personagens::Kitsune(pJog1);
 
 				pKits->carregar(kitsune_json);
 

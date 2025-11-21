@@ -5,9 +5,10 @@ Jogo::Jogo() :
     pGE(pGE->getGerenciadorEventos()),
     pFase1(nullptr),
     pFase2(nullptr),
+    pJog1(nullptr),
+    pJog2(nullptr),
     menu_principal(),
     menu_pause(),
-    menu_save_rank(),
     estado_atual(MENU_PRINCIPAL),
     estado_anterior(MENU_PRINCIPAL)
 {
@@ -25,14 +26,18 @@ Jogo::Jogo() :
         exit(1);
     }
 
+    pJog1 = new Entidades::Personagens::Jogador();
+    pGE->setJogador(pJog1);
+    Menu::setJogador1(pJog1);
+
     pGG->getWindow()->setFramerateLimit(60);
 
     pGE->setJogo(this);
 
     Ente::setGG(pGG);
 
-    menu_principal.setJogo(this);
-    menu_pause.setJogo(this);
+    Menu::setJogo(this);
+    // Jogador2 = nullptr
 
 }
 
@@ -76,6 +81,8 @@ void Jogo::executar()
                     pFase2 = nullptr;
                     menu_pause.setFase(nullptr);
                 }
+                Menu::setJogo(this);
+                Menu::setJogador1(pJog1);
 
                 menu_principal.executar();
             }
@@ -84,18 +91,13 @@ void Jogo::executar()
                 menu_pause.executar();
             }
 
-            else if (MENU_SALVAMENTO_RANKING == estado_atual) {
-                menu_save_rank.executar();
-            }
-
             else if (FASE1 == estado_atual) {
                 if (pFase2) {
                     delete pFase2;
                     pFase2 = nullptr;
                 }
                 if (!pFase1) {
-                    pFase1 = new Fases::FasePrimeira();
-                    pGE->setJogador(static_cast<Fases::FasePrimeira*>(pFase1)->getJogador());
+                    pFase1 = new Fases::FasePrimeira(pJog1);
                     menu_pause.setFase(pFase1);
                 }
 
@@ -114,8 +116,7 @@ void Jogo::executar()
                     pFase1 = nullptr;
                 }
                 if (!pFase2) {
-                    pFase2 = new Fases::FaseSegunda();
-                    pGE->setJogador(static_cast<Fases::FaseSegunda*>(pFase2)->getJogador());
+                    pFase2 = new Fases::FaseSegunda(pJog1);
                     menu_pause.setFase(pFase2);
                 }
 
