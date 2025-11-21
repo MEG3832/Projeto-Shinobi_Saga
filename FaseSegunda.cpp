@@ -33,11 +33,6 @@ namespace Fases
 
 	FaseSegunda::~FaseSegunda()
 	{
-		if (GC) {
-			GC->limparListas();
-			GC = nullptr;
-		}
-
 		if (pFundo) {
 			delete pFundo;
 			pFundo = nullptr;

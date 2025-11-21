@@ -7,7 +7,8 @@ namespace Listas {
 	{}
 
 	ListaEntidades::~ListaEntidades() 
-	{}
+	{
+	}
 
 	void ListaEntidades::incluir(Entidades::Entidade* pE) {
 		if (pE) {

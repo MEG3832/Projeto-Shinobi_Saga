@@ -20,8 +20,6 @@ namespace Fases
 									static_cast<Entidades::Personagens::Personagem*>(pJog1));
 		lista_ents.incluir(pEnt);
 
-		GC->setJogador(pJog1); 
-
 		pFundo = new Parallax::Fundo(); 
 
 	}
@@ -38,9 +36,8 @@ namespace Fases
 			pJog2 = nullptr;
 		}
 
-		if (GC)
-		{
-			delete(GC);
+		if (GC) {
+			GC->limparListas();
 			GC = nullptr;
 		}
 

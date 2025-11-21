@@ -14,7 +14,6 @@ namespace Gerenciadores {
 
 	Gerenciador_Colisoes::~Gerenciador_Colisoes() {
 		pJog1 = nullptr;
-		// Esse clear basta?
 		limparListas();
 	}
 

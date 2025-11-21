@@ -25,6 +25,7 @@ class Jogo {
 		Menu_Pause menu_pause;
 		Gerenciadores::Gerenciador_Grafico* pGG;
 		Gerenciadores::Gerenciador_de_Eventos* pGE;
+		Gerenciadores::Gerenciador_Colisoes* pGC;
 		Fases::FasePrimeira* pFase1; 
 		Fases::FaseSegunda* pFase2; 
 		Entidades::Personagens::Jogador* pJog1;
@@ -41,6 +42,7 @@ class Jogo {
 		~Jogo();
 		void executar();
 		void setEstado(int num);
+		int getEstado();
 		void voltarEstado();
 		void setFase(Fases::FasePrimeira* pF1, Fases::FaseSegunda* pF2);
 };

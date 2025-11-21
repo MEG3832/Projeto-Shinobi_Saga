@@ -39,13 +39,21 @@ void Menu_Salvamento_Ranking::inicializaTexto() {
 	temp.setCharacterSize(30);
 	temp.setFillColor(sf::Color::White);
 
-	temp.setString("Confirmar");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 150);
+	temp.setString("Menu Principal");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125);
 	texto.push_back(temp);
 
 	temp.setString("Sair");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 150 + 45);
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45);
 	texto.push_back(temp);
+
+	if (pJog) {	// Tirei o else pois estava printando em um momento nada a ver
+		if (pJog->getEstado() != 4) {	// Ou seja, a fase atual ñao eh a 2
+			temp.setString("Proxima Fase");
+			temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45 * 2);
+			texto.push_back(temp);
+		}
+	}
 }
 
 void Menu_Salvamento_Ranking::executar() {
@@ -72,14 +80,19 @@ void Menu_Salvamento_Ranking::executar() {
 
 					if (pJog) {
 
+						
 						if (0 == selecionado) {
 							salvar();
 							pJog->setEstado(0);	// 0 corresponde ao estado MENU_PRINCIPAL no jogo
 							parar = true;
 						}
-						else if (1 == selecionado) {	// Sair
+						else if (1 == selecionado) {
 							parar = true;
 							exit(0);
+						}
+						else if (2 == selecionado) {	// Sair
+							pJog->setEstado(4);	// 4 corresponde ao estado FASE2 no jogo
+							parar = true;
 						}
 
 					}

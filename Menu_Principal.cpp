@@ -184,7 +184,7 @@ void Menu_Principal::executa_Principal() {
 }
 
 void Menu_Principal::executa_SelecaoFase() {
-	selecionado = 1;
+	selecionado = 0;
 	bool encerrar = false;
 	while (!encerrar) {
 		if (GG) {

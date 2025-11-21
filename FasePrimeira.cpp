@@ -42,11 +42,6 @@ namespace Fases
 
 	FasePrimeira::~FasePrimeira()
 	{
-		if (GC) {
-			GC->limparListas();
-			GC = nullptr;
-		}
-
 		if (pFundo) {
 			delete pFundo;
 			pFundo = nullptr;

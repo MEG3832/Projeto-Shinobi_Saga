@@ -3,6 +3,7 @@
 Jogo::Jogo() :
     pGG(pGG->getGerenciadorGrafico()),
     pGE(pGE->getGerenciadorEventos()),
+    pGC(pGC->getGerenciadorColisoes()),
     pFase1(nullptr),
     pFase2(nullptr),
     pJog1(nullptr),
@@ -26,8 +27,15 @@ Jogo::Jogo() :
         exit(1);
     }
 
+    if (!pGC)
+    {
+        std::cout << "ERRO! O ponteiro Gerenc. de Colisoes NAO pôde ser inicializado..." << std::endl;
+        exit(1);
+    }
+
     pJog1 = new Entidades::Personagens::Jogador();
     pGE->setJogador(pJog1);
+    pGC->setJogador(pJog1);
     Menu::setJogador1(pJog1);
 
     pGG->getWindow()->setFramerateLimit(60);
@@ -118,6 +126,7 @@ void Jogo::executar()
                 if (!pFase2) {
                     pFase2 = new Fases::FaseSegunda(pJog1);
                     menu_pause.setFase(pFase2);
+                    Menu::setJogo(this);
                 }
 
                 if (pFase2)
@@ -148,6 +157,10 @@ void Jogo::setEstado(int num) {
             menu_pause.setFase(pFase2);
         }
     }
+}
+
+int Jogo::getEstado() {
+    return static_cast<int>(estado_atual);
 }
 
 void Jogo::voltarEstado() {
