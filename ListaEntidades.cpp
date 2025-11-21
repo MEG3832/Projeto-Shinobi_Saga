@@ -7,7 +7,8 @@ namespace Listas {
 	{}
 
 	ListaEntidades::~ListaEntidades() 
-	{}
+	{
+	}
 
 	void ListaEntidades::incluir(Entidades::Entidade* pE) {
 		if (pE) {
@@ -28,40 +29,57 @@ namespace Listas {
 	}
 
 	void ListaEntidades::limpar() {
-
-		for (int i = 0; i < LEs.getTam(); i++) {
-			Entidades::Entidade* pEnt = LEs[i]; 
-			if (pEnt) {
-				delete pEnt;
-			}
-		}
-
 		LEs.limpar();
 	}
 
-
 	void ListaEntidades::percorrer() {
 		for (int i = 0; i < LEs.getTam(); i++) {
-			LEs[i]->executar();
+			if (LEs[i]) {
+				LEs[i]->executar();
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel executar pois a Entidade eh NULL" << std::endl;
+			}
 		}
 	}
 
 	void ListaEntidades::aplicarGravidade()
 	{
 		for (int i = 0; i < LEs.getTam(); i++) {
-			LEs[i]->sofrerGravidade();
+			if (LEs[i]) {
+				LEs[i]->sofrerGravidade();
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel aplicar a gravidade pois a Entidade eh NULL" << std::endl;
+			}
 		}
 
 	}
 
 	void ListaEntidades::desenharEntidades() {
 		for (int i = 0; i < LEs.getTam(); i++) {
-			LEs[i]->desenhar();
+			if (LEs[i]) {
+				LEs[i]->desenhar();
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel desenhar a Entidade pois ela eh NULL" << std::endl;
+			}
 		}
 	}
 
 	const int ListaEntidades::getTam() const{
 		return LEs.getTam();
+	}
+
+	void ListaEntidades::salvar() {
+		for (int i = 0; i < LEs.getTam(); i++) {
+			if (LEs[i]) {
+				LEs[i]->salvar();
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel desenhar a Entidade pois ela eh NULL" << std::endl;
+			}
+		}
 	}
 
 }

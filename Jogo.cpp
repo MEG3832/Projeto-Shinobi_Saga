@@ -1,17 +1,20 @@
 #include "Jogo.h"
-#include <SFML/Graphics.hpp>
 
 Jogo::Jogo() :
     pGG(pGG->getGerenciadorGrafico()),
     pGE(pGE->getGerenciadorEventos()),
+    pGC(pGC->getGerenciadorColisoes()),
     pFase1(nullptr),
     pFase2(nullptr),
     pJog1(nullptr),
     pJog2(nullptr),
-    menu(),
-    estado_atual(MENU_PRINCIPAL)
+    menu_principal(),
+    menu_pause(),
+    menu_colocacao(),
+    estado_atual(MENU_PRINCIPAL),
+    estado_anterior(MENU_PRINCIPAL)
 {
-    srand(time(0));
+    srand((unsigned int)time(0));
 
     if (!pGG)
     {
@@ -25,40 +28,41 @@ Jogo::Jogo() :
         exit(1);
     }
 
+    if (!pGC)
+    {
+        std::cout << "ERRO! O ponteiro Gerenc. de Colisoes NAO pôde ser inicializado..." << std::endl;
+        exit(1);
+    }
+
+    pJog1 = new Entidades::Personagens::Jogador();
+    pGE->setJogador(pJog1);
+    pGC->setJogador(pJog1);
+    Menu::setJogador1(pJog1);
+
     pGG->getWindow()->setFramerateLimit(60);
+
+    pGE->setJogo(this);
 
     Ente::setGG(pGG);
 
-    menu.setJogo(this);
+    Menu::setJogo(this);
+    // Jogador2 = nullptr
 
 }
 
 Jogo::~Jogo()
 {
-
-    // deleta as fases (se existirem)
-    if (pFase1)
-    {
+    // Limpa a fase (que limpa suas listas, etc.)
+    if (pFase1) {
         delete pFase1;
         pFase1 = nullptr;
     }
-    if (pFase2)
-    {
+
+    if (pFase2) {
         delete pFase2;
         pFase2 = nullptr;
     }
-    // deleta os jogadores (O Jogo é o "dono" deles)
-    if (pJog1)
-    {
-        delete pJog1;
-        pJog1 = nullptr;
-    }
-    if (pJog2)
-    {
-        delete pJog2;
-        pJog2 = nullptr;
-    }
-    //deleta os gerenciadores...
+
     if (pGG) {
         delete pGG;
         pGG = nullptr;
@@ -72,38 +76,43 @@ Jogo::~Jogo()
 void Jogo::executar()
 {
     if (pGG) {
-        if (MENU_PRINCIPAL == estado_atual) {
-            menu.executar();
-        }
 
         while (pGG->verificaJanelaAberta())
         {
+            if (MENU_PRINCIPAL == estado_atual) {
+                if (pFase1) {
+                    delete pFase1;
+                    pFase1 = nullptr;
+                    menu_pause.setFase(nullptr);
+                }
+                if (pFase2) {
+                    delete pFase2;
+                    pFase2 = nullptr;
+                    menu_pause.setFase(nullptr);
+                }
+                Menu::setJogo(this);
+                Menu::setJogador1(pJog1);
 
-            if (pGE) {
-                pGE->executar();
+                menu_principal.executar();
             }
 
-            // Limpa a tela
-            pGG->limpaJanela();
+            else if (MENU_PAUSE == estado_atual) {
+                menu_pause.executar();
+            }
 
-            //executa a lógica da fase 
-            //(que chama pFundo->executar(), lista_ents->percorrer() (percorre chamando oexecutar das entidade), GC->executar(), lista_ents->desenharEntidades())
-            if (FASE1 == estado_atual) {
+            else if (MENU_COLOCACAO == estado_atual) {
+                menu_colocacao.carregar();
+                menu_colocacao.executar();
+            }
 
+            else if (FASE1 == estado_atual) {
                 if (pFase2) {
                     delete pFase2;
                     pFase2 = nullptr;
                 }
                 if (!pFase1) {
-
-                    pJog1 = new Entidades::Personagens::Jogador(1);
-
-                    //if(...) se escolheu jogar com 2 jogadores...
-                    pJog2 = new Entidades::Personagens::Jogador(2);
-
-                    pFase1 = new Fases::FasePrimeira(pJog1,pJog2);
-                    pGE->setJogador1(pJog1);
-                    pGE->setJogador2(pJog2);
+                    pFase1 = new Fases::FasePrimeira(pJog1);
+                    menu_pause.setFase(pFase1);
                 }
 
                 if (pFase1)
@@ -115,21 +124,15 @@ void Jogo::executar()
                 }
             }
 
-            if (FASE2 == estado_atual) {
+            else if (FASE2 == estado_atual) {
                 if (pFase1) {
                     delete pFase1;
                     pFase1 = nullptr;
                 }
                 if (!pFase2) {
-
-                    pJog1 = new Entidades::Personagens::Jogador(1);
-
-                    //if(...) se escolheu jogar com 2 jogadores...
-                    pJog2 = new Entidades::Personagens::Jogador(2);
-
-                    pFase2 = new Fases::FaseSegunda(pJog1,pJog2);
-                    pGE->setJogador1(pJog1);
-                    pGE->setJogador2(pJog2);
+                    pFase2 = new Fases::FaseSegunda(pJog1);
+                    menu_pause.setFase(pFase2);
+                    Menu::setJogo(this);
                 }
 
                 if (pFase2)
@@ -140,8 +143,6 @@ void Jogo::executar()
                     std::cerr << "ERRO: Nao eh possivel executar a segunda fase pois ela eh NULL" << std::endl;
                 }
             }
-
-            pGG->mostrarEntes();
         }
     }
     else {
@@ -149,11 +150,30 @@ void Jogo::executar()
     }
 }
 
-void Jogo::setFase(int num) {
-    if (1 == num) {
-        estado_atual = FASE1;
+void Jogo::setEstado(int num) {
+    estado_anterior = estado_atual;
+    estado_atual = static_cast<Estado>(num);
+    if (FASE1 == estado_atual) {
+        if (pFase1) {
+            menu_pause.setFase(pFase1);
+        }
     }
-    else if (2 == num) {
-        estado_atual = FASE2;
+    else if (FASE2 == estado_atual) {
+        if (pFase2) {
+            menu_pause.setFase(pFase2);
+        }
     }
+}
+
+int Jogo::getEstado() {
+    return static_cast<int>(estado_atual);
+}
+
+void Jogo::voltarEstado() {
+    estado_atual = estado_anterior;
+}
+
+void Jogo::setFase(Fases::FasePrimeira* pF1, Fases::FaseSegunda* pF2) {
+    pFase1 = pF1;
+    pFase2 = pF2;
 }

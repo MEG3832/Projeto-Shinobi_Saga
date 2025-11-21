@@ -9,10 +9,11 @@ namespace Animadores {
 		private:
 
 			std::map<std::string, Imagem*> mapImagens; //mapa de texturas... relaciona estado (idle, walk, run...) com Imagem
+			sf::Clock clock;
+			sf::RectangleShape* corpo; //**
+			float dt;
 
 			// Variaveis
-			sf::RectangleShape* corpo; //**
-			sf::Clock clock;
 			std::string estadoAtual; //guarda qual estado o personagem está: parado, andando, correndo, etc...
 
 		public:
@@ -20,11 +21,16 @@ namespace Animadores {
 			Animacao(sf::RectangleShape* body);
 			~Animacao();
 
-		void atualizarAnimJog(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
-		void atualizarAnimInim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
-		void atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico);
-		void addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale);
-		const int getImgAtual(std::string nomeAnimacao);
+			void atualizarAnimJog(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
+			void atualizarAnimInim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
+			void atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico);
+			void addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale);
+			const int getImgAtual();
+			const float getTempoTotal();
+			const std::string getEstadoAtual();
+			void setImgAtual(int ia);
+			void setTempoTotal(float tt);
+			void setEstadoAtual(std::string ea);
 
 	};
 

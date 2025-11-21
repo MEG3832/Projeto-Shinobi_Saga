@@ -23,12 +23,20 @@ namespace Entidades {
 				float cooldownAtaque;
 				float tempoAndar;
 				float cooldownAtordoado; //p/ duração da animação "Ferido"
+				sf::Clock relogioAtaque; 
+				sf::Clock relogioAndar;
+				sf::Clock relogioAtordoado; 
+				Jogador* jogAlvo;	// Eh uma variavel?
 
 				// Variaveis
+				Jogador* jogAlvo;	// Eh uma variavel?
 				sf::Clock relogioAtaque; //mede o cooldown
 				sf::Clock relogioAndar;
 				sf::Clock relogioAtordoado; //mede o cooldown
 				int nivel_maldade;
+				float dt_ataque;
+				float dt_andar;
+				float dt_atordoamento;
 				Estado estado_atual;
 
 				void perambular();
@@ -45,7 +53,8 @@ namespace Entidades {
 
 				Inimigo(Jogador* pJ1, Jogador* pJ2 = nullptr);
 				virtual ~Inimigo(); //destrutora virtual **
-				void salvarDataBuffer();
+				void salvarDataBuffer(nlohmann::json& buffer);
+				void carregar(const nlohmann::json& buffer);
 				
 				// Metodos virtuais puros
 				virtual void executar() = 0;

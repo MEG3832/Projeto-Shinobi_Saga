@@ -108,11 +108,14 @@ namespace Entidades
 
 							else if (distanciaCentros <= distanciaAtaque) //entrou na área de ataque!
 							{
-								if (relogioAtaque.getElapsedTime().asSeconds() >= cooldownAtaque)
+								dt_ataque += relogioAtaque.getElapsedTime().asSeconds();
+								relogioAtaque.restart();
+
+								if (dt_ataque >= cooldownAtaque)
 								{
 									animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
 
-									if (animador->getImgAtual("Ataque3") == 2) //se chegou no último frame, pode atacar!
+									if (animador->getImgAtual() == 2) //se chegou no último frame, pode atacar!
 									{
 										atacar(pJ);
 									}
@@ -154,10 +157,12 @@ namespace Entidades
 
 					if (hitBox) {
 
-						float dt = relogioAtaque.getElapsedTime().asSeconds();
+						dt_ataque += relogioAtaque.getElapsedTime().asSeconds();
+						relogioAtaque.restart();
 
-						if (dt >= cooldownAtaque)
+						if (dt_ataque >= cooldownAtaque)
 						{
+							dt_ataque = 0.0;
 							relogioAtaque.restart();
 
 							if (paraEsq)
@@ -275,7 +280,26 @@ namespace Entidades
 		}
 
 		void Tengu::salvar() {
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_tengus.push_back(buffer);
 		}
+
+		void Tengu::salvarDataBuffer(nlohmann::json& buffer) {
+
+			Inimigo::salvarDataBuffer(buffer);
+
+			buffer["raio_perseg"] = raio_perseg;
+		}
+
+		void Tengu::carregar(const nlohmann::json& j) {
+			raio_perseg = j.at("raio_perseg").get<float>();
+
+			Inimigo::carregar(j);
+		}
+
+
 	}
 }

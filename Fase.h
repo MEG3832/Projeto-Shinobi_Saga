@@ -1,11 +1,13 @@
 #pragma once
 #include "ListaEntidades.h"
 #include "Gerenciador_Colisoes.h"
+#include "Gerenciador_de_Eventos.h"
 #include "Jogador.h"
 #include "Tengu.h"
 #include "Plataforma.h"
 #include "Fundo.h"
 #include "Ente.h"
+#include "Menu_Salvamento_Ranking.h"
 
 namespace Fases {
 
@@ -15,18 +17,22 @@ namespace Fases {
 
 		int maxTengus;
 		int maxPlataf;
-		
+
 
 	protected:
 
 		float altura_chao;
 		int fim_mapa;	// Teste de tamanho
 
+		nlohmann::json buffer_fase;
+
 		Listas::ListaEntidades lista_ents;
 		Gerenciadores::Gerenciador_Colisoes* GC; //n está exatamente de acordo com o diagrama, mas é para seguir o modelo do singleton
+		Gerenciadores::Gerenciador_de_Eventos* GE; 
 		Entidades::Personagens::Jogador* pJog1;
 		Entidades::Personagens::Jogador* pJog2;
 		Parallax::Fundo* pFundo;
+		Menu_Salvamento_Ranking menu_save_rank;
 
 	protected :
 
@@ -44,8 +50,12 @@ namespace Fases {
 
 		virtual void executar(); // ->percorre a lista de entidades...
 		void criarTengus(); //inimigos em comum nas duas fases.
-		void criarPlataformas(); //obstáculo em comum nas duas fases.
-		//Entidades::Personagens::Jogador* getJogador();
+		void criarPlataformas(int id); //obstáculo em comum nas duas fases.
+		void carregar(const nlohmann::json& j, int id);
+		void carregarTengus(const nlohmann::json& j);
+		void carregarPlataf(const nlohmann::json& j, int id);
+		void carregarJogadores(const nlohmann::json& j);
+		virtual void salvar() = 0;
 
 	};
 

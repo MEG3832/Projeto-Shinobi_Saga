@@ -2,17 +2,19 @@
 
 namespace Fases
 {
-	Fase::Fase(Entidades::Personagens::Jogador* pJog1) :
-		pJog1(pJog1),
-		pJog2(nullptr),
+	Fase::Fase() :
 		maxTengus(5),
 		maxPlataf(8),
 		lista_ents(),
 		GC(GC->getGerenciadorColisoes()),
-		//pJog(nullptr),
+		GE(GE->getGerenciadorEventos()),
+		pJog1(pJog1),
+		pJog2(nullptr),
 		pFundo(nullptr),
 		fim_mapa(0),
-		altura_chao(0.0)
+		altura_chao(0.0),
+		buffer_fase({}),
+		menu_save_rank()
 	{
 		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pJog1); //coloca o jogador na lista de entidades
 		lista_ents.incluir(pEnt);
@@ -44,8 +46,6 @@ namespace Fases
 		GC->setJogador1(pJog1);
 		GC->setJogador2(pJog2);
 
-		pFundo = new Parallax::Fundo(); //cria o fundo
-
 	}
 
 	Fase::~Fase()
@@ -71,15 +71,28 @@ namespace Fases
 
 	void Fase::executar()
 	{
-			GC->executar();
+			pGG->limpaJanela();
+
+			if (GE) {
+				GE->executar();
+			}
+			else {
+				std::cerr << "Nao eh possivel executar o Gerenciador de Eventos pois ele eh NULL" << std::endl;
+			}
+
+			if (GC) {
+				GC->executar();
+			}
+			else {
+				std::cerr << "Nao eh possivel executar o Gerenciador de Colisoes pois ele eh NULL" << std::endl;
+			}
 
 			lista_ents.percorrer();
 
 			lista_ents.aplicarGravidade();
 
-			//a câmera centraliza no jogador 1...
 			if (pJog1) {
-				Ente::pGG->atualizaCamera(pJog1->getPos());
+				pGG->atualizaCamera(pJog1->getPos());
 			}
 			
 			if (pFundo)
@@ -87,10 +100,12 @@ namespace Fases
 
 			lista_ents.desenharEntidades();
 
-			//basta o primeiro jogador chegar no final...
+			//teste (o ideal eh colocar uma parede invisivel)
 			if (pJog1->getCorpo()->getPosition().x >= fim_mapa) {
-				std::cout << "fim!!" << std::endl;
+				menu_save_rank.executar();
 			}
+
+			pGG->mostrarEntes();
 	}
 
 	void Fase::criarTengus()
@@ -98,9 +113,9 @@ namespace Fases
 
 		const int min_tengus = 3;
 
-		int qnt_inim = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
+		int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
 
-		for (int i = 0; i < qnt_inim; i++)
+		for (int i = 0; i < qnt_tengus; i++)
 		{
 			Entidades::Personagens::Tengu* pTengu;
 			pTengu = new Entidades::Personagens::Tengu(pJog1,pJog2); //temos que passar o endereço do jogador aqui...
@@ -138,7 +153,7 @@ namespace Fases
 
 	}
 
-	void Fase::criarPlataformas()
+	void Fase::criarPlataformas(int id)
 	{
 
 		const int min_plataf = 3;
@@ -148,7 +163,7 @@ namespace Fases
 		for (int i = 0; i < qnt_plataf; i++)
 		{
 			Entidades::Obstaculos::Plataforma* pPlataf;
-			pPlataf = new Entidades::Obstaculos::Plataforma();
+			pPlataf = new Entidades::Obstaculos::Plataforma(id);
 
 			if (pPlataf)
 			{ 
@@ -183,9 +198,86 @@ namespace Fases
 
 	}
 
-	/*Entidades::Personagens::Jogador* Fase::getJogador() {
-		return pJog;
-	}*/
+	void Fase::carregarTengus(const nlohmann::json& j) {
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_tengus = j.at("Tengus");
+
+			for (const auto& tengu_json : lista_tengus) {
+				Entidades::Personagens::Inimigo* pTengu;
+				pTengu = new Entidades::Personagens::Tengu(pJog1);
+
+				pTengu->carregar(tengu_json);
+
+				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
+				Entidades::Entidade* pEnt  = (static_cast<Entidades::Entidade*>(
+											  static_cast<Entidades::Personagens::Personagem*>(
+											  static_cast<Entidades::Personagens::Inimigo*>(pTengu))));
+				lista_ents.incluir(pEnt);
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Tengus' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+	}
+
+	void Fase::carregarPlataf(const nlohmann::json& j, int id) {
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_plataformas = j.at("Plataformas");
+
+			for (const auto& plataforma_json : lista_plataformas) {
+				Entidades::Obstaculos::Plataforma* pPlatf;
+				pPlatf = new Entidades::Obstaculos::Plataforma(id);
+
+				pPlatf->carregar(plataforma_json);
+
+				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlatf));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pPlatf));
+				lista_ents.incluir(pEnt);
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Plataformas' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+
+	}
+
+	// Esta funcionando pra um jogador
+	void Fase::carregarJogadores(const nlohmann::json& j) {
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_jogadores = j.at("Jogadores");
+
+			for (const auto& jogador_json : lista_jogadores) {
+				pJog1 = new Entidades::Personagens::Jogador();
+
+				pJog1->carregar(jogador_json);
+
+				GC->setJogador(pJog1);
+				GE->setJogador(pJog1);
+
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Personagens::Personagem*>(pJog1));
+				lista_ents.incluir(pEnt);
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Jogadores' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+	}
+
+	void Fase::carregar(const nlohmann::json& j, int id) {
+
+		carregarJogadores(j);
+		carregarTengus(j);
+		carregarPlataf(j, id);
+
+	}
 
 
 }

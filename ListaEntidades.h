@@ -13,12 +13,14 @@ namespace Listas {
 			ListaEntidades();
 			~ListaEntidades();
 			void incluir(Entidades::Entidade* pE);
-			void remover(Entidades::Entidade* pE);
+			void remover(Entidades::Entidade* pE);	// Esta inutil, posso tirar?
 			void limpar();
 			void aplicarGravidade();
 			void percorrer();
 			void desenharEntidades();
 			const int getTam() const;
+			void salvar();
+			void carregar();
 	};
 
 }

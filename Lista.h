@@ -18,9 +18,10 @@ namespace Listas {
 
 				public:
 					Elemento() : pProx(nullptr), pInfo(nullptr) {}
-					~Elemento() { pProx = nullptr; pInfo = nullptr; }
+					~Elemento() { pProx = nullptr; pInfo = nullptr; }	// Esta certo deletar a informacao do elemento?
 					void setInfo(TE* pt) { pInfo = pt; }
 					void setProximo(Elemento<TE>* pE = nullptr) { pProx = pE; }
+					void deletaInfo() { delete pInfo; }
 					Elemento<TE>* getProximo() const { return pProx; }
 					TE* getInfo() const { return pInfo; }
 			};
@@ -98,6 +99,7 @@ namespace Listas {
 			while (pAux1 != nullptr)
 			{
 				pAux2 = pAux1->getProximo();
+				pAux1->deletaInfo();
 				delete (pAux1);
 				pAux1 = pAux2;
 			}

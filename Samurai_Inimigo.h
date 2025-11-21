@@ -8,9 +8,10 @@ namespace Entidades {
 		{
 		private:
 			float cooldownEmpurrao;
+			sf::Clock timer;
 			
 			// Variaveis
-			sf::Clock timer;
+			float dt;
 			float resistencia;
 			bool empurra;
 
@@ -22,6 +23,8 @@ namespace Entidades {
 			// Reimplementacao
 			void mover();
 			void salvar();
+			void salvarDataBuffer(nlohmann::json& buffer);
+			void carregar(const nlohmann::json& j);
 			void danificar(Jogador* pJ); // dano no jogador
 			void inicializaAnimacoes();
 			void diminuiVida(float dano);

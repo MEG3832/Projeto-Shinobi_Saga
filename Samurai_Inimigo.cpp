@@ -9,7 +9,8 @@ namespace Entidades {
 			cooldownEmpurrao(4.0f),
 			timer(),
 			resistencia(resist),
-			empurra(true)
+			empurra(true),
+			dt(0.0)
 		{
 			nivel_maldade = 1; // nível de maldade base
 			paraEsq = true;
@@ -26,8 +27,10 @@ namespace Entidades {
 
 		Samurai_Inimigo::~Samurai_Inimigo() {
 			cooldownEmpurrao = 0.0;
+			timer.restart();
 			resistencia = 0.0;
 			empurra = false;
+			dt = 0.0;
 		}
 
 		void Samurai_Inimigo::executar()
@@ -37,11 +40,31 @@ namespace Entidades {
 
 		void Samurai_Inimigo::mover()
 		{
-			Inimigo::perambular(); //ele só perambula!
+			perambular(); //ele só perambula!
 		}
 
 		void Samurai_Inimigo::salvar() {
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_samurais.push_back(buffer);
+		}
+
+		void Samurai_Inimigo::salvarDataBuffer(nlohmann::json& buffer) {
+			Inimigo::salvarDataBuffer(buffer);
+
+			buffer["dt"] = dt;
+			buffer["resistencia"] = resistencia;
+			buffer["empurra"] = empurra;
+		}
+
+		void Samurai_Inimigo::carregar(const nlohmann::json& j) {
+			dt = j.at("dt").get<float>();
+			resistencia = j.at("resistencia").get<float>();
+			empurra = j.at("empurra").get<bool>();
+
+			Inimigo::carregar(j);
 		}
 
 		void Samurai_Inimigo::danificar(Jogador* pJ)
@@ -55,10 +78,16 @@ namespace Entidades {
 					pJ->diminuiVida(dano_calculado);
 					empurrar(pJ);
 					empurra = false;	// Comeca o cooldown do empurrao
+					dt = 0.0;
 					timer.restart();
 				}
-				else if (timer.getElapsedTime().asSeconds() >= cooldownEmpurrao) {
+
+				dt += timer.getElapsedTime().asSeconds();
+				timer.restart();
+
+				if (!empurra && dt >= cooldownEmpurrao) {
 					empurra = true;
+					dt = 0.0;
 					timer.restart();
 				}
 			}

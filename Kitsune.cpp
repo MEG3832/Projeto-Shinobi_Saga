@@ -45,66 +45,98 @@ namespace Entidades
 			if (jogAlvo && !jogAlvo->getMorto())
 				Inimigo::executar(); //verificar se basta isso...
 
+			if (MORRENDO == estado_atual && animador->getImgAtual() == 9) {
+				if (corpo) {
+					corpo->setFillColor(sf::Color::Transparent);
+				}
+
+				else {
+					std::cerr << "ERRO: Nao eh possivel deixar a kitsune transparente pois seu corpo eh NULL" << std::endl;
+				}
+			}
+
 		}
 
 
 		void Kitsune::mover()
 		{
-			if (jogAlvo)
-			{
-				//posição em x
-				float posJog_X = jogAlvo->getPos().x + jogAlvo->getTam().x / 2;
-				float posInim_X = this->getPos().x + this->getTam().x / 2;
+			if (corpo) {
 
-				float distHorizontal = abs(posJog_X - posInim_X);
+				if (animador) {
 
-				//posição em y
+					if (jogAlvo) {
 
-				float posJog_Y = jogAlvo->getPos().y + jogAlvo->getTam().y / 2;
-				float posInim_Y = this->getPos().y + this->getTam().y / 2;
+						if (jogAlvo->getCorpo()) {
 
-				float distVertical = abs(posJog_Y - posInim_Y);
+							//posição em x
+							float posJog_X = jogAlvo->getPos().x + jogAlvo->getTam().x / 2;
+							float posInim_X = this->getPos().x + this->getTam().x / 2;
 
-				float raio_vertical = this->getTam().y / 2;
+							float distHorizontal = abs(posJog_X - posInim_X);
 
-				if (distHorizontal <= raio_ativacao && distVertical <= raio_vertical)
-				{
-					//verifica em que lado o jogador está...
+							//posição em y
 
-					if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
-					{
-						paraEsq = true;
+							float posJog_Y = jogAlvo->getPos().y + jogAlvo->getTam().y / 2;
+							float posInim_Y = this->getPos().y + this->getTam().y / 2;
 
-					}
+							float distVertical = abs(posJog_Y - posInim_Y);
 
-					else //jogador está à direita do inimigo
-					{
-						paraEsq = false;
+							float raio_vertical = this->getTam().y / 2;
 
-					}
+							if (distHorizontal <= raio_ativacao && distVertical <= raio_vertical)
+							{
+								//verifica em que lado o jogador está...
 
-					if (pProjetil && relogioAtaque.getElapsedTime().asSeconds() >= cooldownAtaque && !pProjetil->getEstadoProj())
-					{
-						animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
+								if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
+								{
+									paraEsq = true;
 
-						if (animador->getImgAtual("Ataque3") == 6) //se chegou no último frame, pode atacar!
-						{
-							atiraProjetil();
+								}
+
+								else //jogador está à direita do inimigo
+								{
+									paraEsq = false;
+
+								}
+
+								if (pProjetil && relogioAtaque.getElapsedTime().asSeconds() >= cooldownAtaque && !pProjetil->getEstadoProj())
+								{
+									animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
+
+									if (animador->getImgAtual() == 6) //se chegou no último frame, pode atacar!
+									{
+										atiraProjetil();
+									}
+								}
+								else
+								{
+									animador->atualizarAnimInim(paraEsq, false, "Parado");
+								}
+
+							}
+
+							else
+								perambular();
+						}
+
+						else {
+							std::cerr << "ERRO: Nao eh possivel mover a kitsune pois o corpo do jogador eh NULL" << std::endl;
 						}
 					}
-					else
-					{
-						animador->atualizarAnimInim(paraEsq, false, "Parado");
-					}
 
+					else {
+						std::cout << "ponteiro do jogador eh nulo!" << std::endl;
+					}
 				}
 
-				else
-					perambular();
+				else {
+					std::cerr << "ERRO: nao eh posivel mover a kitsune pois seu animador eh NULL" << std::endl;
+				}
 			}
 
-			else
-				std::cout << "ponteiro do jogador eh nulo!" << std::endl;
+			else {
+				std::cerr << "ERRO: Nao eh possivel mover a kitsune pois seu corpo eh NULL" << std::endl;
+			}
 		}
 
 		void Kitsune::atiraProjetil()
@@ -114,12 +146,12 @@ namespace Entidades
 			pProjetil->setEstadoProj(true); //apenas setamos o estado do projétil, já que o que será feito (dependendo do estado dele), será tratado no executar do projétil.
 
 			if (paraEsq) {
-				pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 75.0f); //centralizo o projétil bem na frente da kitsune
+				pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 25.0); //centralizo o projétil bem na frente da kitsune
 				pProjetil->setVelocidade(sf::Vector2f(-3.0f, 0.0f));
 			}
 			else {
 
-				pProjetil->getCorpo()->setPosition(corpo->getPosition().x + corpo->getSize().x / 2, corpo->getPosition().y + 75.0f);
+				pProjetil->getCorpo()->setPosition(corpo->getPosition().x + corpo->getSize().x / 2, corpo->getPosition().y + 25.0f);
 				pProjetil->setVelocidade(sf::Vector2f(3.0f, 0.0f));
 			}
 
@@ -127,7 +159,25 @@ namespace Entidades
 
 		void Kitsune::salvar()
 		{
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_kitsunes.push_back(buffer);
+		}
+
+		void Kitsune::salvarDataBuffer(nlohmann::json& buffer) {
+
+			Inimigo::salvarDataBuffer(buffer);
+
+			buffer["raio_ativacao"] = raio_ativacao;
+		}
+
+		void Kitsune::carregar(const nlohmann::json& j) {
+
+			raio_ativacao = j.at("raio_ativacao").get<float>();
+
+			Inimigo::carregar(j);
 		}
 
 		void Kitsune::setProjetil(Projetil* pProj)

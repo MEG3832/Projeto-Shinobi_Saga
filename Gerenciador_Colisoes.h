@@ -48,6 +48,7 @@ namespace Gerenciadores {
 			bool verificaColisaoEnteObstacs(Entidades::Entidade* pE);
 			bool verificaColisaoEnteInimgs(Entidades::Entidade* pE);
 			void setAlturaChao(int altura);
+			void limparListas();
 	};
 
 }

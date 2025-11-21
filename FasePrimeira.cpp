@@ -36,6 +36,8 @@ namespace Fases
 		altura_chao = 80.0;	// Medi olhando e testando
 		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 
+		GC->setJogador(pJog1);
+
 		fim_mapa = 10000;
 
 		criarCenario();
@@ -57,7 +59,10 @@ namespace Fases
 
 	FasePrimeira::~FasePrimeira()
 	{
-
+		if (pFundo) {
+			delete pFundo;
+			pFundo = nullptr;
+		}
 	}
 
 	void FasePrimeira::criarCenario() {
@@ -89,9 +94,9 @@ namespace Fases
 
 		const int min_samurais = 3;
 		
-		int qnt_inim = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
+		int qnt_samurais = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
 
-		for (int i = 0; i < qnt_inim; i++)
+		for (int i = 0; i < qnt_samurais; i++)
 		{
 			//calcula uma resistência aleatória (float) entre 1.0 e 2.0
 			float min_res = 1.0f; //o samurai vai receber um dano normal
@@ -134,7 +139,7 @@ namespace Fases
 
 	void FasePrimeira::criarObstaculos()
 	{
-		criarPlataformas();
+		criarPlataformas(1);	// Identifica que a textura usada eh da primeira fase
 
 		criarRedemoinhos();
 	}
@@ -144,10 +149,10 @@ namespace Fases
 
 		const int min_red = 3;
 
-		int qnt_red = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
+		int qnt_redemoinhos = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
 
 
-		for (int i = 0; i < qnt_red; i++)
+		for (int i = 0; i < qnt_redemoinhos; i++)
 		{
 			Entidades::Obstaculos::Redemoinho* pRed;
 			pRed = new Entidades::Obstaculos::Redemoinho();
@@ -179,6 +184,102 @@ namespace Fases
 			else
 				std::cout << "Não foi possível alocar o redemoinho!" << std::endl;
 
+		}
+	}
+
+	void FasePrimeira::carregarSamurais(const nlohmann::json& j) {
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_samurais = j.at("Samurais");
+
+			for (const auto& samurai_json : lista_samurais) {
+				Entidades::Personagens::Samurai_Inimigo* pSamurai;
+				pSamurai = new Entidades::Personagens::Samurai_Inimigo(pJog1);
+
+				pSamurai->carregar(samurai_json);
+
+				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pSamurai));
+				Entidades::Entidade* pEnt = (static_cast<Entidades::Entidade*>(
+											 static_cast<Entidades::Personagens::Personagem*>(
+											 static_cast<Entidades::Personagens::Inimigo*>(pSamurai))));
+				lista_ents.incluir(pEnt);
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Samurais' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+	}
+
+	void FasePrimeira::carregarRedemoinhos(const nlohmann::json& j) {
+
+		try {
+			// Obtém a referência para o array completo de "plataformas"
+			const nlohmann::json& lista_redemoinhos = j.at("Redemoinhos");
+
+			for (const auto& redemoinho_json : lista_redemoinhos) {
+				Entidades::Obstaculos::Redemoinho* pRed;
+				pRed = new Entidades::Obstaculos::Redemoinho();
+
+				pRed->carregar(redemoinho_json);
+
+				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
+				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+											static_cast<Entidades::Obstaculos::Obstaculo*>(pRed));
+				lista_ents.incluir(pEnt);
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Redemoinhos' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+
+	}
+
+	void FasePrimeira::salvarDataBuffer() {
+
+		buffer_fase["fase"] = 1;
+	}
+
+	void FasePrimeira::salvar() {
+
+		salvarDataBuffer();
+
+		std::ofstream arquivo_fase("arquivo_fase.json");
+
+		lista_ents.salvar();
+		buffer_fase["Plataformas"] = Entidades::Entidade::getArrayPlataformas();
+		buffer_fase["Redemoinhos"] = Entidades::Entidade::getArrayRedemoinhos();
+		buffer_fase["Tengus"] = Entidades::Entidade::getArrayTengus();
+		buffer_fase["Samurais"] = Entidades::Entidade::getArraySamurais();
+		buffer_fase["Jogadores"] = Entidades::Entidade::getArrayJogadores();
+
+		if (arquivo_fase.is_open()) {	// Verifica se o arquivo foi aberto
+			/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
+			arquivo_fase << buffer_fase.dump(4);
+			arquivo_fase.close();	// Fecha o arquivo e para a escrita
+
+			std::cout << "Fase 1 salva em : " << "arquivo_fase.json" << std::endl;
+		}
+		else {
+			std::cerr << "ERRO: Nao foi possivel abrir o arquivo da fase 1 para salvar." << std::endl;
+		}
+	}
+
+	void FasePrimeira::carregar(const nlohmann::json& j) {
+		try {
+			lista_ents.limpar();
+			GC->limparListas();
+
+			Fase::carregar(j, 1);
+
+			carregarSamurais(j);
+			carregarRedemoinhos(j);
+		}
+
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: Alguma chave interna esta faltando." << e.what() << std::endl;
 		}
 	}
 }

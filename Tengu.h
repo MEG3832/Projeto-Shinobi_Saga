@@ -26,6 +26,8 @@ namespace Entidades
 				void perseguir(Jogador* pJ);
 				void mover();
 				void salvar();
+				void salvarDataBuffer(nlohmann::json& buffer);
+				void carregar(const nlohmann::json& j);
 				void inicializaAnimacoes();
 				void diminuiVida(int dano);
 

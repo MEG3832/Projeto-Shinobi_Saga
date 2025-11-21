@@ -29,7 +29,7 @@ namespace Entidades {
 
 		void Redemoinho::executar() {
 			atualizaAnimacao();
-			if (animador->getImgAtual("ataque") < 5 || animador->getImgAtual("ataque") > 10) {
+			if (animador->getImgAtual() < 5 || animador->getImgAtual() > 10) {
 				dano_unico = true;
 				danoso = false;
 			}
@@ -54,7 +54,19 @@ namespace Entidades {
 		}
 
 		void Redemoinho::salvar() {
-			return;
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+
+			buffer_redemoinhos.push_back(buffer);
+		}
+
+		void Redemoinho::salvarDataBuffer(nlohmann::json& buffer) {
+			Obstaculo::salvarDataBuffer(buffer);
+
+			buffer["raio"] = raio;
+			buffer["danosidade"] = danosidade;
+			buffer["dano_unico"] = dano_unico;
 		}
 
 		void Redemoinho::inicializaAnimacoes() {
@@ -74,6 +86,17 @@ namespace Entidades {
 			else {
 				std::cerr << "Nao eh possivel atualizar a animacao pois o animador eh NULL" << std::endl;
 			}
+		}
+
+		void Redemoinho::carregar(const nlohmann::json& j) {
+			try {
+				dano_unico = j.at("dano_unico").get<bool>();
+			}
+			catch (const nlohmann::json::out_of_range& e) {
+				std::cerr << "ERRO: Chave 'dano_unico' ausente." << e.what() << std::endl;
+			}
+
+			Obstaculo::carregar(j);
 		}
 
 	}

@@ -7,9 +7,17 @@ namespace Entidades {
 
 	class Entidade :public Ente
 	{
-		protected:
+	protected:
 
-			//ostream buffer; ->implementar
+			static nlohmann::json buffer_plataformas;
+			static nlohmann::json buffer_redemoinhos;
+			static nlohmann::json buffer_tengus;
+			static nlohmann::json buffer_samurais;
+			static nlohmann::json buffer_armadilhas;
+			static nlohmann::json buffer_kitsunes;
+			static nlohmann::json buffer_projeteis;
+			static nlohmann::json buffer_jogadores;
+
 			sf::Vector2f pos;	// Nao estou usando, pois corpo->getPosition() eh equivalente
 
 			// Variavies
@@ -17,7 +25,8 @@ namespace Entidades {
 			Animadores::Animacao* animador;
 			bool intransponivel;
 
-			//void salvarDataBuffer(); ->implementar
+			void carregar(const nlohmann::json& j);
+			void salvarDataBuffer(nlohmann::json& buffer);
 
 		public:
 
@@ -29,6 +38,16 @@ namespace Entidades {
 			void setIntransponivel(bool intangivel);
 			void sofrerGravidade();
 			sf::Vector2f getPos(); // Nao usei, posso tirar? corpo->getPosition() eh equivalente
+
+			static nlohmann::json getArrayPlataformas();
+			static nlohmann::json getArrayRedemoinhos();
+			static nlohmann::json getArrayTengus();
+			static nlohmann::json getArraySamurais();
+			static nlohmann::json getArrayArmadilhas();
+			static nlohmann::json getArrayKitsunes();
+			static nlohmann::json getArrayProjeteis();
+			static nlohmann::json getArrayJogadores();
+			static void limparBuffers();
 
 			// Abstratas
 			virtual void executar() = 0;

@@ -12,10 +12,7 @@ namespace Entidades {
 
 		protected:
 
-			float dt;
-
 			// Variaveis
-			sf::Clock timer;
 			int num_vidas;
 			float dano;
 			bool paraEsq;
@@ -30,7 +27,8 @@ namespace Entidades {
 			int getVida();
 			virtual void setNoChao();
 			int getDano();
-			//void salvarDataBuffer();
+			void salvarDataBuffer(nlohmann::json& buffer);
+			void carregar(const nlohmann::json& j);
 
 			// Abstratas
 			virtual void executar() = 0;

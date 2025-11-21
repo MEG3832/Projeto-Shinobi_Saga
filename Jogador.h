@@ -32,13 +32,15 @@ namespace Entidades {
 				float cooldown_dano;
 				float velPulo;
 				sf::RectangleShape* hitboxAtaque;
-				sf::Vector2f velocKnockBack;
+				sf::Clock timer;
 
 				// Variaveis
 				int pontos;
 				int id; // 1 ou 2
+				float dt;
 				Estado estado_atual;
 				sf::Vector2f direcao;
+				sf::Vector2f velocKnockBack;
 
 			public:
 
@@ -61,6 +63,10 @@ namespace Entidades {
 				void ferir();
 				void atualizarHitboxAtaque();
 				sf::RectangleShape* getHitboxAtaque() const;
+				void salvarDataBuffer(nlohmann::json& buffer);
+				void carregar(const nlohmann::json& j);
+				int getPontuacao();
+				void aumentaPontuacao(int num);
 
 				// Reimplementacao
 				void executar();

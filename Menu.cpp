@@ -1,9 +1,24 @@
 #include "Menu.h"
 #include "Jogo.h"
 
+Jogo* Menu::pJog = nullptr;
+Entidades::Personagens::Jogador* Menu::pJog1 = nullptr;
+Entidades::Personagens::Jogador* Menu::pJog2 = nullptr;
+
+void Menu::setJogo(Jogo* jogo) {
+	pJog = jogo;
+}
+
+void Menu::setJogador1(Entidades::Personagens::Jogador* pJ) {
+	pJog1 = pJ;
+}
+
+void Menu::setJogador2(Entidades::Personagens::Jogador* pJ) {
+	pJog2 = pJ;
+}
+
 Menu::Menu() :
 	Ente(),
-	pJog(nullptr),
 	GG(GG->getGerenciadorGrafico()),
 	GE(GE->getGerenciadorEventos()),
 	fundo(),
@@ -11,10 +26,12 @@ Menu::Menu() :
 	texto(),
 	selecionado(1),
 	executa(false),
-	parar(false)
+	parar(false),
+	vel_fundo(1)
 {
+	fonte.loadFromFile("Fonte/superstar_memesbruh03.ttf");
+
 	inicializaFundo();
-	inicializaTexto();
 }
 
 Menu::~Menu() {
@@ -25,53 +42,8 @@ Menu::~Menu() {
 	executa = false;
 }
 
-void Menu::executar() {
-	while (GG->verificaJanelaAberta() && !parar) {
-		if (GG) {
-			if (GE) {
-				executa = false;
-				GG->limpaJanela();
-				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
-				GE->executarMenu(this);	// Verifica teclas apertadas
-				fundo.executar();	// Imprime as camadas
-				desenharTexto();
-				GG->mostrarEntes();	// Display
-				if (executa) {
-					if (pJog) {
-						if (1 == selecionado) {
-							pJog->setFase(1);
-							parar = true;
-						}
-						if (2 == selecionado) {
-							pJog->setFase(2);
-							parar = true;
-						}
-						if (3 == selecionado) {
-							parar = false;
-							// Mudar para o salvar da lista de entidades
-						}
-						if (4 == selecionado) {
-							parar = true;
-							exit(0);
-						}
-					}
-					else {
-						std::cerr << "ERRO: Nao eh possivel executar o comando pois o jogo eh NULL" << std::endl;
-					}
-				}
-
-			}
-			else {
-				std::cerr << "ERRO: Nao eh possivel criar a tela pois o Gerenciador de Eventos eh NULL" << std::endl;
-			}
-		}
-		else {
-			std::cerr << "ERRO: Nao eh possivel imprimir na tela pois o Gerenciador Grafico eh NULL" << std::endl;
-		}
-	}
-}
-
 void Menu::inicializaFundo() {
+
 	// As velocidades dão o efeito parallax
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada1.png");
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.0f, "Imagens/JapanVillage/Camada2.png");
@@ -82,39 +54,7 @@ void Menu::inicializaFundo() {
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.5f, "Imagens/JapanVillage/Camada7.png");
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.15f, "Imagens/JapanVillage/Camada8.png");
 	fundo.addCamada(sf::Vector2f(pGG->getWindow()->getSize()), 0.05f, "Imagens/JapanVillage/Camada9.png");
-}
 
-void Menu::inicializaTexto() {
-	texto.clear();
-	fonte.loadFromFile("Fonte/superstar_memesbruh03.ttf");
-
-	sf::Text temp;
-	temp.setString("NOME DO JOGO");
-	temp.setCharacterSize(85);
-	temp.setFillColor(sf::Color(sf::Color::White));
-	temp.setOutlineColor(sf::Color::Black);
-	temp.setOutlineThickness(3);
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 150);
-	temp.setFont(fonte);
-	texto.push_back(temp);
-	
-
-	temp.setCharacterSize(30);
-	temp.setString("Fase 1");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
-	texto.push_back(temp);
-
-	temp.setString("Fase 2");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
-	texto.push_back(temp);
-
-	temp.setString("Salvar Jogo");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
-	texto.push_back(temp);
-
-	temp.setString("Sair");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
-	texto.push_back(temp);
 }
 
 void Menu::desenharTexto() {
@@ -137,13 +77,10 @@ void Menu::desenharTexto() {
 
 void Menu::operator++() {
 	selecionado = (selecionado + 1) % (int)texto.size();
-	if (0 == selecionado) {
-		selecionado = 1;
-	}
 }
 
 void Menu::operator--() {
-	if (1 == selecionado) {
+	if (0 == selecionado) {
 		selecionado = (int)texto.size();
 	}
 	selecionado--;
@@ -151,8 +88,4 @@ void Menu::operator--() {
 
 void Menu::selecionar() {
 	executa = true;
-}
-
-void Menu::setJogo(Jogo* jogo) {
-	pJog = jogo;
 }

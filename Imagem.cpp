@@ -161,5 +161,17 @@ namespace Animadores {
 	{
 		return imag_Atual;
 	}
+
+	const float Imagem::getTempoTotal() {
+		return tempo_Total;
+	}
+
+	void Imagem::setImgAtual(int ia) {
+		imag_Atual = ia;
+	}
+
+	void Imagem::setTempoTotal(float tt) {
+		tempo_Total = tt;
+	}
 }
 

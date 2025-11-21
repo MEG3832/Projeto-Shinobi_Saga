@@ -4,13 +4,19 @@ namespace Entidades {
 
 	namespace Obstaculos {
 
-		Plataforma::Plataforma() :
+		Plataforma::Plataforma(int id) :
 			Obstaculo(),
 			altura(55),
-			comprimento(180),
-			//textura(pGG->carregarTextura("Imagens/Obstaculos/Plataforma_DarkForest.png")),
-			textura(pGG->carregarTextura("Imagens/Obstaculos/Plataforma_Village.png"))
+			comprimento(180)
 		{
+			if (1 == id) {
+				textura = pGG->carregarTextura("Imagens/Obstaculos/Plataforma_Village.png");
+			}
+			else if (2 == id) {
+				textura = pGG->carregarTextura("Imagens/Obstaculos/Plataforma_DarkForest.png");
+			}
+
+
 			danoso = false;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));
@@ -40,8 +46,23 @@ namespace Entidades {
 			}
 		}
 
-		void Plataforma::salvar() {
-			return;
+		void Plataforma::salvar() {	// Estou querendo tirar essa função pois salvarDataBuffer eh equivalente no que eu quero fazer
+			nlohmann::json buffer = {};
+
+			salvarDataBuffer(buffer);
+		
+			buffer_plataformas.push_back(buffer);
+		}
+
+		void Plataforma::salvarDataBuffer(nlohmann::json& buffer) {
+			Obstaculo::salvarDataBuffer(buffer);
+
+			// Nao ha nada especifico da plataforma pra salvar. Da ate pra tirar esse altura e comprimento, ja que o corpo tem size
+		}
+
+		void Plataforma::carregar(const nlohmann::json& j) {
+			// Ainda nao tem nada
+			Obstaculo::carregar(j);
 		}
 
 	}

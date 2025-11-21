@@ -1,0 +1,27 @@
+{
+    "fase_atual": 1,
+    "inimigos": [
+        {
+            "nivel_maldade": 1,
+            "pos_x": 500.0,
+            "pos_y": 300.0
+        },
+        {
+            "nivel_maldade": 2,
+            "pos_x": 800.0,
+            "pos_y": 150.0
+        }
+    ],
+    "obstaculos": [
+        {
+            "id": 1,
+            "pos_x": 500.0,
+            "pos_y": 300.0
+        },
+        {
+            "id": 2,
+            "pos_x": 800.0,
+            "pos_y": 150.0
+        }
+    ]
+}

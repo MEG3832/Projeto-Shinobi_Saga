@@ -17,7 +17,10 @@ namespace Entidades {
 			relogioAndar(),
 			relogioAtaque(),
 			relogioAtordoado(),
-			estado_atual(PARADO)
+			estado_atual(PARADO),
+			dt_ataque(0.0),
+			dt_andar(0.0),
+			dt_atordoamento(0.0)
 		{
 			//corpo é feito nas classes folha
 			veloc = sf::Vector2f(0.5, 0.0);
@@ -31,11 +34,38 @@ namespace Entidades {
 			cooldownAtaque = 0.0;
 			tempoAndar = 0.0;
 			cooldownAtordoado = 0.0;
+			dt_ataque = 0.0;
+			dt_andar = 0.0;
+			dt_atordoamento = 0.0;
+			relogioAndar.restart();
+			relogioAtordoado.restart();
+			relogioAtaque.restart();
 			estado_atual = PARADO;
 		}
 
-		void Inimigo::salvarDataBuffer() {
-			return;
+		void Inimigo::salvarDataBuffer(nlohmann::json& buffer) {
+			Personagem::salvarDataBuffer(buffer);
+
+			buffer["nivel_maldade"] = nivel_maldade;
+			buffer["dt_ataque"] = dt_ataque;
+			buffer["dt_andar"] = dt_andar;
+			buffer["dt_atordoamento"] = dt_atordoamento;
+			buffer["estado_atual"] = estado_atual;
+		}
+
+		void Inimigo::carregar(const nlohmann::json& j) {
+			try {
+				nivel_maldade = j.at("nivel_maldade").get<int>();
+				dt_ataque = j.at("dt_ataque").get<float>();
+				dt_andar = j.at("dt_andar").get<float>();
+				dt_atordoamento = j.at("dt_atordoamento").get<float>();
+				estado_atual = static_cast<Entidades::Personagens::Inimigo::Estado>(j.at("estado_atual").get<int>());
+			}
+			catch (const nlohmann::json::out_of_range& e) {
+				std::cerr << "ERRO: Alguma das chaves estah ausente." << e.what() << std::endl;
+			}
+
+			Personagem::carregar(j);
 		}
 
 		void Inimigo::executar() {
@@ -49,8 +79,13 @@ namespace Entidades {
 				}
 
 				else if (FERIDO == estado_atual) {
-					if (relogioAtordoado.getElapsedTime().asSeconds() >= cooldownAtordoado) {
+
+					dt_atordoamento += relogioAtordoado.getElapsedTime().asSeconds();
+					relogioAtordoado.restart();
+
+					if (dt_atordoamento >= cooldownAtordoado) {
 						estado_atual = PARADO;
+						dt_andar = 0.0;
 						relogioAndar.restart();
 					}
 					else {
@@ -132,15 +167,16 @@ namespace Entidades {
 
 					// verifica o resultado do ataque
 					if (getVida() <= 0) {
+						jogAlvo->aumentaPontuacao(20);	// Exemplo
 						estado_atual = MORRENDO;
 						setIntransponivel(false); // Inimigo morto pode ser atravessado
-						std::cout << "Inimigo morreu!" << std::endl;
+						std::cout << "Pontuacao: " << jogAlvo->getPontuacao() << std::endl;
 					}
 					else {
 						// Se tomou dano mas não morreu, fica atordoado
 						estado_atual = FERIDO;
+						dt_atordoamento = 0.0;
 						relogioAtordoado.restart();
-						std::cout << "Inimigo tomou " << dano << " de dano. Vida: " << getVida() << std::endl;
 					}
 				}
 			}
@@ -205,8 +241,12 @@ namespace Entidades {
 
 					if (animador) {
 
-						if (relogioAndar.getElapsedTime().asSeconds() >= tempoAndar)
+						dt_andar += relogioAndar.getElapsedTime().asSeconds();
+						relogioAndar.restart();
+
+						if (dt_andar >= tempoAndar)
 						{
+							dt_andar = 0.0;
 							relogioAndar.restart();
 
 							if (ANDANDO == estado_atual) {
