@@ -238,6 +238,7 @@ void Menu_Principal::executa_SelecaoFase() {
 void Menu_Principal::carregar() {
 
 	int fase = 0;
+	bool multiplayer = false;
 
 	/* Cria uma instancia de iftream (input file stream), usado para ler o arquivo no disco*/
 	std::ifstream ifs("arquivo_fase.json");
@@ -253,6 +254,7 @@ void Menu_Principal::carregar() {
 			/* Acessar o valor associado a chave "fase_atual", transformando-a em um int*/
 			try {
 				fase = j.at("fase").get<int>();
+				multiplayer = j.at("multiplayer").get<int>();
 
 			}
 			catch (const nlohmann::json::out_of_range& e) {
@@ -261,10 +263,15 @@ void Menu_Principal::carregar() {
 
 
 			if (1 == fase) {
-				pJog1 = new Entidades::Personagens::Jogador();
-				GE->setJogador(pJog1);
+				Fases::FasePrimeira* pFase1 = nullptr;
 
-				Fases::FasePrimeira* pFase1 = new Fases::FasePrimeira(pJog1);
+				if (multiplayer) {
+					pFase1 = new Fases::FasePrimeira(pJog1, pJog2);
+				}
+				else {
+					pFase1 = new Fases::FasePrimeira(pJog1);
+				}
+				pJog->setMultiplayer(multiplayer);
 
 				pFase1->carregar(j);
 
@@ -273,10 +280,15 @@ void Menu_Principal::carregar() {
 				pJog->setEstado(3);	// 3 indica o estado FASE1 do Jogo
 			}
 			else if (2 == fase) {
-				pJog1 = new Entidades::Personagens::Jogador();
-				GE->setJogador(pJog1);
+				Fases::FaseSegunda* pFase2 = nullptr;
 
-				Fases::FaseSegunda* pFase2 = new Fases::FaseSegunda(pJog1);
+				if (multiplayer) {
+					pFase2 = new Fases::FaseSegunda(pJog1, pJog2);
+				}
+				else {
+					pFase2 = new Fases::FaseSegunda(pJog1);
+				}
+				pJog->setMultiplayer(multiplayer);
 
 				pFase2->carregar(j);
 

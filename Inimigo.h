@@ -26,13 +26,12 @@ namespace Entidades {
 				sf::Clock relogioAtaque; 
 				sf::Clock relogioAndar;
 				sf::Clock relogioAtordoado; 
-				Jogador* jogAlvo;	// Eh uma variavel?
+
+				Jogador* pJogador1; // armazena referência fixa ao J1
+				Jogador* pJogador2; // armazena referência fixa ao J2 (pode ser nullptr)
+				Jogador* jogAlvo;   // o ponteiro que muda para onde aponta dependendo da distância
 
 				// Variaveis
-				Jogador* jogAlvo;	// Eh uma variavel?
-				sf::Clock relogioAtaque; //mede o cooldown
-				sf::Clock relogioAndar;
-				sf::Clock relogioAtordoado; //mede o cooldown
 				int nivel_maldade;
 				float dt_ataque;
 				float dt_andar;
@@ -41,10 +40,6 @@ namespace Entidades {
 
 				void perambular();
 				virtual void empurrar(Jogador* pJ);
-
-				Jogador* pJogador1; // armazena referência fixa ao J1
-				Jogador* pJogador2; // armazena referência fixa ao J2 (pode ser nullptr)
-				Jogador* jogAlvo;   // o ponteiro que muda para onde aponta dependendo da distância
 
 				void atualizarAlvo(); // Nova função!
 

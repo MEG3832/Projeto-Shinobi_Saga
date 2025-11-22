@@ -26,7 +26,7 @@ namespace Entidades {
 			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
-			num_vidas = 250;
+			num_vidas = 10000;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));

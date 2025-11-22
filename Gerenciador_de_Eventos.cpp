@@ -175,17 +175,15 @@ namespace Gerenciadores {
 
 		}
 
-		else
-		{
-			std::cout << "Jogador 2 eh nulo!" << std::endl;
-		}
-
 		//apenas verifica se apertou o ESC:
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			pGrafico->fecharJanela();
 		}
-
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+		{
+			pJogo->setEstado(1);
+		}
 
 	}
 

@@ -38,8 +38,6 @@ namespace Fases
 		altura_chao = 50.0;	// Medi olhando e testando
 		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 
-		GC->setJogador(pJog1);
-
 		fim_mapa = 10000;
 
 		criarCenario();
@@ -95,8 +93,8 @@ namespace Fases
 	{
 		const int min_kitsunes = 3;
 
-		int qnt_inim = (rand() % (maxKitsunes - min_kitsunes + 1)) + min_kitsunes; //gera valor entre minimo e maximo definido
-
+		//int qnt_inim = (rand() % (maxKitsunes - min_kitsunes + 1)) + min_kitsunes; //gera valor entre minimo e maximo definido
+		int qnt_inim = 0;
 		for (int i = 0; i < qnt_inim; i++)
 		{
 			Entidades::Personagens::Kitsune* pKits;
@@ -171,8 +169,8 @@ namespace Fases
 
 		const int min_armad = 3;
 
-		int qnt_armad = (rand() % (maxArmadilhas - min_armad + 1)) + min_armad; //gera valor entre minimo e maximo definido
-
+		//int qnt_armad = (rand() % (maxArmadilhas - min_armad + 1)) + min_armad; //gera valor entre minimo e maximo definido
+		int qnt_armad = 0;
 
 		for (int i = 0; i < qnt_armad; i++)
 		{
@@ -315,10 +313,20 @@ namespace Fases
 
 	void FaseSegunda::salvarDataBuffer() {
 		buffer_fase["fase"] = 2;
+		if (pJog2) {
+			buffer_fase["multiplayer"] = true;
+		}
+		else {
+			buffer_fase["multiplayer"] = false;
+		}
 	}
 
 	void FaseSegunda::carregar(const nlohmann::json& j) {
 		try {
+			lista_ents.remover(pJog1);
+			if (pJog2) {
+				lista_ents.remover(pJog2);
+			}
 			lista_ents.limpar();
 			GC->limparListas();
 

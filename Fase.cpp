@@ -2,7 +2,7 @@
 
 namespace Fases
 {
-	Fase::Fase() :
+	Fase::Fase(Entidades::Personagens::Jogador* pJog1) :
 		maxTengus(5),
 		maxPlataf(8),
 		lista_ents(),
@@ -16,7 +16,8 @@ namespace Fases
 		buffer_fase({}),
 		menu_save_rank()
 	{
-		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pJog1); //coloca o jogador na lista de entidades
+		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+									static_cast<Entidades::Personagens::Personagem*>(pJog1)); //coloca o jogador na lista de entidades
 		lista_ents.incluir(pEnt);
 
 		GC->setJogador1(pJog1);
@@ -33,29 +34,34 @@ namespace Fases
 		maxPlataf(8),
 		lista_ents(),
 		GC(GC->getGerenciadorColisoes()),
-		//pJog(nullptr),
+		GE(GE->getGerenciadorEventos()),
 		pFundo(nullptr),
 		fim_mapa(0),
 		altura_chao(0.0)
 	{
-		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(pJog1); //coloca o jogador na lista de entidades
-		Entidades::Entidade* pEnt2 = static_cast<Entidades::Entidade*>(pJog2); //coloca o jogador na lista de entidades
+		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+									static_cast<Entidades::Personagens::Personagem*>(pJog1)); //coloca o jogador na lista de entidades
+		Entidades::Entidade* pEnt2 = static_cast<Entidades::Entidade*>(
+									 static_cast<Entidades::Personagens::Personagem*>(pJog2));
 		lista_ents.incluir(pEnt);
 		lista_ents.incluir(pEnt2);
 
 		GC->setJogador1(pJog1);
 		GC->setJogador2(pJog2);
 
+		pFundo = new Parallax::Fundo(); //cria o fundo
 	}
 
 	Fase::~Fase()
 	{
 		//retiramos os jogadores da lista para que eles não sejam destruídos quando a fase acabar...
 		if (pJog1) {
-			lista_ents.remover(static_cast<Entidades::Entidade*>(pJog1));
+			lista_ents.remover(static_cast<Entidades::Entidade*>(
+							   static_cast<Entidades::Personagens::Personagem*>(pJog1)));
 		}
 		if (pJog2) {
-			lista_ents.remover(static_cast<Entidades::Entidade*>(pJog2));
+			lista_ents.remover(static_cast<Entidades::Entidade*>(
+				static_cast<Entidades::Personagens::Personagem*>(pJog2)));
 		}
 
 		lista_ents.limpar();
@@ -113,7 +119,8 @@ namespace Fases
 
 		const int min_tengus = 3;
 
-		int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
+		//int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
+		int qnt_tengus = 0;
 
 		for (int i = 0; i < qnt_tengus; i++)
 		{
@@ -158,7 +165,8 @@ namespace Fases
 
 		const int min_plataf = 3;
 
-		int qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
+		//int qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
+		int qnt_plataf = 0;
 
 		for (int i = 0; i < qnt_plataf; i++)
 		{
@@ -252,16 +260,21 @@ namespace Fases
 			// Obtém a referência para o array completo de "plataformas"
 			const nlohmann::json& lista_jogadores = j.at("Jogadores");
 
-			for (const auto& jogador_json : lista_jogadores) {
-				pJog1 = new Entidades::Personagens::Jogador();
+			const nlohmann::json& jogador_json = lista_jogadores.at(0);
+			pJog1->carregar(jogador_json);
+			GC->setJogador1(pJog1);
+			GE->setJogador1(pJog1);
+			Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+										static_cast<Entidades::Personagens::Personagem*>(pJog1));
+			lista_ents.incluir(pEnt);
 
-				pJog1->carregar(jogador_json);
-
-				GC->setJogador(pJog1);
-				GE->setJogador(pJog1);
-
+			if (pJog2) {
+				const nlohmann::json& jogador_json = lista_jogadores.at(1);
+				pJog2->carregar(jogador_json);
+				GC->setJogador2(pJog2);
+				GE->setJogador2(pJog2);
 				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-											static_cast<Entidades::Personagens::Personagem*>(pJog1));
+											static_cast<Entidades::Personagens::Personagem*>(pJog2));
 				lista_ents.incluir(pEnt);
 			}
 		}

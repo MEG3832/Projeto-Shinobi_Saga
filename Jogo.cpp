@@ -1,6 +1,7 @@
 #include "Jogo.h"
 
 Jogo::Jogo() :
+    multiplayer(true),
     pGG(pGG->getGerenciadorGrafico()),
     pGE(pGE->getGerenciadorEventos()),
     pGC(pGC->getGerenciadorColisoes()),
@@ -34,10 +35,17 @@ Jogo::Jogo() :
         exit(1);
     }
 
-    pJog1 = new Entidades::Personagens::Jogador();
-    pGE->setJogador(pJog1);
-    pGC->setJogador(pJog1);
+    pJog1 = new Entidades::Personagens::Jogador(1);
+    pGE->setJogador1(pJog1);
+    pGC->setJogador1(pJog1);
     Menu::setJogador1(pJog1);
+     
+    if (multiplayer) {
+        pJog2 = new Entidades::Personagens::Jogador(2);
+        pGE->setJogador2(pJog2);
+        pGC->setJogador2(pJog2);
+        Menu::setJogador2(pJog2);
+    }
 
     pGG->getWindow()->setFramerateLimit(60);
 
@@ -46,7 +54,6 @@ Jogo::Jogo() :
     Ente::setGG(pGG);
 
     Menu::setJogo(this);
-    // Jogador2 = nullptr
 
 }
 
@@ -92,6 +99,9 @@ void Jogo::executar()
                 }
                 Menu::setJogo(this);
                 Menu::setJogador1(pJog1);
+                if (multiplayer) {
+                    Menu::setJogador2(pJog2);
+                }
 
                 menu_principal.executar();
             }
@@ -111,7 +121,12 @@ void Jogo::executar()
                     pFase2 = nullptr;
                 }
                 if (!pFase1) {
-                    pFase1 = new Fases::FasePrimeira(pJog1);
+                    if (multiplayer) {
+                        pFase1 = new Fases::FasePrimeira(pJog1, pJog2);
+                    }
+                    else {
+                        pFase1 = new Fases::FasePrimeira(pJog1);
+                    }
                     menu_pause.setFase(pFase1);
                 }
 
@@ -130,7 +145,12 @@ void Jogo::executar()
                     pFase1 = nullptr;
                 }
                 if (!pFase2) {
-                    pFase2 = new Fases::FaseSegunda(pJog1);
+                    if (multiplayer) {
+                        pFase2 = new Fases::FaseSegunda(pJog1, pJog2);
+                    }
+                    else {
+                        pFase2 = new Fases::FaseSegunda(pJog1);
+                    }
                     menu_pause.setFase(pFase2);
                     Menu::setJogo(this);
                 }
@@ -176,4 +196,12 @@ void Jogo::voltarEstado() {
 void Jogo::setFase(Fases::FasePrimeira* pF1, Fases::FaseSegunda* pF2) {
     pFase1 = pF1;
     pFase2 = pF2;
+}
+
+bool Jogo::getMultiplayer() {
+    return multiplayer;
+}
+
+void Jogo::setMultiplayer(bool m) {
+    multiplayer = m;
 }

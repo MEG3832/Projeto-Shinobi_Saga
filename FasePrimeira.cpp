@@ -36,8 +36,6 @@ namespace Fases
 		altura_chao = 80.0;	// Medi olhando e testando
 		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 
-		GC->setJogador(pJog1);
-
 		fim_mapa = 10000;
 
 		criarCenario();
@@ -45,13 +43,12 @@ namespace Fases
 		//para o jogador 1
 		pJog1->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);
 		pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
-			pJog1->getCorpo()->getPosition().y);
-
+										pJog1->getCorpo()->getPosition().y);
 
 		//para o jogador 2
 		pJog2->getCorpo()->setPosition(60.0f, ALTURA_TELA - altura_chao - pJog2->getTam().y);
 		pJog2->getHitBox()->setPosition(pJog2->getCorpo()->getPosition().x + (pJog2->getCorpo()->getSize().x / 2 - pJog2->getHitBox()->getSize().x / 2),
-			pJog2->getCorpo()->getPosition().y);
+										pJog2->getCorpo()->getPosition().y);
 
 		criarObstaculos();
 		criarInimigos();
@@ -151,7 +148,6 @@ namespace Fases
 
 		int qnt_redemoinhos = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
 
-
 		for (int i = 0; i < qnt_redemoinhos; i++)
 		{
 			Entidades::Obstaculos::Redemoinho* pRed;
@@ -194,7 +190,13 @@ namespace Fases
 
 			for (const auto& samurai_json : lista_samurais) {
 				Entidades::Personagens::Samurai_Inimigo* pSamurai;
-				pSamurai = new Entidades::Personagens::Samurai_Inimigo(pJog1);
+
+				float min_res = 1.0f; //o samurai vai receber um dano normal
+				float max_res = 2.0f; //o samurai vai receber um dano pela metade.
+				float rand_percent = (float)rand() / (float)RAND_MAX; //essa divisão resulta em um valor no intervalo [0.0 , 1.0]
+				float resistencia_aleatoria = min_res + rand_percent * (max_res - min_res);
+
+				pSamurai = new Entidades::Personagens::Samurai_Inimigo(pJog1, pJog2, resistencia_aleatoria);
 
 				pSamurai->carregar(samurai_json);
 
@@ -239,6 +241,12 @@ namespace Fases
 	void FasePrimeira::salvarDataBuffer() {
 
 		buffer_fase["fase"] = 1;
+		if (pJog2) {
+			buffer_fase["multiplayer"] = true;
+		}
+		else {
+			buffer_fase["multiplayer"] = false;
+		}
 	}
 
 	void FasePrimeira::salvar() {
@@ -268,6 +276,10 @@ namespace Fases
 
 	void FasePrimeira::carregar(const nlohmann::json& j) {
 		try {
+			lista_ents.remover(pJog1);
+			if (pJog2) {
+				lista_ents.remover(pJog2);
+			}
 			lista_ents.limpar();
 			GC->limparListas();
 

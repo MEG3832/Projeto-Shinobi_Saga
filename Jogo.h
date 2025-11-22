@@ -22,6 +22,7 @@ class Jogo {
 			FASE2
 		};
 
+		bool multiplayer;
 		Menu_Principal menu_principal;
 		Menu_Pause menu_pause;
 		Menu_Colocacao menu_colocacao;
@@ -32,7 +33,6 @@ class Jogo {
 		Fases::FaseSegunda* pFase2; 
 		Entidades::Personagens::Jogador* pJog1;
 		Entidades::Personagens::Jogador* pJog2;
-
 
 		// Variaveis
 		Estado estado_atual;
@@ -47,4 +47,6 @@ class Jogo {
 		int getEstado();
 		void voltarEstado();
 		void setFase(Fases::FasePrimeira* pF1, Fases::FaseSegunda* pF2);
+		bool getMultiplayer();
+		void setMultiplayer(bool m);
 };
