@@ -21,6 +21,7 @@ namespace Entidades {
 			dt(0.0)
 			
 		{
+			std::cout << "criei o jogador" << std::endl;
 			dano = 200;
 
 			veloc.x = 5.0f;
@@ -66,6 +67,7 @@ namespace Entidades {
 
 		Jogador::~Jogador()
 		{
+			std::cout << "deletei o jogador" << std::endl;
 			cooldown_ataque = 0.0;
 			cooldown_pulo = 0.0;
 			cooldown_dano = 0.0;

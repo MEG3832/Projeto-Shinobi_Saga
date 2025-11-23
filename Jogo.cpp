@@ -215,3 +215,13 @@ bool Jogo::getMultiplayer() {
 void Jogo::setMultiplayer(bool m) {
     multiplayer = m;
 }
+
+void Jogo::setJogadores(Entidades::Personagens::Jogador* pJ1, Entidades::Personagens::Jogador* pJ2) {
+    pJog1 = pJ1;
+    pGE->setJogador1(pJog1);
+    pGC->setJogador1(pJog1);
+
+    pJog2 = pJ2;
+    pGE->setJogador2(pJog2);
+    pGC->setJogador2(pJog2);
+}

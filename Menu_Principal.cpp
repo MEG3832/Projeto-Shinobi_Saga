@@ -339,14 +339,17 @@ void Menu_Principal::carregar() {
 
 
 			if (1 == fase) {
+				pJog1 = new Entidades::Personagens::Jogador(1);
 				Fases::FasePrimeira* pFase1 = nullptr;
 
 				if (multiplayer) {
+					pJog2 = new Entidades::Personagens::Jogador(2);
 					pFase1 = new Fases::FasePrimeira(pJog1, pJog2);
 				}
 				else {
 					pFase1 = new Fases::FasePrimeira(pJog1);
 				}
+				pJog->setJogadores(pJog1, pJog2);
 				pJog->setMultiplayer(multiplayer);
 
 				pFase1->carregar(j);
@@ -356,14 +359,17 @@ void Menu_Principal::carregar() {
 				pJog->setEstado(3);	// 3 indica o estado FASE1 do Jogo
 			}
 			else if (2 == fase) {
+				pJog1 = new Entidades::Personagens::Jogador(1);
 				Fases::FaseSegunda* pFase2 = nullptr;
 
 				if (multiplayer) {
+					pJog2 = new Entidades::Personagens::Jogador(2);
 					pFase2 = new Fases::FaseSegunda(pJog1, pJog2);
 				}
 				else {
 					pFase2 = new Fases::FaseSegunda(pJog1);
 				}
+				pJog->setJogadores(pJog1, pJog2);
 				pJog->setMultiplayer(multiplayer);
 
 				pFase2->carregar(j);

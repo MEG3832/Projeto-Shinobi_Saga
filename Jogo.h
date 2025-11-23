@@ -49,4 +49,5 @@ class Jogo {
 		void setFase(Fases::FasePrimeira* pF1, Fases::FaseSegunda* pF2);
 		bool getMultiplayer();
 		void setMultiplayer(bool m);
+		void setJogadores(Entidades::Personagens::Jogador* pJ1, Entidades::Personagens::Jogador* pJ2);
 };
