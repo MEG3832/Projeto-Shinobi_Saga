@@ -12,7 +12,7 @@ namespace Entidades {
 			cooldown_dano(0.2),
 			tempo_morte(4 * 0.45),
 			velPulo(-12),
-			hitboxAtaque(new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f))),
+			hitboxAtaque(new sf::RectangleShape(sf::Vector2f(38.0f, 23.0f))),
 			velocKnockBack(0.0, 0.0),
 			pontos(0),
 			id(ident),
@@ -31,6 +31,10 @@ namespace Entidades {
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
+
+			if (2 == id) {
+				hitboxAtaque->setSize(sf::Vector2f(32.0f, 23.0f));
+			}
 
 			inicializaAnimacoes();
 		}
@@ -303,11 +307,20 @@ namespace Entidades {
 						);
 					}
 					else {
-						// posiciona à direita do jogador
-						hitboxAtaque->setPosition(
-							corpo->getPosition().x + corpo->getSize().x - 75.0f,
-							corpo->getPosition().y + 35.0f
-						);
+						if (1 == id) {
+							// posiciona à direita do jogador
+							hitboxAtaque->setPosition(
+								corpo->getPosition().x + corpo->getSize().x - 81.0f,
+								corpo->getPosition().y + 35.0f
+							);
+						}
+						if (2 == id) {
+							// posiciona à direita do jogador
+							hitboxAtaque->setPosition(
+								corpo->getPosition().x + corpo->getSize().x - 75.0f,
+								corpo->getPosition().y + 35.0f
+							);
+						}
 					}
 				}
 				else {

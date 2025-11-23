@@ -15,7 +15,7 @@ namespace Entidades
 			veloc = sf::Vector2f(0.5f, 0.0f);
 			tempoAndar = 4.0f;
 
-			num_vidas = 250;
+			num_vidas = 200;
 
 			cooldownAtordoado = 1.0f;
 
