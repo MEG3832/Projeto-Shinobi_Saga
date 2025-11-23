@@ -38,7 +38,6 @@ namespace Entidades
 
 			if (!(MORRENDO == estado_atual)) {
 				nivel_maldade++; // Aumenta o nível de maldade
-				std::cout << "Tengu enfurecido! Nivel de maldade: " << nivel_maldade << std::endl;
 			}
 
 		}
@@ -49,12 +48,11 @@ namespace Entidades
 			{
 				int dano_calculado = nivel_maldade * 50; // Dano = nivel_maldade * 50
 				pJ->diminuiVida(dano_calculado);
-				std::cout << "Tengu causou " << dano_calculado << " de dano! Vida do Jogador: " << pJ->getVida() << std::endl;
 				empurrar(pJ); // Chama o empurrão (pode ser o base 'Inimigo::empurrar')
 			}
 			else
 			{
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
+				std::cerr << "ponteiro de jogador nulo!" << std::endl;
 			}
 		}
 

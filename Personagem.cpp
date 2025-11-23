@@ -23,7 +23,6 @@ namespace Entidades {
 			else if (num_vidas > 0) {
 				num_vidas -= dano;
 			}
-			std::cout << num_vidas << std::endl;
 		}
 
 		int Personagem::getVida()

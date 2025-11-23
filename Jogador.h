@@ -46,7 +46,6 @@ namespace Entidades {
 			public:
 
 				Jogador(const int ident); //com parâmetro
-				//Jogador(); // sem parâmetro
 				~Jogador();
 				void colidir(Inimigo* pIn);
 				void setVelKnockBack(sf::Vector2f velKB);

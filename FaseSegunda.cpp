@@ -308,8 +308,6 @@ namespace Fases
 			/* Escreve tudo no arquivo (serializa), com uma indentação de 4 espaços pra tornar mais legível*/
 			arquivo_fase << buffer_fase.dump(4);
 			arquivo_fase.close();	// Fecha o arquivo e para a escrita
-
-			std::cout << "Fase 1 salva em : " << "arquivo_fase.json" << std::endl;
 		}
 		else {
 			std::cerr << "ERRO: Nao foi possivel abrir o arquivo da fase 2 para salvar." << std::endl;

@@ -318,7 +318,6 @@ void Menu_Principal::carregar() {
 			nlohmann::json j = nlohmann::json::parse(ifs);
 			ifs.close();	// Fecha o arquivo e para a leitura e analise
 
-			std::cout << "Jogo carregado de: " << "arquivo_fase.json" << std::endl << std::endl;
 			/* Acessar o valor associado a chave "fase_atual", transformando-a em um int*/
 			try {
 				fase = j.at("fase").get<int>();

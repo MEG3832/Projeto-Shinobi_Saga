@@ -170,7 +170,6 @@ namespace Entidades {
 						jogAlvo->aumentaPontuacao(20);	// Exemplo
 						estado_atual = MORRENDO;
 						setIntransponivel(false); // Inimigo morto pode ser atravessado
-						std::cout << "Pontuacao: " << jogAlvo->getPontuacao() << std::endl;
 					}
 					else {
 						// Se tomou dano mas não morreu, fica atordoado
