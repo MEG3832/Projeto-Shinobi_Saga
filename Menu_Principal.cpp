@@ -344,12 +344,13 @@ void Menu_Principal::carregar() {
 
 				if (multiplayer) {
 					pJog2 = new Entidades::Personagens::Jogador(2);
+					pJog->setJogadores(pJog1, pJog2);
 					pFase1 = new Fases::FasePrimeira(pJog1, pJog2);
 				}
 				else {
+					pJog->setJogadores(pJog1, nullptr);
 					pFase1 = new Fases::FasePrimeira(pJog1);
 				}
-				pJog->setJogadores(pJog1, pJog2);
 				pJog->setMultiplayer(multiplayer);
 
 				pFase1->carregar(j);
@@ -364,12 +365,13 @@ void Menu_Principal::carregar() {
 
 				if (multiplayer) {
 					pJog2 = new Entidades::Personagens::Jogador(2);
+					pJog->setJogadores(pJog1, pJog2);
 					pFase2 = new Fases::FaseSegunda(pJog1, pJog2);
 				}
 				else {
+					pJog->setJogadores(pJog1, nullptr);
 					pFase2 = new Fases::FaseSegunda(pJog1);
 				}
-				pJog->setJogadores(pJog1, pJog2);
 				pJog->setMultiplayer(multiplayer);
 
 				pFase2->carregar(j);
