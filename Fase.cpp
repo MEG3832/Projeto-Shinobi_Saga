@@ -46,9 +46,6 @@ namespace Fases
 		lista_ents.incluir(pEnt);
 		lista_ents.incluir(pEnt2);
 
-		GC->setJogador1(pJog1);
-		GC->setJogador2(pJog2);
-
 		pFundo = new Parallax::Fundo(); //cria o fundo
 	}
 
@@ -61,11 +58,14 @@ namespace Fases
 		}
 		if (pJog2) {
 			lista_ents.remover(static_cast<Entidades::Entidade*>(
-				static_cast<Entidades::Personagens::Personagem*>(pJog2)));
+							   static_cast<Entidades::Personagens::Personagem*>(pJog2)));
 		}
 
 		lista_ents.limpar();
-
+		if (GC) {
+			GC->limparListas();
+			GC = nullptr;
+		}
 		if (pFundo) {
 			delete pFundo;
 			pFundo = nullptr;
@@ -119,8 +119,7 @@ namespace Fases
 
 		const int min_tengus = 3;
 
-		//int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
-		int qnt_tengus = 0;
+		int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_tengus; i++)
 		{
@@ -165,8 +164,7 @@ namespace Fases
 
 		const int min_plataf = 3;
 
-		//int qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
-		int qnt_plataf = 0;
+		int qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_plataf; i++)
 		{

@@ -1,7 +1,7 @@
 #include "Jogo.h"
 
 Jogo::Jogo() :
-    multiplayer(true),
+    multiplayer(false),
     pGG(pGG->getGerenciadorGrafico()),
     pGE(pGE->getGerenciadorEventos()),
     pGC(pGC->getGerenciadorColisoes()),
@@ -33,18 +33,6 @@ Jogo::Jogo() :
     {
         std::cout << "ERRO! O ponteiro Gerenc. de Colisoes NAO pôde ser inicializado..." << std::endl;
         exit(1);
-    }
-
-    pJog1 = new Entidades::Personagens::Jogador(1);
-    pGE->setJogador1(pJog1);
-    pGC->setJogador1(pJog1);
-    Menu::setJogador1(pJog1);
-     
-    if (multiplayer) {
-        pJog2 = new Entidades::Personagens::Jogador(2);
-        pGE->setJogador2(pJog2);
-        pGC->setJogador2(pJog2);
-        Menu::setJogador2(pJog2);
     }
 
     pGG->getWindow()->setFramerateLimit(60);
@@ -97,13 +85,35 @@ void Jogo::executar()
                     pFase2 = nullptr;
                     menu_pause.setFase(nullptr);
                 }
-                Menu::setJogo(this);
-                Menu::setJogador1(pJog1);
-                if (multiplayer) {
-                    Menu::setJogador2(pJog2);
+                if (pJog1) {
+                    delete pJog1;
+                    pJog1 = nullptr;
+                    pGE->setJogador1(nullptr);
+                    pGC->setJogador1(nullptr);
                 }
+                if (pJog2) {
+                    delete pJog2;
+                    pJog2 = nullptr;
+                    pGE->setJogador2(nullptr);
+                    pGC->setJogador2(nullptr);
+                }
+                Menu::setJogo(this);
 
                 menu_principal.executar();
+
+                if (!pJog1 && !pJog2) {
+                    pJog1 = new Entidades::Personagens::Jogador(1);
+                    pGE->setJogador1(pJog1);
+                    pGC->setJogador1(pJog1);
+                    Menu::setJogador1(pJog1);
+
+                    if (multiplayer) {
+                        pJog2 = new Entidades::Personagens::Jogador(2);
+                        pGE->setJogador2(pJog2);
+                        pGC->setJogador2(pJog2);
+                        Menu::setJogador2(pJog2);
+                    }
+                }
             }
 
             else if (MENU_PAUSE == estado_atual) {

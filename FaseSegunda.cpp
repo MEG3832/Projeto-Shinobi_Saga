@@ -42,9 +42,6 @@ namespace Fases
 
 		criarCenario();
 
-		pJog1->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);
-		pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
-										pJog1->getCorpo()->getPosition().y);
 
 		//para o jogador 1
 		pJog1->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);

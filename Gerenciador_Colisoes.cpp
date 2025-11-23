@@ -17,9 +17,7 @@ namespace Gerenciadores {
 		pJog1 = nullptr;
 		pJog2 = nullptr;
 		// Esse clear basta?
-		LIs.clear();
-		LOs.clear();
-		LPs.clear();
+		limparListas();
 	}
 
 	Gerenciador_Colisoes* Gerenciador_Colisoes::getGerenciadorColisoes() {
@@ -104,7 +102,7 @@ namespace Gerenciadores {
 				sf::Vector2f pos2 = pe2->getHitBox()->getPosition();
 				sf::Vector2f tam1 = pe1->getHitBox()->getSize();
 				sf::Vector2f tam2 = pe2->getHitBox()->getSize();
-
+				
 				sf::Vector2f distanciaCentros(fabs((pos1.x + tam1.x / 2) - (pos2.x + tam2.x / 2)),
 					fabs((pos1.y + tam1.y / 2) - (pos2.y + tam2.y / 2)));
 				sf::Vector2f distanciaMinima((tam1.x / 2 + tam2.x / 2),

@@ -20,14 +20,6 @@ Menu_Principal::~Menu_Principal() {
 }
 
 void Menu_Principal::inicializaTexto() {
-	inicializaTexto_Principal();
-	inicializaTexto_SelecaoFase();
-	inicializaTexto_SelecaoMultiplayer();
-}
-
-void Menu_Principal::inicializaTexto_SelecaoFase() {
-	texto.clear();
-
 	titulo.setString("NOME DO JOGO");
 	titulo.setCharacterSize(70);
 	titulo.setFillColor(sf::Color(sf::Color::White));
@@ -35,6 +27,15 @@ void Menu_Principal::inicializaTexto_SelecaoFase() {
 	titulo.setOutlineThickness(3);
 	titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 160);
 	titulo.setFont(fonte);
+
+	texto.clear();
+
+	inicializaTexto_Principal();
+	inicializaTexto_SelecaoFase();
+	inicializaTexto_SelecaoMultiplayer();
+}
+
+void Menu_Principal::inicializaTexto_SelecaoFase() {
 
 	sf::Text temp;
 
@@ -63,10 +64,32 @@ void Menu_Principal::inicializaTexto_SelecaoFase() {
 
 void Menu_Principal::inicializaTexto_SelecaoMultiplayer() {
 
+	sf::Text temp;
+
+	temp.setCharacterSize(30);
+	temp.setFillColor(sf::Color(sf::Color::White));
+	temp.setOutlineColor(sf::Color::Black);
+	temp.setOutlineThickness(3);
+	temp.setFont(fonte);
+
+	temp.setString("Single Player");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
+	texto_selecaoMultiplayer.push_back(temp);
+
+	temp.setString("Multiplayer");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
+	texto_selecaoMultiplayer.push_back(temp);
+
+	temp.setString("Voltar");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
+	texto_selecaoMultiplayer.push_back(temp);
+
+	temp.setString("Sair");
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
+	texto_selecaoMultiplayer.push_back(temp);
 }
 
 void Menu_Principal::inicializaTexto_Principal() {
-	texto.clear();
 
 	sf::Text temp;
 	temp.setCharacterSize(30);
@@ -125,9 +148,10 @@ void Menu_Principal::executar() {
 			executa_SelecaoFase();
 		}
 
-		//else {
-		// Executar o menu de selecao mutiplayer
-		//}
+		else {
+			copiarVetores(texto_selecaoMultiplayer, &texto);
+			executa_SelecaoMultiplayer();
+		}
 	}
 }
 
@@ -201,16 +225,68 @@ void Menu_Principal::executa_SelecaoFase() {
 					if (pJog) {
 						if (0 == selecionado) {
 							pJog->setEstado(3);	// No Jogo, 3 eh o estado da fase 1 
+							estado_atual = SELECAO_MULTIPLAYER;
+							encerrar = true;
+						}
+						else if (1 == selecionado) {
+							pJog->setEstado(4);	// No Jogo, 3 eh o estado da fase 2 
+							estado_atual = SELECAO_MULTIPLAYER;
+							encerrar = true;
+						}
+						else if (2 == selecionado) {
+							estado_atual = PRINCIPAL;
+							encerrar = true;
+						}
+						else if (3 == selecionado) {
+							encerrar = true;
+							parar = true;
+							exit(1);
+						}
+					}
+					else {
+						std::cerr << "ERRO: Nao eh possivel executar o comando pois o jogo eh NULL" << std::endl;
+					}
+				}
+
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel criar a tela pois o Gerenciador de Eventos eh NULL" << std::endl;
+			}
+		}
+		else {
+			std::cerr << "ERRO: Nao eh possivel imprimir na tela pois o Gerenciador Grafico eh NULL" << std::endl;
+		}
+	}
+}
+
+void Menu_Principal::executa_SelecaoMultiplayer() {
+	selecionado = 0;
+	bool encerrar = false;
+	while (!encerrar) {
+		if (GG) {
+			if (GE) {
+				executa = false;
+				GG->limpaJanela();
+				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
+				GE->executarMenu(static_cast<Menu*>(this));	// Verifica teclas apertadas
+				fundo.executar();	// Imprime as camadas
+				Menu::desenharTexto();
+				desenharTexto();
+				GG->mostrarEntes();	// Display
+				if (executa) {
+					if (pJog) {
+						if (0 == selecionado) {
+							pJog->setMultiplayer(false);
 							encerrar = true;
 							parar = true;
 						}
 						else if (1 == selecionado) {
-							pJog->setEstado(4);	// No Jogo, 3 eh o estado da fase 2 
+							pJog->setMultiplayer(true);
 							encerrar = true;
 							parar = true;
 						}
 						else if (2 == selecionado) {
-							estado_atual = PRINCIPAL;
+							estado_atual = SELECAO_FASE;
 							encerrar = true;
 						}
 						else if (3 == selecionado) {

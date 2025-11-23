@@ -28,7 +28,7 @@ class Menu_Principal : public Menu
 
 		void executa_Principal();
 		void executa_SelecaoFase();
-		//void executa_SelecaoMultiplayer();
+		void executa_SelecaoMultiplayer();
 
 		void carregar();
 
