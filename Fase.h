@@ -34,7 +34,15 @@ namespace Fases {
 		Parallax::Fundo* pFundo;
 		Menu_Salvamento_Ranking menu_save_rank;
 
+		std::vector<sf::Text> texto_Jog1;
+		std::vector<sf::Text> texto_Jog2;
+		sf::Font fonte;
+
+		void inicializarTexto();
+
 	protected :
+
+		void desenharTexto();
 
 		// Reimplementacoes
 		virtual void criarInimigos() = 0;

@@ -25,6 +25,8 @@ namespace Fases
 
 		pFundo = new Parallax::Fundo(); //cria o fundo
 
+		inicializarTexto();
+
 	}
 
 	Fase::Fase(Entidades::Personagens::Jogador* pJog1, Entidades::Personagens::Jogador* pJog2) :
@@ -47,6 +49,8 @@ namespace Fases
 		lista_ents.incluir(pEnt2);
 
 		pFundo = new Parallax::Fundo(); //cria o fundo
+
+		inicializarTexto();
 	}
 
 	Fase::~Fase()
@@ -131,6 +135,8 @@ namespace Fases
 				pFundo->executar();
 
 			lista_ents.desenharEntidades();
+
+			desenharTexto();
 
 			pGG->mostrarEntes();
 	}
@@ -312,5 +318,77 @@ namespace Fases
 
 	}
 
+	void Fase::inicializarTexto() {
+
+		fonte.loadFromFile("Fonte/superstar_memesbruh03.ttf");
+
+		sf::Text temp;
+		temp.setCharacterSize(25);
+		temp.setFillColor(sf::Color(sf::Color::White));
+		temp.setOutlineColor(sf::Color::Black);
+		temp.setOutlineThickness(3);
+		temp.setFont(fonte);
+
+		if (pJog1) {
+			temp.setFillColor(sf::Color::White);
+			temp.setString("Jogador 1");
+			temp.setPosition(pGG->getCamera().getCenter().x - 350, 25);
+			texto_Jog1.push_back(temp);
+
+			temp.setFillColor(sf::Color(99, 162, 121));
+			temp.setString(std::to_string(pJog1->getVida()));
+			temp.setPosition(pGG->getCamera().getCenter().x - 350, 25 + 30);
+			texto_Jog1.push_back(temp);
+
+			temp.setFillColor(sf::Color::White);
+			temp.setString(std::to_string(pJog1->getPontuacao()));
+			temp.setPosition(pGG->getCamera().getCenter().x - 350, 25 + 25 + 30);
+			texto_Jog1.push_back(temp);
+		}
+
+		if (pJog2) {
+			temp.setFillColor(sf::Color::White);
+			temp.setString("Jogador 2");
+			temp.setPosition(pGG->getCamera().getCenter().x - 225, 25);
+			texto_Jog2.push_back(temp);
+
+			temp.setFillColor(sf::Color(99, 162, 121));
+			temp.setString(std::to_string(pJog2->getVida()));
+			temp.setPosition(pGG->getCamera().getCenter().x - 225, 25 + 30);
+			texto_Jog2.push_back(temp);
+
+			temp.setFillColor(sf::Color::White);
+			temp.setString(std::to_string(pJog2->getPontuacao()));
+			temp.setPosition(pGG->getCamera().getCenter().x - 225, 25 + 25 + 30);
+			texto_Jog2.push_back(temp);
+		}
+	}
+
+	void Fase::desenharTexto() {
+		if (pGG) {
+			if (pJog1) {
+				texto_Jog1[1].setString(std::to_string(pJog1->getVida()));
+				texto_Jog1[2].setString(std::to_string(pJog1->getPontuacao()));
+
+				for (int i = 0; i < (int)texto_Jog1.size(); i++) {
+					texto_Jog1[i].setPosition(pGG->getCamera().getCenter().x - 350, texto_Jog1[i].getPosition().y);
+					pGG->desenharTexto(texto_Jog1[i]);
+				}
+			}
+
+			if (pJog2) {
+				texto_Jog2[1].setString(std::to_string(pJog2->getVida()));
+				texto_Jog2[2].setString(std::to_string(pJog2->getPontuacao()));
+
+				for (int i = 0; i < (int)texto_Jog2.size(); i++) {
+					texto_Jog2[i].setPosition(pGG->getCamera().getCenter().x - 225, texto_Jog2[i].getPosition().y);
+					pGG->desenharTexto(texto_Jog2[i]);
+				}
+			}
+		}
+		else {
+			std::cout << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
+		}
+	}
 
 }
