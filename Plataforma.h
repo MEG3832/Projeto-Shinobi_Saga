@@ -12,6 +12,7 @@ namespace Entidades {
 				int altura;
 				int comprimento;
 				sf::Texture textura;
+				int cura;
 
 			public:
 				Plataforma(int id = 1);

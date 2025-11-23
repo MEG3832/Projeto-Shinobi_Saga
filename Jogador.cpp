@@ -24,7 +24,7 @@ namespace Entidades {
 		{
 			dano = 200;
 
-			veloc.x = 20.0f;
+			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
 			num_vidas = 200;
@@ -337,7 +337,7 @@ namespace Entidades {
 				}
 				else {
 					estado_atual = PARADO;
-					veloc.x = 20.0f;
+					veloc.x = 5.0f;
 				}
 			}
 		}
@@ -417,8 +417,12 @@ namespace Entidades {
 					}
 				}
 			}
-			std::cout << num_vidas << std::endl;
 		}
+
+		void Jogador::curar(int cura) {
+			num_vidas += cura;
+		}
+
 
 		// Dá um pulinho pro lado quando toma dano
 		void Jogador::ferir() {

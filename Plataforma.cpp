@@ -7,7 +7,8 @@ namespace Entidades {
 		Plataforma::Plataforma(int id) :
 			Obstaculo(),
 			altura(55),
-			comprimento(180)
+			comprimento(180),
+			cura(25)
 		{
 			if (1 == id) {
 				textura = pGG->carregarTextura("Imagens/Obstaculos/Plataforma_Village.png");
@@ -40,6 +41,8 @@ namespace Entidades {
 				if (corpo->getPosition().y == p->getCorpo()->getPosition().y + p->getCorpo()->getSize().y) {
 					p->setNoChao();
 				}
+				p->curar(cura);
+				cura = 0;
 			}
 			else {
 				std::cerr << "ERRO: Nao eh possivel obstaculizar pois o jogador eh NULL" << std::endl;

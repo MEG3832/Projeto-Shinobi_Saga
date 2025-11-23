@@ -26,30 +26,39 @@ void Menu_Salvamento_Ranking::inicializaTexto() {
 	temp.setFillColor(sf::Color(sf::Color::White));
 	temp.setOutlineColor(sf::Color::Black);
 	temp.setOutlineThickness(3);
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 125);
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 150);
 	temp.setFont(fonte);
 	texto_salvamento.push_back(temp);
 
 	temp.setString(nomeJog);
 	temp.setFillColor(sf::Color(sf::Color(99, 162, 121)));
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 60);
+	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 85);
 	texto_salvamento.push_back(temp);
 
 
 	temp.setCharacterSize(30);
 	temp.setFillColor(sf::Color::White);
 
-	temp.setString("Menu Principal");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125);
-	texto.push_back(temp);
-
-	temp.setString("Sair");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45);
-	texto.push_back(temp);
-
 	if (podeSeguir) {	// Ou seja, a fase atual ñao eh a 2
 		temp.setString("Proxima Fase");
+		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125);
+		texto.push_back(temp);
+
+		temp.setString("Menu Principal");
+		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45);
+		texto.push_back(temp);
+
+		temp.setString("Sair");
 		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45 * 2);
+		texto.push_back(temp);
+	}
+	else {
+		temp.setString("Menu Principal");
+		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 175);
+		texto.push_back(temp);
+
+		temp.setString("Sair");
+		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 175 + 45);
 		texto.push_back(temp);
 	}
 }
@@ -79,19 +88,33 @@ void Menu_Salvamento_Ranking::executar() {
 
 					if (pJog) {
 
-						
-						if (0 == selecionado) {
-							salvar();
-							pJog->setEstado(0);	// 0 corresponde ao estado MENU_PRINCIPAL no jogo
-							parar = true;
+						if (podeSeguir) {
+
+							if (0 == selecionado) {	// Sair
+								pJog->setEstado(4);	// 4 corresponde ao estado FASE2 no jogo
+								parar = true;
+							}
+							if (1 == selecionado) {
+								salvar();
+								pJog->setEstado(0);	// 0 corresponde ao estado MENU_PRINCIPAL no jogo
+								parar = true;
+							}
+							else if (2 == selecionado) {
+								parar = true;
+								exit(0);
+							}
 						}
-						else if (1 == selecionado) {
-							parar = true;
-							exit(0);
-						}
-						else if (2 == selecionado) {	// Sair
-							pJog->setEstado(4);	// 4 corresponde ao estado FASE2 no jogo
-							parar = true;
+
+						else {
+							if (0 == selecionado) {
+								salvar();
+								pJog->setEstado(0);	// 0 corresponde ao estado MENU_PRINCIPAL no jogo
+								parar = true;
+							}
+							else if (1 == selecionado) {
+								parar = true;
+								exit(0);
+							}
 						}
 
 					}
