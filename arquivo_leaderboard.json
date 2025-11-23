@@ -2,5 +2,13 @@
     {
         "nome": "TESTE",
         "pontuacao": 0
+    },
+    {
+        "nome": "",
+        "pontuacao": 80
+    },
+    {
+        "nome": "GRACIA",
+        "pontuacao": 320
     }
 ]

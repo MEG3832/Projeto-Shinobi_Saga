@@ -16,7 +16,7 @@ namespace Entidades {
 			paraEsq = true;
 			veloc = sf::Vector2f(0.5f, 0.0f);
 			tempoAndar = 0.5f;
-			num_vidas = 80;
+			num_vidas = 75;
 			cooldownAtordoado = 1.0f;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(200.0f, 200.0f));

@@ -146,8 +146,7 @@ namespace Fases
 
 		const int min_tengus = 3;
 
-		//int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
-		int qnt_tengus = 0;
+		int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_tengus; i++)
 		{
@@ -160,7 +159,14 @@ namespace Fases
 
 				do {
 					int posX = (1000 + i * 4000 + i * rand() % 1000 + correcao) % fim_mapa;
-					int posY = pGG->getWindow()->getSize().y - altura_chao - pTengu->getCorpo()->getSize().y;
+
+					int posY = 0;	// Faz com que os inimigos em uma certa distancia se
+					if (posX > 500) {
+						posY = 50;
+					}
+					else {
+						posY = pGG->getWindow()->getSize().y - altura_chao - pTengu->getCorpo()->getSize().y;
+					}
 
 					if (pTengu->getCorpo()) {
 						pTengu->getCorpo()->setPosition(posX, posY);

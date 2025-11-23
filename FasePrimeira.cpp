@@ -91,8 +91,8 @@ namespace Fases
 
 		const int min_samurais = 3;
 		
-		//int qnt_samurais = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
-		int qnt_samurais = 0;
+		int qnt_samurais = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
+
 		for (int i = 0; i < qnt_samurais; i++)
 		{
 			//calcula uma resistência aleatória (float) entre 1.0 e 2.0
@@ -109,7 +109,14 @@ namespace Fases
 				int correcao = 0;
 				do {
 					int posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
-					float posY = pGG->getWindow()->getSize().y - altura_chao - pSam->getCorpo()->getSize().y;
+
+					int posY = 0;	// Faz com que os inimigos em uma certa distancia sejam jogados de cima e possam parar em sima de plataformas
+					if (posX > 500) {
+						posY = 50;
+					}
+					else {
+						posY = pGG->getWindow()->getSize().y - altura_chao - pSam->getCorpo()->getSize().y;
+					}
 
 					if (pSam->getCorpo()) {
 						pSam->getCorpo()->setPosition(posX, posY);
@@ -146,8 +153,7 @@ namespace Fases
 
 		const int min_red = 3;
 
-		//int qnt_redemoinhos = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
-		int qnt_redemoinhos = 0;
+		int qnt_redemoinhos = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_redemoinhos; i++)
 		{
@@ -160,6 +166,7 @@ namespace Fases
 				do {
 					int posX = (2500 + i * 5000 + i * rand() % 800 + correcao) % fim_mapa;
 					float posY = ALTURA_TELA - altura_chao - pRed->getTam().y;
+
 					if (pRed->getCorpo()) {
 						pRed->getCorpo()->setPosition(posX, posY);
 					}

@@ -93,8 +93,8 @@ namespace Fases
 	{
 		const int min_kitsunes = 3;
 
-		//int qnt_inim = (rand() % (maxKitsunes - min_kitsunes + 1)) + min_kitsunes; //gera valor entre minimo e maximo definido
-		int qnt_inim = 0;
+		int qnt_inim = (rand() % (maxKitsunes - min_kitsunes + 1)) + min_kitsunes; //gera valor entre minimo e maximo definido
+
 		for (int i = 0; i < qnt_inim; i++)
 		{
 			Entidades::Personagens::Kitsune* pKits;
@@ -108,7 +108,13 @@ namespace Fases
 				int correcao = 0;
 				do {
 					int posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
-					float posY = pGG->getWindow()->getSize().y - altura_chao - pKits->getCorpo()->getSize().y;
+					int posY = 0;	// Faz com que os inimigos em uma certa distancia se
+					if (posX > 500) {
+						posY = 50;
+					}
+					else {
+						posY = pGG->getWindow()->getSize().y - altura_chao - pKits->getCorpo()->getSize().y;
+					}
 
 					if (pKits->getCorpo()) {
 						pKits->getCorpo()->setPosition(posX, posY);
@@ -169,8 +175,7 @@ namespace Fases
 
 		const int min_armad = 3;
 
-		//int qnt_armad = (rand() % (maxArmadilhas - min_armad + 1)) + min_armad; //gera valor entre minimo e maximo definido
-		int qnt_armad = 0;
+		int qnt_armad = (rand() % (maxArmadilhas - min_armad + 1)) + min_armad; //gera valor entre minimo e maximo definido
 
 		for (int i = 0; i < qnt_armad; i++)
 		{
