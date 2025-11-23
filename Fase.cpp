@@ -26,6 +26,17 @@ namespace Fases
 		pFundo = new Parallax::Fundo(); //cria o fundo
 
 		inicializarTexto();
+		
+		if (pJog1) {
+			pJog1->restaurarVida();
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel restaurar a vida do jogador 1 pois ele eh NULL" << std::endl;
+		}
+
+		if (pJog2) {
+			pJog2->restaurarVida();
+		}
 
 	}
 

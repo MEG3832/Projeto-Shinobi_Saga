@@ -436,6 +436,10 @@ namespace Entidades {
 			num_vidas += cura;
 		}
 
+		void Jogador::restaurarVida() {
+			num_vidas = 250;
+		}
+
 
 		// Dá um pulinho pro lado quando toma dano
 		void Jogador::ferir() {

@@ -6,8 +6,7 @@ Menu_Principal::Menu_Principal() :
 	texto_principal(),
 	texto_selecaoFase(),
 	texto_selecaoMultiplayer(),
-	estado_atual(PRINCIPAL),
-	titulo()
+	estado_atual(PRINCIPAL)
 {
 	inicializaTexto();
 }
@@ -20,13 +19,6 @@ Menu_Principal::~Menu_Principal() {
 }
 
 void Menu_Principal::inicializaTexto() {
-	titulo.setString("NOME DO JOGO");
-	titulo.setCharacterSize(70);
-	titulo.setFillColor(sf::Color(sf::Color::White));
-	titulo.setOutlineColor(sf::Color::Black);
-	titulo.setOutlineThickness(3);
-	titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 160);
-	titulo.setFont(fonte);
 
 	texto.clear();
 

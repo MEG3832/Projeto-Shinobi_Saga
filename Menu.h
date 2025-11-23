@@ -16,6 +16,7 @@ class Menu : public Ente
 		Gerenciadores::Gerenciador_de_Eventos* GE;
 		sf::Font fonte;
 		std::vector<sf::Text> texto;
+		sf::Text titulo;
 		int selecionado;
 		bool parar;
 		bool executa;

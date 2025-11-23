@@ -60,11 +60,12 @@ namespace Entidades {
 		void Plataforma::salvarDataBuffer(nlohmann::json& buffer) {
 			Obstaculo::salvarDataBuffer(buffer);
 
-			// Nao ha nada especifico da plataforma pra salvar. Da ate pra tirar esse altura e comprimento, ja que o corpo tem size
+			buffer["cura"] = cura;
 		}
 
 		void Plataforma::carregar(const nlohmann::json& j) {
-			// Ainda nao tem nada
+			cura = j.at("cura").get<int>();
+
 			Obstaculo::carregar(j);
 		}
 

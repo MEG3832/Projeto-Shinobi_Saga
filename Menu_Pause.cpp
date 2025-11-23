@@ -3,7 +3,6 @@
 
 Menu_Pause::Menu_Pause() :
 	Menu(),
-	titulo(),
 	pFase(nullptr)
 {
 	inicializaFundo();
@@ -71,15 +70,6 @@ void Menu_Pause::executar() {
 
 void Menu_Pause::inicializaTexto() {
 	texto.clear();
-
-	titulo.setString("NOME DO JOGO");
-	titulo.setCharacterSize(85);
-	titulo.setFillColor(sf::Color(sf::Color::White));
-	titulo.setOutlineColor(sf::Color::Black);
-	titulo.setOutlineThickness(3);
-	titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 150);
-	titulo.setFont(fonte);
-
 
 	sf::Text temp;
 

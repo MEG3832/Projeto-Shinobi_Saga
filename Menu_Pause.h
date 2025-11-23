@@ -6,7 +6,7 @@ class Menu_Pause : public Menu
 {
 	private:
 		Fases::Fase* pFase;	// Essa eh a fase que será salva
-		sf::Text titulo;
+
 
 	public:	
 		Menu_Pause();
