@@ -22,5 +22,17 @@
     {
         "nome": "TESTE",
         "pontuacao": 0
+    },
+    {
+        "nome": "",
+        "pontuacao": 300
+    },
+    {
+        "nome": "",
+        "pontuacao": 0
+    },
+    {
+        "nome": "",
+        "pontuacao": 0
     }
 ]

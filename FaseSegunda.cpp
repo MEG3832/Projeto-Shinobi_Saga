@@ -20,6 +20,8 @@ namespace Fases
 
 		criarCenario();
 
+		menu_save_rank.setSeguir(false);
+
 		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 
 		pJog1->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);
@@ -42,6 +44,7 @@ namespace Fases
 
 		criarCenario();
 
+		menu_save_rank.setSeguir(false);
 
 		//para o jogador 1
 		pJog1->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);

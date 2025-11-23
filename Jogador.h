@@ -30,6 +30,7 @@ namespace Entidades {
 				float cooldown_ataque;
 				float cooldown_pulo;
 				float cooldown_dano;
+				float tempo_morte;
 				float velPulo;
 				sf::RectangleShape* hitboxAtaque;
 				sf::Clock timer;
@@ -67,6 +68,7 @@ namespace Entidades {
 				void carregar(const nlohmann::json& j);
 				int getPontuacao();
 				void aumentaPontuacao(int num);
+				bool podeSeguirPorMorte();
 
 				// Reimplementacao
 				void executar();

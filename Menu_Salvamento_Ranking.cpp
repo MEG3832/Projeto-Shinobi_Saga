@@ -4,9 +4,9 @@
 Menu_Salvamento_Ranking::Menu_Salvamento_Ranking() :
 	Menu(),
 	nomeJog(""),
-	texto_salvamento()
+	texto_salvamento(),
+	podeSeguir(true)
 {
-	inicializaTexto();
 }
 
 Menu_Salvamento_Ranking::~Menu_Salvamento_Ranking() {
@@ -47,16 +47,15 @@ void Menu_Salvamento_Ranking::inicializaTexto() {
 	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45);
 	texto.push_back(temp);
 
-	if (pJog) {	// Tirei o else pois estava printando em um momento nada a ver
-		if (pJog->getEstado() != 4) {	// Ou seja, a fase atual ñao eh a 2
-			temp.setString("Proxima Fase");
-			temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45 * 2);
-			texto.push_back(temp);
-		}
+	if (podeSeguir) {	// Ou seja, a fase atual ñao eh a 2
+		temp.setString("Proxima Fase");
+		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45 * 2);
+		texto.push_back(temp);
 	}
 }
 
 void Menu_Salvamento_Ranking::executar() {
+	inicializaTexto();
 	selecionado = 0;
 	parar = false;
 	while (!parar) {
@@ -121,7 +120,7 @@ void Menu_Salvamento_Ranking::desenharTexto() {
 		}
 	}
 	else {
-		std::cout << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
+		std::cerr << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
 	}
 }
 
@@ -183,5 +182,9 @@ void Menu_Salvamento_Ranking::salvar() {
 	else {
 		std::cerr << "ERRO: Nao foi possivel abrir o arquivo para ESCREVER a colocacao" << std::endl;
 	}
+}
+
+void Menu_Salvamento_Ranking::setSeguir(bool b) {
+	podeSeguir = b;
 }
 

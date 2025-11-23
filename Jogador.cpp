@@ -10,6 +10,7 @@ namespace Entidades {
 			cooldown_ataque(0.08),
 			cooldown_pulo(0.16),
 			cooldown_dano(0.2),
+			tempo_morte(4 * 0.45),
 			velPulo(-12),
 			hitboxAtaque(new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f))),
 			velocKnockBack(0.0, 0.0),
@@ -21,49 +22,18 @@ namespace Entidades {
 			dt(0.0)
 			
 		{
-			std::cout << "criei o jogador" << std::endl;
 			dano = 200;
 
-			veloc.x = 5.0f;
+			veloc.x = 20.0f;
 			veloc.y = 0.00;
 
-			num_vidas = 10000;
+			num_vidas = 200;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
 
 			inicializaAnimacoes();
 		}
-
-		/*Jogador::Jogador() :
-			Personagem(),
-			cooldown_ataque(0.08),
-			cooldown_pulo(0.16),
-			cooldown_dano(0.2),
-			velPulo(-12),
-			hitboxAtaque(new sf::RectangleShape(sf::Vector2f(32.0f, 23.0f))),
-			velocKnockBack(0.0, 0.0),
-			pontos(0),
-			id(1),
-			estado_atual(PARADO),
-			direcao(0.0, 0.0),
-			timer(),
-			dt()
-		{
-
-			dano = 200;
-
-			veloc.x = 5.0f;
-			veloc.y = 0.00;
-
-			num_vidas = 10000;
-
-			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
-
-
-			inicializaAnimacoes();
-		}*/
 
 		Jogador::~Jogador()
 		{
@@ -235,7 +205,7 @@ namespace Entidades {
 					animador->addAnimacao("Imagens/Shinobi/Attack_1.png", "Ataque1", 5, cooldown_ataque, sf::Vector2f(1.0, 1.0));
 					//animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
 					//animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
-					animador->addAnimacao("Imagens/Shinobi/Dead.png", "Derrotado", 4, 0.45, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Shinobi/Dead.png", "Derrotado", 4, tempo_morte / 4, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Shinobi/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Shinobi/Shield.png", "Protegendo", 4, 0.10, sf::Vector2f(1.0, 1.0));
 				}
@@ -367,7 +337,7 @@ namespace Entidades {
 				}
 				else {
 					estado_atual = PARADO;
-					veloc.x = 5.0f;
+					veloc.x = 20.0f;
 				}
 			}
 		}
@@ -442,6 +412,8 @@ namespace Entidades {
 					}
 					if (0 == num_vidas) {
 						estado_atual = MORRENDO;
+						dt = 0;
+						timer.restart();
 					}
 				}
 			}
@@ -504,8 +476,18 @@ namespace Entidades {
 		int Jogador::getPontuacao() {
 			return pontos;
 		}
+
 		void Jogador::aumentaPontuacao(int num) {
 			pontos += num;
+		}
+
+		bool Jogador::podeSeguirPorMorte() {
+			dt += timer.getElapsedTime().asSeconds();
+			timer.restart();
+			if (MORRENDO == estado_atual && dt >= tempo_morte) {
+				return false;
+			}
+			return true;
 		}
 
 	}

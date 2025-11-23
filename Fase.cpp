@@ -71,6 +71,8 @@ namespace Fases
 			pFundo = nullptr;
 		}
 
+		menu_save_rank.setSeguir(true);
+
 		// não deletamos o GC aqui, pois ele é Singleton usado pelo Jogo inteiro.
 		//A lista de entidades já é limpada ao ser destruída (lista_ents é da classe Lista_Entidades, q possui uma Lista parametrizada com Entidades)
 	}
@@ -99,17 +101,36 @@ namespace Fases
 
 			if (pJog1) {
 				pGG->atualizaCamera(pJog1->getPos());
+
+				if (pJog1->getCorpo()) {
+					if (!pJog1->podeSeguirPorMorte()) {
+						menu_save_rank.setSeguir(false);
+						menu_save_rank.executar();
+					}
+					if (pJog1->getCorpo()->getPosition().x >= fim_mapa) {
+						menu_save_rank.executar();
+					}
+				}
+
+			}
+
+			if (pJog2) {
+				if (pJog2->getCorpo()) {
+					if (!pJog2->podeSeguirPorMorte()) {
+						menu_save_rank.setSeguir(false);
+						menu_save_rank.executar();
+					}
+					if (pJog2->getCorpo()->getPosition().x >= fim_mapa) {
+						menu_save_rank.executar();
+					}
+				}
+
 			}
 			
 			if (pFundo)
 				pFundo->executar();
 
 			lista_ents.desenharEntidades();
-
-			//teste (o ideal eh colocar uma parede invisivel)
-			if (pJog1->getCorpo()->getPosition().x >= fim_mapa) {
-				menu_save_rank.executar();
-			}
 
 			pGG->mostrarEntes();
 	}
@@ -119,7 +140,8 @@ namespace Fases
 
 		const int min_tengus = 3;
 
-		int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
+		//int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
+		int qnt_tengus = 0;
 
 		for (int i = 0; i < qnt_tengus; i++)
 		{

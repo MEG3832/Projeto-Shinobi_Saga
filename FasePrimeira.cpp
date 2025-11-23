@@ -91,8 +91,8 @@ namespace Fases
 
 		const int min_samurais = 3;
 		
-		int qnt_samurais = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
-
+		//int qnt_samurais = (rand() % (maxSamurais - min_samurais + 1)) + min_samurais; //gera valor entre minimo e maximo definido
+		int qnt_samurais = 0;
 		for (int i = 0; i < qnt_samurais; i++)
 		{
 			//calcula uma resistência aleatória (float) entre 1.0 e 2.0
@@ -146,7 +146,8 @@ namespace Fases
 
 		const int min_red = 3;
 
-		int qnt_redemoinhos = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
+		//int qnt_redemoinhos = (rand() % (maxRedemoinhos - min_red + 1)) + min_red; //gera valor entre minimo e maximo definido
+		int qnt_redemoinhos = 0;
 
 		for (int i = 0; i < qnt_redemoinhos; i++)
 		{
