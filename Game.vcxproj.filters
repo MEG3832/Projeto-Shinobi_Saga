@@ -73,7 +73,7 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Samurai_Inimigo.cpp">
+    <ClCompile Include="Samurai.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Menu_Pause.cpp">
@@ -171,7 +171,7 @@
     <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Samurai_Inimigo.h">
+    <ClInclude Include="Samurai.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu_Pause.h">

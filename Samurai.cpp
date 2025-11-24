@@ -1,10 +1,10 @@
-#include "Samurai_Inimigo.h"
+#include "Samurai.h"
 #include "Jogador.h"
 
 namespace Entidades {
 	namespace Personagens {
 
-		Samurai_Inimigo::Samurai_Inimigo(Jogador* pJ1, Jogador* pJ2, float resist) :
+		Samurai::Samurai(Jogador* pJ1, Jogador* pJ2, float resist) :
 			Inimigo(pJ1, pJ2),
 			cooldownEmpurrao(4.0f),
 			timer(),
@@ -25,7 +25,7 @@ namespace Entidades {
 			inicializaAnimacoes();
 		}
 
-		Samurai_Inimigo::~Samurai_Inimigo() {
+		Samurai::~Samurai() {
 			cooldownEmpurrao = 0.0;
 			timer.restart();
 			resistencia = 0.0;
@@ -33,17 +33,17 @@ namespace Entidades {
 			dt = 0.0;
 		}
 
-		void Samurai_Inimigo::executar()
+		void Samurai::executar()
 		{
 			Inimigo::executar(); //será que posso só fazer isso?
 		}
 
-		void Samurai_Inimigo::mover()
+		void Samurai::mover()
 		{
 			perambular(); //ele só perambula!
 		}
 
-		void Samurai_Inimigo::salvar() {
+		void Samurai::salvar() {
 			nlohmann::json buffer = {};
 
 			salvarDataBuffer(buffer);
@@ -51,7 +51,7 @@ namespace Entidades {
 			buffer_samurais.push_back(buffer);
 		}
 
-		void Samurai_Inimigo::salvarDataBuffer(nlohmann::json& buffer) {
+		void Samurai::salvarDataBuffer(nlohmann::json& buffer) {
 			Inimigo::salvarDataBuffer(buffer);
 
 			buffer["dt"] = dt;
@@ -59,7 +59,7 @@ namespace Entidades {
 			buffer["empurra"] = empurra;
 		}
 
-		void Samurai_Inimigo::carregar(const nlohmann::json& j) {
+		void Samurai::carregar(const nlohmann::json& j) {
 			dt = j.at("dt").get<float>();
 			resistencia = j.at("resistencia").get<float>();
 			empurra = j.at("empurra").get<bool>();
@@ -67,7 +67,7 @@ namespace Entidades {
 			Inimigo::carregar(j);
 		}
 
-		void Samurai_Inimigo::danificar(Jogador* pJ)
+		void Samurai::danificar(Jogador* pJ)
 		{
 			if (pJ)
 			{
@@ -97,7 +97,7 @@ namespace Entidades {
 			}
 		}
 
-		void Samurai_Inimigo::diminuiVida(float dano)
+		void Samurai::diminuiVida(float dano)
 		{
 			if (FERIDO == estado_atual || MORRENDO == estado_atual) {
 				return;
@@ -114,7 +114,7 @@ namespace Entidades {
 			Inimigo::diminuiVida(dano_reduzido);
 		}
 
-		void Samurai_Inimigo::inicializaAnimacoes()
+		void Samurai::inicializaAnimacoes()
 		{
 			if (corpo) {
 				setAnimador(corpo);
@@ -129,18 +129,18 @@ namespace Entidades {
 
 				//Animações em loop
 
-				animador->addAnimacao("Imagens/Samurai_Inimigo/Idle.png", "Parado", 5, 0.20f, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Samurai_Inimigo/Walk.png", "Andando", 9, 0.20f, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Samurai_Inimigo/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Samurai/Idle.png", "Parado", 5, 0.20f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Samurai/Walk.png", "Andando", 9, 0.20f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Samurai/Run.png", "Correndo", 8, 0.1f, sf::Vector2f(1.0, 1.0));
 
 
 				//Animações que só devem rodar uma vez
 
-				animador->addAnimacao("Imagens/Samurai_Inimigo/Attack_1.png", "Ataque1", 4, 0.1f, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Samurai_Inimigo/Attack_2.png", "Ataque2", 5, 0.12f, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Samurai_Inimigo/Attack_3.png", "Ataque3", 4, 0.1f, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Samurai_Inimigo/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(1.0, 1.0));
-				animador->addAnimacao("Imagens/Samurai_Inimigo/Hurt.png", "Ferido", 2, 0.17f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Samurai/Attack_1.png", "Ataque1", 4, 0.1f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Samurai/Attack_2.png", "Ataque2", 5, 0.12f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Samurai/Attack_3.png", "Ataque3", 4, 0.1f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Samurai/Dead.png", "Derrotado", 6, 0.45f, sf::Vector2f(1.0, 1.0));
+				animador->addAnimacao("Imagens/Samurai/Hurt.png", "Ferido", 2, 0.17f, sf::Vector2f(1.0, 1.0));
 
 			}
 			else

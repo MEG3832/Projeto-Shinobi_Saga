@@ -1,5 +1,5 @@
 #include "FasePrimeira.h"
-#include "Samurai_Inimigo.h"
+#include "Samurai.h"
 #include "Entidade.h"
 #include "ListaEntidades.h"
 #include "Inimigo.h"
@@ -101,8 +101,8 @@ namespace Fases
 			float rand_percent = (float)rand() / (float)RAND_MAX; //essa divisão resulta em um valor no intervalo [0.0 , 1.0]
 			float resistencia_aleatoria = min_res + rand_percent * (max_res - min_res);
 
-			Entidades::Personagens::Samurai_Inimigo* pSam;
-			pSam = new Entidades::Personagens::Samurai_Inimigo(pJog1, pJog2, resistencia_aleatoria); 
+			Entidades::Personagens::Samurai* pSam;
+			pSam = new Entidades::Personagens::Samurai(pJog1, pJog2, resistencia_aleatoria); 
 
 			if (pSam)
 			{
@@ -197,14 +197,14 @@ namespace Fases
 			const nlohmann::json& lista_samurais = j.at("Samurais");
 
 			for (const auto& samurai_json : lista_samurais) {
-				Entidades::Personagens::Samurai_Inimigo* pSamurai;
+				Entidades::Personagens::Samurai* pSamurai;
 
 				float min_res = 1.0f; //o samurai vai receber um dano normal
 				float max_res = 2.0f; //o samurai vai receber um dano pela metade.
 				float rand_percent = (float)rand() / (float)RAND_MAX; //essa divisão resulta em um valor no intervalo [0.0 , 1.0]
 				float resistencia_aleatoria = min_res + rand_percent * (max_res - min_res);
 
-				pSamurai = new Entidades::Personagens::Samurai_Inimigo(pJog1, pJog2, resistencia_aleatoria);
+				pSamurai = new Entidades::Personagens::Samurai(pJog1, pJog2, resistencia_aleatoria);
 
 				pSamurai->carregar(samurai_json);
 

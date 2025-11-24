@@ -4,7 +4,7 @@
 namespace Entidades {
 	namespace Personagens {
 
-		class Samurai_Inimigo : public Inimigo
+		class Samurai : public Inimigo
 		{
 		private:
 			float cooldownEmpurrao;
@@ -16,8 +16,8 @@ namespace Entidades {
 			bool empurra;
 
 		public:
-			Samurai_Inimigo(Jogador* pJ1, Jogador* pJ2, float resist);
-			~Samurai_Inimigo();
+			Samurai(Jogador* pJ1, Jogador* pJ2, float resist);
+			~Samurai();
 			void executar();
 
 			// Reimplementacao
