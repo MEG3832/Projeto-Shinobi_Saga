@@ -12,6 +12,12 @@ namespace Entidades {
 
 		class Jogador : public Personagem
 		{
+			private:
+
+				void inicializaAnimacoes();
+				void atualizaAnimacao();	// Fazer virtual em Personagem
+
+
 			protected:
 
 				enum Estado {
@@ -42,9 +48,6 @@ namespace Entidades {
 				Estado estado_atual;
 				sf::Vector2f direcao;
 				sf::Vector2f velocKnockBack;
-
-				void inicializaAnimacoes();
-				void atualizaAnimacao();	// Fazer virtual em Personagem
 
 			public:
 

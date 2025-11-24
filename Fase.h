@@ -23,6 +23,9 @@ namespace Fases {
 		void carregarTengus(const nlohmann::json& j);
 		void carregarPlataf(const nlohmann::json& j, const int id);
 		void carregarJogadores(const nlohmann::json& j);
+		std::vector<sf::Text> texto_Jog1;
+		std::vector<sf::Text> texto_Jog2;
+		sf::Font fonte;
 
 
 	protected:
@@ -42,10 +45,6 @@ namespace Fases {
 		Parallax::Fundo* pFundo;
 
 		Menu_Salvamento_Ranking menu_save_rank;
-
-		std::vector<sf::Text> texto_Jog1;
-		std::vector<sf::Text> texto_Jog2;
-		sf::Font fonte;
 
 
 		virtual void criarInimigos() = 0;

@@ -30,7 +30,6 @@ namespace Gerenciadores {
 			void tratarColisoesJogsChao();
 			void tratarColisoesInimigosChao();
 			void tratarColisoesInimigosObstacs();
-			void tratarColisoesObstacsChao();
 			void tratarColisaoObstacsObstacs();
 			void tratarColisaoInimgInimig();
 			void reposicionar(sf::RectangleShape* c1, sf::RectangleShape* c2);

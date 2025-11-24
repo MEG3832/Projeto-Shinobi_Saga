@@ -24,6 +24,7 @@ namespace Entidades {
 			bool intransponivel;
 
 			void carregar(const nlohmann::json& j);
+			void salvarDataBuffer(nlohmann::json& buffer);
 
 		public:
 
@@ -34,7 +35,6 @@ namespace Entidades {
 			bool getIntransponivel();
 			void setIntransponivel(const bool intangivel);
 			void sofrerGravidade();
-			void salvarDataBuffer(nlohmann::json& buffer);
 
 			static nlohmann::json getArrayPlataformas();
 			static nlohmann::json getArrayRedemoinhos();
