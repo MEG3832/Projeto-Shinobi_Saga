@@ -77,18 +77,24 @@ namespace Fases
 
 	Fase::~Fase()
 	{
+		altura_chao = 0.0;
+		fim_mapa = 0.0;
+
 		//retiramos os jogadores da lista para que eles não sejam destruídos quando a fase acabar...
 		if (pJog1) {
 			lista_ents.remover(static_cast<Entidades::Entidade*>(
 							   static_cast<Entidades::Personagens::Personagem*>(pJog1)));
+			pJog1 = nullptr;
 		}
 		if (pJog2) {
 			lista_ents.remover(static_cast<Entidades::Entidade*>(
 							   static_cast<Entidades::Personagens::Personagem*>(pJog2)));
+			pJog2 = nullptr;
 		}
 
 		lista_ents.limpar();
 		if (GC) {
+			GC->setAlturaChao(0.0);
 			GC->limparListas();
 			GC = nullptr;
 		}
@@ -97,253 +103,13 @@ namespace Fases
 			pFundo = nullptr;
 		}
 
-		menu_save_rank.setSeguir(true);
+		buffer_fase = {};
+
+		texto_Jog1.clear();
+		texto_Jog2.clear();
 
 		// não deletamos o GC aqui, pois ele é Singleton usado pelo Jogo inteiro.
 		//A lista de entidades já é limpada ao ser destruída (lista_ents é da classe Lista_Entidades, q possui uma Lista parametrizada com Entidades)
-	}
-
-	void Fase::executar()
-	{
-			pGG->limpaJanela();
-
-			if (GE) {
-				GE->executar();
-			}
-			else {
-				std::cerr << "Nao eh possivel executar o Gerenciador de Eventos pois ele eh NULL" << std::endl;
-			}
-
-			if (GC) {
-				GC->executar();
-			}
-			else {
-				std::cerr << "Nao eh possivel executar o Gerenciador de Colisoes pois ele eh NULL" << std::endl;
-			}
-
-			lista_ents.percorrer();
-
-			lista_ents.aplicarGravidade();
-
-			if (pJog1) {
-				pGG->atualizaCamera(pJog1->getCorpo()->getPosition());
-
-				if (pJog1->getCorpo()) {
-					if (!pJog1->podeSeguirPorMorte()) {
-						menu_save_rank.setSeguir(false);
-						menu_save_rank.executar();
-					}
-					if (pJog1->getCorpo()->getPosition().x >= fim_mapa) {
-						menu_save_rank.executar();
-					}
-				}
-
-			}
-
-			if (pJog2) {
-				if (pJog2->getCorpo()) {
-					if (!pJog2->podeSeguirPorMorte()) {
-						menu_save_rank.setSeguir(false);
-						menu_save_rank.executar();
-					}
-					if (pJog2->getCorpo()->getPosition().x >= fim_mapa) {
-						menu_save_rank.executar();
-					}
-				}
-
-			}
-			
-			if (pFundo)
-				pFundo->executar();
-
-			lista_ents.desenharEntidades();
-
-			desenharTexto();
-
-			pGG->mostrarEntes();
-	}
-
-	void Fase::criarTengus()
-	{
-
-		const int min_tengus = 3;
-
-		int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
-
-		for (int i = 0; i < qnt_tengus; i++)
-		{
-			Entidades::Personagens::Tengu* pTengu;
-			pTengu = new Entidades::Personagens::Tengu(pJog1,pJog2); //temos que passar o endereço do jogador aqui...
-
-			if (pTengu)
-			{
-				int correcao = 0;
-
-				do {
-					int posX = (1000 + i * 4000 + i * rand() % 1000 + correcao) % fim_mapa;
-
-					int posY = 0;	// Faz com que os inimigos em uma certa distancia se
-					if (posX > 500) {
-						posY = 50;
-					}
-					else {
-						posY = pGG->getWindow()->getSize().y - altura_chao - pTengu->getCorpo()->getSize().y;
-					}
-
-					if (pTengu->getCorpo()) {
-						pTengu->getCorpo()->setPosition(posX, posY);
-					}
-					if (pTengu->getHitBox()) {
-						pTengu->getHitBox()->setPosition(pTengu->getCorpo()->getPosition().x + (pTengu->getCorpo()->getSize().x / 2 - pTengu->getHitBox()->getSize().x / 2),
-							pTengu->getCorpo()->getPosition().y);
-					}
-
-					correcao += 20;
-				} while (GC->verificaColisaoEnteObstacs(pTengu) || GC->verificaColisaoEnteInimgs(pTengu));
-
-				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-											static_cast<Entidades::Personagens::Personagem*>(
-											static_cast<Entidades::Personagens::Inimigo*>(pTengu)));
-				lista_ents.incluir(pEnt);
-			}
-
-			else
-				std::cerr << "Não foi possível alocar o Tengu!" << std::endl;
-
-		}
-
-	}
-
-	void Fase::criarPlataformas(int id)
-	{
-
-		const int min_plataf = 3;
-
-		int qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
-
-		for (int i = 0; i < qnt_plataf; i++)
-		{
-			Entidades::Obstaculos::Plataforma* pPlataf;
-			pPlataf = new Entidades::Obstaculos::Plataforma(id);
-
-			if (pPlataf)
-			{ 
-				int correcao = 0;
-
-				do {
-					int posX = (300 + i * 4500 + i * rand() % 1500 + correcao) % fim_mapa;
-					int posY = ALTURA_TELA - altura_chao - pPlataf->getCorpo()->getSize().y -
-						(rand() % 10 + 160);
-
-					if (pPlataf->getCorpo()) {
-						pPlataf->getCorpo()->setPosition(posX, posY);
-					}
-					if (pPlataf->getHitBox()) {
-						pPlataf->getHitBox()->setPosition(pPlataf->getCorpo()->getPosition().x + (pPlataf->getCorpo()->getSize().x / 2 - pPlataf->getHitBox()->getSize().x / 2),
-							pPlataf->getCorpo()->getPosition().y);
-					}
-
-					correcao += 20;
-				} while (GC->verificaColisaoEnteObstacs(pPlataf) || GC->verificaColisaoEnteInimgs(pPlataf));
-
-				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-					static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
-				lista_ents.incluir(pEnt);
-			}
-
-			else
-				std::cerr << "Não foi possível alocar a plataforma!" << std::endl;
-
-		}
-
-	}
-
-	void Fase::carregarTengus(const nlohmann::json& j) {
-		try {
-			// Obtém a referência para o array completo de "plataformas"
-			const nlohmann::json& lista_tengus = j.at("Tengus");
-
-			for (const auto& tengu_json : lista_tengus) {
-				Entidades::Personagens::Inimigo* pTengu;
-				pTengu = new Entidades::Personagens::Tengu(pJog1);
-
-				pTengu->carregar(tengu_json);
-
-				GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
-				Entidades::Entidade* pEnt  = (static_cast<Entidades::Entidade*>(
-											  static_cast<Entidades::Personagens::Personagem*>(
-											  static_cast<Entidades::Personagens::Inimigo*>(pTengu))));
-				lista_ents.incluir(pEnt);
-			}
-		}
-		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
-		catch (const nlohmann::json::out_of_range& e) {
-			std::cerr << "ERRO: O array 'Tengus' ou alguma chave interna esta faltando." << e.what() << std::endl;
-		}
-	}
-
-	void Fase::carregarPlataf(const nlohmann::json& j, int id) {
-		try {
-			// Obtém a referência para o array completo de "plataformas"
-			const nlohmann::json& lista_plataformas = j.at("Plataformas");
-
-			for (const auto& plataforma_json : lista_plataformas) {
-				Entidades::Obstaculos::Plataforma* pPlatf;
-				pPlatf = new Entidades::Obstaculos::Plataforma(id);
-
-				pPlatf->carregar(plataforma_json);
-
-				GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlatf));
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-											static_cast<Entidades::Obstaculos::Obstaculo*>(pPlatf));
-				lista_ents.incluir(pEnt);
-			}
-		}
-		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
-		catch (const nlohmann::json::out_of_range& e) {
-			std::cerr << "ERRO: O array 'Plataformas' ou alguma chave interna esta faltando." << e.what() << std::endl;
-		}
-
-	}
-
-	// Esta funcionando pra um jogador
-	void Fase::carregarJogadores(const nlohmann::json& j) {
-		try {
-			// Obtém a referência para o array completo de "plataformas"
-			const nlohmann::json& lista_jogadores = j.at("Jogadores");
-
-			const nlohmann::json& jogador_json = lista_jogadores.at(0);
-			pJog1->carregar(jogador_json);
-			GC->setJogador1(pJog1);
-			GE->setJogador1(pJog1);
-			Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-										static_cast<Entidades::Personagens::Personagem*>(pJog1));
-			lista_ents.incluir(pEnt);
-
-			if (pJog2) {
-				const nlohmann::json& jogador_json = lista_jogadores.at(1);
-				pJog2->carregar(jogador_json);
-				GC->setJogador2(pJog2);
-				GE->setJogador2(pJog2);
-				Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-											static_cast<Entidades::Personagens::Personagem*>(pJog2));
-				lista_ents.incluir(pEnt);
-			}
-		}
-		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
-		catch (const nlohmann::json::out_of_range& e) {
-			std::cerr << "ERRO: O array 'Jogadores' ou alguma chave interna esta faltando." << e.what() << std::endl;
-		}
-	}
-
-	void Fase::carregar(const nlohmann::json& j, int id) {
-
-		carregarJogadores(j);
-		carregarTengus(j);
-		carregarPlataf(j, id);
-
 	}
 
 	void Fase::inicializarTexto() {
@@ -417,6 +183,286 @@ namespace Fases
 		else {
 			std::cerr << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
 		}
+	}
+
+	void Fase::carregarTengus(const nlohmann::json& j) {
+		try {
+			if (GC) {
+				// Obtém a referência para o array completo de "plataformas"
+				const nlohmann::json& lista_tengus = j.at("Tengus");
+
+				for (const auto& tengu_json : lista_tengus) {
+					Entidades::Personagens::Inimigo* pTengu;
+					pTengu = new Entidades::Personagens::Tengu(pJog1);
+
+					if (pTengu) {
+						pTengu->carregar(tengu_json);
+
+						GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
+						Entidades::Entidade* pEnt = (static_cast<Entidades::Entidade*>(
+							static_cast<Entidades::Personagens::Personagem*>(
+								static_cast<Entidades::Personagens::Inimigo*>(pTengu))));
+						lista_ents.incluir(pEnt);
+					}
+				}
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel carregar os tengus pois o Gerenc. de Colisoes eh NULL" << std::endl;
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Tengus' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+	}
+
+	void Fase::carregarPlataf(const nlohmann::json& j, int id) {
+		try {
+			if (GC) {
+				// Obtém a referência para o array completo de "plataformas"
+				const nlohmann::json& lista_plataformas = j.at("Plataformas");
+
+				for (const auto& plataforma_json : lista_plataformas) {
+					Entidades::Obstaculos::Plataforma* pPlatf;
+					pPlatf = new Entidades::Obstaculos::Plataforma(id);
+
+					if (pPlatf) {
+						pPlatf->carregar(plataforma_json);
+
+						GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlatf));
+						Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+							static_cast<Entidades::Obstaculos::Obstaculo*>(pPlatf));
+						lista_ents.incluir(pEnt);
+					}
+				}
+			}
+			else {
+				std::cerr << "ERRO: Nao eh possivel carregar as plataformas pois o Gerenc. de Colisoes eh NULL" << std::endl;
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Plataformas' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+
+	}
+
+	// Esta funcionando pra um jogador
+	void Fase::carregarJogadores(const nlohmann::json& j) {
+		try {
+			if (GE) {
+				if (GC) {
+					// Obtém a referência para o array completo de "plataformas"
+					const nlohmann::json& lista_jogadores = j.at("Jogadores");
+
+					if (pJog1) {
+						const nlohmann::json& jogador_json = lista_jogadores.at(0);
+						pJog1->carregar(jogador_json);
+						GC->setJogador1(pJog1);
+						GE->setJogador1(pJog1);
+						Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+							static_cast<Entidades::Personagens::Personagem*>(pJog1));
+						lista_ents.incluir(pEnt);
+					}
+					else {
+						std::cerr << "ERRO: Nao eh possivel carregar o jogador 1 pois ele eh NULL" << std::endl;
+					}
+
+					if (pJog2) {
+						const nlohmann::json& jogador_json = lista_jogadores.at(1);
+						pJog2->carregar(jogador_json);
+						GC->setJogador2(pJog2);
+						GE->setJogador2(pJog2);
+						Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+							static_cast<Entidades::Personagens::Personagem*>(pJog2));
+						lista_ents.incluir(pEnt);
+					}
+				}
+				else {
+					std::cerr << "ERRO: nao eh possivel carregar os jogadores pois o Gerenc. de Eventos eh NULL" << std::endl;
+				}
+			}
+		}
+		/* A funcao .what() explica de forma mais detalhada e especifica onde o erro e aconteceu e o que eh*/
+		catch (const nlohmann::json::out_of_range& e) {
+			std::cerr << "ERRO: O array 'Jogadores' ou alguma chave interna esta faltando." << e.what() << std::endl;
+		}
+	}
+
+	void Fase::criarTengus()
+	{
+		if (GC) {
+			const int min_tengus = 3;
+
+			int qnt_tengus = (rand() % (maxTengus - min_tengus + 1)) + min_tengus; //gera valor entre minimo e maximo definido
+
+			for (int i = 0; i < qnt_tengus; i++)
+			{
+				Entidades::Personagens::Tengu* pTengu;
+				pTengu = new Entidades::Personagens::Tengu(pJog1, pJog2); //temos que passar o endereço do jogador aqui...
+
+				if (pTengu)
+				{
+					int correcao = 0;
+
+					do {
+						int posX = (1000 + i * 4000 + i * rand() % 1000 + correcao) % fim_mapa;
+
+						int posY = 0;	// Faz com que os inimigos em uma certa distancia se
+						if (posX > 500) {
+							posY = 50;
+						}
+						else {
+							posY = pGG->getWindow()->getSize().y - altura_chao - pTengu->getCorpo()->getSize().y;
+						}
+
+						if (pTengu->getCorpo()) {
+							pTengu->getCorpo()->setPosition(posX, posY);
+
+							if (pTengu->getHitBox()) {
+								pTengu->getHitBox()->setPosition(pTengu->getCorpo()->getPosition().x + (pTengu->getCorpo()->getSize().x / 2 - pTengu->getHitBox()->getSize().x / 2),
+									pTengu->getCorpo()->getPosition().y);
+							}
+						}
+
+						correcao += 20;
+					} while (GC->verificaColisaoEnteObstacs(pTengu) || GC->verificaColisaoEnteInimgs(pTengu));
+
+					GC->incluirInimigo(static_cast<Entidades::Personagens::Inimigo*>(pTengu));
+					Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+												static_cast<Entidades::Personagens::Personagem*>(
+												static_cast<Entidades::Personagens::Inimigo*>(pTengu)));
+					lista_ents.incluir(pEnt);
+				}
+
+				else
+					std::cerr << "Não foi possível alocar o Tengu!" << std::endl;
+			}
+		}
+		else {
+			std::cerr << "ERRO: Nao eh possivel criar os tengus pois o Gerenc. de Colisoes eh NULL" << std::endl;
+		}
+	}
+
+	void Fase::criarPlataformas(int id)
+	{
+		if (GC) {
+			const int min_plataf = 3;
+
+			int qnt_plataf = (rand() % (maxPlataf - min_plataf + 1)) + min_plataf; //gera valor entre minimo e maximo definido
+
+			for (int i = 0; i < qnt_plataf; i++)
+			{
+				Entidades::Obstaculos::Plataforma* pPlataf;
+				pPlataf = new Entidades::Obstaculos::Plataforma(id);
+
+				if (pPlataf)
+				{
+					int correcao = 0;
+
+					do {
+						int posX = (300 + i * 4500 + i * rand() % 1500 + correcao) % fim_mapa;
+						int posY = ALTURA_TELA - altura_chao - pPlataf->getCorpo()->getSize().y -
+							(rand() % 10 + 160);
+
+						if (pPlataf->getCorpo()) {
+							pPlataf->getCorpo()->setPosition(posX, posY);
+
+							if (pPlataf->getHitBox()) {
+								pPlataf->getHitBox()->setPosition(pPlataf->getCorpo()->getPosition().x + (pPlataf->getCorpo()->getSize().x / 2 - pPlataf->getHitBox()->getSize().x / 2),
+									pPlataf->getCorpo()->getPosition().y);
+							}
+						}
+
+						correcao += 20;
+					} while (GC->verificaColisaoEnteObstacs(pPlataf) || GC->verificaColisaoEnteInimgs(pPlataf));
+
+					GC->incluirObstaculo(static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+					Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+												static_cast<Entidades::Obstaculos::Obstaculo*>(pPlataf));
+					lista_ents.incluir(pEnt);
+				}
+
+				else
+					std::cerr << "Não foi possível alocar a plataforma!" << std::endl;
+			}
+		}
+		else {
+			std::cerr << "ERRO: Nao eh possivel criar as plataformas pois o Gerenc. de Colisoes eh NULL" << std::endl;
+		}
+	}
+
+	void Fase::executar()
+	{
+		if (pGG) {
+			pGG->limpaJanela();
+
+			if (GE) {
+				GE->executar();
+			}
+			else {
+				std::cerr << "Nao eh possivel executar o Gerenciador de Eventos pois ele eh NULL" << std::endl;
+			}
+
+			if (GC) {
+				GC->executar();
+			}
+			else {
+				std::cerr << "Nao eh possivel executar o Gerenciador de Colisoes pois ele eh NULL" << std::endl;
+			}
+
+			lista_ents.percorrer();
+
+			lista_ents.aplicarGravidade();
+
+			if (pJog1) {
+				pGG->atualizaCamera(pJog1->getCorpo()->getPosition());
+
+				if (pJog1->getCorpo()) {
+					if (!pJog1->podeSeguirPorMorte()) {
+						menu_save_rank.setSeguir(false);
+						menu_save_rank.executar();
+					}
+					if (pJog1->getCorpo()->getPosition().x >= fim_mapa) {
+						menu_save_rank.executar();
+					}
+				}
+
+			}
+
+			if (pJog2) {
+				if (pJog2->getCorpo()) {
+					if (!pJog2->podeSeguirPorMorte()) {
+						menu_save_rank.setSeguir(false);
+						menu_save_rank.executar();
+					}
+					if (pJog2->getCorpo()->getPosition().x >= fim_mapa) {
+						menu_save_rank.executar();
+					}
+				}
+
+			}
+
+			if (pFundo)
+				pFundo->executar();
+
+			lista_ents.desenharEntidades();
+
+			desenharTexto();
+
+			pGG->mostrarEntes();
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel executar a fase pois o Gerenc. Grafico eh NULL" << std::endl;
+		}
+	}
+
+	void Fase::carregar(const nlohmann::json& j, const int id) {
+
+		carregarJogadores(j);
+		carregarTengus(j);
+		carregarPlataf(j, id);
+
 	}
 
 }

@@ -22,6 +22,7 @@ namespace Animadores {
 			~Animacao();
 
 			void atualizarAnim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
+			void atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico);
 			void addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale);
 
 			// Usado no save e no carregamento

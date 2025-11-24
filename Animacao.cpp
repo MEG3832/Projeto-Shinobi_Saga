@@ -58,6 +58,37 @@ namespace Animadores {
 		}
 	}
 
+	void Animacao::atualizarAnimProjetil(const bool indoParaEsq, std::string estadoUnico)
+	{
+		if (corpo) {
+			if (estadoAtual != estadoUnico) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
+			{
+				estadoAtual = estadoUnico;
+				mapImagens[estadoAtual]->resetar();
+			}
+
+			dt = clock.getElapsedTime().asSeconds();
+			clock.restart(); //reinicia o relógio para guardar o intervalo de tempo...
+
+			Imagem* img = mapImagens[estadoUnico];
+
+			sf::Vector2f tamCorpo = corpo->getSize();
+			sf::Vector2f escala = img->getEscala();
+
+			img->atualizarFrameProjetil(indoParaEsq, dt);
+
+			if (img->getImgAtual() == 4)
+				img->resetar(); //para o projétil, não usarmos o resto das imagens da sprite, então resetamos...
+
+			corpo->setTextureRect(img->getRetang()); //usando o intRect aqui! 
+			corpo->setTexture(img->getTextura());
+			corpo->setScale(escala.x, escala.y);
+		}
+		else {
+			std::cout << "ERRO: nao eh possivel atualizar a animacao do projetil pois o corpo eh NULL" << std::endl;
+		}
+	}
+
 	void Animacao::addAnimacao(const char* caminhoTextura, std::string nomeAnimacao, const int qtdImg, const float frame_duration, const sf::Vector2f scale)
 	{
 		Imagem* img = new Imagem(caminhoTextura, qtdImg, frame_duration, scale);

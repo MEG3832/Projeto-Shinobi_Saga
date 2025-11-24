@@ -56,6 +56,35 @@ namespace Animadores {
 		}
 	}
 
+	void Imagem::atualizarFrameProjetil(const bool indoParaEsq, const float dt)
+	{
+		//a animação só irá rodar uma vez mesmo (eu acho?)
+
+		tempo_Total += dt;
+
+		if (tempo_Total >= duracao_Frame)
+		{
+			tempo_Total = 0.0; //reinicia a contagem de tempo...
+			imag_Atual++;
+
+			if (imag_Atual >= qnt_Imagens)
+				imag_Atual = qnt_Imagens; //vai até o final da imagem mesmo (é para sumir no final.)
+		}
+
+		if (indoParaEsq) //invertemos a imagem se estiver indo para a esquerda
+		{
+			retangulo.left = (imag_Atual + 1) * abs(retangulo.width); // a "leitura" da imagem será feita da direita para a esquerda
+			retangulo.width = -abs(retangulo.width);
+
+		}
+
+		else
+		{
+			retangulo.left = imag_Atual * retangulo.width;
+			retangulo.width = abs(retangulo.width);
+		}
+	}
+
 	void Imagem::resetar()
 	{
 		tempo_Total = 0;

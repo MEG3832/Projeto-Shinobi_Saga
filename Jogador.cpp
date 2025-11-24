@@ -436,7 +436,9 @@ namespace Entidades {
 		}
 
 		void Jogador::restaurarVida() {
-			num_vidas = 250;
+			if (num_vidas < 250) {
+				num_vidas = 250;
+			}
 		}
 
 

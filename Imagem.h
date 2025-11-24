@@ -31,6 +31,7 @@ namespace Animadores {
 		~Imagem();
 
 		void atualizarFrame(const bool indoParaEsq, const bool rodaUmaVez, const float dt);
+		void atualizarFrameProjetil(const bool indoParaEsq, const float dt);
 		void resetar();
 		const sf::IntRect getRetang();
 		const sf::Texture* getTextura();

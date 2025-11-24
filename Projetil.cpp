@@ -64,11 +64,11 @@ namespace Entidades {
 
 			if (veloc.x < 0) // se a velocidade de x dele é negativa, então é porque ele foi ativado para a esquerda
 			{
-				animador->atualizarAnim(true, false, "Fogo");
+				animador->atualizarAnimProjetil(true, "Fogo");
 			}
 
 			else
-				animador->atualizarAnim(false, false, "Fogo");
+				animador->atualizarAnimProjetil(true, "Fogo");
 			
 			corpo->move(veloc);
 			hitBox->setPosition(corpo->getPosition());
@@ -129,7 +129,7 @@ namespace Entidades {
 
 		animador->addAnimacao("Imagens/Projetil_Fogo/Fire_2.png", "Fogo", 11, 0.1f, sf::Vector2f(1.0, 1.0));
 
-		animador->atualizarAnim(false, false, "Fogo");
+		animador->atualizarAnimProjetil(true, "Fogo");
 	}
 
 }

@@ -15,8 +15,8 @@ namespace Fases {
 	{
 	private:
 
-		int maxTengus;
-		int maxPlataf;
+		const int maxTengus;
+		const int maxPlataf;
 
 		void inicializarTexto();
 		void desenharTexto();
