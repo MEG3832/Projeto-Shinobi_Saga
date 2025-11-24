@@ -12,7 +12,7 @@ namespace Fases
 		maxKitsunes(8),
 		maxArmadilhas(8)
 	{
-		altura_chao = 50.0;	// Medi olhando e testando
+		altura_chao = 50;	// Medi olhando e testando
 		if (GC) {
 			GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 		}
@@ -42,7 +42,7 @@ namespace Fases
 		maxKitsunes(8),
 		maxArmadilhas(8)
 	{
-		altura_chao = 50.0;	// Medi olhando e testando
+		altura_chao = 50;	// Medi olhando e testando
 		if (GC) {
 			GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 		}
@@ -121,8 +121,8 @@ namespace Fases
 
 					int correcao = 0;
 					do {
-						int posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
-						int posY = 0;	// Faz com que os inimigos em uma certa distancia se
+						float posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
+						float posY = 0;	// Faz com que os inimigos em uma certa distancia se
 						if (posX > 500) {
 							posY = 50;
 						}
@@ -200,7 +200,7 @@ namespace Fases
 				{
 					int correcao = 0;
 					do {
-						int posX = (2500 + i * 5000 + i * rand() % 800 + correcao) % fim_mapa;
+						float posX = (2500 + i * 5000 + i * rand() % 800 + correcao) % fim_mapa;
 						float posY = ALTURA_TELA - 30 - pArmad->getCorpo()->getSize().y;
 						if (pArmad->getCorpo()) {
 							pArmad->getCorpo()->setPosition(posX, posY);

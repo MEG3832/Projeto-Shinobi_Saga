@@ -11,7 +11,7 @@ namespace Fases
 		maxSamurais(8),
 		maxRedemoinhos(8)
 	{
-		altura_chao = 80.0;	// Medi olhando e testando
+		altura_chao = 80;	// Medi olhando e testando
 		if (GC) {
 			GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 		}
@@ -40,7 +40,7 @@ namespace Fases
 		maxSamurais(8),
 		maxRedemoinhos(8)
 	{
-		altura_chao = 80.0;	// Medi olhando e testando
+		altura_chao = 80;	// Medi olhando e testando
 		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 
 		fim_mapa = 10000;
@@ -120,9 +120,9 @@ namespace Fases
 				{
 					int correcao = 0;
 					do {
-						int posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
+						float posX = (400 + i * 3500 + i * rand() % 400 + correcao) % fim_mapa;
 
-						int posY = 0;	// Faz com que os inimigos em uma certa distancia sejam jogados de cima e possam parar em sima de plataformas
+						float posY = 0;	// Faz com que os inimigos em uma certa distancia sejam jogados de cima e possam parar em sima de plataformas
 						if (posX > 500) {
 							posY = 50;
 						}

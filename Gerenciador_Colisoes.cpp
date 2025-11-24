@@ -530,32 +530,6 @@ namespace Gerenciadores {
 		}
 	}
 
-	void Gerenciador_Colisoes::tratarColisoesObstacsChao() {
-
-		std::list<Entidades::Obstaculos::Obstaculo*>::iterator it_obs = LOs.begin();
-		for (it_obs = LOs.begin(); it_obs != LOs.end(); it_obs++) {
-
-			Entidades::Obstaculos::Obstaculo* pObstaculo = *it_obs;
-
-			if (pObstaculo) {
-				// converte para Entidade* para usar a função de verificação
-				Entidades::Entidade* pE_Obstaculo = static_cast<Entidades::Entidade*>(
-													static_cast<Entidades::Obstaculos::Obstaculo*>(pObstaculo));
-
-				if (verificaColisaoChao(pObstaculo)) {
-					reposicionar(pObstaculo->getHitBox());
-
-					if (pObstaculo->getCorpo() && pObstaculo->getHitBox()) {
-						pObstaculo->getCorpo()->setPosition(
-							pObstaculo->getHitBox()->getPosition().x - (pObstaculo->getCorpo()->getSize().x / 2 - pObstaculo->getHitBox()->getSize().x / 2),
-							pObstaculo->getHitBox()->getPosition().y
-						);
-					}
-				}
-			}
-		}
-	}
-
 	void Gerenciador_Colisoes::tratarColisaoObstacsObstacs() {
 		std::list<Entidades::Obstaculos::Obstaculo*>::iterator it1_obs = LOs.begin();
 		std::list<Entidades::Obstaculos::Obstaculo*>::iterator it2_obs = LOs.begin();
@@ -688,7 +662,7 @@ namespace Gerenciadores {
 	}
 
 	void Gerenciador_Colisoes::setAlturaChao(const int altura) {
-		altura_chao = altura;
+		altura_chao = (float)altura;
 	}
 
 	void Gerenciador_Colisoes::limparListas() {

@@ -5,7 +5,7 @@ namespace Fases
 	Fase::Fase(Entidades::Personagens::Jogador* pJog1) :
 		maxTengus(5),
 		maxPlataf(8),
-		altura_chao(0.0),
+		altura_chao(0),
 		fim_mapa(0),
 		buffer_fase({}),
 		lista_ents(),
@@ -41,7 +41,7 @@ namespace Fases
 	Fase::Fase(Entidades::Personagens::Jogador* pJog1, Entidades::Personagens::Jogador* pJog2) :
 		maxTengus(5),
 		maxPlataf(8),
-		altura_chao(0.0),
+		altura_chao(0),
 		fim_mapa(0),
 		buffer_fase({}),
 		lista_ents(),
@@ -80,8 +80,8 @@ namespace Fases
 
 	Fase::~Fase()
 	{
-		altura_chao = 0.0;
-		fim_mapa = 0.0;
+		altura_chao = 0;
+		fim_mapa = 0;
 
 		//retiramos os jogadores da lista para que eles não sejam destruídos quando a fase acabar...
 		if (pJog1) {
@@ -97,7 +97,7 @@ namespace Fases
 
 		lista_ents.limpar();
 		if (GC) {
-			GC->setAlturaChao(0.0);
+			GC->setAlturaChao(0);
 			GC->limparListas();
 			GC = nullptr;
 		}
@@ -309,9 +309,9 @@ namespace Fases
 					int correcao = 0;
 
 					do {
-						int posX = (1000 + i * 4000 + i * rand() % 1000 + correcao) % fim_mapa;
+						float posX = (1000 + i * 4000 + i * rand() % 1000 + correcao) % fim_mapa;
 
-						int posY = 0;	// Faz com que os inimigos em uma certa distancia se
+						float posY = 0;	// Faz com que os inimigos em uma certa distancia se
 						if (posX > 500) {
 							posY = 50;
 						}
@@ -364,8 +364,8 @@ namespace Fases
 					int correcao = 0;
 
 					do {
-						int posX = (300 + i * 4500 + i * rand() % 1500 + correcao) % fim_mapa;
-						int posY = ALTURA_TELA - altura_chao - pPlataf->getCorpo()->getSize().y -
+						float posX = (300 + i * 4500 + i * rand() % 1500 + correcao) % fim_mapa;
+						float posY = ALTURA_TELA - altura_chao - pPlataf->getCorpo()->getSize().y -
 							(rand() % 10 + 160);
 
 						if (pPlataf->getCorpo()) {

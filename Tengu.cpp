@@ -18,7 +18,7 @@ namespace Entidades
 			tempoAndar = 2.5f; // Tempo de "perambular" específico
 
 			corpo = new sf::RectangleShape(sf::Vector2f(180.0f, 160.0f));
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 80.0, corpo->getSize().y));
+			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 80.0f, corpo->getSize().y));
 
 			inicializaAnimacoes();
 		}
@@ -45,7 +45,7 @@ namespace Entidades
 		{
 			if (pJ)
 			{
-				int dano_calculado = nivel_maldade * 50; // Dano = nivel_maldade * 50
+				float dano_calculado = nivel_maldade * 50; // Dano = nivel_maldade * 50
 				pJ->diminuiVida(dano_calculado);
 				empurrar(pJ); // Chama o empurrão (pode ser o base 'Inimigo::empurrar')
 			}

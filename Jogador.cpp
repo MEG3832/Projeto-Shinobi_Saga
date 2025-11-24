@@ -7,10 +7,10 @@ namespace Entidades {
 
 		Jogador::Jogador(int ident) :
 			Personagem(),
-			cooldown_ataque(0.08),
-			cooldown_pulo(0.16),
-			cooldown_dano(0.2),
-			tempo_morte(4 * 0.45),
+			cooldown_ataque(0.08f),
+			cooldown_pulo(0.16f),
+			cooldown_dano(0.2f),
+			tempo_morte(4 * 0.45f),
 			velPulo(-12),
 			hitboxAtaque(new sf::RectangleShape(sf::Vector2f(38.0f, 23.0f))),
 			timer(),
@@ -189,9 +189,9 @@ namespace Entidades {
 				{
 					//Animações em loop
 
-					animador->addAnimacao("Imagens/Samurai_shinobiPack/Idle.png", "Parado", 6, 0.20, sf::Vector2f(1.0, 1.0));
-					animador->addAnimacao("Imagens/Samurai_shinobiPack/Walk.png", "Andando", 8, 0.12, sf::Vector2f(1.0, 1.0));
-					animador->addAnimacao("Imagens/Samurai_shinobiPack/Run.png", "Correndo", 8, 0.10, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Idle.png", "Parado", 6, 0.20f, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Walk.png", "Andando", 8, 0.12f, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Samurai_shinobiPack/Run.png", "Correndo", 8, 0.10f, sf::Vector2f(1.0, 1.0));
 
 					//Animações que só devem rodar uma vez
 

@@ -32,7 +32,7 @@ namespace Entidades {
 			if (corpo) {
 				setAnimador(corpo);
 				if (animador) {
-					animador->addAnimacao("Imagens/Obstaculos/Armadilha_de_urso.png", "ataque", 4, 0.2, sf::Vector2f(1.0, 1.0));
+					animador->addAnimacao("Imagens/Obstaculos/Armadilha_de_urso.png", "ataque", 4, 0.2f, sf::Vector2f(1.0, 1.0));
 				}
 			}
 			else {

@@ -71,11 +71,11 @@ void Menu_Colocacao::carregar() {
     for (int i = 0; i < tamanho_rank && i < (int)nomes.size(); i++) {
 
         temp.setString(nomes[i].second);
-        temp.setPosition(85, 100 + 55 * i);
+        temp.setPosition(85.0f, 100.0f + 55.0f * i);
         texto_nomes.push_back(temp);
 
         temp.setString(std::to_string(nomes[i].first));
-        temp.setPosition(COMPRIMENTO_TELA - 100, 100 + 55 * i);
+        temp.setPosition(COMPRIMENTO_TELA - 100.0f, 100.0f + 55.0f * i);
         texto_pontuacoes.push_back(temp);
     }
 }

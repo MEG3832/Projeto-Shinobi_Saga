@@ -143,7 +143,7 @@ namespace Entidades
 					pProjetil->setEstadoProj(true); //apenas setamos o estado do projétil, já que o que será feito (dependendo do estado dele), será tratado no executar do projétil.
 
 					if (paraEsq) {
-						pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 25.0); //centralizo o projétil bem na frente da kitsune
+						pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 25.0f); //centralizo o projétil bem na frente da kitsune
 						pProjetil->setVelocidade(sf::Vector2f(-3.0f, 0.0f));
 					}
 					else {
@@ -209,7 +209,7 @@ namespace Entidades
 			if (pJ)
 			{
 				int dano_causado = 200;
-				pJ->diminuiVida(dano_causado);
+				pJ->diminuiVida((float)dano_causado);
 				empurrar(pJ); // Chama o empurrão (pode ser o base 'Inimigo::empurrar')
 			}
 			else

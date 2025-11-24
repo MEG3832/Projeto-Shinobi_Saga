@@ -6,7 +6,7 @@ namespace Gerenciadores {
 	Gerenciador_Grafico* Gerenciador_Grafico::pGrafico = nullptr;
 
 	Gerenciador_Grafico::Gerenciador_Grafico() :
-		window(new sf::RenderWindow(sf::VideoMode(COMPRIMENTO_TELA, ALTURA_TELA), "Nome do Jogo")),
+		window(new sf::RenderWindow(sf::VideoMode((unsigned int)COMPRIMENTO_TELA, (unsigned int)ALTURA_TELA), "Nome do Jogo")),
 		camera(sf::Vector2f(COMPRIMENTO_TELA / 2, ALTURA_TELA / 2), sf::Vector2f(COMPRIMENTO_TELA, ALTURA_TELA))
 	{
 		window->setFramerateLimit(60);

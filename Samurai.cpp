@@ -108,7 +108,7 @@ namespace Entidades {
 				return;
 			}
 
-			int dano_reduzido = 0;
+			float dano_reduzido = 0.0f;
 			if (resistencia > 0.0f) {
 				dano_reduzido = dano / resistencia;
 			}

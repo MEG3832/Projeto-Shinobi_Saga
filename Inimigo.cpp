@@ -162,7 +162,7 @@ namespace Entidades {
 						std::cerr << "ERRO: nao eh possivel virar o inimigo pois o jogador alvo eh NULL" << std::endl;
 					}
 
-					Personagem::diminuiVida(dano); // aplica o dano (da classe Personagem)
+					Personagem::diminuiVida((float)dano); // aplica o dano (da classe Personagem)
 
 					// verifica o resultado do ataque
 					if (getVida() <= 0) {
