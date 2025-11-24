@@ -87,7 +87,7 @@ namespace Entidades
 								if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
 								{
 									paraEsq = true;
-									animador->atualizarAnimInim(paraEsq, false, "Correndo");
+									animador->atualizarAnim(paraEsq, false, "Correndo");
 									corpo->move(-veloc.x, 0.0f);
 									hitBox->move(-veloc.x, 0.0f);
 
@@ -96,7 +96,7 @@ namespace Entidades
 								else if (posJog_X > posInim_X) //jogador está à direita do inimigo
 								{
 									paraEsq = false;
-									animador->atualizarAnimInim(paraEsq, false, "Correndo");
+									animador->atualizarAnim(paraEsq, false, "Correndo");
 									corpo->move(veloc.x, 0.0f);
 									hitBox->move(veloc.x, 0.0f);
 
@@ -111,7 +111,7 @@ namespace Entidades
 
 								if (dt_ataque >= cooldownAtaque)
 								{
-									animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
+									animador->atualizarAnim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
 
 									if (animador->getImgAtual() == 2) //se chegou no último frame, pode atacar!
 									{
@@ -120,7 +120,7 @@ namespace Entidades
 								}
 								else
 								{
-									animador->atualizarAnimInim(paraEsq, false, "Parado");
+									animador->atualizarAnim(paraEsq, false, "Parado");
 								}
 							}
 						}
@@ -142,7 +142,7 @@ namespace Entidades
 			}
 
 			else {
-				std::cout << "ERRO: Nao eh possivel perseguir o jogador pois o ponteiro dele eh NULL" << std::endl;
+				std::cerr << "ERRO: Nao eh possivel perseguir o jogador pois o ponteiro dele eh NULL" << std::endl;
 			}
 		}
 
@@ -192,7 +192,7 @@ namespace Entidades
 			}
 
 			else
-				std::cout << "ERRO: Nao eh possivel atacar o jogador pois o ponteiro dele eh NULL" << std::endl;
+				std::cerr << "ERRO: Nao eh possivel atacar o jogador pois o ponteiro dele eh NULL" << std::endl;
 		}
 
 
@@ -219,7 +219,7 @@ namespace Entidades
 			}
 
 			else
-				std::cout << "ERRO: Nao eh possivel inicializar a animacao pois o animador eh NULL" << std::endl;
+				std::cerr << "ERRO: Nao eh possivel inicializar a animacao pois o animador eh NULL" << std::endl;
 		}
 
 
@@ -256,24 +256,24 @@ namespace Entidades
 						}
 
 						else {
-							std::cout << "ERRO: Nao eh possivel mover o tengu pois o hit box dele eh NULL" << std::endl;
+							std::cerr << "ERRO: Nao eh possivel mover o tengu pois o hit box dele eh NULL" << std::endl;
 						}
 					}
 
 					else {
-						std::cout << "ERRO: Nao eh possivel mover o tengu pois o corpo dele eh NULL" << std::endl;
+						std::cerr << "ERRO: Nao eh possivel mover o tengu pois o corpo dele eh NULL" << std::endl;
 					}
 				}
 
 				else {
-					std::cout << "ERRO: Nao eh possivel mover o tengu pois o ponteiro do jogador eh NULL" << std::endl;
+					std::cerr << "ERRO: Nao eh possivel mover o tengu pois o ponteiro do jogador eh NULL" << std::endl;
 				}
 
 			}
 
 			else
 			{
-				std::cout << "ERRO: Nao eh possivel mover o tengu pois o ponteiro para jogador eh NULL" << std::endl;
+				std::cerr << "ERRO: Nao eh possivel mover o tengu pois o ponteiro para jogador eh NULL" << std::endl;
 			}
 		}
 

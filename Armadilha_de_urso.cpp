@@ -105,7 +105,7 @@ namespace Entidades {
 
 		void Armadilha_de_urso::atualizaAnimacao() {
 				if (animador) {
-					animador->atualizarAnimJog(false, false, false, true, "ataque");
+					animador->atualizarAnim(false, true, "ataque");
 				}
 				else {
 					std::cerr << "Nao eh possivel atualizar a animacao pois o animador eh NULL" << std::endl;

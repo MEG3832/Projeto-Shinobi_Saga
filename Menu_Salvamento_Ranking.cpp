@@ -199,8 +199,6 @@ void Menu_Salvamento_Ranking::salvar() {
 	if (arquivo_escrita.is_open()) {
 		arquivo_escrita << leaderboard_array.dump(4);
 		arquivo_escrita.close();
-
-		std::cout << "Pontuacao salva e arquivo reescrito como ARRAY JSON." << std::endl;
 	}
 	else {
 		std::cerr << "ERRO: Nao foi possivel abrir o arquivo para ESCREVER a colocacao" << std::endl;

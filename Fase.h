@@ -21,7 +21,7 @@ namespace Fases {
 
 	protected:
 
-		float altura_chao;
+		int altura_chao;
 		int fim_mapa;	// Teste de tamanho
 
 		nlohmann::json buffer_fase;

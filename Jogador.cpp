@@ -233,11 +233,11 @@ namespace Entidades {
 			if (animador) {
 				// Atualizacoes segundo o aestado atual
 				if (MORRENDO == estado_atual) {	// Prioridade, por isso estah aqui (estah no personagem)
-					animador->atualizarAnimJog(false, false, paraEsq, true, "Derrotado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+					animador->atualizarAnim(paraEsq, true, "Derrotado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 				}
 
 				else if (FERIDO == estado_atual && dt < 3 * cooldown_dano) {	// Para a animacao e volta ao normal quando os 3 frames foram desenhados
-					animador->atualizarAnimJog(false, false, paraEsq, true, "Ferido");
+					animador->atualizarAnim(paraEsq, true, "Ferido");
 					dt += timer.getElapsedTime().asSeconds();
 					timer.restart();	// Dei restar pra poder congelar o tempo no save
 				}
@@ -249,7 +249,7 @@ namespace Entidades {
 				else if (ATACANDO == estado_atual && dt < 4 * cooldown_ataque) {
 					atualizarHitboxAtaque(); // posiciona a hitbox de ataque
 
-					animador->atualizarAnimJog(false, false, paraEsq, false, "Ataque1");
+					animador->atualizarAnim(paraEsq, false, "Ataque1");
 					dt += timer.getElapsedTime().asSeconds();
 					timer.restart();
 				}
@@ -267,26 +267,26 @@ namespace Entidades {
 						estado_atual = PULANDO;
 						veloc.y = velPulo;	// Velocidade inicial do salto
 					}
-					animador->atualizarAnimJog(false, false, paraEsq, true, "Subindo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+					animador->atualizarAnim(paraEsq, true, "Subindo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 				}
 
 				else if (DEFENDENDO == estado_atual) {	// Quinta prioridade eh a defesa
-					animador->atualizarAnimJog(false, false, paraEsq, false, "Protegendo");
+					animador->atualizarAnim(paraEsq, false, "Protegendo");
 				}
 
 				// Caminhada, corrida e parado
 				else if (direcao.x == 0 && direcao.y == 0) {
-					animador->atualizarAnimJog(false, false, paraEsq, false, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+					animador->atualizarAnim(paraEsq, false, "Parado"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 				}
 
 				else if (direcao.x != 0 && direcao.y == 0) {
 
 					if (CORRENDO == estado_atual) {
-						animador->atualizarAnimJog(false, false, paraEsq, false, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+						animador->atualizarAnim(paraEsq, false, "Correndo"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 					}
 
 					else {
-						animador->atualizarAnimJog(false, false, paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
+						animador->atualizarAnim(paraEsq, false, "Andando"); //quando eu atualizo a animação, preciso saber se está caindo, subindo ou nenhum dos dois!
 					}
 				}
 			}

@@ -113,7 +113,7 @@ void Menu_Principal::desenharTexto() {
 		pGG->desenharTexto(titulo);
 	}
 	else {
-		std::cout << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
+		std::cerr << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
 	}
 }
 

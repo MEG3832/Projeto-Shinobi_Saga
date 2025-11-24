@@ -198,7 +198,7 @@ namespace Fases
 			}
 
 			else
-				std::cout << "Não foi possível alocar o Tengu!" << std::endl;
+				std::cerr << "Não foi possível alocar o Tengu!" << std::endl;
 
 		}
 
@@ -243,7 +243,7 @@ namespace Fases
 			}
 
 			else
-				std::cout << "Não foi possível alocar a plataforma!" << std::endl;
+				std::cerr << "Não foi possível alocar a plataforma!" << std::endl;
 
 		}
 
@@ -404,7 +404,7 @@ namespace Fases
 			}
 		}
 		else {
-			std::cout << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
+			std::cerr << "ERRO: Nao eh possivel desenhar o texo pois o Gerenciador Grafico eh NULL" << std::endl;
 		}
 	}
 

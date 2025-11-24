@@ -101,7 +101,7 @@ namespace Entidades
 
 								if (pProjetil && relogioAtaque.getElapsedTime().asSeconds() >= cooldownAtaque && !pProjetil->getEstadoProj())
 								{
-									animador->atualizarAnimInim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
+									animador->atualizarAnim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
 
 									if (animador->getImgAtual() == 6) //se chegou no último frame, pode atacar!
 									{
@@ -110,7 +110,7 @@ namespace Entidades
 								}
 								else
 								{
-									animador->atualizarAnimInim(paraEsq, false, "Parado");
+									animador->atualizarAnim(paraEsq, false, "Parado");
 								}
 
 							}
@@ -125,7 +125,7 @@ namespace Entidades
 					}
 
 					else {
-						std::cout << "ponteiro do jogador eh nulo!" << std::endl;
+						std::cerr << "ponteiro do jogador eh nulo!" << std::endl;
 					}
 				}
 
@@ -185,7 +185,7 @@ namespace Entidades
 			if (pProj)
 				pProjetil = pProj;
 			else
-				std::cout << "ponteiro do projetil eh nulo!" << std::endl;
+				std::cerr << "ponteiro do projetil eh nulo!" << std::endl;
 		}
 
 		void Kitsune::inicializaAnimacoes()
@@ -206,7 +206,7 @@ namespace Entidades
 
 			}
 			else
-				std::cout << "ponteiro de animacao nulo!" << std::endl;
+				std::cerr << "ponteiro de animacao nulo!" << std::endl;
 		}
 
 		void Kitsune::danificar(Jogador* pJ)
@@ -219,7 +219,7 @@ namespace Entidades
 			}
 			else
 			{
-				std::cout << "ponteiro de jogador nulo!" << std::endl;
+				std::cerr << "ponteiro de jogador nulo!" << std::endl;
 			}
 		}
 

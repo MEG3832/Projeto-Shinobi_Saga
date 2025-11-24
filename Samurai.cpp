@@ -93,7 +93,7 @@ namespace Entidades {
 			}
 			else
 			{
-				std::cout << "ERRO: Nao eh possivel danificar o jogador pois o ponteiro para ele eh NULL" << std::endl;
+				std::cerr << "ERRO: Nao eh possivel danificar o jogador pois o ponteiro para ele eh NULL" << std::endl;
 			}
 		}
 
@@ -144,7 +144,7 @@ namespace Entidades {
 
 			}
 			else
-				std::cout << "ponteiro de animacao nulo!" << std::endl;
+				std::cerr << "ponteiro de animacao nulo!" << std::endl;
 		}
 
 	}

@@ -75,7 +75,7 @@ namespace Entidades {
 			if (animador) {
 
 				if (MORRENDO == estado_atual) {
-					animador->atualizarAnimInim(paraEsq, true, "Derrotado");
+					animador->atualizarAnim(paraEsq, true, "Derrotado");
 				}
 
 				else if (FERIDO == estado_atual) {
@@ -89,7 +89,7 @@ namespace Entidades {
 						relogioAndar.restart();
 					}
 					else {
-						animador->atualizarAnimInim(paraEsq, true, "Ferido");
+						animador->atualizarAnim(paraEsq, true, "Ferido");
 					}
 				}
 
@@ -217,18 +217,18 @@ namespace Entidades {
 					}
 
 					else {
-						std::cout << "ERRO: NAO eh possivel empurrar o jogador pois o corpo do dele eh NULL" << std::endl;
+						std::cerr << "ERRO: NAO eh possivel empurrar o jogador pois o corpo do dele eh NULL" << std::endl;
 					}
 				}
 
 				else {
-					std::cout << "ERRO: NAO eh possivel empurrar o jogador pois o corpo do inimigo eh NULL" << std::endl;
+					std::cerr << "ERRO: NAO eh possivel empurrar o jogador pois o corpo do inimigo eh NULL" << std::endl;
 				}
 
 			}
 
 			else
-				std::cout << "ERRO: NAO eh possivel empurrar o jogador pois ele eh NULL" << std::endl;
+				std::cerr << "ERRO: NAO eh possivel empurrar o jogador pois ele eh NULL" << std::endl;
 
 		}
 
@@ -269,25 +269,25 @@ namespace Entidades {
 								hitBox->move(veloc.x, 0.0f);
 							}
 
-							animador->atualizarAnimInim(paraEsq, false, "Andando");
+							animador->atualizarAnim(paraEsq, false, "Andando");
 						}
 						else
 						{
-							animador->atualizarAnimInim(paraEsq, false, "Parado");
+							animador->atualizarAnim(paraEsq, false, "Parado");
 						}
 					}
 
 					else {
-						std::cout << "ERRO: NAO eh possivel perambular pois o animador do inimigo eh NULL" << std::endl;
+						std::cerr << "ERRO: NAO eh possivel perambular pois o animador do inimigo eh NULL" << std::endl;
 					}
 				}
 
 				else {
-					std::cout << "ERRO: NAO eh possivel perambular pois o hit box do inimigo eh NULL" << std::endl;
+					std::cerr << "ERRO: NAO eh possivel perambular pois o hit box do inimigo eh NULL" << std::endl;
 				}
 			}
 			else {
-				std::cout << "ERRO: NAO eh possivel perambular pois o corpo do inimigo eh NULL" << std::endl;
+				std::cerr << "ERRO: NAO eh possivel perambular pois o corpo do inimigo eh NULL" << std::endl;
 			}
 		}
 

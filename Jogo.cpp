@@ -19,19 +19,19 @@ Jogo::Jogo() :
 
     if (!pGG)
     {
-        std::cout << "ERRO! O ponteiro Gerenc. Grafico NAO pôde ser inicializado..." << std::endl;
+        std::cerr << "ERRO! O ponteiro Gerenc. Grafico NAO pôde ser inicializado..." << std::endl;
         exit(1);
     }
 
     if (!pGE)
     {
-        std::cout << "ERRO! O ponteiro Gerenc. de Eventos NAO pôde ser inicializado..." << std::endl;
+        std::cerr << "ERRO! O ponteiro Gerenc. de Eventos NAO pôde ser inicializado..." << std::endl;
         exit(1);
     }
 
     if (!pGC)
     {
-        std::cout << "ERRO! O ponteiro Gerenc. de Colisoes NAO pôde ser inicializado..." << std::endl;
+        std::cerr << "ERRO! O ponteiro Gerenc. de Colisoes NAO pôde ser inicializado..." << std::endl;
         exit(1);
     }
 

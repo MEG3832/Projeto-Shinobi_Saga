@@ -113,12 +113,12 @@ namespace Gerenciadores {
 				return ((ds.x < 0.0f) && (ds.y < 0.0f));
 			}
 			else {
-				std::cout << "ERRO: Nao foi possivel calcular a colisao pois ente 2 eh NULL" << std::endl;
+				std::cerr << "ERRO: Nao foi possivel calcular a colisao pois ente 2 eh NULL" << std::endl;
 				return false;
 			}
 		}
 		else {
-			std::cout << "ERRO: Nao foi possivel calcular a colisao pois ente 1 eh NULL" << std::endl;
+			std::cerr << "ERRO: Nao foi possivel calcular a colisao pois ente 1 eh NULL" << std::endl;
 			return false;
 		}
 	}
@@ -144,7 +144,7 @@ namespace Gerenciadores {
 			}
 		}
 		else {
-			std::cout << "ERRO: Nao foi possivel calcular a colisao pois ente 2 eh NULL" << std::endl;
+			std::cerr << "ERRO: Nao foi possivel calcular a colisao pois ente 2 eh NULL" << std::endl;
 			return false;
 		}
 	}
@@ -497,11 +497,11 @@ namespace Gerenciadores {
 				}
 			}
 			else {
-				std::cout << "ERRO: Nao foi possivel calcular a colisao pois corpo 2 eh NULL" << std::endl;
+				std::cerr << "ERRO: Nao foi possivel calcular a colisao pois corpo 2 eh NULL" << std::endl;
 			}
 		}
 		else {
-			std::cout << "ERRO: Nao foi possivel calcular a colisao pois corpo 1 eh NULL" << std::endl;
+			std::cerr << "ERRO: Nao foi possivel calcular a colisao pois corpo 1 eh NULL" << std::endl;
 		}
 	}
 
@@ -594,14 +594,14 @@ namespace Gerenciadores {
 						}
 					}
 					else {
-						std::cout << "ERRO: Nao eh possivel verificar a colisao pois o obstaculo eh NULL" << std::endl;
+						std::cerr << "ERRO: Nao eh possivel verificar a colisao pois o obstaculo eh NULL" << std::endl;
 					}
 				}
 			}
 			return false;
 		}
 		else {
-			std::cout << "ERRO: Nao eh possivel verificar a colisao pois a entidade eh NULL" << std::endl;
+			std::cerr << "ERRO: Nao eh possivel verificar a colisao pois a entidade eh NULL" << std::endl;
 		}
 	}
 

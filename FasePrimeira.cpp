@@ -136,7 +136,7 @@ namespace Fases
 			}
 
 			else
-				std::cout << "Não foi possível alocar o Samurai Inimigo!" << std::endl;
+				std::cerr << "Não foi possível alocar o Samurai Inimigo!" << std::endl;
 
 		}
 	}
@@ -186,7 +186,7 @@ namespace Fases
 			}
 
 			else
-				std::cout << "Não foi possível alocar o redemoinho!" << std::endl;
+				std::cerr << "Não foi possível alocar o redemoinho!" << std::endl;
 
 		}
 	}

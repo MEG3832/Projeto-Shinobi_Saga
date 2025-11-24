@@ -81,7 +81,7 @@ namespace Entidades {
 
 		void Redemoinho::atualizaAnimacao() {
 			if(animador) {
-				animador->atualizarAnimJog(false, false, false, false, "ataque");
+				animador->atualizarAnim(false, false, "ataque");
 			}
 			else {
 				std::cerr << "Nao eh possivel atualizar a animacao pois o animador eh NULL" << std::endl;

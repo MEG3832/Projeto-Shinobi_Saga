@@ -144,7 +144,7 @@ void Menu_Colocacao::desenharTexto() {
 
     }
     else {
-        std::cout << "ERRO: Nao eh possivel desenhar o texto pois o Gerenciador Grafico eh NULL" << std::endl;
+        std::cerr << "ERRO: Nao eh possivel desenhar o texto pois o Gerenciador Grafico eh NULL" << std::endl;
     }
 }
 

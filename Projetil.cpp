@@ -49,8 +49,6 @@ namespace Entidades {
 			pJ->diminuiVida(dano_projetil);
 			pKitsune->aumentaNvMaldade();
 
-			std::cout << "Projetil acertou! Vida Jogador: " << pJ->getVida() << std::endl;
-
 			// desativa o projétil ao colidir
 			setEstadoProj(false);
 		}
@@ -66,11 +64,11 @@ namespace Entidades {
 
 			if (veloc.x < 0) // se a velocidade de x dele é negativa, então é porque ele foi ativado para a esquerda
 			{
-				animador->atualizarAnimProjetil(true, "Fogo");
+				animador->atualizarAnim(true, false, "Fogo");
 			}
 
 			else
-				animador->atualizarAnimProjetil(false, "Fogo");
+				animador->atualizarAnim(false, false, "Fogo");
 			
 			corpo->move(veloc);
 			hitBox->setPosition(corpo->getPosition());
@@ -131,7 +129,7 @@ namespace Entidades {
 
 		animador->addAnimacao("Imagens/Projetil_Fogo/Fire_2.png", "Fogo", 11, 0.1f, sf::Vector2f(1.0, 1.0));
 
-		animador->atualizarAnimProjetil(false, "Fogo");
+		animador->atualizarAnim(false, false, "Fogo");
 	}
 
 }

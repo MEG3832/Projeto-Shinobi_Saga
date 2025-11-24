@@ -134,7 +134,7 @@ namespace Fases
 			}
 
 			else
-				std::cout << "Não foi possível alocar a Kitsune!" << std::endl;
+				std::cerr << "Não foi possível alocar a Kitsune!" << std::endl;
 
 		}
 	}
@@ -157,7 +157,7 @@ namespace Fases
 		}
 
 		else
-			std::cout << "Não foi possível alocar o Projetil!" << std::endl;
+			std::cerr << "Não foi possível alocar o Projetil!" << std::endl;
 		
 
 	}
@@ -207,7 +207,7 @@ namespace Fases
 			}
 
 			else
-				std::cout << "Não foi possível alocar a armadilha!" << std::endl;
+				std::cerr << "Não foi possível alocar a armadilha!" << std::endl;
 
 		}
 	}

@@ -30,9 +30,7 @@ namespace Animadores {
 		Imagem(const char* caminhoTextura, const int qtd_Img, const float frame_duration, const sf::Vector2f scale);
 		~Imagem();
 
-		void atualizarFrameJog(const bool caindo, const bool subindo, const bool indoParaEsq, const bool rodaUmaVez, const float dt);
-		void atualizarFrameInim(const bool indoParaEsq, const bool rodaUmaVez, const float dt);
-		void atualizarFrameProjetil(const bool indoParaEsq, const float dt);
+		void atualizarFrame(const bool indoParaEsq, const bool rodaUmaVez, const float dt);
 		void resetar();
 		const sf::IntRect getRetang();
 		const sf::Texture* getTextura();
