@@ -1,30 +1,33 @@
 #include "Redemoinho.h"
 
 namespace Entidades {
-	
+
 	namespace Obstaculos {
 
 		Redemoinho::Redemoinho() :
 			Obstaculo(),
 			raio(120),
 			danosidade(20),
-			dano_unico (false)
+			dano_unico(false)
 		{
 			intransponivel = false;
 			danoso = true;
 			corpo = new sf::RectangleShape(sf::Vector2f(raio, raio));
-			corpo->setPosition(150.0, ALTURA_TELA - 50 - raio);	// 50 Seria o tamanho do chão
-			
+			if (corpo) {
+				corpo->setPosition(150.0, ALTURA_TELA - 50 - raio);	// 50 Seria o tamanho do chão
+			}
+
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 10.0f, corpo->getSize().y));
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2) - 08.0f,
-				corpo->getPosition().y);
+			if (hitBox) {
+				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2) - 08.0f,
+									corpo->getPosition().y);
+			}
 
 			inicializaAnimacoes();
 		}
 
 		Redemoinho::~Redemoinho() {
-			raio = -1;
-			danosidade = -1;
+			dano_unico = false;
 		}
 
 		void Redemoinho::executar() {
@@ -70,9 +73,11 @@ namespace Entidades {
 		}
 
 		void Redemoinho::inicializaAnimacoes() {
-			if(corpo) {
+			if (corpo) {
 				setAnimador(corpo);
-				animador->addAnimacao("Imagens/Obstaculos/redemoinho.png", "ataque", 13, 0.13, sf::Vector2f(1.0f, 1.0f));
+				if (animador) {
+					animador->addAnimacao("Imagens/Obstaculos/redemoinho.png", "ataque", 13, 0.13, sf::Vector2f(1.0f, 1.0f));
+				}
 			}
 			else {
 				std::cerr << "Nao eh possivel inicializar a animacao pois o corpo eh NULL" << std::endl;
@@ -80,7 +85,7 @@ namespace Entidades {
 		}
 
 		void Redemoinho::atualizaAnimacao() {
-			if(animador) {
+			if (animador) {
 				animador->atualizarAnim(false, false, "ataque");
 			}
 			else {

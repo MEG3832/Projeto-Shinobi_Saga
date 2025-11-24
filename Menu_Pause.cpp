@@ -10,22 +10,24 @@ Menu_Pause::Menu_Pause() :
 }
 
 Menu_Pause::~Menu_Pause()
-{}
+{
+	pFase = nullptr;
+}
 
 void Menu_Pause::executar() {
 	selecionado = 0;
 	parar = false;
 	while (!parar) {
-		if (GG) {
+		if (pGG) {
 			if (GE) {
 				executa = false;
-				GG->limpaJanela();
-				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
+				pGG->limpaJanela();
+				pGG->atualizaCamera(sf::Vector2f(pGG->getCamera().getCenter().x + 1, pGG->getCamera().getCenter().y));	// "Anda"
 				GE->executarMenu(static_cast<Menu*>(this));	// Verifica teclas apertadas
 				fundo.executar();	// Imprime as camadas
 				desenharTexto();
 				Menu::desenharTexto();
-				GG->mostrarEntes();	// Display
+				pGG->mostrarEntes();	// Display
 				if (executa) {
 					if (pJog) {
 						if (0 == selecionado) {
@@ -71,34 +73,36 @@ void Menu_Pause::executar() {
 void Menu_Pause::inicializaTexto() {
 	texto.clear();
 
-	sf::Text temp;
+	if (pGG) {
+		sf::Text temp;
 
-	temp.setCharacterSize(30);
-	temp.setFillColor(sf::Color(sf::Color::White));
-	temp.setOutlineColor(sf::Color::Black);
-	temp.setOutlineThickness(3);
-	temp.setFont(fonte);
+		temp.setCharacterSize(30);
+		temp.setFillColor(sf::Color(sf::Color::White));
+		temp.setOutlineColor(sf::Color::Black);
+		temp.setOutlineThickness(3);
+		temp.setFont(fonte);
 
-	temp.setString("Voltar");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
-	texto.push_back(temp);
+		temp.setString("Voltar");
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25);
+		texto.push_back(temp);
 
-	temp.setString("Salvar Jogo");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
-	texto.push_back(temp);
+		temp.setString("Salvar Jogo");
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45);
+		texto.push_back(temp);
 
-	temp.setString("Menu Principal");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
-	texto.push_back(temp);
+		temp.setString("Menu Principal");
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45 * 2);
+		texto.push_back(temp);
 
-	temp.setString("Sair");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
-	texto.push_back(temp);
+		temp.setString("Sair");
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45 * 3);
+		texto.push_back(temp);
+	}
 }
 
 void Menu_Pause::desenharTexto() {
 	if (pGG) {
-		titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, titulo.getPosition().y);
+		titulo.setPosition(pGG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, titulo.getPosition().y);
 		pGG->desenharTexto(titulo);
 	}
 	else {

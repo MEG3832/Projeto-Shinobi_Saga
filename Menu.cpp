@@ -9,16 +9,14 @@ void Menu::setJogo(Jogo* jogo) {
 
 Menu::Menu() :
 	Ente(),
-	GG(GG->getGerenciadorGrafico()),
 	GE(GE->getGerenciadorEventos()),
 	fundo(),
 	fonte(),
 	texto(),
+	titulo(),
 	selecionado(1),
-	executa(false),
 	parar(false),
-	vel_fundo(1),
-	titulo()
+	executa(false)
 {
 	fonte.loadFromFile("Fonte/superstar_memesbruh03.ttf");
 
@@ -27,7 +25,7 @@ Menu::Menu() :
 	titulo.setFillColor(sf::Color(sf::Color::White));
 	titulo.setOutlineColor(sf::Color::Black);
 	titulo.setOutlineThickness(4);
-	titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 160);
+	titulo.setPosition(pGG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, pGG->getCamera().getCenter().y - 160);
 	titulo.setFont(fonte);
 
 	inicializaFundo();
@@ -35,10 +33,11 @@ Menu::Menu() :
 
 Menu::~Menu() {
 	pJog = nullptr;
-	GG = nullptr;
 	GE = nullptr;
 	selecionado = -1;
+	parar = false;
 	executa = false;
+	texto.clear();
 }
 
 void Menu::inicializaFundo() {
@@ -57,16 +56,16 @@ void Menu::inicializaFundo() {
 }
 
 void Menu::desenharTexto() {
-	if (GG) {
+	if (pGG) {
 		for (int i = 0; i < (int)texto.size(); i++) {
-			texto[i].setPosition(GG->getCamera().getCenter().x - texto[i].getLocalBounds().width / 2, texto[i].getPosition().y);
+			texto[i].setPosition(pGG->getCamera().getCenter().x - texto[i].getLocalBounds().width / 2, texto[i].getPosition().y);
 			if (i == selecionado) {
 				texto[i].setFillColor(sf::Color(sf::Color(99, 162, 121)));
 			}
 			else {
 				texto[i].setFillColor(sf::Color(sf::Color::White));
 			}
-			GG->desenharTexto(texto[i]);
+			pGG->desenharTexto(texto[i]);
 		}
 	}
 	else {

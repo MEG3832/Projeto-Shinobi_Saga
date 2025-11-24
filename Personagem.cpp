@@ -14,6 +14,8 @@ namespace Entidades {
 		Personagem::~Personagem()
 		{
 			num_vidas = -1;
+			dano = -1;
+			paraEsq = false;
 		}
 
 		void Personagem::diminuiVida(float dano) {

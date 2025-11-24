@@ -10,16 +10,19 @@ class Menu : public Ente
 {
 	protected:
 		static Jogo* pJog;
-		Gerenciadores::Gerenciador_Grafico* GG;
+
 		Gerenciadores::Gerenciador_de_Eventos* GE;
+
 		sf::Font fonte;
 		std::vector<sf::Text> texto;
 		sf::Text titulo;
+
 		int selecionado;
 		bool parar;
 		bool executa;
+
 		Parallax::Fundo fundo;
-		float vel_fundo;
+
 
 		// Abstratas
 		virtual void inicializaTexto() = 0;
@@ -30,12 +33,10 @@ class Menu : public Ente
 
 	public:
 		Menu();
-		~Menu();
+		virtual ~Menu();
 
 		void selecionar();
 		static void setJogo(Jogo* jogo);
-		static void setJogador1(Entidades::Personagens::Jogador* pJ);
-		static void setJogador2(Entidades::Personagens::Jogador* pJ);
 
 		// Sobre cargas 
 		void operator++();

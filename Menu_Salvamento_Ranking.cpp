@@ -12,7 +12,9 @@ Menu_Salvamento_Ranking::Menu_Salvamento_Ranking() :
 }
 
 Menu_Salvamento_Ranking::~Menu_Salvamento_Ranking() {
+	podeSeguir = false;
 	nomeJog = "";
+	texto_salvamento.clear();
 	pJog1 = nullptr;
 	pJog2 = nullptr;
 }
@@ -21,49 +23,50 @@ void Menu_Salvamento_Ranking::inicializaTexto() {
 	texto.clear();
 	texto_salvamento.clear();
 
-	sf::Text temp;
+	if (pGG) {
+		sf::Text temp;
+
+		temp.setCharacterSize(45);
+
+		temp.setString("Nome: ");
+		temp.setFillColor(sf::Color(sf::Color::White));
+		temp.setOutlineColor(sf::Color::Black);
+		temp.setOutlineThickness(3);
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y - 150);
+		temp.setFont(fonte);
+		texto_salvamento.push_back(temp);
+
+		temp.setString(nomeJog);
+		temp.setFillColor(sf::Color(sf::Color(99, 162, 121)));
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y - 85);
+		texto_salvamento.push_back(temp);
 
 
-	temp.setCharacterSize(45);
+		temp.setCharacterSize(30);
+		temp.setFillColor(sf::Color::White);
 
-	temp.setString("Nome: ");
-	temp.setFillColor(sf::Color(sf::Color::White));
-	temp.setOutlineColor(sf::Color::Black);
-	temp.setOutlineThickness(3);
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 150);
-	temp.setFont(fonte);
-	texto_salvamento.push_back(temp);
+		if (podeSeguir) {	// Ou seja, a fase atual ñao eh a 2
+			temp.setString("Proxima Fase");
+			temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 125);
+			texto.push_back(temp);
 
-	temp.setString(nomeJog);
-	temp.setFillColor(sf::Color(sf::Color(99, 162, 121)));
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y - 85);
-	texto_salvamento.push_back(temp);
+			temp.setString("Menu Principal");
+			temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 125 + 45);
+			texto.push_back(temp);
 
+			temp.setString("Sair");
+			temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 125 + 45 * 2);
+			texto.push_back(temp);
+		}
+		else {
+			temp.setString("Menu Principal");
+			temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 175);
+			texto.push_back(temp);
 
-	temp.setCharacterSize(30);
-	temp.setFillColor(sf::Color::White);
-
-	if (podeSeguir) {	// Ou seja, a fase atual ñao eh a 2
-		temp.setString("Proxima Fase");
-		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125);
-		texto.push_back(temp);
-
-		temp.setString("Menu Principal");
-		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45);
-		texto.push_back(temp);
-
-		temp.setString("Sair");
-		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45 * 2);
-		texto.push_back(temp);
-	}
-	else {
-		temp.setString("Menu Principal");
-		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 175);
-		texto.push_back(temp);
-
-		temp.setString("Sair");
-		temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 175 + 45);
-		texto.push_back(temp);
+			temp.setString("Sair");
+			temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 175 + 45);
+			texto.push_back(temp);
+		}
 	}
 }
 
@@ -72,12 +75,12 @@ void Menu_Salvamento_Ranking::executar() {
 	selecionado = 0;
 	parar = false;
 	while (!parar) {
-		if (GG) {
+		if (pGG) {
 			if (GE) {
 				executa = false;
 
-				GG->limpaJanela();
-				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
+				pGG->limpaJanela();
+				pGG->atualizaCamera(sf::Vector2f(pGG->getCamera().getCenter().x + 1, pGG->getCamera().getCenter().y));	// "Anda"
 				GE->executarMenuSave(this);
 
 				fundo.executar();	// Imprime as camadas
@@ -86,7 +89,8 @@ void Menu_Salvamento_Ranking::executar() {
 
 				desenharTexto();
 				Menu::desenharTexto();
-				GG->mostrarEntes();	// Display
+
+				pGG->mostrarEntes();	// Display
 
 				if (executa) {
 
@@ -139,11 +143,11 @@ void Menu_Salvamento_Ranking::executar() {
 }
 
 void Menu_Salvamento_Ranking::desenharTexto() {
-	if (GG) {
+	if (pGG) {
 
 		for (int i = 0; i < (int)texto_salvamento.size(); i++) {
-			texto_salvamento[i].setPosition(GG->getCamera().getCenter().x - texto_salvamento[i].getLocalBounds().width / 2, texto_salvamento[i].getPosition().y);
-			GG->desenharTexto(texto_salvamento[i]);
+			texto_salvamento[i].setPosition(pGG->getCamera().getCenter().x - texto_salvamento[i].getLocalBounds().width / 2, texto_salvamento[i].getPosition().y);
+			pGG->desenharTexto(texto_salvamento[i]);
 		}
 	}
 	else {
@@ -205,7 +209,7 @@ void Menu_Salvamento_Ranking::salvar() {
 		arquivo_escrita.close();
 	}
 	else {
-		std::cerr << "ERRO: Nao foi possivel abrir o arquivo para ESCREVER a colocacao" << std::endl;
+		std::cerr << "ERRO: Nao foi possivel abrir o arquivo para escrever a colocacao" << std::endl;
 	}
 }
 

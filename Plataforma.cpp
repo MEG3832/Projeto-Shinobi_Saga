@@ -6,22 +6,26 @@ namespace Entidades {
 
 		Plataforma::Plataforma(int id) :
 			Obstaculo(),
-			altura(55),
+			altura(55),	
 			comprimento(180),
+			textura(),
 			cura(25)
 		{
-			if (1 == id) {
-				textura = pGG->carregarTextura("Imagens/Obstaculos/Plataforma_Village.png");
+			if (pGG) {
+				if (1 == id) {
+					textura = pGG->carregarTextura("Imagens/Obstaculos/Plataforma_Village.png");
+				}
+				else if (2 == id) {
+					textura = pGG->carregarTextura("Imagens/Obstaculos/Plataforma_DarkForest.png");
+				}
 			}
-			else if (2 == id) {
-				textura = pGG->carregarTextura("Imagens/Obstaculos/Plataforma_DarkForest.png");
-			}
-
 
 			danoso = false;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(comprimento, altura));
-			corpo->setTexture(&textura);
+			if (corpo) {
+				corpo->setTexture(&textura);
+			}
 
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize()));
 		}
@@ -29,6 +33,7 @@ namespace Entidades {
 		Plataforma::~Plataforma() {
 			altura = -1;
 			comprimento = -1;
+			cura = 0;
 		}
 
 		void Plataforma::executar() {
@@ -60,11 +65,17 @@ namespace Entidades {
 		void Plataforma::salvarDataBuffer(nlohmann::json& buffer) {
 			Obstaculo::salvarDataBuffer(buffer);
 
-			buffer["cura"] = cura;
+				buffer["cura"] = cura;
 		}
 
 		void Plataforma::carregar(const nlohmann::json& j) {
-			cura = j.at("cura").get<int>();
+			
+			try {
+				cura = j.at("cura").get<int>();
+			}
+			catch (const nlohmann::json::out_of_range& e) {
+				std::cerr << "ERRO: Alguma das chaves estah ausente." << e.what() << std::endl;
+			}
 
 			Obstaculo::carregar(j);
 		}

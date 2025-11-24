@@ -8,24 +8,27 @@ namespace Entidades {
 
 		class Redemoinho : public Obstaculo
 		{
-			private:
-				float raio;
-				float danosidade;
+		private:
+			const float raio;
+			const float danosidade;
 
-				// Variaveis
-				bool dano_unico;
+			// Variaveis
+			bool dano_unico;
 
-			public:
-				Redemoinho();
-				~Redemoinho();
-				void executar();
-				void obstaculizar(Personagens::Jogador* p);
-				void salvar();
-				void inicializaAnimacoes();
-				void atualizaAnimacao();
 
-				void salvarDataBuffer(nlohmann::json& buffer);
-				void carregar(const nlohmann::json& j);
+			void inicializaAnimacoes();
+			void atualizaAnimacao();
+
+
+		public:
+			Redemoinho();
+			~Redemoinho();
+			void executar();
+			void obstaculizar(Personagens::Jogador* p);
+			void salvar();
+
+			void salvarDataBuffer(nlohmann::json& buffer);
+			void carregar(const nlohmann::json& j);
 		};
 
 	}

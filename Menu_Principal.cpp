@@ -20,8 +20,6 @@ Menu_Principal::~Menu_Principal() {
 
 void Menu_Principal::inicializaTexto() {
 
-	texto.clear();
-
 	inicializaTexto_Principal();
 	inicializaTexto_SelecaoFase();
 	inicializaTexto_SelecaoMultiplayer();
@@ -38,19 +36,19 @@ void Menu_Principal::inicializaTexto_SelecaoFase() {
 	temp.setFont(fonte);
 
 	temp.setString("Fase 1");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
+	temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25);
 	texto_selecaoFase.push_back(temp);
 
 	temp.setString("Fase 2");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
+	temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45);
 	texto_selecaoFase.push_back(temp);
 
 	temp.setString("Voltar");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
+	temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45 * 2);
 	texto_selecaoFase.push_back(temp);
 
 	temp.setString("Sair");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
+	temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45 * 3);
 	texto_selecaoFase.push_back(temp);
 }
 
@@ -65,51 +63,54 @@ void Menu_Principal::inicializaTexto_SelecaoMultiplayer() {
 	temp.setFont(fonte);
 
 	temp.setString("Single Player");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
+	temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25);
 	texto_selecaoMultiplayer.push_back(temp);
 
 	temp.setString("Multiplayer");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
+	temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45);
 	texto_selecaoMultiplayer.push_back(temp);
 
 	temp.setString("Voltar");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
+	temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45 * 2);
 	texto_selecaoMultiplayer.push_back(temp);
 
 	temp.setString("Sair");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
+	temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45 * 3);
 	texto_selecaoMultiplayer.push_back(temp);
 }
 
 void Menu_Principal::inicializaTexto_Principal() {
+	texto_principal.clear();
 
-	sf::Text temp;
-	temp.setCharacterSize(30);
-	temp.setFillColor(sf::Color(sf::Color::White));
-	temp.setOutlineColor(sf::Color::Black);
-	temp.setOutlineThickness(3);
-	temp.setFont(fonte);
+	if (pGG) {
+		sf::Text temp;
+		temp.setCharacterSize(30);
+		temp.setFillColor(sf::Color(sf::Color::White));
+		temp.setOutlineColor(sf::Color::Black);
+		temp.setOutlineThickness(3);
+		temp.setFont(fonte);
 
-	temp.setString("Selecionar Fase");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25);
-	texto_principal.push_back(temp);
+		temp.setString("Selecionar Fase");
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25);
+		texto_principal.push_back(temp);
 
-	temp.setString("Carregar Jogo");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45);
-	texto_principal.push_back(temp);
+		temp.setString("Carregar Jogo");
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45);
+		texto_principal.push_back(temp);
 
-	temp.setString("Colocacao");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 2);
-	texto_principal.push_back(temp);
+		temp.setString("Colocacao");
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45 * 2);
+		texto_principal.push_back(temp);
 
-	temp.setString("Sair");
-	temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 25 + 45 * 3);
-	texto_principal.push_back(temp);
+		temp.setString("Sair");
+		temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 25 + 45 * 3);
+		texto_principal.push_back(temp);
+	}
 }
 
 void Menu_Principal::desenharTexto() {
 	if (pGG) {
-		titulo.setPosition(GG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, titulo.getPosition().y);
+		titulo.setPosition(pGG->getCamera().getCenter().x - titulo.getLocalBounds().width / 2, titulo.getPosition().y);
 		pGG->desenharTexto(titulo);
 	}
 	else {
@@ -118,9 +119,11 @@ void Menu_Principal::desenharTexto() {
 }
 
 void Menu_Principal::copiarVetores(std::vector<sf::Text> origem, std::vector<sf::Text>* destino) {
-	(*destino).clear();
-	for (int i = 0; i < (int)origem.size(); i++) {
-		(*destino).push_back(origem[i]);
+	if (destino) {
+		(*destino).clear();
+		for (int i = 0; i < (int)origem.size(); i++) {
+			(*destino).push_back(origem[i]);
+		}
 	}
 }
 
@@ -151,16 +154,21 @@ void Menu_Principal::executa_Principal() {
 	selecionado = 0;
 	bool encerrar = false;
 	while (!encerrar) {
-		if (GG) {
+		if (pGG) {
 			if (GE) {
 				executa = false;
-				GG->limpaJanela();
-				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
+
+				pGG->limpaJanela();
+				pGG->atualizaCamera(sf::Vector2f(pGG->getCamera().getCenter().x + 1, pGG->getCamera().getCenter().y));	// "Anda"
 				GE->executarMenu(this);	// Verifica teclas apertadas
+
 				fundo.executar();	// Imprime as camadas
+
 				desenharTexto();
 				Menu::desenharTexto();
-				GG->mostrarEntes();	// Display
+
+				pGG->mostrarEntes();	// Display
+
 				if (executa) {
 					if (pJog) {
 						if (0 == selecionado) {
@@ -203,16 +211,22 @@ void Menu_Principal::executa_SelecaoFase() {
 	selecionado = 0;
 	bool encerrar = false;
 	while (!encerrar) {
-		if (GG) {
+		if (pGG) {
 			if (GE) {
 				executa = false;
-				GG->limpaJanela();
-				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
+
+				pGG->limpaJanela();
+				pGG->atualizaCamera(sf::Vector2f(pGG->getCamera().getCenter().x + 1, pGG->getCamera().getCenter().y));	// "Anda"
+
 				GE->executarMenu(static_cast<Menu*>(this));	// Verifica teclas apertadas
+
 				fundo.executar();	// Imprime as camadas
+
 				Menu::desenharTexto();
 				desenharTexto();
-				GG->mostrarEntes();	// Display
+
+				pGG->mostrarEntes();	// Display
+
 				if (executa) {
 					if (pJog) {
 						if (0 == selecionado) {
@@ -255,16 +269,23 @@ void Menu_Principal::executa_SelecaoMultiplayer() {
 	selecionado = 0;
 	bool encerrar = false;
 	while (!encerrar) {
-		if (GG) {
+		if (pGG) {
 			if (GE) {
+
 				executa = false;
-				GG->limpaJanela();
-				GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
+
+				pGG->limpaJanela();
+				pGG->atualizaCamera(sf::Vector2f(pGG->getCamera().getCenter().x + 1, pGG->getCamera().getCenter().y));	// "Anda"
+
 				GE->executarMenu(static_cast<Menu*>(this));	// Verifica teclas apertadas
+
 				fundo.executar();	// Imprime as camadas
+
 				Menu::desenharTexto();
 				desenharTexto();
-				GG->mostrarEntes();	// Display
+
+				pGG->mostrarEntes();	// Display
+
 				if (executa) {
 					if (pJog) {
 						if (0 == selecionado) {
@@ -328,48 +349,49 @@ void Menu_Principal::carregar() {
 				std::cerr << "ERRO: Chave 'fase' ausente." << e.what() << std::endl;
 			}
 
+			if (pJog) {
+				if (1 == fase) {
+					Entidades::Personagens::Jogador* pJog1 = new Entidades::Personagens::Jogador(1);
+					Fases::FasePrimeira* pFase1 = nullptr;
 
-			if (1 == fase) {
-				Entidades::Personagens::Jogador*  pJog1 = new Entidades::Personagens::Jogador(1);
-				Fases::FasePrimeira* pFase1 = nullptr;
+					if (multiplayer) {
+						Entidades::Personagens::Jogador* pJog2 = new Entidades::Personagens::Jogador(2);
+						pJog->setJogadores(pJog1, pJog2);
+						pFase1 = new Fases::FasePrimeira(pJog1, pJog2);
+					}
+					else {
+						pJog->setJogadores(pJog1, nullptr);
+						pFase1 = new Fases::FasePrimeira(pJog1);
+					}
+					pJog->setMultiplayer(multiplayer);
 
-				if (multiplayer) {
-					Entidades::Personagens::Jogador*  pJog2 = new Entidades::Personagens::Jogador(2);
-					pJog->setJogadores(pJog1, pJog2);
-					pFase1 = new Fases::FasePrimeira(pJog1, pJog2);
+					pFase1->carregar(j);
+
+					pJog->setFase(pFase1, nullptr);
+
+					pJog->setEstado(3);	// 3 indica o estado FASE1 do Jogo
 				}
-				else {
-					pJog->setJogadores(pJog1, nullptr);
-					pFase1 = new Fases::FasePrimeira(pJog1);
+				else if (2 == fase) {
+					Entidades::Personagens::Jogador* pJog1 = new Entidades::Personagens::Jogador(1);
+					Fases::FaseSegunda* pFase2 = nullptr;
+
+					if (multiplayer) {
+						Entidades::Personagens::Jogador* pJog2 = new Entidades::Personagens::Jogador(2);
+						pJog->setJogadores(pJog1, pJog2);
+						pFase2 = new Fases::FaseSegunda(pJog1, pJog2);
+					}
+					else {
+						pJog->setJogadores(pJog1, nullptr);
+						pFase2 = new Fases::FaseSegunda(pJog1);
+					}
+					pJog->setMultiplayer(multiplayer);
+
+					pFase2->carregar(j);
+
+					pJog->setFase(nullptr, pFase2);
+
+					pJog->setEstado(4);	// 4 indica o estado FASE2 do Jogo
 				}
-				pJog->setMultiplayer(multiplayer);
-
-				pFase1->carregar(j);
-
-				pJog->setFase(pFase1, nullptr);
-
-				pJog->setEstado(3);	// 3 indica o estado FASE1 do Jogo
-			}
-			else if (2 == fase) {
-				Entidades::Personagens::Jogador* pJog1 = new Entidades::Personagens::Jogador(1);
-				Fases::FaseSegunda* pFase2 = nullptr;
-
-				if (multiplayer) {
-					Entidades::Personagens::Jogador* pJog2 = new Entidades::Personagens::Jogador(2);
-					pJog->setJogadores(pJog1, pJog2);
-					pFase2 = new Fases::FaseSegunda(pJog1, pJog2);
-				}
-				else {
-					pJog->setJogadores(pJog1, nullptr);
-					pFase2 = new Fases::FaseSegunda(pJog1);
-				}
-				pJog->setMultiplayer(multiplayer);
-
-				pFase2->carregar(j);
-
-				pJog->setFase(nullptr, pFase2);
-
-				pJog->setEstado(4);	// 4 indica o estado FASE2 do Jogo
 			}
 
 			Entidades::Entidade::limparBuffers();

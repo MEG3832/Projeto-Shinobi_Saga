@@ -7,13 +7,13 @@ class Menu_Pause : public Menu
 	private:
 		Fases::Fase* pFase;	// Essa eh a fase que será salva
 
+		void inicializaTexto();
+		void desenharTexto();
 
 	public:	
 		Menu_Pause();
 		~Menu_Pause();
 		void executar();
-		void inicializaTexto();
-		void desenharTexto();
 		void setFase(Fases::Fase* pF);
 };
 

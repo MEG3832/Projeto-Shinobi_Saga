@@ -12,12 +12,13 @@ namespace Entidades {
 				// Variaveis
 				bool danoso;
 
+				virtual void carregar(const nlohmann::json& j);
+
 			public:
 				Obstaculo();
-				~Obstaculo();
+				virtual ~Obstaculo();
 
 				void salvarDataBuffer(nlohmann::json& buffer);
-				virtual void carregar(const nlohmann::json& j);
 				virtual void sofrerContraForca();
 
 				// Abstratas

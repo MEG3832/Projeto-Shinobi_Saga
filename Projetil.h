@@ -22,8 +22,12 @@ namespace Entidades {
 		bool ativo;
 
 
+		void inicializaAnimacoes();
+		void sofrerContraForca();
+
+
 	public:
-		Projetil(Personagens::Kitsune* pKits);
+		Projetil(Personagens::Kitsune* pKits = nullptr);
 		~Projetil();
 		void setEstadoProj(bool estado);
 		bool getEstadoProj();
@@ -33,8 +37,6 @@ namespace Entidades {
 		void salvar();
 		void salvarDataBuffer(nlohmann::json& buffer);
 		void carregar(const nlohmann::json& j);
-
-		void inicializaAnimacoes();
 	};
 
 }

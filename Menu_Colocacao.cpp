@@ -10,7 +10,6 @@ Menu_Colocacao::Menu_Colocacao() :
     tamanho_rank(5)
 {
 	
-	texto_colocacao.clear();
     inicializaTexto();
 }
 
@@ -56,7 +55,7 @@ void Menu_Colocacao::carregar() {
             nomes.push_back(std::make_pair(pontuacao, nome));
         }
         catch (const nlohmann::json::exception& e) {
-            std::cerr << "ERRO: Registro invalido " << e.what() << std::endl;
+            std::cerr << "ERRO: Chave invalida" << e.what() << std::endl;
         }
     }
 
@@ -82,64 +81,69 @@ void Menu_Colocacao::carregar() {
 }
 
 void Menu_Colocacao::inicializaTexto() {
-    sf::Text temp;
-    temp.setCharacterSize(40);
-    temp.setFillColor(sf::Color(sf::Color::White));
-    temp.setOutlineColor(sf::Color::Black);
-    temp.setOutlineThickness(3);
-    temp.setFont(fonte);
-     
-    // TExto nao selecionavel: ranking
-    temp.setString("#1");
-    temp.setPosition(GG->getCamera().getCenter().x - 300, 100);
-    texto_colocacao.push_back(temp);
+    texto_colocacao.clear();
 
-    temp.setString("#2");
-    temp.setPosition(GG->getCamera().getCenter().x - 300, 100 + 55);
-    texto_colocacao.push_back(temp);
+    if (pGG) {
+        sf::Text temp;
 
-    temp.setString("#3");
-    temp.setPosition(GG->getCamera().getCenter().x - 300, 100 + 55 * 2);
-    texto_colocacao.push_back(temp);
+        temp.setCharacterSize(40);
+        temp.setFillColor(sf::Color(sf::Color::White));
+        temp.setOutlineColor(sf::Color::Black);
+        temp.setOutlineThickness(3);
+        temp.setFont(fonte);
 
-    temp.setString("#4");
-    temp.setPosition(GG->getCamera().getCenter().x - 300, 100 + 55 * 3);
-    texto_colocacao.push_back(temp);
+        // TExto nao selecionavel: ranking
+        temp.setString("#1");
+        temp.setPosition(pGG->getCamera().getCenter().x - 300, 100);
+        texto_colocacao.push_back(temp);
 
-    temp.setString("#5");
-    temp.setPosition(GG->getCamera().getCenter().x - 300, 100 + 55 * 4);
-    texto_colocacao.push_back(temp);
+        temp.setString("#2");
+        temp.setPosition(pGG->getCamera().getCenter().x - 300, 100 + 55);
+        texto_colocacao.push_back(temp);
 
-    // Texto selecionavel (estah em Menu)
-    temp.setCharacterSize(30);
+        temp.setString("#3");
+        temp.setPosition(pGG->getCamera().getCenter().x - 300, 100 + 55 * 2);
+        texto_colocacao.push_back(temp);
 
-    temp.setString("Menu Principal");
-    temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125);
-    texto.push_back(temp);
+        temp.setString("#4");
+        temp.setPosition(pGG->getCamera().getCenter().x - 300, 100 + 55 * 3);
+        texto_colocacao.push_back(temp);
 
-    temp.setString("Voltar");
-    temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45);
-    texto.push_back(temp);
+        temp.setString("#5");
+        temp.setPosition(pGG->getCamera().getCenter().x - 300, 100 + 55 * 4);
+        texto_colocacao.push_back(temp);
 
-    temp.setString("Sair");
-    temp.setPosition(GG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, GG->getCamera().getCenter().y + 125 + 45 * 2);
-    texto.push_back(temp);
+        // Texto selecionavel (estah em Menu)
+        temp.setCharacterSize(30);
+
+        temp.setString("Menu Principal");
+        temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 125);
+        texto.push_back(temp);
+
+        temp.setString("Voltar");
+        temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 125 + 45);
+        texto.push_back(temp);
+
+        temp.setString("Sair");
+        temp.setPosition(pGG->getCamera().getCenter().x - temp.getLocalBounds().width / 2, pGG->getCamera().getCenter().y + 125 + 45 * 2);
+        texto.push_back(temp);
+    }
 }
 
 void Menu_Colocacao::desenharTexto() {
-    if (GG) {
+    if (pGG) {
 
         for (int i = 0; i < (int)texto_colocacao.size(); i++) {
-            texto_colocacao[i].setPosition(GG->getCamera().getCenter().x - 300, texto_colocacao[i].getPosition().y);
-            GG->desenharTexto(texto_colocacao[i]);
+            texto_colocacao[i].setPosition(pGG->getCamera().getCenter().x - 300, texto_colocacao[i].getPosition().y);
+            pGG->desenharTexto(texto_colocacao[i]);
         }
 
         for (int i = 0; i < (int)texto_nomes.size(); i++) {
-            texto_nomes[i].setPosition(GG->getCamera().getCenter().x - 200, texto_nomes[i].getPosition().y);
-            GG->desenharTexto(texto_nomes[i]);
+            texto_nomes[i].setPosition(pGG->getCamera().getCenter().x - 200, texto_nomes[i].getPosition().y);
+            pGG->desenharTexto(texto_nomes[i]);
 
-            texto_pontuacoes[i].setPosition(GG->getCamera().getCenter().x + 200, texto_pontuacoes[i].getPosition().y);
-            GG->desenharTexto(texto_pontuacoes[i]);
+            texto_pontuacoes[i].setPosition(pGG->getCamera().getCenter().x + 200, texto_pontuacoes[i].getPosition().y);
+            pGG->desenharTexto(texto_pontuacoes[i]);
         }
 
     }
@@ -152,19 +156,19 @@ void Menu_Colocacao::executar() {
     selecionado = 0;
     parar = false;
     while (!parar) {
-        if (GG) {
+        if (pGG) {
             if (GE) {
                 executa = false;
 
-                GG->limpaJanela();
-                GG->atualizaCamera(sf::Vector2f(GG->getCamera().getCenter().x + 1, GG->getCamera().getCenter().y));	// "Anda"
+                pGG->limpaJanela();
+                pGG->atualizaCamera(sf::Vector2f(pGG->getCamera().getCenter().x + 1, pGG->getCamera().getCenter().y));	// "Anda"
                 GE->executarMenu(this);
 
                 fundo.executar();	// Imprime as camadas
 
                 desenharTexto();
                 Menu::desenharTexto();
-                GG->mostrarEntes();	// Display
+                pGG->mostrarEntes();	// Display
 
                 if (executa) {
 
