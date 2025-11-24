@@ -29,6 +29,7 @@ namespace Entidades {
 	public:
 		Projetil(Personagens::Kitsune* pKits = nullptr);
 		~Projetil();
+
 		void setEstadoProj(bool estado);
 		bool getEstadoProj();
 		void setVelocidade(sf::Vector2f vel);

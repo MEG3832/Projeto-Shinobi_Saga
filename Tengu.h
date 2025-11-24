@@ -12,23 +12,26 @@ namespace Entidades
 		{
 			private:
 
-				float raio_perseg;
+				const float raio_perseg;
+
+				void inicializaAnimacoes();
+				void perseguir(Jogador* pJ);
+
 
 			public:
 
-				Tengu(Jogador* pJ1, Jogador* pJ2 = nullptr);
+				Tengu(Jogador* pJ1 = nullptr, Jogador* pJ2 = nullptr);
 				~Tengu();
+
 				void atacar(Jogador* pJ); //implementa a investida do tengu
 
 				// Reimplementacoes
 				void executar();
 				void danificar(Jogador* pJ);
-				void perseguir(Jogador* pJ);
 				void mover();
 				void salvar();
 				void salvarDataBuffer(nlohmann::json& buffer);
 				void carregar(const nlohmann::json& j);
-				void inicializaAnimacoes();
 				void diminuiVida(int dano);
 
 		};

@@ -27,7 +27,7 @@ namespace Entidades {
 			veloc.x = 5.0f;
 			veloc.y = 0.00;
 
-			num_vidas = 250;
+			num_vidas = 300;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
 			if (corpo) {

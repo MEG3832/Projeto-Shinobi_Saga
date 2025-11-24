@@ -60,7 +60,7 @@ namespace Fases {
 
 		Fase(Entidades::Personagens::Jogador* pJog1 = nullptr); //->cria os inimigos, obstáculos dinamicamente e põe da lista de entidades...
 		Fase(Entidades::Personagens::Jogador* pJog1,Entidades::Personagens::Jogador* pJog2);
-		~Fase();
+		virtual ~Fase();
 
 		virtual void executar(); // ->percorre a lista de entidades...
 		virtual void salvar() = 0;

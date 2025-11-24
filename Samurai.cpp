@@ -8,10 +8,11 @@ namespace Entidades {
 			Inimigo(pJ1, pJ2),
 			cooldownEmpurrao(4.0f),
 			timer(),
+			dt(0.0),
 			resistencia(resist),
-			empurra(true),
-			dt(0.0)
+			empurra(true)
 		{
+			timer.restart();
 			nivel_maldade = 1; // nível de maldade base
 			paraEsq = true;
 			veloc = sf::Vector2f(0.5f, 0.0f);
@@ -26,7 +27,6 @@ namespace Entidades {
 		}
 
 		Samurai::~Samurai() {
-			cooldownEmpurrao = 0.0;
 			timer.restart();
 			resistencia = 0.0;
 			empurra = false;
@@ -60,9 +60,14 @@ namespace Entidades {
 		}
 
 		void Samurai::carregar(const nlohmann::json& j) {
-			dt = j.at("dt").get<float>();
-			resistencia = j.at("resistencia").get<float>();
-			empurra = j.at("empurra").get<bool>();
+			try {
+				dt = j.at("dt").get<float>();
+				resistencia = j.at("resistencia").get<float>();
+				empurra = j.at("empurra").get<bool>();
+			}
+			catch (const nlohmann::json::out_of_range& e) {
+				std::cerr << "ERRO: Alguma das chaves estah ausente." << e.what() << std::endl;
+			}
 
 			Inimigo::carregar(j);
 		}

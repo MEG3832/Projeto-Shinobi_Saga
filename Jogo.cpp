@@ -70,6 +70,19 @@ Jogo::~Jogo()
         delete pGC;
         pGC = nullptr;
     }
+    if (pJog1) {
+        delete pJog1;
+        pJog1 = nullptr;
+    }
+    if (pJog2) {
+        delete pJog2;
+        pJog2 = nullptr;
+    }
+
+    estado_atual = MENU_PRINCIPAL;
+    estado_anterior = MENU_PRINCIPAL;
+
+    multiplayer = false;
 }
 
 void Jogo::executar()

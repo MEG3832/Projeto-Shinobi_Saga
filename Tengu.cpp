@@ -25,7 +25,6 @@ namespace Entidades
 
 		Tengu::~Tengu()
 		{
-			raio_perseg = 0.0;
 		}
 
 		void Tengu::diminuiVida(int dano)
@@ -75,52 +74,54 @@ namespace Entidades
 
 						if (hitBox) {
 
-							float posJog_X = pJ->getHitBox()->getPosition().x + pJ->getHitBox()->getSize().x / 2;
-							float posInim_X = hitBox->getPosition().x + hitBox->getSize().x / 2;
+							if (animador) {
+								float posJog_X = pJ->getHitBox()->getPosition().x + pJ->getHitBox()->getSize().x / 2;
+								float posInim_X = hitBox->getPosition().x + hitBox->getSize().x / 2;
 
 
-							float distanciaCentros = abs(posJog_X - posInim_X);
-							float distanciaAtaque = abs((pJ->getHitBox()->getSize().x / 2) + hitBox->getSize().x / 2) + 39.0f; //ajuste da distancia por testes
+								float distanciaCentros = abs(posJog_X - posInim_X);
+								float distanciaAtaque = abs((pJ->getHitBox()->getSize().x / 2) + hitBox->getSize().x / 2) + 39.0f; //ajuste da distancia por testes
 
-							if (distanciaCentros <= raio_perseg && distanciaCentros > distanciaAtaque)
-							{
-								if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
+								if (distanciaCentros <= raio_perseg && distanciaCentros > distanciaAtaque)
 								{
-									paraEsq = true;
-									animador->atualizarAnim(paraEsq, false, "Correndo");
-									corpo->move(-veloc.x, 0.0f);
-									hitBox->move(-veloc.x, 0.0f);
-
-								}
-
-								else if (posJog_X > posInim_X) //jogador está à direita do inimigo
-								{
-									paraEsq = false;
-									animador->atualizarAnim(paraEsq, false, "Correndo");
-									corpo->move(veloc.x, 0.0f);
-									hitBox->move(veloc.x, 0.0f);
-
-								}
-
-							}
-
-							else if (distanciaCentros <= distanciaAtaque) //entrou na área de ataque!
-							{
-								dt_ataque += relogioAtaque.getElapsedTime().asSeconds();
-								relogioAtaque.restart();
-
-								if (dt_ataque >= cooldownAtaque)
-								{
-									animador->atualizarAnim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
-
-									if (animador->getImgAtual() == 2) //se chegou no último frame, pode atacar!
+									if (posJog_X < posInim_X) //jogador está à esquerda do inimigo
 									{
-										atacar(pJ);
+										paraEsq = true;
+										animador->atualizarAnim(paraEsq, false, "Correndo");
+										corpo->move(-veloc.x, 0.0f);
+										hitBox->move(-veloc.x, 0.0f);
+
 									}
+
+									else if (posJog_X > posInim_X) //jogador está à direita do inimigo
+									{
+										paraEsq = false;
+										animador->atualizarAnim(paraEsq, false, "Correndo");
+										corpo->move(veloc.x, 0.0f);
+										hitBox->move(veloc.x, 0.0f);
+
+									}
+
 								}
-								else
+
+								else if (distanciaCentros <= distanciaAtaque) //entrou na área de ataque!
 								{
-									animador->atualizarAnim(paraEsq, false, "Parado");
+									dt_ataque += relogioAtaque.getElapsedTime().asSeconds();
+									relogioAtaque.restart();
+
+									if (dt_ataque >= cooldownAtaque)
+									{
+										animador->atualizarAnim(paraEsq, true, "Ataque3"); //se o cooldown está pronto, primeiro tocamos a animação!
+
+										if (animador->getImgAtual() == 2) //se chegou no último frame, pode atacar!
+										{
+											atacar(pJ);
+										}
+									}
+									else
+									{
+										animador->atualizarAnim(paraEsq, false, "Parado");
+									}
 								}
 							}
 						}
@@ -288,12 +289,9 @@ namespace Entidades
 		void Tengu::salvarDataBuffer(nlohmann::json& buffer) {
 
 			Inimigo::salvarDataBuffer(buffer);
-
-			buffer["raio_perseg"] = raio_perseg;
 		}
 
 		void Tengu::carregar(const nlohmann::json& j) {
-			raio_perseg = j.at("raio_perseg").get<float>();
 
 			Inimigo::carregar(j);
 		}

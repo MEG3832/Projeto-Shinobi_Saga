@@ -7,7 +7,7 @@ namespace Entidades {
 		class Samurai : public Inimigo
 		{
 		private:
-			float cooldownEmpurrao;
+			const float cooldownEmpurrao;
 			sf::Clock timer;
 			
 			// Variaveis
@@ -15,9 +15,12 @@ namespace Entidades {
 			float resistencia;
 			bool empurra;
 
+			void inicializaAnimacoes();
+
 		public:
-			Samurai(Jogador* pJ1, Jogador* pJ2, float resist);
+			Samurai(Jogador* pJ1 = nullptr, Jogador* pJ2 = nullptr, float resist = 0.0);
 			~Samurai();
+
 			void executar();
 
 			// Reimplementacao
@@ -26,7 +29,6 @@ namespace Entidades {
 			void salvarDataBuffer(nlohmann::json& buffer);
 			void carregar(const nlohmann::json& j);
 			void danificar(Jogador* pJ); // dano no jogador
-			void inicializaAnimacoes();
 			void diminuiVida(float dano);
 
 		};

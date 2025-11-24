@@ -23,10 +23,11 @@ namespace Entidades {
 		public:
 			Redemoinho();
 			~Redemoinho();
+
 			void executar();
 			void obstaculizar(Personagens::Jogador* p);
-			void salvar();
 
+			void salvar();
 			void salvarDataBuffer(nlohmann::json& buffer);
 			void carregar(const nlohmann::json& j);
 		};

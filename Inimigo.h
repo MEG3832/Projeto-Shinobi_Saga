@@ -47,8 +47,10 @@ namespace Entidades {
 
 				Inimigo(Jogador* pJ1 = nullptr, Jogador* pJ2 = nullptr);
 				virtual ~Inimigo(); //destrutora virtual **
-				void salvarDataBuffer(nlohmann::json& buffer);
+
 				void carregar(const nlohmann::json& buffer);
+				void salvarDataBuffer(nlohmann::json& buffer);
+				void setJogAlvo(Jogador* pJog);
 				
 				// Metodos virtuais puros
 				virtual void executar() = 0;
@@ -57,8 +59,6 @@ namespace Entidades {
 				virtual void mover() = 0;
 
 				// Reimplementacoes
-
-				void setJogAlvo(Jogador* pJog);
 				virtual void diminuiVida(int dano); //para diminuir a vida do inimigo!
 				void morrer();
 				bool getFerido();

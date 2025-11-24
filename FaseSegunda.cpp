@@ -1,8 +1,6 @@
 #include "FaseSegunda.h"
 #include "Kitsune.h"
-#include "Entidade.h"
 #include "ListaEntidades.h"
-#include "Inimigo.h"
 #include "Armadilha_de_urso.h"
 #include "Projetil.h"
 
@@ -68,7 +66,7 @@ namespace Fases
 		if (pJog2) {
 			if (pJog2->getCorpo()) {
 				if (pJog2->getHitBox()) {
-					pJog2->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog2->getCorpo()->getSize().y);
+					pJog2->getCorpo()->setPosition(-100.0f, ALTURA_TELA - altura_chao - pJog2->getCorpo()->getSize().y);
 					pJog2->getHitBox()->setPosition(pJog2->getCorpo()->getPosition().x + (pJog2->getCorpo()->getSize().x / 2 - pJog2->getHitBox()->getSize().x / 2),
 													pJog2->getCorpo()->getPosition().y);
 				}

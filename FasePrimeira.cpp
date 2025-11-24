@@ -1,8 +1,6 @@
 #include "FasePrimeira.h"
 #include "Samurai.h"
-#include "Entidade.h"
 #include "ListaEntidades.h"
-#include "Inimigo.h"
 #include "Redemoinho.h"
 
 namespace Fases
@@ -27,7 +25,7 @@ namespace Fases
 
 		if (pJog1) {
 			if (pJog1->getCorpo()) {
-				pJog1->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog1->getCorpo()->getSize().y);
+				pJog1->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog1->getCorpo()->getSize().y);
 				pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
 												pJog1->getCorpo()->getPosition().y);
 			}
@@ -51,7 +49,7 @@ namespace Fases
 
 		if (pJog1) {
 			if (pJog1->getCorpo()) {
-				pJog1->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog1->getCorpo()->getSize().y);
+				pJog1->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog1->getCorpo()->getSize().y);
 				pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
 												pJog1->getCorpo()->getPosition().y);
 			}
@@ -59,7 +57,7 @@ namespace Fases
 
 		if (pJog2) {
 			if (pJog2->getCorpo()) {
-				pJog2->getCorpo()->setPosition(60.0f, ALTURA_TELA - altura_chao - pJog2->getCorpo()->getSize().y);
+				pJog2->getCorpo()->setPosition(-100.0f, ALTURA_TELA - altura_chao - pJog2->getCorpo()->getSize().y);
 				pJog2->getHitBox()->setPosition(pJog2->getCorpo()->getPosition().x + (pJog2->getCorpo()->getSize().x / 2 - pJog2->getHitBox()->getSize().x / 2),
 												pJog2->getCorpo()->getPosition().y);
 			}

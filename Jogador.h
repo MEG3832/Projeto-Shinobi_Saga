@@ -45,12 +45,12 @@ namespace Entidades {
 
 				void inicializaAnimacoes();
 				void atualizaAnimacao();	// Fazer virtual em Personagem
-				void salvarDataBuffer(nlohmann::json& buffer);
 
 			public:
 
 				Jogador(const int ident = 1);
 				~Jogador();
+
 				void colidir(Inimigo* pIn);
 				void setVelKnockBack(sf::Vector2f velKB);
 				void setDirecao(sf::Vector2f dir);
@@ -72,6 +72,7 @@ namespace Entidades {
 				void aumentaPontuacao(int num);
 				bool podeSeguirPorMorte();
 				void carregar(const nlohmann::json& j);
+				void salvarDataBuffer(nlohmann::json& buffer);
 
 				// Reimplementacao
 				void executar();

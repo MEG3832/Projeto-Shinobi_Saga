@@ -23,7 +23,7 @@ namespace Entidades
 
 			public:
 
-				Kitsune(Jogador* pJ1, Jogador* pJ2 = nullptr);
+				Kitsune(Jogador* pJ1 = nullptr, Jogador* pJ2 = nullptr);
 				~Kitsune();
 
 				void mover();

@@ -16,7 +16,6 @@ namespace Entidades {
 			// Variaveis
 			float dt;	// Nao testei essa mudanca do dt
 
-			void salvarDataBuffer(nlohmann::json& buffer);
 			void atualizaAnimacao();
 			void inicializaAnimacoes();
 
@@ -25,6 +24,7 @@ namespace Entidades {
 			~Armadilha_de_urso();
 		
 			void carregar(const nlohmann::json& j);
+			void salvarDataBuffer(nlohmann::json& buffer);
 
 			// Reimplementacoes
 			void executar();
