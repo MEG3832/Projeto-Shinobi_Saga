@@ -14,8 +14,12 @@ namespace Entidades
 		{
 			private:
 
-				float raio_ativacao;
+				const float raio_ativacao;
 				Projetil* pProjetil;
+
+
+				void atiraProjetil(); //analisa o tempo de cooldown e o raio de ativação e daí cria o projétil
+				void inicializaAnimacoes();
 
 			public:
 
@@ -26,13 +30,10 @@ namespace Entidades
 				void salvar();
 				void salvarDataBuffer(nlohmann::json& buffer);
 				void carregar(const nlohmann::json& j);
-				//void movimento_atq(); //movimento que a kitsune faz enquanto joga os projéteis (ir pra frente e pra trás) ??
 				void danificar(Jogador* pJ); // dano no jogador
-				void inicializaAnimacoes();
 
 				//Projetil* criaProjetil(); //cria o projétil. joga na lista de entidades e no set do gerenciador de colisões
 				void setProjetil(Projetil* pProj);
-				void atiraProjetil(); //analisa o tempo de cooldown e o raio de ativação e daí cria o projétil
 				int getNvMaldade(); // o projétil vai usá-lo para calcular o dano causado no jogador
 				void aumentaNvMaldade(); //também será usado pelo projétil, para que depois da sua colisão com o jogador, o nv de maldade da kitsune aumente em 1.
 

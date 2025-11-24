@@ -141,7 +141,9 @@ namespace Listas {
 							pUltimo = pAux2;
 						}
 						else { // Se o elemento a ser removido está da lista
-							pAux2->setProximo(pAux1->getProximo());
+							if (pAux2) {
+								pAux2->setProximo(pAux1->getProximo());
+							}
 							delete pAux1;
 						}
 						tamanho--;
@@ -171,7 +173,7 @@ namespace Listas {
 		if(pPrimeiro) {
 			if (index >= 0 && index < tamanho) {
 				Elemento<TL>* pAux1 = pPrimeiro;
-				for (int i = 0; i < index; i++) {
+				for (int i = 0; i < index && pAux1 != nullptr; i++) {
 					pAux1 = pAux1->getProximo();
 				}
 				if(pAux1) {

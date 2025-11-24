@@ -27,10 +27,10 @@ namespace Entidades {
 					MORRENDO
 				};
 
-				float cooldown_ataque;
-				float cooldown_pulo;
-				float cooldown_dano;
-				float tempo_morte;
+				const float cooldown_ataque;
+				const float cooldown_pulo;
+				const float cooldown_dano;
+				const float tempo_morte;
 				float velPulo;
 				sf::RectangleShape* hitboxAtaque;
 				sf::Clock timer;
@@ -43,15 +43,18 @@ namespace Entidades {
 				sf::Vector2f direcao;
 				sf::Vector2f velocKnockBack;
 
+				void inicializaAnimacoes();
+				void atualizaAnimacao();	// Fazer virtual em Personagem
+				void salvarDataBuffer(nlohmann::json& buffer);
+
 			public:
 
-				Jogador(const int ident); //com parâmetro
+				Jogador(const int ident = 1);
 				~Jogador();
 				void colidir(Inimigo* pIn);
 				void setVelKnockBack(sf::Vector2f velKB);
 				void setDirecao(sf::Vector2f dir);
-				void atualizaAnimacao();	// Fazer virtual em Personagem
-				void setAtordoado(bool atordoar); // Fazer virtual em Personagem
+				void setAtordoado(bool atordoar);
 				void correr(bool correr);
 				void atacar();
 				bool getAtacando();
@@ -65,17 +68,15 @@ namespace Entidades {
 				void ferir();
 				void atualizarHitboxAtaque();
 				sf::RectangleShape* getHitboxAtaque() const;
-				void salvarDataBuffer(nlohmann::json& buffer);
-				void carregar(const nlohmann::json& j);
 				int getPontuacao();
 				void aumentaPontuacao(int num);
 				bool podeSeguirPorMorte();
+				void carregar(const nlohmann::json& j);
 
 				// Reimplementacao
 				void executar();
 				void salvar();
 				void mover(); //nota! o método mover lida com toda a parte do "knockBack" causado pelo inimigo
-				void inicializaAnimacoes();
 				void setNoChao();
 				void morrer();
 				bool getFerido();

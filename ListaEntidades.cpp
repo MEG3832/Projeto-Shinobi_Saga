@@ -8,6 +8,7 @@ namespace Listas {
 
 	ListaEntidades::~ListaEntidades() 
 	{
+		// Como LEs eh estatico, ele eh apagado da lista naturalmente com essa destrutora
 	}
 
 	void ListaEntidades::incluir(Entidades::Entidade* pE) {

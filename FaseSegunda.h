@@ -30,7 +30,7 @@ namespace Fases {
 
 	public:
 
-		FaseSegunda(Entidades::Personagens::Jogador* pJog1);
+		FaseSegunda(Entidades::Personagens::Jogador* pJog1 = nullptr);
 		FaseSegunda(Entidades::Personagens::Jogador* pJog1, Entidades::Personagens::Jogador* pJog2);
 		~FaseSegunda();
 

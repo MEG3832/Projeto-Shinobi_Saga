@@ -32,6 +32,9 @@ namespace Fases
 
 		pFundo = new Parallax::Fundo(); //cria o fundo
 
+		menu_save_rank.setJogador1(pJog1);
+		menu_save_rank.setJogador2(pJog2);
+
 		inicializarTexto();
 	}
 

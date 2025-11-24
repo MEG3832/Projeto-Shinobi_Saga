@@ -10,8 +10,6 @@ class Menu : public Ente
 {
 	protected:
 		static Jogo* pJog;
-		static Entidades::Personagens::Jogador* pJog1;
-		static Entidades::Personagens::Jogador* pJog2;
 		Gerenciadores::Gerenciador_Grafico* GG;
 		Gerenciadores::Gerenciador_de_Eventos* GE;
 		sf::Font fonte;

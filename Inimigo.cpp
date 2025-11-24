@@ -7,20 +7,20 @@ namespace Entidades {
 
 		Inimigo::Inimigo(Jogador* pJ1, Jogador* pJ2) :
 			Personagem(),
-			pJogador1(pJ1),
-			pJogador2(pJ2),
-			jogAlvo(pJ1), // começa focando no 1 por padrão
 			cooldownAtaque(3.0f),
 			tempoAndar(3.0),
 			cooldownAtordoado(0.5f), // Valor padrão
-			nivel_maldade(1),
 			relogioAndar(),
 			relogioAtaque(),
 			relogioAtordoado(),
-			estado_atual(PARADO),
+			pJogador1(pJ1),
+			pJogador2(pJ2),
+			jogAlvo(pJ1), // começa focando no 1 por padrão
+			nivel_maldade(1),
 			dt_ataque(0.0),
 			dt_andar(0.0),
-			dt_atordoamento(0.0)
+			dt_atordoamento(0.0),
+			estado_atual(PARADO)
 		{
 			//corpo é feito nas classes folha
 			veloc = sf::Vector2f(0.5, 0.0);
@@ -31,9 +31,8 @@ namespace Entidades {
 			nivel_maldade = -1;
 			veloc = sf::Vector2f(0.0, 0.0);
 			jogAlvo = nullptr;
-			cooldownAtaque = 0.0;
-			tempoAndar = 0.0;
-			cooldownAtordoado = 0.0;
+			pJogador1 = nullptr;
+			pJogador2 = nullptr;
 			dt_ataque = 0.0;
 			dt_andar = 0.0;
 			dt_atordoamento = 0.0;
@@ -167,7 +166,9 @@ namespace Entidades {
 
 					// verifica o resultado do ataque
 					if (getVida() <= 0) {
-						jogAlvo->aumentaPontuacao(20);	// Exemplo
+						if (jogAlvo) {
+							jogAlvo->aumentaPontuacao(20);	// Exemplo
+						}
 						estado_atual = MORRENDO;
 						setIntransponivel(false); // Inimigo morto pode ser atravessado
 					}

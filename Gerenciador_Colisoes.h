@@ -33,6 +33,8 @@ namespace Gerenciadores {
 			void tratarColisoesObstacsChao();
 			void tratarColisaoObstacsObstacs();
 			void tratarColisaoInimgInimig();
+			void reposicionar(sf::RectangleShape* c1, sf::RectangleShape* c2);
+			void reposicionar(sf::RectangleShape* c1);
 
 		public:
 			~Gerenciador_Colisoes();
@@ -43,11 +45,9 @@ namespace Gerenciadores {
 			void incluirProjetil(Entidades::Projetil* pj);
 			void setJogador1(Entidades::Personagens::Jogador* pJog1);
 			void setJogador2(Entidades::Personagens::Jogador* pJog2);
-			void reposicionar(sf::RectangleShape* c1, sf::RectangleShape* c2);
-			void reposicionar(sf::RectangleShape* c1);
 			bool verificaColisaoEnteObstacs(Entidades::Entidade* pE);
 			bool verificaColisaoEnteInimgs(Entidades::Entidade* pE);
-			void setAlturaChao(int altura);
+			void setAlturaChao(const int altura);
 			void limparListas();
 	};
 

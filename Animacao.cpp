@@ -99,20 +99,14 @@ namespace Animadores {
 		if (mapImagens[estadoAtual]) {
 			return mapImagens[estadoAtual]->getImgAtual();
 		}
-		else {
-			std::cerr << "ERRO: nao eh possivel retornar a imagem atual pois a imagem eh NULL" << std::endl;
-			return -1;
-		}
+		return -1;
 	}
 
 	const float Animacao::getTempoTotal() {
 		if (mapImagens[estadoAtual]) {
 			return mapImagens[estadoAtual]->getTempoTotal();
 		}
-		else {
-			std::cerr << "ERRO: nao eh possivel retornar o tempo total pois a imagem eh NULL" << std::endl;
-			return -1.0;
-		}
+		return -1.0;
 	}
 
 	const std::string Animacao::getEstadoAtual() {
@@ -120,11 +114,15 @@ namespace Animadores {
 	}
 
 	void Animacao::setImgAtual(int ia) {
-		mapImagens[estadoAtual]->setImgAtual(ia);
+		if (mapImagens[estadoAtual]) {
+			mapImagens[estadoAtual]->setImgAtual(ia);
+		}
 	}
 
 	void Animacao::setTempoTotal(float tt) {
-		mapImagens[estadoAtual]->setTempoTotal(tt);
+		if (mapImagens[estadoAtual]) {
+			mapImagens[estadoAtual]->setTempoTotal(tt);
+		}
 	}
 
 	void Animacao::setEstadoAtual(std::string ea) {

@@ -18,5 +18,9 @@
     {
         "nome": "MARIA",
         "pontuacao": 260
+    },
+    {
+        "nome": "TESTE",
+        "pontuacao": 300
     }
 ]

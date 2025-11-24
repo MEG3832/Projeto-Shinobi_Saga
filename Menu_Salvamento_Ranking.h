@@ -9,6 +9,8 @@ class Menu_Salvamento_Ranking : public Menu
 
 		std::string nomeJog;
 		std::vector<sf::Text> texto_salvamento;
+		Entidades::Personagens::Jogador* pJog1;
+		Entidades::Personagens::Jogador* pJog2;
 
 		void inicializaTexto();
 		void desenharTexto();
@@ -22,5 +24,7 @@ class Menu_Salvamento_Ranking : public Menu
 		void addCaractere(const char c);
 		void removeCaractere();
 		void setSeguir(bool b);
+		void setJogador1(Entidades::Personagens::Jogador* pJ);
+		void setJogador2(Entidades::Personagens::Jogador* pJ);
 };
 

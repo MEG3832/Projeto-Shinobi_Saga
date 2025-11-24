@@ -2,11 +2,13 @@
 
 namespace Parallax {
 
-	Fundo::Camada::Camada(sf::Vector2f tam, sf::Texture textura, const float vel) :
+	Fundo::Camada::Camada(sf::Vector2f tam, sf::Texture text, const float vel) :
 		tam(tam),
-		textura(textura),
 		dimensao(0, 0, 0, 0),
-		vel(vel)
+		vel(vel),
+		textura(text),
+		fundo(),
+		fundoAuxiliar()
 	{
 		// Delimita o tamanho da textura
 		dimensao.width = -std::abs(static_cast<float>(textura.getSize().x));
@@ -15,11 +17,11 @@ namespace Parallax {
 
 		// Dá o tamanho do fundo, sua posição inicial e seta a sua textura
 		fundo.setSize(tam);
-		fundo.setTexture(&this->textura);
+		fundo.setTexture(&textura);
 		fundo.setPosition(0.0f, 0.0f);
 
 		fundoAuxiliar.setSize(tam);
-		fundoAuxiliar.setTexture(&this->textura);
+		fundoAuxiliar.setTexture(&textura);
 		fundoAuxiliar.setPosition(tam.x, 0.0f);
 	}
 
@@ -151,7 +153,9 @@ namespace Parallax {
 		if (pGG) {
 			Camada* camada = new Camada(tam, pGG->carregarTextura(caminhoTextura), vel);
 
-			camadas.push_back(camada);
+			if (camada) {
+				camadas.push_back(camada);
+			}
 		}
 		else {
 			std::cerr << "ERRO: Nao eh possivel adicionar a cmamada pois o Gerenciador Grafico eh NULL" << std::endl;

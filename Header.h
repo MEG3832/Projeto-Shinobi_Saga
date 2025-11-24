@@ -6,14 +6,11 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
 #include "json.hpp"
 #include "json_fwd.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
-#include <SFML/Network.hpp>
 #include <ostream>
 #include <fstream>
 #include <vector>

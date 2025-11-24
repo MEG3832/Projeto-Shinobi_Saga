@@ -10,6 +10,7 @@ namespace Gerenciadores {
 	Gerenciador_de_Eventos::Gerenciador_de_Eventos() :
 		pJogador1(nullptr),
 		pJogador2(nullptr),
+		pJogo(nullptr),
 		pGrafico(pGrafico->getGerenciadorGrafico())
 	{}
 
@@ -17,6 +18,7 @@ namespace Gerenciadores {
 		pGrafico = nullptr;
 		pJogador1 = nullptr;
 		pJogador2 = nullptr;
+		pJogo = nullptr;
 	}
 
 	Gerenciador_de_Eventos* Gerenciador_de_Eventos::getGerenciadorEventos() {
@@ -28,11 +30,11 @@ namespace Gerenciadores {
 	}
 
 	void Gerenciador_de_Eventos::setJogador1(Entidades::Personagens::Jogador* pJogador) {
-		this->pJogador1 = pJogador;
+		pJogador1 = pJogador;
 	}
 
 	void Gerenciador_de_Eventos::setJogador2(Entidades::Personagens::Jogador* pJogador) {
-		this->pJogador2 = pJogador;
+		pJogador2 = pJogador;
 	}
 
 	/* TECLAS (para o jogador 1):
@@ -174,15 +176,20 @@ namespace Gerenciadores {
 			pJogador2->setDirecao(direcaoInput);
 
 		}
-
-		//apenas verifica se apertou o ESC:
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			pGrafico->fecharJanela();
+		
+		if (pGrafico) {
+			//apenas verifica se apertou o ESC:
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			{
+				pGrafico->fecharJanela();
+			}
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-		{
-			pJogo->setEstado(1);
+
+		if (pJogo) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+			{
+				pJogo->setEstado(1);	// MENU_PAUSE
+			}
 		}
 
 	}
@@ -190,13 +197,15 @@ namespace Gerenciadores {
 	// Verifica qual tecla está sendo pressionada e muda a diração do jogador segundo ela
 	void Gerenciador_de_Eventos::executar() {
 		if(pGrafico) {
-			sf::Event evento;
-			while (pGrafico->getWindow()->pollEvent(evento)) {
-				if (evento.type == sf::Event::Closed) {
-					pGrafico->fecharJanela();
+			if (pGrafico->getWindow()) {
+				sf::Event evento;
+				while (pGrafico->getWindow()->pollEvent(evento)) {
+					if (evento.type == sf::Event::Closed) {
+						pGrafico->fecharJanela();
+					}
 				}
+				verificaTeclaPressionada();
 			}
-			verificaTeclaPressionada();
 		}
 		else {
 			std::cerr << "ERRO: Gerenciador Grafico eh NULL" << std::endl;
@@ -205,13 +214,15 @@ namespace Gerenciadores {
 
 	void Gerenciador_de_Eventos::executarMenu(Menu* pMenu) {
 		if (pGrafico) {
-			sf::Event evento;
-			while (pGrafico->getWindow()->pollEvent(evento)) {
-				if (evento.type == sf::Event::Closed) {
-					pGrafico->fecharJanela();
-				}
-				else if (evento.type == sf::Event::KeyPressed) {
-					verificaTeclaPressionadaMenu(pMenu, evento.key.code);
+			if (pGrafico->getWindow()) {
+				sf::Event evento;
+				while (pGrafico->getWindow()->pollEvent(evento)) {
+					if (evento.type == sf::Event::Closed) {
+						pGrafico->fecharJanela();
+					}
+					else if (evento.type == sf::Event::KeyPressed) {
+						verificaTeclaPressionadaMenu(pMenu, evento.key.code);
+					}
 				}
 			}
 		}
@@ -222,13 +233,15 @@ namespace Gerenciadores {
 
 	void Gerenciador_de_Eventos::executarMenuSave(Menu_Salvamento_Ranking* pMenu) {
 		if (pGrafico) {
-			sf::Event evento;
-			while (pGrafico->getWindow()->pollEvent(evento)) {
-				if (evento.type == sf::Event::Closed) {
-					pGrafico->fecharJanela();
-				}
-				else if (evento.type == sf::Event::KeyPressed) {
-					verificaTeclaPressionadaMenuSave(pMenu, evento.key.code);
+			if (pGrafico->getWindow()) {
+				sf::Event evento;
+				while (pGrafico->getWindow()->pollEvent(evento)) {
+					if (evento.type == sf::Event::Closed) {
+						pGrafico->fecharJanela();
+					}
+					else if (evento.type == sf::Event::KeyPressed) {
+						verificaTeclaPressionadaMenuSave(pMenu, evento.key.code);
+					}
 				}
 			}
 		}

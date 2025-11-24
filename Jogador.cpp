@@ -13,13 +13,13 @@ namespace Entidades {
 			tempo_morte(4 * 0.45),
 			velPulo(-12),
 			hitboxAtaque(new sf::RectangleShape(sf::Vector2f(38.0f, 23.0f))),
-			velocKnockBack(0.0, 0.0),
+			timer(),
 			pontos(0),
 			id(ident),
+			dt(0.0),
 			estado_atual(PARADO),
 			direcao(0.0, 0.0),
-			timer(),
-			dt(0.0)
+			velocKnockBack(0.0, 0.0)
 			
 		{
 			dano = 50;
@@ -30,10 +30,14 @@ namespace Entidades {
 			num_vidas = 250;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(160.0, 120.0));
-			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
+			if (corpo) {
+				hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 105.0, corpo->getSize().y));
+			}
 
 			if (2 == id) {
-				hitboxAtaque->setSize(sf::Vector2f(32.0f, 23.0f));
+				if (hitboxAtaque) {
+					hitboxAtaque->setSize(sf::Vector2f(32.0f, 23.0f));
+				}
 			}
 
 			inicializaAnimacoes();
@@ -41,9 +45,6 @@ namespace Entidades {
 
 		Jogador::~Jogador()
 		{
-			cooldown_ataque = 0.0;
-			cooldown_pulo = 0.0;
-			cooldown_dano = 0.0;
 			velPulo = 0.0;
 			if (hitboxAtaque) {
 				delete hitboxAtaque;
@@ -59,7 +60,9 @@ namespace Entidades {
 		}
 
 		void Jogador::colidir(Inimigo* pIn) {
-			pIn->danificar(this);
+			if (pIn) {
+				pIn->danificar(this);
+			}
 		}
 
 		void Jogador::executar()
@@ -94,14 +97,19 @@ namespace Entidades {
 
 		void Jogador::carregar(const nlohmann::json& j) {
 
-			pontos = j.at("pontos").get<int>();
-			id = j.at("id").get<int>();
-			dt = j.at("dt").get<float>();
-			estado_atual = static_cast<Entidades::Personagens::Jogador::Estado>(j.at("estado_atual").get<int>());
-			direcao.x = j.at("direcaoX").get<float>();
-			direcao.y = j.at("direcaoY").get<float>();
-			velocKnockBack.x = j.at("velocKnockBackX").get<float>();
-			velocKnockBack.y = j.at("velocKnockBackY").get<float>();
+			try {
+				pontos = j.at("pontos").get<int>();
+				id = j.at("id").get<int>();
+				dt = j.at("dt").get<float>();
+				estado_atual = static_cast<Entidades::Personagens::Jogador::Estado>(j.at("estado_atual").get<int>());
+				direcao.x = j.at("direcaoX").get<float>();
+				direcao.y = j.at("direcaoY").get<float>();
+				velocKnockBack.x = j.at("velocKnockBackX").get<float>();
+				velocKnockBack.y = j.at("velocKnockBackY").get<float>();
+			}
+			catch (const nlohmann::json::out_of_range& e) {
+				std::cerr << "ERRO: Alguma das chaves estah ausente." << e.what() << std::endl;
+			}
 
 			timer.restart();
 
@@ -189,8 +197,6 @@ namespace Entidades {
 
 					animador->addAnimacao("Imagens/Samurai_shinobiPack/Jump.png", "Subindo", 12, cooldown_pulo, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Samurai_shinobiPack/Attack_1.png", "Ataque1", 6, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-					//animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-					//animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Samurai_shinobiPack/Dead.png", "Derrotado", 3, 0.45, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Samurai_shinobiPack/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Samurai_shinobiPack/Shield.png", "Protegendo", 2, 0.10, sf::Vector2f(1.0, 1.0));
@@ -206,8 +212,6 @@ namespace Entidades {
 
 					animador->addAnimacao("Imagens/Shinobi/Jump.png", "Subindo", 12, cooldown_pulo, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Shinobi/Attack_1.png", "Ataque1", 5, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-					//animador->addAnimacao("Imagens/Shinobi/Attack_2.png", "Ataque2", 3, cooldown_ataque, sf::Vector2f(1.0, 1.0));
-					//animador->addAnimacao("Imagens/Shinobi/Attack_3.png", "Ataque3", 4, 0.18, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Shinobi/Dead.png", "Derrotado", 4, tempo_morte / 4, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Shinobi/Hurt.png", "Ferido", 2, cooldown_dano, sf::Vector2f(1.0, 1.0));
 					animador->addAnimacao("Imagens/Shinobi/Shield.png", "Protegendo", 4, 0.10, sf::Vector2f(1.0, 1.0));

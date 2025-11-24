@@ -27,7 +27,7 @@ namespace Animadores {
 
 	public:
 
-		Imagem(const char* caminhoTextura, const int qtd_Img, const float frame_duration, const sf::Vector2f scale);
+		Imagem(const char* caminhoTextura = nullptr, const int qtd_Img = 0, const float frame_duration = 0.0, const sf::Vector2f scale = sf::Vector2f(1.0, 1.0));
 		~Imagem();
 
 		void atualizarFrame(const bool indoParaEsq, const bool rodaUmaVez, const float dt);
@@ -37,6 +37,7 @@ namespace Animadores {
 		const sf::Texture* getTextura();
 		const sf::Vector2f getEscala();
 
+		// Usado no salvamento e no carregamento
 		const int getImgAtual();
 		const float getTempoTotal();
 		void setImgAtual(int ia);

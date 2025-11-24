@@ -6,9 +6,10 @@ namespace Entidades
 	namespace Personagens
 	{
 		Kitsune::Kitsune(Jogador* pJ1, Jogador* pJ2) :
-			Inimigo(pJ1, pJ2)
+			Inimigo(pJ1, pJ2),
+			raio_ativacao(250),
+			pProjetil(nullptr)
 		{
-			raio_ativacao = 250.0f;
 			cooldownAtaque = 3.0f;
 			nivel_maldade = 1; // nível de maldade base
 			paraEsq = true;
@@ -20,13 +21,7 @@ namespace Entidades
 			cooldownAtordoado = 1.0f;
 
 			corpo = new sf::RectangleShape(sf::Vector2f(170.0f, 150.0f));
-			//corpo->setPosition(pos); //posicao??
-
-			corpo->setPosition(300.0f, ALTURA_TELA - 100 - corpo->getSize().y);
-
 			hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize().x - 120.0f, corpo->getSize().y));
-			hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-				corpo->getPosition().y);
 
 			setAnimador(corpo);
 			inicializaAnimacoes();
@@ -70,14 +65,14 @@ namespace Entidades
 
 							//posição em x
 							float posJog_X = jogAlvo->getCorpo()->getPosition().x + jogAlvo->getCorpo()->getSize().x / 2;
-							float posInim_X = this->getCorpo()->getPosition().x + corpo->getSize().x / 2;
+							float posInim_X = corpo->getPosition().x + corpo->getSize().x / 2;
 
 							float distHorizontal = abs(posJog_X - posInim_X);
 
 							//posição em y
 
 							float posJog_Y = jogAlvo->getCorpo()->getPosition().y + jogAlvo->getCorpo()->getSize().y / 2;
-							float posInim_Y = this->getCorpo()->getPosition().y + corpo->getSize().y / 2;
+							float posInim_Y = corpo->getPosition().y + corpo->getSize().y / 2;
 
 							float distVertical = abs(posJog_Y - posInim_Y);
 
@@ -141,18 +136,22 @@ namespace Entidades
 
 		void Kitsune::atiraProjetil()
 		{
-			relogioAtaque.restart();
+			if (pProjetil) {
+				if (pProjetil->getCorpo()) {
+					relogioAtaque.restart();
 
-			pProjetil->setEstadoProj(true); //apenas setamos o estado do projétil, já que o que será feito (dependendo do estado dele), será tratado no executar do projétil.
+					pProjetil->setEstadoProj(true); //apenas setamos o estado do projétil, já que o que será feito (dependendo do estado dele), será tratado no executar do projétil.
 
-			if (paraEsq) {
-				pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 25.0); //centralizo o projétil bem na frente da kitsune
-				pProjetil->setVelocidade(sf::Vector2f(-3.0f, 0.0f));
-			}
-			else {
+					if (paraEsq) {
+						pProjetil->getCorpo()->setPosition(corpo->getPosition().x, corpo->getPosition().y + 25.0); //centralizo o projétil bem na frente da kitsune
+						pProjetil->setVelocidade(sf::Vector2f(-3.0f, 0.0f));
+					}
+					else {
 
-				pProjetil->getCorpo()->setPosition(corpo->getPosition().x + corpo->getSize().x / 2, corpo->getPosition().y + 25.0f);
-				pProjetil->setVelocidade(sf::Vector2f(3.0f, 0.0f));
+						pProjetil->getCorpo()->setPosition(corpo->getPosition().x + corpo->getSize().x / 2, corpo->getPosition().y + 25.0f);
+						pProjetil->setVelocidade(sf::Vector2f(3.0f, 0.0f));
+					}
+				}
 			}
 
 		}
@@ -169,13 +168,9 @@ namespace Entidades
 		void Kitsune::salvarDataBuffer(nlohmann::json& buffer) {
 
 			Inimigo::salvarDataBuffer(buffer);
-
-			buffer["raio_ativacao"] = raio_ativacao;
 		}
 
 		void Kitsune::carregar(const nlohmann::json& j) {
-
-			raio_ativacao = j.at("raio_ativacao").get<float>();
 
 			Inimigo::carregar(j);
 		}

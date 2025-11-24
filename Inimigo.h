@@ -40,13 +40,12 @@ namespace Entidades {
 
 				void perambular();
 				virtual void empurrar(Jogador* pJ);
-
-				void atualizarAlvo(); // Nova função!
+				void atualizarAlvo();
 
 
 			public:
 
-				Inimigo(Jogador* pJ1, Jogador* pJ2 = nullptr);
+				Inimigo(Jogador* pJ1 = nullptr, Jogador* pJ2 = nullptr);
 				virtual ~Inimigo(); //destrutora virtual **
 				void salvarDataBuffer(nlohmann::json& buffer);
 				void carregar(const nlohmann::json& buffer);

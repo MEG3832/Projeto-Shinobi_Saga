@@ -3,14 +3,18 @@
 
 Menu_Salvamento_Ranking::Menu_Salvamento_Ranking() :
 	Menu(),
+	podeSeguir(true),
 	nomeJog(""),
 	texto_salvamento(),
-	podeSeguir(true)
+	pJog1(nullptr),
+	pJog2(nullptr)
 {
 }
 
 Menu_Salvamento_Ranking::~Menu_Salvamento_Ranking() {
 	nomeJog = "";
+	pJog1 = nullptr;
+	pJog2 = nullptr;
 }
 
 void Menu_Salvamento_Ranking::inicializaTexto() {
@@ -207,5 +211,13 @@ void Menu_Salvamento_Ranking::salvar() {
 
 void Menu_Salvamento_Ranking::setSeguir(bool b) {
 	podeSeguir = b;
+}
+
+void Menu_Salvamento_Ranking::setJogador1(Entidades::Personagens::Jogador* pJ) {
+	pJog1 = pJ;
+}
+
+void Menu_Salvamento_Ranking::setJogador2(Entidades::Personagens::Jogador* pJ) {
+	pJog2 = pJ;
 }
 

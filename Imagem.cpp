@@ -8,8 +8,8 @@ namespace Animadores {
 		retangulo(0, 0, 0, 0),
 		escala(scale),
 		qnt_Imagens(qtd_Img),
-		imag_Atual(0),
 		duracao_Frame(frame_duration),
+		imag_Atual(0),
 		tempo_Total(0.0)
 	{
 		retangulo.height = textura.getSize().y; // "altura" da nossa textura

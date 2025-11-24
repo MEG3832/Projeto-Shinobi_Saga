@@ -18,7 +18,7 @@ namespace Animadores {
 
 		public:
 
-			Animacao(sf::RectangleShape* body);
+			Animacao(sf::RectangleShape* body = nullptr);
 			~Animacao();
 
 			void atualizarAnim(const bool indoParaEsq, const bool rodaUmaVez, std::string estadoImg);
