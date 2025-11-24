@@ -59,7 +59,6 @@ namespace Entidades {
 	//Criar o corpo aqui já, na construtora de Entidade
 	Entidade::Entidade() : 
 		Ente(),
-		pos(0.0, 0.0),
 		veloc(0.0, 0.0),
 		animador(nullptr),
 		intransponivel(true)
@@ -71,30 +70,16 @@ namespace Entidades {
 			delete animador;
 			animador = nullptr;
 		}
-	}
-
-	sf::Vector2f Entidade::getPos() {	// Não é mais fácil retornar o position direto?
-		if(corpo) {
-			sf::Vector2f position(corpo->getPosition());
-			pos.x = position.x;
-			pos.y = position.y;
-			return pos;
-		}
-		else {
-			std::cerr << "ERRO: Nao eh possivel retornar a posicao do corpo pois ele eh NULL" << std::endl;
-		}
+		veloc.x = 0.0;
+		veloc.y = 0.0;
+		intransponivel = false;
 	}
 
 	void Entidade::setAnimador(sf::RectangleShape* body) {
-		if (!animador) {
+		if (body) {
 			animador = new Animadores::Animacao(body);
 		}
 	}
-
-	//Animadores::Animacao* Entidade::getAnimador()
-	//{
-		//return animador;
-	//}
 
 	bool Entidade::getIntransponivel() {
 		return intransponivel;
@@ -114,10 +99,11 @@ namespace Entidades {
 		try {
 			if (corpo) {
 				corpo->setPosition(j.at("posX").get<float>(), j.at("posY").get<float>());
-			}
-			if (hitBox) {
-				hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
-								    corpo->getPosition().y);
+
+				if (hitBox) {
+					hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
+										corpo->getPosition().y);
+				}
 			}
 			// Nao vou fazer com size pois todo corpo tem um temanho setado na construtora
 
@@ -146,8 +132,10 @@ namespace Entidades {
 		}
 		buffer["velocX"] = veloc.x;
 		buffer["velocY"] = veloc.y;
-		buffer["posX"] = corpo->getPosition().x;
-		buffer["posY"] = corpo->getPosition().y;
+		if (corpo) {
+			buffer["posX"] = corpo->getPosition().x;
+			buffer["posY"] = corpo->getPosition().y;
+		}
 		buffer["intransponivel"] = intransponivel;
 	}
 }

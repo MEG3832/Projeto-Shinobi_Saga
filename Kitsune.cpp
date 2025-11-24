@@ -69,19 +69,19 @@ namespace Entidades
 						if (jogAlvo->getCorpo()) {
 
 							//posição em x
-							float posJog_X = jogAlvo->getPos().x + jogAlvo->getTam().x / 2;
-							float posInim_X = this->getPos().x + this->getTam().x / 2;
+							float posJog_X = jogAlvo->getCorpo()->getPosition().x + jogAlvo->getCorpo()->getSize().x / 2;
+							float posInim_X = this->getCorpo()->getPosition().x + corpo->getSize().x / 2;
 
 							float distHorizontal = abs(posJog_X - posInim_X);
 
 							//posição em y
 
-							float posJog_Y = jogAlvo->getPos().y + jogAlvo->getTam().y / 2;
-							float posInim_Y = this->getPos().y + this->getTam().y / 2;
+							float posJog_Y = jogAlvo->getCorpo()->getPosition().y + jogAlvo->getCorpo()->getSize().y / 2;
+							float posInim_Y = this->getCorpo()->getPosition().y + corpo->getSize().y / 2;
 
 							float distVertical = abs(posJog_Y - posInim_Y);
 
-							float raio_vertical = this->getTam().y / 2;
+							float raio_vertical = corpo->getSize().y / 2;
 
 							if (distHorizontal <= raio_ativacao && distVertical <= raio_vertical)
 							{

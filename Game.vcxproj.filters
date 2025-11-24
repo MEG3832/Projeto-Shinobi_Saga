@@ -99,9 +99,6 @@
     <ClInclude Include="Armadilha_de_urso.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Coord.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Ente.h">
       <Filter>Header Files</Filter>
     </ClInclude>

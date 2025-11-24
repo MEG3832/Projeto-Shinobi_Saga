@@ -18,6 +18,12 @@ namespace Fases {
 		int maxTengus;
 		int maxPlataf;
 
+		void inicializarTexto();
+		void desenharTexto();
+		void carregarTengus(const nlohmann::json& j);
+		void carregarPlataf(const nlohmann::json& j, const int id);
+		void carregarJogadores(const nlohmann::json& j);
+
 
 	protected:
 
@@ -27,27 +33,27 @@ namespace Fases {
 		nlohmann::json buffer_fase;
 
 		Listas::ListaEntidades lista_ents;
-		Gerenciadores::Gerenciador_Colisoes* GC; //n está exatamente de acordo com o diagrama, mas é para seguir o modelo do singleton
-		Gerenciadores::Gerenciador_de_Eventos* GE; 
 		Entidades::Personagens::Jogador* pJog1;
 		Entidades::Personagens::Jogador* pJog2;
+
+		Gerenciadores::Gerenciador_Colisoes* GC; //n está exatamente de acordo com o diagrama, mas é para seguir o modelo do singleton
+		Gerenciadores::Gerenciador_de_Eventos* GE; 
+
 		Parallax::Fundo* pFundo;
+
 		Menu_Salvamento_Ranking menu_save_rank;
 
 		std::vector<sf::Text> texto_Jog1;
 		std::vector<sf::Text> texto_Jog2;
 		sf::Font fonte;
 
-		void inicializarTexto();
 
-	protected :
-
-		void desenharTexto();
-
-		// Reimplementacoes
 		virtual void criarInimigos() = 0;
 		virtual void criarObstaculos() = 0;
 		virtual void criarCenario() = 0;
+		void criarTengus(); //inimigos em comum nas duas fases.
+		void criarPlataformas(const int id); //obstáculo em comum nas duas fases.
+		void carregar(const nlohmann::json& j, const int id);
 
 
 	public:
@@ -57,12 +63,6 @@ namespace Fases {
 		~Fase();
 
 		virtual void executar(); // ->percorre a lista de entidades...
-		void criarTengus(); //inimigos em comum nas duas fases.
-		void criarPlataformas(int id); //obstáculo em comum nas duas fases.
-		void carregar(const nlohmann::json& j, int id);
-		void carregarTengus(const nlohmann::json& j);
-		void carregarPlataf(const nlohmann::json& j, int id);
-		void carregarJogadores(const nlohmann::json& j);
 		virtual void salvar() = 0;
 
 	};

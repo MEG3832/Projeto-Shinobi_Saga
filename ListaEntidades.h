@@ -18,7 +18,7 @@ namespace Listas {
 			void aplicarGravidade();
 			void percorrer();
 			void desenharEntidades();
-			const int getTam() const;
+			const int getSize() const;
 			void salvar();
 			void carregar();
 	};

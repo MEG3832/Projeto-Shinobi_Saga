@@ -18,8 +18,6 @@ namespace Entidades {
 			static nlohmann::json buffer_projeteis;
 			static nlohmann::json buffer_jogadores;
 
-			sf::Vector2f pos;	// Nao estou usando, pois corpo->getPosition() eh equivalente
-
 			// Variavies
 			sf::Vector2f veloc;
 			Animadores::Animacao* animador;
@@ -35,9 +33,8 @@ namespace Entidades {
 
 			void setAnimador(sf::RectangleShape* body);
 			bool getIntransponivel();
-			void setIntransponivel(bool intangivel);
+			void setIntransponivel(const bool intangivel);
 			void sofrerGravidade();
-			sf::Vector2f getPos(); // Nao usei, posso tirar? corpo->getPosition() eh equivalente
 
 			static nlohmann::json getArrayPlataformas();
 			static nlohmann::json getArrayRedemoinhos();

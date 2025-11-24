@@ -199,7 +199,7 @@ namespace Entidades {
 					if (pJ->getCorpo()) {
 						//calcula os centros do inimigo e do jogador
 
-						sf::Vector2f centroJog = pJ->getCorpo()->getPosition() + (pJ->getTam()) / 2.0f;
+						sf::Vector2f centroJog = pJ->getCorpo()->getPosition() + (pJ->getCorpo()->getSize()) / 2.0f;
 						sf::Vector2f centroInim = corpo->getPosition() + (corpo->getSize()) / 2.0f;
 
 						sf::Vector2f vetor = centroJog - centroInim; //nessa ordem!

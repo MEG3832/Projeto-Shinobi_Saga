@@ -3,8 +3,8 @@
 namespace Animadores {
 
 	Animacao::Animacao(sf::RectangleShape* body) :
+
 		corpo(body),
-		mapImagens(),
 		clock(),
 		dt(0.0),
 		estadoAtual("")
@@ -33,7 +33,9 @@ namespace Animadores {
 			if (estadoAtual != estadoImg) //caso o personagem esteja em um estado diferente do atual, resetamos o tempo e o "index" da textura
 			{
 				estadoAtual = estadoImg;
-				mapImagens[estadoAtual]->resetar();
+				if (mapImagens[estadoAtual]) {
+					mapImagens[estadoAtual]->resetar();
+				}
 			}
 
 			dt = clock.getElapsedTime().asSeconds();

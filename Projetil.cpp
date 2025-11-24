@@ -10,7 +10,7 @@ namespace Entidades {
 		ativo(false)
 	{
 		corpo = new sf::RectangleShape(sf::Vector2f(90.0f, 90.0f));
-		corpo->setPosition(pKitsune->getPos());	// seta a posicao do projetil igual a posicao da kitsune....
+		corpo->setPosition(pKitsune->getCorpo()->getPosition());	// seta a posicao do projetil igual a posicao da kitsune....
 
 		hitBox = new sf::RectangleShape(sf::Vector2f(corpo->getSize()));
 		hitBox->setPosition(corpo->getPosition().x + (corpo->getSize().x / 2 - hitBox->getSize().x / 2),
@@ -92,7 +92,7 @@ namespace Entidades {
 		else
 		{
 			corpo->setFillColor(sf::Color::Transparent); //cor "invisível"
-			corpo->setPosition(pKitsune->getPos().x + 70.0f, pKitsune->getPos().y + 75.0f); //projétil fica mais retraído, mais próximo da kitsune
+			corpo->setPosition(pKitsune->getCorpo()->getPosition().x + 70.0f, pKitsune->getCorpo()->getPosition().y + 75.0f); //projétil fica mais retraído, mais próximo da kitsune
 			hitBox->setPosition(corpo->getPosition());
 		}
 

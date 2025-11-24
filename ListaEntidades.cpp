@@ -33,7 +33,7 @@ namespace Listas {
 	}
 
 	void ListaEntidades::percorrer() {
-		for (int i = 0; i < LEs.getTam(); i++) {
+		for (int i = 0; i < LEs.getSize(); i++) {
 			if (LEs[i]) {
 				LEs[i]->executar();
 			}
@@ -45,7 +45,7 @@ namespace Listas {
 
 	void ListaEntidades::aplicarGravidade()
 	{
-		for (int i = 0; i < LEs.getTam(); i++) {
+		for (int i = 0; i < LEs.getSize(); i++) {
 			if (LEs[i]) {
 				LEs[i]->sofrerGravidade();
 			}
@@ -57,7 +57,7 @@ namespace Listas {
 	}
 
 	void ListaEntidades::desenharEntidades() {
-		for (int i = 0; i < LEs.getTam(); i++) {
+		for (int i = 0; i < LEs.getSize(); i++) {
 			if (LEs[i]) {
 				LEs[i]->desenhar();
 			}
@@ -67,12 +67,12 @@ namespace Listas {
 		}
 	}
 
-	const int ListaEntidades::getTam() const{
-		return LEs.getTam();
+	const int ListaEntidades::getSize() const{
+		return LEs.getSize();
 	}
 
 	void ListaEntidades::salvar() {
-		for (int i = 0; i < LEs.getTam(); i++) {
+		for (int i = 0; i < LEs.getSize(); i++) {
 			if (LEs[i]) {
 				LEs[i]->salvar();
 			}

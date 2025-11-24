@@ -34,7 +34,6 @@ namespace Entidades {
 			virtual void executar() = 0;
 			virtual void salvar() = 0;
 			virtual void mover() = 0;
-			virtual void inicializaAnimacoes() = 0;
 			virtual void morrer() = 0;	// Essas 3 funções são virtuais puras pois todos os personagens se ferem e morrem
 			virtual bool getFerido() = 0;
 			virtual bool getMorto() = 0;

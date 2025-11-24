@@ -12,7 +12,6 @@ class Ente
 		virtual ~Ente();
 
 		void desenhar();
-		sf::Vector2f getTam();	// Nao usei, posso tirar? corpo->getSize() eh equivalente
 		sf::RectangleShape* getCorpo();
 		sf::RectangleShape* getHitBox();
 

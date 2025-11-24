@@ -28,15 +28,6 @@ void Ente::desenhar() {	// Por ser virtual (o que eu não sei se pode), por enqua
 	pGG->desenharEnte(this);
 }
 
-sf::Vector2f Ente::getTam() {	// Nao estou usando, posso tirar? corpo->getSize() eh equivalente
-	if(corpo) {
-		return corpo->getSize();
-	}
-	else {
-		std::cerr << "ERRO: Nao eh possivel retornar o tamanho do corpo pois ele eh NULL" << std::endl;
-	}
-}
-
 sf::RectangleShape* Ente::getCorpo() {
 	return corpo;
 }

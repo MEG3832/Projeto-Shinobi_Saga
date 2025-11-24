@@ -5,28 +5,60 @@ namespace Fases
 	Fase::Fase(Entidades::Personagens::Jogador* pJog1) :
 		maxTengus(5),
 		maxPlataf(8),
+		altura_chao(0.0),
+		fim_mapa(0),
+		buffer_fase({}),
 		lista_ents(),
-		GC(GC->getGerenciadorColisoes()),
-		GE(GE->getGerenciadorEventos()),
 		pJog1(pJog1),
 		pJog2(nullptr),
+		GC(GC->getGerenciadorColisoes()),
+		GE(GE->getGerenciadorEventos()),
 		pFundo(nullptr),
-		fim_mapa(0),
-		altura_chao(0.0),
-		buffer_fase({}),
-		menu_save_rank()
+		menu_save_rank(),
+		texto_Jog1(),
+		texto_Jog2(),
+		fonte()
 	{
 		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
 									static_cast<Entidades::Personagens::Personagem*>(pJog1)); //coloca o jogador na lista de entidades
 		lista_ents.incluir(pEnt);
 
-		GC->setJogador1(pJog1);
-		GC->setJogador2(nullptr);
+		if (pJog1) {
+			pJog1->restaurarVida();
+		}
+		else {
+			std::cerr << "ERRO: nao eh possivel restaurar a vida do jogador pois ele eh NULL" << std::endl;
+		}
 
 		pFundo = new Parallax::Fundo(); //cria o fundo
 
 		inicializarTexto();
-		
+	}
+
+	Fase::Fase(Entidades::Personagens::Jogador* pJog1, Entidades::Personagens::Jogador* pJog2) :
+		maxTengus(5),
+		maxPlataf(8),
+		altura_chao(0.0),
+		fim_mapa(0),
+		buffer_fase({}),
+		lista_ents(),
+		pJog1(pJog1),
+		pJog2(pJog2),
+		GC(GC->getGerenciadorColisoes()),
+		GE(GE->getGerenciadorEventos()),
+		pFundo(nullptr),
+		menu_save_rank(),
+		texto_Jog1(),
+		texto_Jog2(),
+		fonte()
+	{
+		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
+									static_cast<Entidades::Personagens::Personagem*>(pJog1)); //coloca o jogador na lista de entidades
+		Entidades::Entidade* pEnt2 = static_cast<Entidades::Entidade*>(
+									 static_cast<Entidades::Personagens::Personagem*>(pJog2));
+		lista_ents.incluir(pEnt);
+		lista_ents.incluir(pEnt2);
+
 		if (pJog1) {
 			pJog1->restaurarVida();
 		}
@@ -37,27 +69,6 @@ namespace Fases
 		if (pJog2) {
 			pJog2->restaurarVida();
 		}
-
-	}
-
-	Fase::Fase(Entidades::Personagens::Jogador* pJog1, Entidades::Personagens::Jogador* pJog2) :
-		pJog1(pJog1),
-		pJog2(pJog2),
-		maxTengus(5),
-		maxPlataf(8),
-		lista_ents(),
-		GC(GC->getGerenciadorColisoes()),
-		GE(GE->getGerenciadorEventos()),
-		pFundo(nullptr),
-		fim_mapa(0),
-		altura_chao(0.0)
-	{
-		Entidades::Entidade* pEnt = static_cast<Entidades::Entidade*>(
-									static_cast<Entidades::Personagens::Personagem*>(pJog1)); //coloca o jogador na lista de entidades
-		Entidades::Entidade* pEnt2 = static_cast<Entidades::Entidade*>(
-									 static_cast<Entidades::Personagens::Personagem*>(pJog2));
-		lista_ents.incluir(pEnt);
-		lista_ents.incluir(pEnt2);
 
 		pFundo = new Parallax::Fundo(); //cria o fundo
 
@@ -115,7 +126,7 @@ namespace Fases
 			lista_ents.aplicarGravidade();
 
 			if (pJog1) {
-				pGG->atualizaCamera(pJog1->getPos());
+				pGG->atualizaCamera(pJog1->getCorpo()->getPosition());
 
 				if (pJog1->getCorpo()) {
 					if (!pJog1->podeSeguirPorMorte()) {
@@ -222,7 +233,7 @@ namespace Fases
 
 				do {
 					int posX = (300 + i * 4500 + i * rand() % 1500 + correcao) % fim_mapa;
-					int posY = ALTURA_TELA - altura_chao - pPlataf->getTam().y -
+					int posY = ALTURA_TELA - altura_chao - pPlataf->getCorpo()->getSize().y -
 						(rand() % 10 + 160);
 
 					if (pPlataf->getCorpo()) {

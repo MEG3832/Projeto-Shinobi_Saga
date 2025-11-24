@@ -24,7 +24,7 @@ namespace Fases
 
 		GC->setAlturaChao(altura_chao);	// Determinado olhando a sprite do fundo
 
-		pJog1->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);
+		pJog1->getCorpo()->setPosition(0.0f, ALTURA_TELA - altura_chao - pJog1->getCorpo()->getSize().y);
 		pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
 										pJog1->getCorpo()->getPosition().y);
 
@@ -47,13 +47,13 @@ namespace Fases
 		menu_save_rank.setSeguir(false);
 
 		//para o jogador 1
-		pJog1->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog1->getTam().y);
+		pJog1->getCorpo()->setPosition(100.0f, ALTURA_TELA - altura_chao - pJog1->getCorpo()->getSize().y);
 		pJog1->getHitBox()->setPosition(pJog1->getCorpo()->getPosition().x + (pJog1->getCorpo()->getSize().x / 2 - pJog1->getHitBox()->getSize().x / 2),
 			pJog1->getCorpo()->getPosition().y);
 
 
 		//para o jogador 2
-		pJog2->getCorpo()->setPosition(60.0f, ALTURA_TELA - altura_chao - pJog2->getTam().y);
+		pJog2->getCorpo()->setPosition(60.0f, ALTURA_TELA - altura_chao - pJog2->getCorpo()->getSize().y);
 		pJog2->getHitBox()->setPosition(pJog2->getCorpo()->getPosition().x + (pJog2->getCorpo()->getSize().x / 2 - pJog2->getHitBox()->getSize().x / 2),
 			pJog2->getCorpo()->getPosition().y);
 
@@ -187,7 +187,7 @@ namespace Fases
 				int correcao = 0;
 				do {
 					int posX = (2500 + i * 5000 + i * rand() % 800 + correcao) % fim_mapa;
-					float posY = ALTURA_TELA - 30 - pArmad->getTam().y;
+					float posY = ALTURA_TELA - 30 - pArmad->getCorpo()->getSize().y;
 					if (pArmad->getCorpo()) {
 						pArmad->getCorpo()->setPosition(posX, posY);
 					}

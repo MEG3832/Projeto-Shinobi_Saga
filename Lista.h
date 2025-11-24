@@ -36,7 +36,7 @@ namespace Listas {
 			~Lista();
 			void incluir(TL* pt);	// Inclui ao final
 			void limpar();	// Limpa toda a lista
-			int getTam() const;
+			int getSize() const;
 			void remover(TL* pE);	// Não delete o elemento, apenas o Elemento
 			TL* operator[](int index);	// Acessa com [] como em vector
 
@@ -112,7 +112,7 @@ namespace Listas {
 	}
 
 	template <class TL>
-	int Lista<TL>::getTam() const
+	int Lista<TL>::getSize() const
 	{
 		return tamanho;
 	}
