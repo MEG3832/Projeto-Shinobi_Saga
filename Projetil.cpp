@@ -75,7 +75,7 @@ namespace Entidades {
 				}
 
 				else
-					animador->atualizarAnimProjetil(true, "Fogo");
+					animador->atualizarAnimProjetil(false, "Fogo");
 
 				corpo->move(veloc);
 				hitBox->setPosition(corpo->getPosition());
