@@ -66,7 +66,7 @@ namespace Entidades {
 
 			//verifica o estado do projétil.
 			if (ativo)
-			{
+		git l	{
 				corpo->setFillColor(sf::Color::White); // deixa o projétil "visível" (cor branca para aparecer a textura)
 
 				if (veloc.x < 0) // se a velocidade de x dele é negativa, então é porque ele foi ativado para a esquerda

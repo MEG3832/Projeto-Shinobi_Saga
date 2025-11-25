@@ -1,3 +1,6 @@
+/* Inspirado na referência: SIMÃO, J. M. Site das Disciplina de Fundamentos de Programação 2, Curitiba – PR, Brasil
+https://pessoal.dainf.ct.utfpr.edu.br/jeansimao/Fundamentos2/LinguagemC++/Fundamentos1-2-LinguagemC++.htm */
+
 #pragma once
 #include "Jogador.h"
 #include "Kitsune.h"

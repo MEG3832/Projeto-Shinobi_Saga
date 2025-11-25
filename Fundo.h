@@ -1,3 +1,5 @@
+/* Inspirado na referência: Giovanenero. “JogoPlataforma2D-Jungle”. Disponível em: GitHub - Giovanenero/JogoPlataforma2D-Jungle */
+
 #pragma once
 #include "Entidade.h"
 namespace Parallax {
